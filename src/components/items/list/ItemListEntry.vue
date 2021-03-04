@@ -7,8 +7,8 @@
         //q-skeleton.q-mx-md.q-mb-sm.absolute-bottom.q-card__section--vert(type="text" :width="`${imageSize}px`")
       q-card-section.full-width(v-else)
         .row
-          .col.text-h5.q-mt-sm.q-mb-xs.gt-xs {{ d.title.cs }}
-        .text-bold.q-mt-sm.q-mb-xs.lt-sm {{ d.title.cs }}
+          .col.text-h5.q-mt-sm.q-mb-xs.gt-xs {{ d.title[0].cs }}
+        .text-bold.q-mt-sm.q-mb-xs.lt-sm {{ d.title[0].cs }}
         .text-subtitle1.q-mt-sm.text-grey-8.normal-line-height(v-for="(r, idx) in d.works" :key="idx") {{ $t('label.restoredBy', { restorer: r.creator}) }}
         .q-mt-lg.text-grey-7.highlight(v-html="highlight" v-if="hasHighlight")
         .q-mt-lg.text-grey-7.highlight(v-else-if="shortDescription" v-html="shortDescription")
