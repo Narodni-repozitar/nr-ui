@@ -1,9 +1,7 @@
 <template lang="pug">
 div.q-pa-md.q-pr-lg.search-header
   .row.full-width
-    q-input.full-width(color="primary" outlined square dense)
-      template(v-slot:prepend)
-        q-icon(name="search")
+    search-box()
   .row.justify-between.q-mt-lg.items-baseline
     .row
       .label Výsledků: 63453
@@ -19,9 +17,13 @@ div.q-pa-md.q-pr-lg.search-header
 </template>
 <script>
 import {Options, Vue} from 'vue-class-component'
+import SearchBox from 'src/components/inputs/SearchBox'
 
 export default @Options({
-  name: 'SearchHeader'
+  name: 'SearchHeader',
+  components: {
+    SearchBox
+  }
 })
 class SearchHeader extends Vue {
   ordering = 'alphabetical'
