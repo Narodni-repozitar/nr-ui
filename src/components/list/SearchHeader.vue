@@ -1,5 +1,5 @@
 <template lang="pug">
-div.q-pa-md.q-pr-lg
+div.q-pa-md.q-pr-lg.search-header
   .row.full-width
     q-input.full-width(color="primary" outlined square dense)
       template(v-slot:prepend)
@@ -9,12 +9,12 @@ div.q-pa-md.q-pr-lg
       .label Výsledků: 63453
     .row.q-gutter-sm.items-baseline
       .label Řazení:
-      q-select(dense outlined square :options="orderingOptions"
+      q-select.short(dense outlined square :options="orderingOptions"
         emit-value map-options v-model="ordering")
     .row.q-gutter-sm.items-baseline
       .label Počet na stránku:
-      q-select(dense outlined square :options="pageSizeOptions" v-model="pageSize")
-  .row
+      q-select.short(dense outlined square :options="pageSizeOptions" v-model="pageSize")
+  .row.q-pt-lg
     span 1 ... 2 3 4 5 6 7 8 9 ...
 </template>
 <script>

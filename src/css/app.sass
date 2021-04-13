@@ -8,6 +8,7 @@
 
   .q-field--outlined .q-field__control:before
     border-color: $secondary
+    background-color: $control-background-color
 
   .darker
     color: $darker
@@ -20,4 +21,20 @@
     margin-bottom: 10px
 
   .min-window-height
-    min-height: calc(100vh - 100px)
+    min-height: calc(100vh - $header-height)
+
+  .q-field.short
+    .q-field__control
+      min-height: $short-box-height
+
+    .q-field__native
+      min-height: $short-box-height
+      padding: 0
+      margin: 0
+
+    .q-field__append
+      min-height: $short-box-height
+      height: $short-box-height
+
+  .search-header
+    font-size: 16px
