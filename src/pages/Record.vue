@@ -1,5 +1,5 @@
 <template lang="pug">
-q-page.window-height
+q-page.min-window-height
   pre {{ record }}
 </template>
 

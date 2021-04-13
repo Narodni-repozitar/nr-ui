@@ -1,5 +1,5 @@
 <template lang="pug">
-q-page.window-height
+q-page.min-window-height.q-mt-md
   .row.items-stretch
     search-header.col-8(:collection="collection")
     selected-facets.col-4

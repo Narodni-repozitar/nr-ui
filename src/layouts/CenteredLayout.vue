@@ -1,5 +1,5 @@
 <template lang="pug">
-q-layout(view='lHr lpR lFr')
+q-layout(view='lhr lpR lFr')
   nr-header
   q-page-container.row
     .col-lg-2.col-md-1.col-xs-0
