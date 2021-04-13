@@ -17,7 +17,7 @@ div.q-pa-md.q-pr-lg.search-header
 </template>
 <script>
 import {Options, Vue} from 'vue-class-component'
-import SearchBox from 'src/components/inputs/SearchBox'
+import SearchBox from 'src/components/controls/SearchBox'
 
 export default @Options({
   name: 'SearchHeader',
