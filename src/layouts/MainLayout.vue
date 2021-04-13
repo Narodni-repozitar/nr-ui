@@ -1,8 +1,8 @@
 <template lang="pug">
-q-layout(view='lhr lpR lFr')
+q-layout(view='lhr lPR lfr')
   nr-header
-  q-page-container
-    router-view
+  q-page-container.min-window-height
+      router-view
   nr-footer
 </template>
 

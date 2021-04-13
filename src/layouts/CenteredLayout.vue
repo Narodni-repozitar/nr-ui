@@ -1,12 +1,15 @@
 <template lang="pug">
-q-layout(view='lhr lpR lFr')
-  nr-header
-  q-page-container.row
-    .col-lg-2.col-md-1.col-xs-0
-    .col
+q-page.row
+  .col-lg-2.col-md-1.col-xs-0
+  .col
+    transition(
+      enter-active-class="animated fadeIn"
+      leave-active-class="animated fadeOut"
+      appear
+      :duration="300"
+    )
       router-view.full-width
-    .col-lg-2.col-md-1.col-xs-0
-  nr-footer
+  .col-lg-2.col-md-1.col-xs-0
 </template>
 
 <script>

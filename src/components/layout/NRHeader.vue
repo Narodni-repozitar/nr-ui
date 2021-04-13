@@ -4,7 +4,8 @@ q-header.row.bordered-header.bg-color
   .col
     .row.justify-between
       .q-mx-md.q-my-xs
-        img(src='../../assets/logo_nr.png').nr-logo
+        router-link(to="/")
+          img(src='../../assets/logo_nr.png').nr-logo
       .q-mx-md.q-my-xs
         h4.text-h4.text-secondary.q-mb-none.q.pb-none ENGLISH
   .col-lg-2.col-md-1.col-xs-0

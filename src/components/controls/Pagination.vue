@@ -58,7 +58,13 @@ export default defineComponent({
     })
 
     const pagesList = computed(() => {
-      return [...Array(endPage.value - startPage.value + 1).keys()].map(x => x + startPage.value)
+      if (endPage.value - startPage.value + 1 > 0) {
+        return [...Array(
+            endPage.value - startPage.value + 1
+        ).keys()].map(x => x + startPage.value)
+      } else {
+        return []
+      }
     })
 
     const lastPage = computed(() => {

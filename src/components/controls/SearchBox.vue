@@ -1,6 +1,6 @@
 <template lang="pug">
 q-input.full-width(
-  color="primary" outlined square dense v-model="model"
+  color="primary" outlined square :dense='dense' v-model="model"
   debounce="500" @keyup.enter='onEnter' ref="input"
   autofocus placeholder="Hledat ...")
 
@@ -17,12 +17,17 @@ import {defineComponent, ref, watch} from "vue";
 import {useQuery} from "@oarepo/vue-query-synchronizer";
 import deepcopy from "deepcopy";
 import CancelButton from './CancelButton.vue'
+import {useRouter} from "vue-router";
 
 export default defineComponent({
   name: 'SearchBox',
   props: {
     modelValue: String,
-    route: Object
+    route: Object,
+    dense: {
+      type: Boolean,
+      default: true
+    }
   },
   components: {
     CancelButton
@@ -32,6 +37,7 @@ export default defineComponent({
     const model = ref(props.modelValue)
     const query = useQuery()
     const input = ref()
+    const router = useRouter()
 
     watch(() => props.modelValue, () => {
       if (props.modelValue !== model.value) {
@@ -52,10 +58,11 @@ export default defineComponent({
           r.query = {}
         }
         r.query.q = model.value
+        router.push(r)
       } else {
-        query.q = val
+        query.q = model.value
       }
-      ctx.emit('update:modelValue', val)
+      ctx.emit('update:modelValue', model.value)
     }
 
     function clear() {

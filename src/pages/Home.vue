@@ -1,5 +1,5 @@
 <template lang="pug">
-q-page.bg-image.window-height
+q-page.bg-image(style="min-height: 0")
   .row.fit
     .col-lg-2.col-md-1.col-xs-0
     .col
@@ -7,14 +7,12 @@ q-page.bg-image.window-height
       .row.justify-center
         .col-2
         .col
-          q-input(@submit='search' v-on:keyup.enter='search' outlined='' v-model='searchField' bg-color='white' color="secondary")
-            template(v-slot:prepend='')
-              q-icon(name='search')
+          search-box.q-my-md(:route="{name: 'all'}" :dense="false")
         .col-2
       .row
         .col-2
         .col
-          .q-py-sm.bg-circular-transparent.q-pb-lg
+          .q-py-sm.q-pb-lg
             q-checkbox( v-model="fullText" keep-color color="secondary")
               template(v-slot:default='')
                 span.text-weight-bold Plný text
@@ -46,25 +44,26 @@ q-page.bg-image.window-height
 
 <script>
 import {Options, Vue} from 'vue-class-component'
+import SearchBox from 'src/components/controls/SearchBox'
 
 export default @Options({
-  name: 'Home'
+  name: 'Home',
   // props: {
   //   loading: Boolean,
   //   item: Object,
   //   showState: Boolean
   // },
-  // components: {}
+  components: {SearchBox}
 })
 class Home extends Vue {
   fullText = true
   searchField = ''
 
-  search () {
+  search() {
     console.log(this.searchField)
     this.$router.push({
       path: '/all',
-      query: { q: this.searchField }
+      query: {q: this.searchField}
     })
   }
 }
@@ -74,17 +73,13 @@ class Home extends Vue {
 .bg-image
   background-image: url(../assets/background.png)
   background-repeat: no-repeat
-  background-size: contain
+  background-size: cover
   background-color: $background
-  opacity: 0.7
+  opacity: 0.5
   background-position: left top
-  //background-attachment: fixed
 
 .nr-search-field
   width: 80%
-
-.full-height
-  height: 100vh
 
 .empty
   height: 1/7*100vh
@@ -94,7 +89,4 @@ class Home extends Vue {
   color: $secondary
   font-size: 16px
 
-.bg-circular-transparent
-  background: $background
-  background: radial-gradient(circle, rgba($background, 1) 0%, rgba($background,0.3) 100%)
 </style>

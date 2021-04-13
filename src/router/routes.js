@@ -8,35 +8,35 @@ const routes = [
       {
         path: '',
         component: () => import('pages/Home'),
-      }
-    ]
-  },
-  {
-    path: '/all/',
-    component: () => import('layouts/CenteredLayout'),
-    children: [
-      collection({
-        path: '',
-        name: 'all',
-        component: () => import('../pages/Collection')
-      }, {
-        meta: {
-          query: {
-            sort: 'string:alphabetical'
-          }
-        }
-      })
-    ]
-  },
-  {
-    path: '/:communityId/:model/:state/:recordId',
-    component: () => import('layouts/CenteredLayout'),
-    children: [
-      record({
-        path: '',
-        name: 'record',
-        component: () => import('../pages/Record')
-      })
+      },
+      {
+        path: '/all/',
+        component: () => import('layouts/CenteredLayout'),
+        children: [
+          collection({
+            path: '',
+            name: 'all',
+            component: () => import('../pages/Collection')
+          }, {
+            meta: {
+              query: {
+                sort: 'string:alphabetical'
+              }
+            }
+          })
+        ]
+      },
+      {
+        path: '/:communityId/:model/:state/:recordId',
+        component: () => import('layouts/CenteredLayout'),
+        children: [
+          record({
+            path: '',
+            name: 'record',
+            component: () => import('../pages/Record')
+          })
+        ]
+      },
     ]
   },
   // Always leave this as last one,
