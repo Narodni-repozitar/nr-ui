@@ -30,7 +30,7 @@ function certs() {
 module.exports = configure(function (ctx) {
   return {
     // https://v2.quasar.dev/quasar-cli/supporting-ts
-    supportTS: false,
+    supportTS: true,
 
     // https://v2.quasar.dev/quasar-cli/prefetch-feature
     // preFetch: true,
@@ -100,7 +100,7 @@ module.exports = configure(function (ctx) {
       ...certs(),
       https: true,
       port: 8080,
-      open: true, // opens browser window automatically
+      open: false, // opens browser window automatically
       proxy: {
         '/': {
           target: 'https://127.0.0.1:5000/',

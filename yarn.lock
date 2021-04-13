@@ -1020,10 +1020,10 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
-"@oarepo/invenio-vue@^1.0.0-a2":
-  version "1.0.0-a4"
-  resolved "https://registry.yarnpkg.com/@oarepo/invenio-vue/-/invenio-vue-1.0.0-a4.tgz#1d4c7af72df9d97e8d49ce1adc79b2e9ec748828"
-  integrity sha512-Bp6Ihy+vvxsC2Kzjo/bwRH6U/pqGDtkga2BU5JdMk4Gagivpuow++mQiFcJshmHx+CJf9m12x5/8IJ5mYeB4jg==
+"@oarepo/invenio-vue@^1.0.0-a5":
+  version "1.0.0-a7"
+  resolved "https://registry.yarnpkg.com/@oarepo/invenio-vue/-/invenio-vue-1.0.0-a7.tgz#8dec83e5ef24551d126af15651b55044a4671071"
+  integrity sha512-dcAVAUcEotSqM4tP+XFeKf7+dFUBg36QOHlEBc86R22aKNn+f9sBWJN1vInU96ZwTlPzBeatkcLSP4ttP2O8Ag==
   dependencies:
     "@oarepo/vue-query-synchronizer" "^3.0.0-a4"
     axios "^0.21.1"
@@ -3737,9 +3737,9 @@ electron-osx-sign@^0.4.11:
     plist "^3.0.1"
 
 electron-to-chromium@^1.3.712:
-  version "1.3.712"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.712.tgz#ae467ffe5f95961c6d41ceefe858fc36eb53b38f"
-  integrity sha512-3kRVibBeCM4vsgoHHGKHmPocLqtFAGTrebXxxtgKs87hNUzXrX2NuS3jnBys7IozCnw7viQlozxKkmty2KNfrw==
+  version "1.3.713"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.713.tgz#4583efb17f2d1e9ec07a44c8004ea73c013ad146"
+  integrity sha512-HWgkyX4xTHmxcWWlvv7a87RHSINEcpKYZmDMxkUlHcY+CJcfx7xEfBHuXVsO1rzyYs1WQJ7EgDp2CoErakBIow==
 
 elementtree@0.1.7:
   version "0.1.7"
@@ -9448,9 +9448,9 @@ webpack@4.44.1:
     webpack-sources "^1.4.1"
 
 webpack@^5:
-  version "5.31.2"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.31.2.tgz#40d9b9d15b7d76af73d3f1cae895b82613a544d6"
-  integrity sha512-0bCQe4ybo7T5Z0SC5axnIAH+1WuIdV4FwLYkaAlLtvfBhIx8bPS48WHTfiRZS1VM+pSiYt7e/rgLs3gLrH82lQ==
+  version "5.32.0"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-5.32.0.tgz#f013932d778dad81bd51292d0ea00865056dc22c"
+  integrity sha512-jB9PrNMFnPRiZGnm/j3qfNqJmP3ViRzkuQMIf8za0dgOYvSLi/cgA+UEEGvik9EQHX1KYyGng5PgBTTzGrH9xg==
   dependencies:
     "@types/eslint-scope" "^3.7.0"
     "@types/estree" "^0.0.46"

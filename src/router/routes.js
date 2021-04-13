@@ -12,20 +12,6 @@ const routes = [
     ]
   },
   {
-    path: '/:communityId/:model/:state/:recordId',
-    component: () => import('layouts/CenteredLayout'),
-    children: [
-      /*
-      record({
-        path: '',
-        name: 'all',
-        component: () => import('../pages/Record')
-      })
-
-       */
-    ]
-  },
-  {
     path: '/all/',
     component: () => import('layouts/CenteredLayout'),
     children: [
@@ -33,6 +19,17 @@ const routes = [
         path: '',
         name: 'all',
         component: () => import('../pages/Collection')
+      })
+    ]
+  },
+  {
+    path: '/:communityId/:model/:state/:recordId',
+    component: () => import('layouts/CenteredLayout'),
+    children: [
+      record({
+        path: '',
+        name: 'record',
+        component: () => import('../pages/Record')
       })
     ]
   },
