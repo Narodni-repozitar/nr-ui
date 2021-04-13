@@ -14,8 +14,8 @@ q-page.bg-image.window-height
       .row
         .col-2
         .col
-          .q-py-sm
-            q-checkbox( v-model="fullText" keep-color color="primary")
+          .q-py-sm.bg-circular-transparent.q-pb-lg
+            q-checkbox( v-model="fullText" keep-color color="secondary")
               template(v-slot:default='')
                 span.text-weight-bold Plný text
         .col-2
@@ -93,4 +93,8 @@ class Home extends Vue {
   margin-top: -20px
   color: $secondary
   font-size: 16px
+
+.bg-circular-transparent
+  background: $background
+  background: radial-gradient(circle, rgba($background, 1) 0%, rgba($background,0.3) 100%)
 </style>

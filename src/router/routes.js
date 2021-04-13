@@ -1,9 +1,9 @@
-
+import {collection, record} from "@oarepo/invenio-vue";
 
 const routes = [
   {
     path: '/',
-    component: () => import('layouts/HomepageLayout'),
+    component: () => import('layouts/MainLayout'),
     children: [
       {
         path: '',
@@ -11,7 +11,31 @@ const routes = [
       }
     ]
   },
+  {
+    path: '/:communityId/:model/:state/:recordId',
+    component: () => import('layouts/CenteredLayout'),
+    children: [
+      /*
+      record({
+        path: '',
+        name: 'all',
+        component: () => import('../pages/Record')
+      })
 
+       */
+    ]
+  },
+  {
+    path: '/all/',
+    component: () => import('layouts/CenteredLayout'),
+    children: [
+      collection({
+        path: '',
+        name: 'all',
+        component: () => import('../pages/Collection')
+      })
+    ]
+  },
   // Always leave this as last one,
   // but you can also remove it
   {
