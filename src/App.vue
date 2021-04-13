@@ -3,7 +3,7 @@
     enter-active-class="animated fadeIn"
     leave-active-class="animated fadeOut"
     appear
-    :duration="300"
+    :duration="1000"
 >
   <router-view/>
 </transition>

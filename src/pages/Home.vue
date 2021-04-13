@@ -75,7 +75,7 @@ class Home extends Vue {
   background-repeat: no-repeat
   background-size: cover
   background-color: $background
-  opacity: 0.5
+  opacity: 1
   background-position: left top
 
 .nr-search-field
