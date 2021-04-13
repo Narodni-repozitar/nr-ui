@@ -4,14 +4,14 @@ div.q-pa-md.q-pr-lg.search-header
     search-box()
   .row.justify-between.q-mt-lg.items-baseline
     .row
-      .label Výsledků: 63453
+      .label Výsledků: {{ collection.recordsCountString }}
     .row.q-gutter-sm.items-baseline
       .label Řazení:
       q-select.short(dense outlined square :options="orderingOptions"
-        emit-value map-options v-model="ordering")
+        emit-value map-options v-model="$query.sort")
     .row.q-gutter-sm.items-baseline
       .label Počet na stránku:
-      q-select.short(dense outlined square :options="pageSizeOptions" v-model="pageSize")
+      q-select.short(dense outlined square :options="pageSizeOptions" v-model="$query.size")
   .row.q-pt-lg
     span 1 ... 2 3 4 5 6 7 8 9 ...
 </template>
@@ -23,11 +23,12 @@ export default @Options({
   name: 'SearchHeader',
   components: {
     SearchBox
+  },
+  props: {
+    collection: Object
   }
 })
 class SearchHeader extends Vue {
-  ordering = 'alphabetical'
-  pageSize = 10
 
   get orderingOptions() {
     return [

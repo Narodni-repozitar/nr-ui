@@ -19,6 +19,12 @@ const routes = [
         path: '',
         name: 'all',
         component: () => import('../pages/Collection')
+      }, {
+        meta: {
+          query: {
+            sort: 'string:alphabetical'
+          }
+        }
       })
     ]
   },
