@@ -3,7 +3,8 @@ q-item.record.q-py-lg
   q-item-section(avatar)
     access-icon.block(:accessRights="m.accessRights" size="xl")
   q-item-section
-    .title {{ $mt(m.title[0]) }}
+    .title
+      mt(:text="m.title")
     router-link.q-mt-md(:to="record.links.ui") detaily ...
 </template>
 <style lang="sass">

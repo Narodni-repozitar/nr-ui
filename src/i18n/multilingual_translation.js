@@ -10,7 +10,14 @@ export function useTranslated() {
       if (multilang[locale.value]) {
         return multilang[locale.value]
       }
-      return multilang['cs']
+      if (multilang['cs']) {
+        return multilang['cs']
+      }
+      for (const k of Object.keys(multilang)) {
+        if (typeof multilang[k] === 'string') {
+          return multilang[k]
+        }
+      }
     }
   }
 
