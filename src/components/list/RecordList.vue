@@ -1,11 +1,10 @@
 <template lang="pug">
 div
   q-list
-    q-item.collection-item.q-py-lg(v-for="record in collection.records" :key="record.id")
-      q-item-section(avatar)
-      q-item-section
-        div {{ record.metadata.title }}
-        router-link.q-mt-md(:to="record.links.ui") detaily ...
+    list-record.collection-item.q-py-lg(
+      v-for="record in collection.records" :key="record.id"
+      :record="record"
+      )
 </template>
 <style lang="sass">
 .collection-item
@@ -14,11 +13,15 @@ div
 </style>
 <script>
 import {Options, Vue} from 'vue-class-component'
+import ListRecord from './Record'
 
 export default @Options({
   name: 'RecordList',
   props: {
     collection: Object
+  },
+  components: {
+    ListRecord
   }
 })
 class RecordList extends Vue {

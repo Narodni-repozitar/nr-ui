@@ -13,16 +13,19 @@ div.q-pa-md.q-pr-lg.search-header
       .label Počet na stránku:
       q-select.short(dense outlined square :options="pageSizeOptions" v-model="$query.size")
   .row.q-pt-lg
-    span 1 ... 2 3 4 5 6 7 8 9 ...
+    URLPagination(:pages="collection.pages")
 </template>
 <script>
 import {Options, Vue} from 'vue-class-component'
 import SearchBox from 'src/components/controls/SearchBox'
+import URLPagination from 'src/components/controls/URLPagination'
+
 
 export default @Options({
   name: 'SearchHeader',
   components: {
-    SearchBox
+    SearchBox,
+    URLPagination
   },
   props: {
     collection: Object
