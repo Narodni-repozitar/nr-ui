@@ -1,10 +1,10 @@
 <template lang="pug">
-q-page.min-window-height.q-mt-md
+q-page.min-window-height.q-mt-md.collection-page
   .row.items-stretch
     search-header.col-8(:collection="collection")
     selected-facets.col-4
   .row.items-stretch
-    record-list.col-8(:collection="collection")
+    record-list.col-8.record-list(:collection="collection")
     collection-facets.col-4
 </template>
 

@@ -1,9 +1,9 @@
 <template lang="pug">
-q-item.collection-item.q-py-lg
+q-item.record.q-py-lg
   q-item-section(avatar)
     access-icon.block(:accessRights="m.accessRights" size="xl")
   q-item-section
-    div {{ m.title }}
+    .title {{ $mt(m.title[0]) }}
     router-link.q-mt-md(:to="record.links.ui") detaily ...
 </template>
 <style lang="sass">

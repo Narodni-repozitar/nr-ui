@@ -1,5 +1,6 @@
-import { boot } from 'quasar/wrappers'
-import { createI18n } from 'vue-i18n'
+import {boot} from 'quasar/wrappers'
+import {createI18n} from 'vue-i18n'
+import MultilingualTranslated from 'src/i18n/multilingual_translation'
 import messages from 'src/i18n'
 
 const i18n = createI18n({
@@ -7,9 +8,9 @@ const i18n = createI18n({
   messages
 })
 
-export default boot(({ app }) => {
+export default boot(({app}) => {
   // Set i18n instance on app
-  app.use(i18n)
+  app.use(i18n).use(MultilingualTranslated)
 })
 
-export { i18n }
+export {i18n}
