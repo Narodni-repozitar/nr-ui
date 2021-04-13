@@ -1,7 +1,7 @@
 <template lang="pug">
 q-item.record.q-py-lg
-  q-item-section(avatar)
-    access-icon.block(:accessRights="m.accessRights" size="xl")
+  q-item-section.justify-start-important(avatar)
+    access-icon.block(:accessRights="m.accessRights" size="64px")
   q-item-section
     .title
       mt(:text="m.title")
