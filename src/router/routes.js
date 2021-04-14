@@ -1,48 +1,48 @@
-import { collection } from '@oarepo/invenio-api-vue-composition'
+import {collection, record} from "@oarepo/invenio-vue";
 
 const routes = [
   {
     path: '/',
-    component: () => import('layouts/ItemListLayout'),
+    component: () => import('layouts/MainLayout'),
     children: [
-      collection(
-        {
-          path: '',
-          collectionCode: 'all',
-          name: 'all',
-          component: () => import('pages/ItemList'),
-          loadingComponent: 'viewer',
-          recordRouteName: (record) => {
-            // if (record.links.self.indexOf('draft') > 0) {
-            //   return 'draft-restorations/objects/record'
-            // } else {
-            //   return 'restorations/objects/record'
-            // }
-          },
-          meta: {
-            query: {
-            }
-          },
-          httpGetProps: {
-            dedupingInterval: 100,
-            revalidateDebounce: 0,
-            shouldRetryOnError: false,
-            keepData: (data, error, oldUrl, oldQuery, newUrl, newQuery, options) => {
-              if (oldUrl === newUrl) {
-                // collection not changed
-                return true
+      {
+        path: '',
+        component: () => import('pages/Home'),
+      },
+      {
+        path: '/all/',
+        component: () => import('layouts/CenteredLayout'),
+        children: [
+          collection({
+            path: '',
+            name: 'all',
+            component: () => import('../pages/Collection')
+          }, {
+            meta: {
+              query: {
+                sort: 'string:alphabetical'
               }
-              return false
             }
-          }
-        }
-      )
+          })
+        ]
+      },
+      {
+        path: '/:communityId/:model/:state/:recordId',
+        component: () => import('layouts/CenteredLayout'),
+        children: [
+          record({
+            path: '',
+            name: 'record',
+            component: () => import('../pages/Record')
+          })
+        ]
+      },
     ]
   },
   // Always leave this as last one,
   // but you can also remove it
   {
-    path: '*',
+    path: '/:catchAll(.*)*',
     component: () => import('pages/Error404.vue')
   }
 ]

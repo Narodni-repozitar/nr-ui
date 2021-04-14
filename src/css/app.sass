@@ -1,1 +1,117 @@
-// app global css in Sass form
+.q-checkbox
+  .text-primary.q-checkbox__inner--falsy
+    .q-checkbox__bg
+      background-color: rgb(35, 210, 110, 0.5)
+
+.nr
+  background-color: $background
+
+  .q-field--outlined .q-field__control:before
+    border-color: $secondary
+    background-color: $control-background-color
+
+  .darker
+    color: $darker
+
+  .medium-dark
+    color: $medium-dark
+
+  .vertical-line
+    margin: 4px 5px 4px 5px
+    width: 2px
+
+  .vertical-line-left
+    @extend .vertical-line
+    margin: 4px 1px 4px 5px
+
+  .vertical-line-right
+    @extend .vertical-line
+    margin: 4px 5px 4px 1px
+
+  .nr-header
+    font-size: 120%
+    margin-bottom: 10px
+
+  .min-window-height
+    min-height: calc(100vh - 40px)
+
+  .q-field.short
+    .q-field__control
+      min-height: $short-box-height
+
+    .q-field__native
+      min-height: $short-box-height
+      padding: 0
+      margin: 0
+
+    .q-field__append
+      min-height: $short-box-height
+      height: $short-box-height
+
+  .search-header
+    font-size: 16px
+
+  .paginator
+    font-size: $paginator-font-size
+
+    .paginator-link
+      display: inline-block
+      margin: 10px
+      min-width: 15px
+      text-decoration: none
+      color: $dark
+
+      .active
+        color: $secondary
+        font-weight: bold
+
+    .paginator-nonlink
+      display: inline-block
+      margin: 5px
+      text-decoration: none
+      color: $medium-dark
+
+  .collection-page
+    .record-list .record
+      .title
+        font-size: 24px
+        font-weight: 500
+      .authors
+        font-size: 16px
+      .year-lang
+        font-size: 16px
+      .type
+        font-size: 16px
+      .keywords
+        font-size: 16px
+        color: $primary
+      .abstract
+        font-size: 15px
+        margin-top: 20px
+        font-weight: 300
+    .facets
+      .facet-name
+        text-transform: uppercase
+        font-weight: 600
+        font-size: 15px
+      .facet-container
+        &.q-expansion-item--collapsed
+          .q-expansion-item__toggle-icon
+            color: $primary
+      .q-checkbox
+        .q-checkbox__inner
+          .q-checkbox__bg
+            background-color: rgb(255,255,255)
+            border-color: $secondary
+            border-width: 1px
+        .q-checkbox__svg
+          color: $secondary
+          width: 80% !important
+          height: 80% !important
+          padding-left: 10% !important
+          padding-top: 20% !important
+
+// various
+
+.justify-start-important
+  justify-content: flex-start !important
