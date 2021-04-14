@@ -8,7 +8,8 @@
   "scripts": {
     "lint": "eslint --ext .js,.vue ./",
     "test": "echo \"No test specified\" && exit 0",
-    "dev": "quasar dev --modern"
+    "dev": "quasar dev --modern",
+    "build": "quasar build"
   },
   "dependencies": {
     "@oarepo/invenio-vue": "^1.0.0-a5",
