@@ -1,22 +1,27 @@
 <template lang="pug">
 .column.facets
   .col.collection-facets.full-height
-    facets(
-      :definition="collection.facetDefinitions"
-      :options="facetsOptions"
-      :facetLoader="facetLoader"
-      @facetSelected="facetSelected"
-      drawer)
+    div.q-mx-sm.q-mt-md
+      facets(
+        :definition="collection.facetDefinitions"
+        :options="facetsOptions"
+        :facetLoader="facetLoader"
+        @facetSelected="facetSelected"
+        :drawer='!!drawer' :teleport="drawer")
 </template>
 <script>
 import {Options, Vue} from 'vue-class-component'
 import FacetContainer from 'src/components/facets/FacetContainer'
+import DrawerBucket from 'src/components/facets/DrawerBucket'
 
 export default @Options({
   name: 'CollectionFacets',
   props: {
-    collection: Object
-  }
+    collection: Object,
+    drawer: String,
+    facetsSelected: Boolean
+  },
+  emits: ['update:activeFacets']
 })
 class CollectionFacets extends Vue {
   facetsOptions = {
@@ -25,6 +30,32 @@ class CollectionFacets extends Vue {
         bucketsContainer: {
           component: FacetContainer
         },
+        listBucketCheckbox: {
+          attrs: {
+            color: 'secondary',
+            keepColor: true
+          }
+        },
+        listBucketLabel: {
+          component: 'div',
+          useChildren: true,
+          html: true,
+          translator: ({bucket, facet}) => {
+            return `${(bucket.key_as_string || bucket.key)}      (${bucket.doc_count})`
+          }
+        },
+        listBucketValue: {
+          component: null,
+        },
+        drawer: {
+          component: 'facets-drawer',
+          attrs: {},
+          style: {'border-bottom': null},
+          class: []
+        },
+        drawerBucket: {
+          component: DrawerBucket
+        }
       }
     }
   }
@@ -60,6 +91,7 @@ class CollectionFacets extends Vue {
         this.$query[k] = [...v]
       }
     }
+    this.$emit('update:activeFacets', facetSelection)
   }
 }
 </script>

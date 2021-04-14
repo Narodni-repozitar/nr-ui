@@ -1,7 +1,7 @@
 <template lang="pug">
 q-expansion-item.facet-container(
   expand-icon="svguse:/icons.svg#arrow-right"
-  expanded-icon="svguse:/icons.svg#cancel")
+  expanded-icon="svguse:/icons.svg#arrow-down")
   template(v-slot:header)
     q-item-section.facet-name
       span {{ label }}

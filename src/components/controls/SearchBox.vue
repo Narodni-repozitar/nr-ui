@@ -34,8 +34,8 @@ export default defineComponent({
   },
   emits: ['update:modelValue'],
   setup(props, ctx) {
-    const model = ref(props.modelValue)
     const query = useQuery()
+    const model = ref(props.modelValue || query.q)
     const input = ref()
     const router = useRouter()
 

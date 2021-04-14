@@ -7,7 +7,7 @@ export default ({app, router}) => {
   app
     .use(VueQuerySynchronizer, {
       router,
-      debug: true
+      debug: false
     })
     .use(InvenioApi)
     .use(QuasarESFacets)

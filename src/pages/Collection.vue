@@ -1,12 +1,12 @@
 <template lang="pug">
-q-page.min-window-height.q-mt-md.collection-page
-  q-icon(name="svguse:/icons.svg#arrow-right")
+div.collection-page
   .row.items-stretch
     search-header.col-8(:collection="collection")
-    selected-facets.col-4
+    selected-facets.col-4(:activeFacets="activeFacets")
   .row.items-stretch
     record-list.col-8.record-list(:collection="collection")
-    collection-facets.col-4(:collection="collection")
+    collection-facets.col-4(:collection="collection"
+      :drawer="drawer" v-model:activeFacets="activeFacets")
   .row
     .col-8
       q-separator(color="secondary")
@@ -40,12 +40,20 @@ export default @Options({
 class Collection extends Vue {
   fullText = true
   searchField = ''
+  drawer = null
+  activeFacets = null
 
   search() {
     console.log(this.searchField)
     this.$router.push({
       path: '/all',
       query: {q: this.searchField}
+    })
+  }
+
+  mounted() {
+    setTimeout(() => {
+      this.drawer = '#facets-drawer'
     })
   }
 }
