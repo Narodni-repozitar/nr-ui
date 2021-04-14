@@ -2,8 +2,10 @@
 .paginator
   a.paginator-link(href="" v-if="firstPage" @click.prevent="model=firstPage") {{ firstPage }}
   span.paginator-nonlink(v-if="firstPage") ...
-  a.paginator-link(href="" v-for="page in pagesList"  @click.prevent="model=page")
-    span(:class="{'active': page === modelValue}") {{ page }}
+  template(v-for="(page, idx) in pagesList")
+    a.paginator-link(href="" @click.prevent="model=page")
+      span(:class="{'active': page === modelValue}") {{ page }}
+    span.paginator-nonlink(v-if="!firstPage && !idx") ...
   span.paginator-nonlink(v-if="lastPage") ...
   span.paginator-nonlink(v-if="lastPage") {{ lastPage }}
 </template>
@@ -43,7 +45,7 @@ export default defineComponent({
 
     const startPage = computed(() => {
       const sp = Math.floor(currentShownPages.value / 2)
-      return Math.max(1, model.value - sp)
+      return Math.max(1, model.value - sp + 1)
     })
 
     const firstPage = computed(() => {
@@ -53,7 +55,8 @@ export default defineComponent({
     const endPage = computed(() => {
       return Math.min(
           props.pages,
-          startPage.value + currentShownPages.value - (startPage.value > 1 ? 0 : 1)
+          startPage.value + currentShownPages.value -
+          (model.value >= (1 + props.shownPages) / 2 ? 2 : 1)
       )
     })
 
