@@ -8,7 +8,7 @@ q-input.full-width(
     q-icon(name="search")
 
   template(v-slot:append)
-    cancel-button(v-if="model" @click="clear")
+    cancel-button(v-if="model" @click="clear" size="md")
 
 </template>
 

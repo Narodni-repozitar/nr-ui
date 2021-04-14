@@ -3,19 +3,19 @@
   .col.selected-facets.q-pa-sm.q-pt-xs
     .nr-header.text-primary
       span.q-pr-lg Použitá omezení
-      q-btn.medium-dark.q-pa-none(flat dense icon="close")
+      cancel-button.text-dark(size="sm")
     .nr-text.text-dark
       span.q-pr-lg Plný text
-      q-btn.medium-dark.q-pa-none(flat dense icon="close")
+      cancel-button.text-dark(size="sm")
     .nr-text.text-dark
       span.q-pr-lg Neco jineho
-      q-btn.medium-dark.q-pa-none(flat dense icon="close")
+      cancel-button.text-dark(size="sm")
     .nr-text.text-dark
       span.q-pr-lg Neco jineho
-      q-btn.medium-dark.q-pa-none(flat dense icon="close")
+      cancel-button.text-dark(size="sm")
     .nr-text.text-dark
       span.q-pr-lg Neco jineho
-      q-btn.medium-dark.q-pa-none(flat dense icon="close")
+      cancel-button.text-dark(size="sm")
 </template>
 <style lang="sass">
 .selected-facets
@@ -26,3 +26,15 @@
 .nr-text
   line-height: 100%
 </style>
+
+<script>
+import {defineComponent, ref, watch} from "vue";
+import CancelButton from 'src/components/controls/CancelButton.vue'
+
+export default defineComponent({
+  name: 'SelectedFacets',
+  components: {
+    CancelButton
+  },
+})
+</script>
