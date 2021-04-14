@@ -1,5 +1,5 @@
 <template lang="pug">
-.column
+.column.facets
   .col.collection-facets.full-height
     facets(
       :definition="collection.facetDefinitions"
@@ -10,7 +10,7 @@
 </template>
 <script>
 import {Options, Vue} from 'vue-class-component'
-import ListRecord from './Record'
+import FacetContainer from 'src/components/facets/FacetContainer'
 
 export default @Options({
   name: 'CollectionFacets',
@@ -19,7 +19,15 @@ export default @Options({
   }
 })
 class CollectionFacets extends Vue {
-  facetsOptions = {}
+  facetsOptions = {
+    defaults: {
+      components: {
+        bucketsContainer: {
+          component: FacetContainer
+        },
+      }
+    }
+  }
 
 
   async facetLoader(facetSelection, activeFacets, excludedFromQuery /*, extras = {}*/) {

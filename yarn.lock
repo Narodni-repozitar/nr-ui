@@ -1021,9 +1021,9 @@
     rimraf "^3.0.2"
 
 "@oarepo/invenio-vue@^1.0.0-a5":
-  version "1.0.0-a7"
-  resolved "https://registry.yarnpkg.com/@oarepo/invenio-vue/-/invenio-vue-1.0.0-a7.tgz#8dec83e5ef24551d126af15651b55044a4671071"
-  integrity sha512-dcAVAUcEotSqM4tP+XFeKf7+dFUBg36QOHlEBc86R22aKNn+f9sBWJN1vInU96ZwTlPzBeatkcLSP4ttP2O8Ag==
+  version "1.0.0-a8"
+  resolved "https://registry.yarnpkg.com/@oarepo/invenio-vue/-/invenio-vue-1.0.0-a8.tgz#4f6c8a44c979b8ce750d5787e0f203e7484e3bf2"
+  integrity sha512-9Ehc0bzUBFCdRcdVAhGkAayAV5nvc85cWcHGzh+f2Jelg/kdJPy/kM5TSlXdeRUvmONBNFFNKSUbHKZmwuU/kw==
   dependencies:
     "@oarepo/vue-query-synchronizer" "^3.0.0-a4"
     axios "^0.21.1"
@@ -1036,10 +1036,10 @@
     vue-json-viewer "^2.2.18"
     vue-router "^4.0.0-0"
 
-"@oarepo/quasar-es-facets@^1.0.0-a3":
-  version "1.0.0-a3"
-  resolved "https://registry.yarnpkg.com/@oarepo/quasar-es-facets/-/quasar-es-facets-1.0.0-a3.tgz#533e45296c1244c001b690424ee3f105c410edfb"
-  integrity sha512-14NGxPzwag3c554ZiA5XzonB8Ohs/XlzhNUzYet1MYYhGuRLzIOA2Bm/fdihfc/DO+Q2qUzkTSVgzVT2oTAoYg==
+"@oarepo/quasar-es-facets@^1.0.0-a4":
+  version "1.0.0-a5"
+  resolved "https://registry.yarnpkg.com/@oarepo/quasar-es-facets/-/quasar-es-facets-1.0.0-a5.tgz#97137033af7e22a8439054bb8b5afc1bd886ca0b"
+  integrity sha512-G8/C289wDJGT48qcNi+vS1RLUwRw9kr7gMc1nMLlfgHo4rvQ5U4xd8B/TW6X9PO9btV9PoZxVR2mqXd6cCLJPw==
   dependencies:
     "@quasar/extras" "^1.0.0"
     quasar "^2.0.0-beta.1"
@@ -1172,9 +1172,9 @@
     core-js-compat "^3.6.5"
 
 "@quasar/extras@^1.0.0":
-  version "1.10.2"
-  resolved "https://registry.yarnpkg.com/@quasar/extras/-/extras-1.10.2.tgz#8992bac8f94a077494ee4fae653729a3a5a47e6f"
-  integrity sha512-S5aE/If4Bgl6qAoHqDZcVw6GxeNpksix3N1dp8k3YPMniIaoU/BLACeQYnrGkn3ffZ1+5JzF0teAE3no6WGzEg==
+  version "1.10.3"
+  resolved "https://registry.yarnpkg.com/@quasar/extras/-/extras-1.10.3.tgz#caafc532ff99d41f63553b709c7ea1d9f2f10469"
+  integrity sha512-H0DFXyht6zslZXDjS/4Ga6+tERP4AIjqL05lISfem8C+7xhlo63J6ugqbemPiN9E2k/77R/3Q7wa38tHfxje2A==
 
 "@quasar/fastclick@1.1.4":
   version "1.1.4"
@@ -3924,9 +3924,9 @@ escape-string-regexp@^4.0.0:
   integrity sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==
 
 eslint-config-prettier@^8.1.0:
-  version "8.1.0"
-  resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-8.1.0.tgz#4ef1eaf97afe5176e6a75ddfb57c335121abc5a6"
-  integrity sha512-oKMhGv3ihGbCIimCAjqkdzx2Q+jthoqnXSP+d86M9tptwugycmTFdVR4IpLgq2c4SHifbwO90z2fQ8/Aio73yw==
+  version "8.2.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-8.2.0.tgz#78de77d63bca8e9e59dae75a614b5299925bb7b3"
+  integrity sha512-dWV9EVeSo2qodOPi1iBYU/x6F6diHv8uujxbxr77xExs3zTAlNXvVZKiyLsQGNz7yPV2K49JY5WjPzNIuDc2Bw==
 
 eslint-plugin-vue@^7.0.0:
   version "7.9.0"
