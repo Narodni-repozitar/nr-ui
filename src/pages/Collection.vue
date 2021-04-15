@@ -3,6 +3,7 @@ div.collection-page
   .row.items-stretch
     search-header.col-8(:collection="collection")
     selected-facets.col-4(:activeFacets="activeFacets")
+  a(name="top")
   .row.items-stretch
     record-list.col-8.record-list(:collection="collection")
     collection-facets.col-4(:collection="collection"
@@ -10,9 +11,14 @@ div.collection-page
   .row
     .col-8
       q-separator(color="secondary")
-      URLPagination.q-py-lg.q-pl-lg(:pages="collection.pages")
-    .col-4
-      q-btn(stack icon="caret_up" label="TODO Zpět nahoru" color="primary" flat no-caps)
+  .row.q-py-lg.q-pl-lg
+    .col-8
+      URLPagination.q-mt-md(:pages="collection.pages")
+    .col-4.row.justify-end
+      q-btn(stack icon="svguse:/icons.svg#arrow-up"
+        label="Zpět nahoru" color="primary" flat no-caps dense
+        @click="scrollToTop"
+        )
 </template>
 
 <script>
@@ -49,6 +55,10 @@ class Collection extends Vue {
       path: '/all',
       query: {q: this.searchField}
     })
+  }
+
+  scrollToTop() {
+    window.scrollTo(0,0);
   }
 
   mounted() {

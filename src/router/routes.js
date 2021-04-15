@@ -10,12 +10,45 @@ const routes = [
         component: () => import('pages/Home'),
       },
       {
-        path: '/all/',
+        path: '',
         component: () => import('layouts/CenteredLayout'),
         children: [
           collection({
-            path: '',
+            path: 'all/',
             name: 'all',
+            component: () => import('../pages/Collection')
+          }, {
+            meta: {
+              query: {
+                sort: 'string:alphabetical'
+              }
+            }
+          }),
+          collection({
+            path: 'theses/all/',
+            name: 'theses',
+            component: () => import('../pages/Collection')
+          }, {
+            meta: {
+              query: {
+                sort: 'string:alphabetical'
+              }
+            }
+          }),
+          collection({
+            path: 'events/all/',
+            name: 'events',
+            component: () => import('../pages/Collection')
+          }, {
+            meta: {
+              query: {
+                sort: 'string:alphabetical'
+              }
+            }
+          }),
+          collection({
+            path: 'nresults/all/',
+            name: 'nresults',
             component: () => import('../pages/Collection')
           }, {
             meta: {

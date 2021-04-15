@@ -5,9 +5,9 @@ div
       span {{ separator }}
     span {{ a }}
   span.text-primary.q-pl-md.inline-block.cursor-pointer(
-    v-if="shortened && shouldBeShortened" @click="shortened=false") &gt; zobrazit více
+    v-if="shortened && shouldBeShortened" @click.stop.prevent="shortened=false") &gt; zobrazit více
   span.text-primary.q-pl-md.inline-block.cursor-pointer(
-    v-if="!shortened && shouldBeShortened" @click="shortened=true") &lt; zobrazit méně
+    v-if="!shortened && shouldBeShortened" @click.stop.prevent="shortened=true") &lt; zobrazit méně
 </template>
 <style lang="sass">
 .collection-item

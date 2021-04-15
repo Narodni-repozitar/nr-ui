@@ -20,20 +20,23 @@ q-page.bg-image(style="min-height: 0")
       .row.empty
       .row
         .col
-          .row.justify-center
-            img(src='../assets/NR2021_ikony_diplom.png')
-          .row.justify-center
-            span.nr-collection-title.text-weight-bold vysokoškolské práce
+          router-link(:to="{name: 'theses'}")
+            .row.justify-center
+              img(src='../assets/NR2021_ikony_diplom.png')
+            .row.justify-center
+              span.nr-collection-title.text-weight-bold vysokoškolské práce
         .col
-          .row.justify-center
-            img(src='../assets/NR2021_ikony_konference.png')
-          .row.justify-center
-            span.nr-collection-title.text-weight-bold konferenční materiály
+          router-link(:to="{name: 'events'}")
+            .row.justify-center
+              img(src='../assets/NR2021_ikony_konference.png')
+            .row.justify-center
+              span.nr-collection-title.text-weight-bold konferenční materiály
         .col
-          .row.justify-center
-            img(src='../assets/NR2021_ikony_certif_metod.png')
-          .row.justify-center
-            span.nr-collection-title.text-weight-bold certifikované metodiky a postupy
+          router-link(:to="{name: 'nresults'}")
+            .row.justify-center
+              img(src='../assets/NR2021_ikony_certif_metod.png')
+            .row.justify-center
+              span.nr-collection-title.text-weight-bold certifikované metodiky a postupy
         .col
           .row.justify-center
             img(src='../assets/NR2021_ikony_vyzkum.png')
