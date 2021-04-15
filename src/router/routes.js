@@ -1,22 +1,24 @@
 import {collection, record} from "@oarepo/invenio-vue";
+import MainLayout from "layouts/MainLayout";
+import CenteredLayout from "layouts/CenteredLayout";
 
 const routes = [
   {
     path: '/',
-    component: () => import('layouts/MainLayout'),
+    component: () => MainLayout,
     children: [
       {
         path: '',
-        component: () => import('pages/Home'),
+        component: () => import(/* webpackChunkName: 'home' */'pages/Home'),
       },
       {
         path: '',
-        component: () => import('layouts/CenteredLayout'),
+        component: () => CenteredLayout,
         children: [
           collection({
             path: 'all/',
             name: 'all',
-            component: () => import('../pages/Collection')
+            component: () => import(/* webpackChunkName: 'collection' */'../pages/Collection')
           }, {
             meta: {
               query: {
@@ -27,7 +29,7 @@ const routes = [
           collection({
             path: 'theses/all/',
             name: 'theses',
-            component: () => import('../pages/Collection')
+            component: () => import(/* webpackChunkName: 'collection' */'../pages/Collection')
           }, {
             meta: {
               query: {
@@ -38,7 +40,7 @@ const routes = [
           collection({
             path: 'events/all/',
             name: 'events',
-            component: () => import('../pages/Collection')
+            component: () => import(/* webpackChunkName: 'collection' */'../pages/Collection')
           }, {
             meta: {
               query: {
@@ -49,7 +51,7 @@ const routes = [
           collection({
             path: 'nresults/all/',
             name: 'nresults',
-            component: () => import('../pages/Collection')
+            component: () => import(/* webpackChunkName: 'collection' */'../pages/Collection')
           }, {
             meta: {
               query: {
@@ -61,22 +63,27 @@ const routes = [
       },
       {
         path: '/:communityId/:model/:state/:recordId',
-        component: () => import('layouts/CenteredLayout'),
+        component: () => CenteredLayout,
         children: [
+          record({
+            path: 'raw',
+            name: 'record',
+            component: () => import(/* webpackChunkName: 'record' */'../pages/RawRecord')
+          }),
           record({
             path: '',
             name: 'record',
-            component: () => import('../pages/Record')
+            component: () => import(/* webpackChunkName: 'record' */'../pages/Record')
           })
         ]
-      },
+      }
     ]
   },
   // Always leave this as last one,
   // but you can also remove it
   {
     path: '/:catchAll(.*)*',
-    component: () => import('pages/Error404.vue')
+    component: () => import(/* webpackChunkName: 'error' */'pages/Error404.vue')
   }
 ]
 

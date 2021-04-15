@@ -10,6 +10,7 @@ q-layout(view='lhr lPR lfr')
 import NRHeader from 'components/layout/NRHeader';
 import NRFooter from 'components/layout/NRFooter';
 export default {
+  name: "MainLayout",
   data () {
     return {
     }

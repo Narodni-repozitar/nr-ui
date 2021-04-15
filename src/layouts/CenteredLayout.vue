@@ -17,6 +17,7 @@ import NRHeader from 'components/layout/NRHeader';
 import NRFooter from 'components/layout/NRFooter';
 
 export default {
+  name: "CenteredLayout",
   data() {
     return {}
   },
