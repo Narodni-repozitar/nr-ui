@@ -1,7 +1,7 @@
 <template lang="pug">
 .row.label-block
-  span.label
-  slot.value
+  span.label {{ label }}:   
+  slot.value.row
 </template>
 <script>
 import {Options, Vue} from 'vue-class-component'

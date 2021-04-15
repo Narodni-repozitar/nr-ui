@@ -5,31 +5,18 @@ q-item.record.q-py-lg(:to="record.links.ui")
   q-item-section
     .title
       mt(:text="m.title")
-    div.row.authors.q-mt-sm
-      .creator.row(v-for="(creator, idx) in m.creator")
-        q-separator.vertical-line(v-if="idx>0" color="secondary" vertical)
-        span {{ creator.name }}
-      template(v-if="m.contributor && m.contributor.length")
-        q-separator.vertical-line-left(color="secondary" vertical)
-        q-separator.vertical-line-right(color="secondary" vertical)
-      .contributor.row(v-for="(contributor, idx) in m.contributor")
-        q-separator.vertical-line(v-if="idx>0" color="secondary" vertical)
-        span {{ contributor.name }}
-        span.role &nbsp;(
-        simple-term.role(:term="contributor.role")
-        span.role )
-    div.row.year-lang.q-mt-xs
+    record-people.q-mt-sm(:m="m")
+    div.year-lang.q-mt-xs
       span {{ year }}
       template(v-if="m.language && m.language.length")
-        q-separator.vertical-line-left(color="secondary" vertical)
-        q-separator.vertical-line-right(color="secondary" vertical)
-        simple-term(:term="m.language")
-    div.row.type
+        double-separator
+        simple-term.inline(:term="m.language")
+    div.type
       simple-term(:term="m.resourceType" :levels="1")
-    div.row.keywords
+    div.keywords
       mt.row(:text="m.keywords")
         template(v-slot:separator)
-          q-separator.vertical-line(color="secondary" vertical)
+          vertical-separator
     mt.abstract(:text="m.abstract" :shorten="500")
 </template>
 <style lang="sass">
@@ -40,6 +27,7 @@ q-item.record.q-py-lg(:to="record.links.ui")
 <script>
 import {Options, Vue} from 'vue-class-component'
 import AccessIcon from 'src/components/icons/AccessIcon'
+import RecordPeople from './RecordPeople'
 
 export default @Options({
   name: 'ListRecord',
@@ -47,7 +35,8 @@ export default @Options({
     record: Object
   },
   components: {
-    AccessIcon
+    AccessIcon,
+    RecordPeople
   }
 })
 class ListRecord extends Vue {
