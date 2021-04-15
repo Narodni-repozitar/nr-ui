@@ -7,6 +7,8 @@ import CancelButton from 'src/components/controls/CancelButton'
 import DoubleSeparator from 'src/components/ui/DoubleSeparator'
 import VerticalSeparator from 'src/components/ui/VerticalSeparator'
 import SeparatedList from 'src/components/ui/SeparatedList'
+import NestedFacet from 'components/facets/NestedFacet'
+import FacetContainer from 'src/components/facets/FacetContainer'
 
 export default boot(({app}) => {
   app.component('mt', MultilingualText)
@@ -17,4 +19,6 @@ export default boot(({app}) => {
   app.component('double-separator', DoubleSeparator)
   app.component('vertical-separator', VerticalSeparator)
   app.component('separated-list', SeparatedList)
+  app.component('nested-facet', NestedFacet)
+  app.component('facet-container', FacetContainer)
 })

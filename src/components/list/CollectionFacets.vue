@@ -3,7 +3,7 @@
   .col.collection-facets.full-height
     div.q-mx-sm.q-mt-md
       facets(
-        :definition="collection.facetDefinitions"
+        :definition="facetDefinitions"
         :options="facetsOptions"
         :facetLoader="facetLoader"
         @facetSelected="facetSelected"
@@ -13,6 +13,7 @@
 import {Options, Vue} from 'vue-class-component'
 import FacetContainer from 'src/components/facets/FacetContainer'
 import DrawerBucket from 'src/components/facets/DrawerBucket'
+import deepmerge from "deepmerge";
 
 export default @Options({
   name: 'CollectionFacets',
@@ -55,24 +56,92 @@ class CollectionFacets extends Vue {
         },
         drawerBucket: {
           component: DrawerBucket
+        },
+      }
+    },
+    types: {
+      nested: {
+        components: {
+          facet: {
+            component: 'nested-facet'
+          }
         }
       }
     }
   }
 
+  definitions = {
+    accessRights: {
+      type: 'nested',
+      aggs: {
+        inner_facet: {
+          label: "accessRights"
+        }
+      }
+    },
+    accessRightsCurator: {
+      type: 'nested',
+      aggs: {
+        inner_facet: {
+          label: "access Rights Curator"
+        }
+      }
+    },
+    resourceType: {
+      type: 'nested',
+      aggs: {
+        inner_facet: {
+          label: "resourceType"
+        }
+      }
+    },
+    language: {
+      type: 'nested',
+      aggs: {
+        inner_facet: {
+          label: "language"
+        }
+      }
+    },
+    rights: {
+      type: 'nested',
+      aggs: {
+        inner_facet: {
+          label: "rights"
+        }
+      }
+    },
+    provider: {
+      type: 'nested',
+      aggs: {
+        inner_facet: {
+          label: "provider"
+        }
+      }
+    },
+    entities: {
+      type: 'nested',
+      aggs: {
+        inner_facet: {
+          label: "entities"
+        }
+      }
+    }
+  }
 
   async facetLoader(facetSelection, activeFacets, excludedFromQuery /*, extras = {}*/) {
     const fetchedFacets = new Set([...Object.keys(facetSelection.selected()), ...Object.keys(activeFacets)])
     if (!fetchedFacets.size) {
       return {}
     }
+
     const facets = await this.collection.httpFacets.load({
       query: {
-        facets: [...fetchedFacets.values()].join(','),
+        facets: [...Array.from(fetchedFacets.values()).map(transformFacet)].join(','),
         ...Object.entries(facetSelection.selected()).reduce(
             (p, s) => {
               if (!(excludedFromQuery && excludedFromQuery.includes(s[0]))) {
-                p[s[0]] = [...s[1]].map(x => x.toString())
+                p[transformFacet([0])] = [...s[1]].map(x => x.toString())
               }
               return p
             }, {}),
@@ -86,12 +155,30 @@ class CollectionFacets extends Vue {
   facetSelected(facetSelection) {
     for (const [k, v] of Object.entries(facetSelection)) {
       if (!v.size) {
-        this.$query[k] = null
+        this.$query[transformFacet(k)] = null
       } else {
-        this.$query[k] = [...v]
+        this.$query[transformFacet(k)] = [...v]
       }
     }
     this.$emit('update:activeFacets', facetSelection)
+  }
+
+  get facetDefinitions() {
+    const cols =  this.collection.facetDefinitions
+    for (const [k, val] of Object.entries(cols)) {
+      if (this.definitions[k]) {
+        cols[k] = deepmerge(cols[k], this.definitions[k])
+      }
+    }
+    return cols
+  }
+}
+
+function transformFacet(f) {
+  if (f.split) {
+    return f.split('.')[0]
+  } else {
+    return f
   }
 }
 </script>

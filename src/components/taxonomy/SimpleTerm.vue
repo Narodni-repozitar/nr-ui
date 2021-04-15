@@ -24,7 +24,6 @@ export default @Options({
 class SimpleTerm extends Vue {
   get term_list() {
     const term = [...this.term]
-    console.log(term)
     term.sort((a, b) => (b.level - a.level) || b.links.self.localeCompare(a.links.self))
     return term.slice(0, this.levels)
   }

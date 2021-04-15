@@ -67,7 +67,6 @@ class Home extends Vue {
   searchField = ''
 
   search() {
-    console.log(this.searchField)
     this.$router.push({
       path: '/all',
       query: {q: this.searchField}
