@@ -1,5 +1,5 @@
 <template lang="pug">
-q-item.record.q-py-lg
+q-item.record.q-py-lg(:to="record.links.ui")
   q-item-section.justify-start-important(avatar)
     access-icon.block(:accessRights="m.accessRights" size="64px")
   q-item-section
@@ -31,9 +31,6 @@ q-item.record.q-py-lg
         template(v-slot:separator)
           q-separator.vertical-line(color="secondary" vertical)
     mt.abstract(:text="m.abstract" :shorten="500")
-
-
-    router-link.q-mt-md(:to="record.links.ui") detaily ...
 </template>
 <style lang="sass">
 .collection-item
