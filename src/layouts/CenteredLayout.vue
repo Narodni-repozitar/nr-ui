@@ -2,13 +2,14 @@
 q-page.row
   .col-lg-2.col-md-1.col-xs-0
   .col
-    transition(
-      enter-active-class="animated fadeIn"
-      leave-active-class="animated fadeOut"
-      appear
-      :duration="300"
-    )
-      router-view.full-width
+    router-view.full-width(v-slot="{ Component }")
+      transition(
+        enter-active-class="animated fadeIn"
+        leave-active-class="animated fadeOut"
+        appear
+        :duration="300"
+      )
+        component(:is="Component")
   .col-lg-2.col-md-1.col-xs-0
 </template>
 

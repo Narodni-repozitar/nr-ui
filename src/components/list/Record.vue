@@ -1,5 +1,5 @@
 <template lang="pug">
-q-item.record.q-py-lg(:to="record.links.ui")
+q-item.record.q-py-lg.text-dark(:to="record.links.ui")
   q-item-section.justify-start-important(avatar)
     access-icon.block(:accessRights="m.accessRights" size="64px")
   q-item-section

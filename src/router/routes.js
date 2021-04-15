@@ -1,19 +1,17 @@
 import {collection, record} from "@oarepo/invenio-vue";
-import MainLayout from "layouts/MainLayout";
-import CenteredLayout from "layouts/CenteredLayout";
 
 const routes = [
   {
     path: '/',
-    component: () => MainLayout,
+    component: () => import(/* webpackChunkName: 'layouts' */'layouts/MainLayout'),
     children: [
       {
         path: '',
-        component: () => import(/* webpackChunkName: 'home' */'pages/Home'),
+        component: () => import(/* webpackChunkName: 'home' */'../pages/Home'),
       },
       {
         path: '',
-        component: () => CenteredLayout,
+        component: () => import(/* webpackChunkName: 'layouts' */'layouts/CenteredLayout'),
         children: [
           collection({
             path: 'all/',
@@ -63,7 +61,7 @@ const routes = [
       },
       {
         path: '/:communityId/:model/:state/:recordId',
-        component: () => CenteredLayout,
+        component: () => import(/* webpackChunkName: 'layouts' */'layouts/CenteredLayout'),
         children: [
           record({
             path: 'raw',
