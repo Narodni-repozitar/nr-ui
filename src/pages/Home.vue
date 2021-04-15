@@ -78,12 +78,22 @@ class Home extends Vue {
 
 <style scoped lang="sass">
 .bg-image
+  opacity: 1
+
+.bg-image::before
+  content: ""
   background-image: url(../assets/background.png)
   background-repeat: no-repeat
   background-size: cover
   background-color: $background
-  opacity: 1
+  opacity: 0.2
   background-position: left top
+  top: 0
+  left: 0
+  bottom: 0
+  right: 0
+  position: absolute
+  z-index: -1
 
 .nr-search-field
   width: 80%
