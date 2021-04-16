@@ -17,16 +17,20 @@
     color: $medium-dark
 
   .vertical-line
-    margin: 4px 5px 4px 5px
+    margin: 0px 5px 0px 5px
     width: 2px
+    display: inline-block
+    position: relative
+    top: 2px
+    height: 1em
 
   .vertical-line-left
     @extend .vertical-line
-    margin: 4px 1px 4px 5px
+    margin: 0px 1px 0px 5px
 
   .vertical-line-right
     @extend .vertical-line
-    margin: 4px 5px 4px 1px
+    margin: 0px 5px 0px 1px
 
   .nr-header
     font-size: 120%
@@ -112,12 +116,46 @@
           padding-top: 20% !important
 
   .record-page
+    font-size: 16px
+    font-weight: 400
+
     .title
       font-size: 40px
       font-weight: 400
 
+    .label-block
+      margin-bottom: 15px
+      .label
+        font-weight: 500
+
+    .identifier-type
+      font-weight: 500
+
+
+  .multilingual-text-tabs
+    .q-tab__content
+      min-height: 0 !important
+      height: fit-content
+      padding: 0
+      margin: 0
+
+  .multilingual-text-tab-content
+    border-left: 1px solid $secondary
 
 // various
 
 .justify-start-important
   justify-content: flex-start !important
+
+.inline
+  display: inline
+
+.bold
+  font-weight: 500
+
+a
+  text-decoration: none
+  color: $primary
+
+a:visited
+  color: $primary

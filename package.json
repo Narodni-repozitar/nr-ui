@@ -1,8 +1,8 @@
 {
   "name": "nr-ui-quasar2",
   "version": "1.0.0a3",
-  "description": "A Quasar Framework app",
-  "productName": "Quasar App",
+  "description": "Czech national repository UI app",
+  "productName": "Czech national repository",
   "author": "Daniel Kopecký <kopecky.d@gmail.com>",
   "private": true,
   "scripts": {

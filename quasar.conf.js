@@ -139,7 +139,7 @@ module.exports = configure(function (ctx) {
       // directives: [],
 
       // Quasar plugins
-      plugins: []
+      plugins: ['Dialog']
     },
 
     // animations: 'all', // --- includes all animations
@@ -182,9 +182,9 @@ module.exports = configure(function (ctx) {
       },
 
       manifest: {
-        name: `Quasar App`,
-        short_name: `Quasar App`,
-        description: `A Quasar Framework app`,
+        name: `Czech national repository`,
+        short_name: `NR`,
+        description: `Czech national repository UI app`,
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',

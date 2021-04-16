@@ -1,5 +1,5 @@
 <template lang="pug">
-div
+span
   template(v-for="(a, idx) in shortened ? shortenedText : t")
     slot(name="separator" v-if="idx>0")
       span {{ separator }}

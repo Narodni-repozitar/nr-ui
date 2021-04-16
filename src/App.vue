@@ -1,12 +1,13 @@
 <template>
-<transition
-    enter-active-class="animated fadeIn"
-    leave-active-class="animated fadeOut"
-    appear
-    :duration="1000"
->
-  <router-view/>
-</transition>
+<router-view v-slot="{ Component }">
+  <transition
+      enter-active-class="animated fadeIn"
+      leave-active-class="animated fadeOut"
+      appear
+      :duration="1000">
+    <component :is="Component"/>
+  </transition>
+</router-view>
 </template>
 <script>
 import {defineComponent} from 'vue';

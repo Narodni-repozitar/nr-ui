@@ -50,7 +50,6 @@ class Collection extends Vue {
   activeFacets = null
 
   search() {
-    console.log(this.searchField)
     this.$router.push({
       path: '/all',
       query: {q: this.searchField}
