@@ -10,14 +10,14 @@
 </router-view>
 </template>
 <script>
-import {defineComponent} from 'vue';
+import {defineComponent} from 'vue'
 import {useI18n} from 'vue-i18n'
-import {useQuasar} from "quasar";
+import {useMeta, useQuasar} from 'quasar'
 
 export default defineComponent({
   name: 'App',
   setup() {
-    const {locale} = useI18n({useScope: 'global'})
+    const {t, locale} = useI18n({useScope: 'global'})
     const q = useQuasar()
     locale.value = 'cs'
     try {
@@ -27,6 +27,16 @@ export default defineComponent({
           })
     } catch (err) {
     }
+
+    useMeta(() => {
+      return {
+        title: t('nav.intro') || ' ',
+        titleTemplate: title => `${title !== ' ' ? title + ' - ' : ' '}${t('app.productName')}`,
+        meta: {
+          description: {name: 'description', content: t('app.description')},
+        }
+      }
+    })
   }
 })
 </script>
