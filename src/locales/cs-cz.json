@@ -4,6 +4,7 @@
     "copyPermalink": "Kopírovat perzistentní odkaz do schránky",
     "share": "Sdílet",
     "ok": "OK",
+    "search": "Hledat",
     "cancel": "Zrušit",
     "accept": "Souhlasím",
     "addAuthor": "Přidat autora",
@@ -76,6 +77,8 @@
     "revert_approval": "assignment_return"
   },
   "label": {
+    "fullText": "Plný text",
+    "browseRecords": "procházet všechny záznamy",
     "state": "Stav záznamu",
     "filesCount": "Počet souborů",
     "filesFound": "žádné soubory | {count} 📎 | {count} \uD83D\uDCCE",

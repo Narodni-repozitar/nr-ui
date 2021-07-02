@@ -41,6 +41,7 @@ module.exports = configure(function (ctx) {
     boot: [
       'i18n',
       'axios',
+      'login',
       'invenio',
       'addressbar-color',
       'common-components'
@@ -135,7 +136,7 @@ module.exports = configure(function (ctx) {
       components: [
         'QExpansionItem', 'QList', 'QItem',
         'QItemSection', 'QBadge', 'QCheckbox',
-        'QTabs', 'QTab', 'QBtn', 'QChip', 'QTooltip'
+        'QTabs', 'QTab', 'QBtn', 'QChip', 'QTooltip', 'QBtnDropdown', 'QSpinnerDots'
       ],
       // directives: [],
 

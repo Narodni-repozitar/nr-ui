@@ -1,6 +1,7 @@
 {
   "accessibility": {},
   "action": {
+    "search": "Search",
     "share": "Share",
     "copyPermalink": "Copy permanent link to clipboard",
     "ok": "OK",
@@ -77,6 +78,8 @@
     "revert_approval": "assignment_return"
   },
   "label": {
+    "browseRecords": "browse all records",
+    "fullText": "Fulltext search",
     "state": "Stav záznamu",
     "filesCount": "Attachments",
     "filesFound": "{count} file | {count} files",
