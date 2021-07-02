@@ -41,7 +41,9 @@ module.exports = configure(function (ctx) {
     boot: [
       'i18n',
       'axios',
+      'login',
       'invenio',
+      'addressbar-color',
       'common-components'
     ],
 
@@ -100,11 +102,11 @@ module.exports = configure(function (ctx) {
     devServer: {
       ...certs(),
       https: true,
-      port: 8080,
+      port: 5000,
       open: false, // opens browser window automatically
       proxy: {
         '/': {
-          target: 'https://127.0.0.1:5000/',
+          target: 'https://127.0.0.1:8080/',
           changeOrigin: false,
           secure: false,
           debug: true,
@@ -134,12 +136,12 @@ module.exports = configure(function (ctx) {
       components: [
         'QExpansionItem', 'QList', 'QItem',
         'QItemSection', 'QBadge', 'QCheckbox',
-        'QTabs', 'QTab', 'QBtn', 'QChip', 'QTooltip'
+        'QTabs', 'QTab', 'QBtn', 'QChip', 'QTooltip', 'QBtnDropdown', 'QSpinnerDots'
       ],
       // directives: [],
 
       // Quasar plugins
-      plugins: ['Dialog']
+      plugins: ['Dialog', 'AddressbarColor', 'Meta']
     },
 
     // animations: 'all', // --- includes all animations

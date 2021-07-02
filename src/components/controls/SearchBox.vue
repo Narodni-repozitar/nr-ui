@@ -2,7 +2,7 @@
 q-input.full-width(
   color="primary" outlined square :dense='dense' v-model="model"
   debounce="500" @keyup.enter='onEnter' ref="input"
-  autofocus placeholder="Hledat ...")
+  autofocus :placeholder="`${$t('action.search')}…`")
 
   template(v-slot:prepend)
     q-icon(name="search")

@@ -7,19 +7,19 @@ q-page.bg-image.column(style="min-height: calc(100vh - 150px)")
         .row.empty
         .row.justify-center
           .col-2
-          .col
+          .col-grow
             search-box.q-my-md(:route="{name: 'all'}" :dense="false")
           .col-2
         .row
           .col-2
           .col
             .q-py-sm.q-pb-lg
-              q-checkbox( v-model="fullText" keep-color color="secondary")
+              q-checkbox(v-model="fullText" keep-color color="secondary")
                 template(v-slot:default='')
-                  span.text-weight-bold Plný text
+                  span.text-weight-bold {{ $t('label.fullText') }}
           .col.row.justify-end
             .q-py-sm.q-pb-lg.q-px-md
-              router-link.text-weight-bold.q-mt-sm.block(to="/all/") ... procházet všechny dokumenty
+              router-link.text-weight-bold.q-mt-sm.block(to="/all/") ... {{ $t('label.browseRecords') }}
           .col-2
         .row.empty
         .row
@@ -55,11 +55,6 @@ import SearchBox from 'src/components/controls/SearchBox'
 
 export default @Options({
   name: 'Home',
-  // props: {
-  //   loading: Boolean,
-  //   item: Object,
-  //   showState: Boolean
-  // },
   components: {SearchBox}
 })
 class Home extends Vue {
