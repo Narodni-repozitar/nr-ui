@@ -5,6 +5,7 @@
     "share": "Share",
     "copyPermalink": "Copy permanent link to clipboard",
     "ok": "OK",
+    "browse": "browse",
     "cancel": "Cancel",
     "accept": "Accept",
     "addAuthor": "Add author",
@@ -78,6 +79,7 @@
     "revert_approval": "assignment_return"
   },
   "label": {
+    "fullText": "fulltext",
     "browseRecords": "browse all records",
     "fullText": "Fulltext search",
     "state": "Stav záznamu",

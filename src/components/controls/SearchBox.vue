@@ -1,6 +1,6 @@
 <template lang="pug">
 q-input.full-width(
-  color="primary" outlined square :dense='dense' v-model="model"
+  color="primary" outlined square :dense='dense' bg-color="transparent-grey" v-model="model"
   debounce="500" @keyup.enter='onEnter' ref="input"
   autofocus :placeholder="`${$t('action.search')}…`")
 
@@ -9,7 +9,13 @@ q-input.full-width(
 
   template(v-slot:append)
     cancel-button(v-if="model" @click="clear" size="md")
-
+    q-checkbox.z-top.text-overline(
+      size="md"
+      v-model="fullText"
+      @update:model-value="onFullTextToggle"
+      keep-color
+      color="secondary"
+      :label="$t('label.fullText')")
 </template>
 
 <script>
@@ -32,12 +38,13 @@ export default defineComponent({
   components: {
     CancelButton
   },
-  emits: ['update:modelValue'],
+  emits: ['update:modelValue', 'fulltext'],
   setup(props, ctx) {
     const query = useQuery()
     const model = ref(props.modelValue || query.q)
     const input = ref()
     const router = useRouter()
+    const fullText = ref(true)
 
     watch(() => props.modelValue, () => {
       if (props.modelValue !== model.value) {
@@ -50,6 +57,10 @@ export default defineComponent({
         query.q = val
       }
     })
+
+    function onFullTextToggle () {
+      ctx.emit('fulltext', fullText)
+    }
 
     function onEnter() {
       if (props.route) {
@@ -72,10 +83,16 @@ export default defineComponent({
 
     return {
       model,
+      fullText,
       onEnter,
       clear,
+      onFullTextToggle,
       input
     }
   }
 })
 </script>
+<style lang="sass">
+.nr .q-field--outlined .q-field__control::before
+  background-color: $transparent-grey
+</style>

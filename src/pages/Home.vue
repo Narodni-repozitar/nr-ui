@@ -4,7 +4,8 @@ q-page.bg-image.column(style="min-height: calc(100vh - 150px)")
     .row.fit.col
       .col-lg-2.col-md-1.col-xs-0
       .col
-        .row.empty
+        .row.justify-center.q-py-xl
+          .text-h1.text-weight-bolder.text-dark.q-my-xl {{ $t('app.productName') }}
         .row.justify-center
           .col-2
           .col-grow
@@ -12,62 +13,68 @@ q-page.bg-image.column(style="min-height: calc(100vh - 150px)")
           .col-2
         .row
           .col-2
-          .col
-            .q-py-sm.q-pb-lg
-              q-checkbox(v-model="fullText" keep-color color="secondary")
-                template(v-slot:default='')
-                  span.text-weight-bold {{ $t('label.fullText') }}
           .col.row.justify-end
-            .q-py-sm.q-pb-lg.q-px-md
-              router-link.text-weight-bold.q-mt-sm.block(to="/all/") ... {{ $t('label.browseRecords') }}
+            .q-py-sm.q-pb-lg
+              q-btn(flat color="primary" size="md" to="/all/") {{ $t('label.browseRecords') }}
           .col-2
         .row.empty
-        .row
-          .col
-            router-link(:to="{name: 'theses'}")
-              .row.justify-center
-                img(src='../assets/NR2021_ikony_diplom.png')
-              .row.justify-center
-                span.nr-collection-title.text-weight-bold vysokoškolské práce
-          .col
-            router-link(:to="{name: 'events'}")
-              .row.justify-center
-                img(src='../assets/NR2021_ikony_konference.png')
-              .row.justify-center
-                span.nr-collection-title.text-weight-bold konferenční materiály
-          .col
-            router-link(:to="{name: 'nresults'}")
-              .row.justify-center
-                img(src='../assets/NR2021_ikony_certif_metod.png')
-              .row.justify-center
-                span.nr-collection-title.text-weight-bold certifikované metodiky a postupy
-          .col
-            .row.justify-center
-              img(src='../assets/NR2021_ikony_vyzkum.png')
-            .row.justify-center
-              span.nr-collection-title.text-weight-bold výzkumné zprávy
+        .row.justify-around.q-col-gutter-lg
+          .col-auto(v-for="c in collections" :key="c.title")
+            collection-link(
+              :icon="c.icon"
+              :title="c.title"
+              :description="c.description"
+              :to="c.route"
+              :badge="c.badge")
       .col-lg-2.col-md-1.col-xs-0
+    .row.empty
 </template>
 
 <script>
-import {Options, Vue} from 'vue-class-component'
 import SearchBox from 'src/components/controls/SearchBox'
+import CollectionLink from 'components/ui/CollectionLink'
+import {defineComponent, ref} from 'vue'
 
-export default @Options({
+export default defineComponent({
   name: 'Home',
-  components: {SearchBox}
-})
-class Home extends Vue {
-  fullText = true
-  searchField = ''
+  components: {CollectionLink, SearchBox},
+  setup() {
+    const collections = ref([
+      {
+        icon: 'NR2021_ikony_vyzkum.png',
+        title: 'datasety',
+        badge: 'PILOTNÍ PROVOZ',
+        description: 'kolekce výzkumných dat',
+        route: {name: 'datasets'}
+      },
+      {
+        icon: 'NR2021_ikony_vyzkum.png',
+        title: 'výzkumné zprávy',
+        badge: 'PILOTNÍ PROVOZ',
+        route: {name: 'articles'}
+      },
+      {
+        icon: 'NR2021_ikony_diplom.png',
+        title: 'vysokoškolské práce',
+        description: 'závěrečné kvalifikační bakalářské, diplomové, rigorózní, disertační a habilitační práce',
+        route: {name: 'theses'}
+      },
+      {
+        icon: 'NR2021_ikony_konference.png',
+        title: 'konferenční materiály',
+        description: 'příspěvky, sborníky, programy, postery a další materiály z konferencí',
+        route: {name: 'events'}
+      },
+      {
+        icon: 'NR2021_ikony_certif_metod.png',
+        title: 'certifikované metodiky a postupy',
+        route: {name: 'nresults'}
+      }
+    ])
 
-  search() {
-    this.$router.push({
-      path: '/all',
-      query: {q: this.searchField}
-    })
+    return {collections}
   }
-}
+})
 </script>
 
 <style scoped lang="sass">
@@ -94,10 +101,4 @@ class Home extends Vue {
 
 .empty
   height: 1/7*100vh
-
-.nr-collection-title
-  margin-top: -20px
-  color: $secondary
-  font-size: 16px
-
 </style>

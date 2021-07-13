@@ -56,6 +56,28 @@ const routes = [
                 sort: 'string:alphabetical'
               }
             }
+          }),
+          collection({
+            path: 'datasets/all/',
+            name: 'datasets',
+            component: () => import(/* webpackChunkName: 'collection' */'../pages/Collection')
+          }, {
+            meta: {
+              query: {
+                sort: 'string:alphabetical'
+              }
+            }
+          }),
+          collection({
+            path: 'articles/all/',
+            name: 'articles',
+            component: () => import(/* webpackChunkName: 'collection' */'../pages/Collection')
+          }, {
+            meta: {
+              query: {
+                sort: 'string:alphabetical'
+              }
+            }
           })
         ]
       },

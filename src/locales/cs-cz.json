@@ -4,6 +4,7 @@
     "copyPermalink": "Kopírovat perzistentní odkaz do schránky",
     "share": "Sdílet",
     "ok": "OK",
+    "browse": "procházet",
     "search": "Hledat",
     "cancel": "Zrušit",
     "accept": "Souhlasím",
@@ -77,7 +78,7 @@
     "revert_approval": "assignment_return"
   },
   "label": {
-    "fullText": "Plný text",
+    "fullText": "plný text",
     "browseRecords": "procházet všechny záznamy",
     "state": "Stav záznamu",
     "filesCount": "Počet souborů",
