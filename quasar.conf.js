@@ -18,11 +18,11 @@ function certs() {
     return {
       key: fs.readFileSync(`${homedir}/.ssh/dev/server-key.pem`),
       cert: fs.readFileSync(`${homedir}/.ssh/dev/server.pem`),
-      ca: fs.readFileSync(`${homedir}/.ssh/dev/ca.pem`),
+      cacert: fs.readFileSync(`${homedir}/.ssh/dev/ca.pem`),
     }
   } catch {
     console.warn('Using auto-generated certificates')
-    return {}
+    return false
   }
 }
 
@@ -100,8 +100,7 @@ module.exports = configure(function (ctx) {
 
     // Full list of options: https://v2.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
     devServer: {
-      ...certs(),
-      https: true,
+      https: certs() || true,
       port: 5000,
       open: false, // opens browser window automatically
       proxy: {
