@@ -1,6 +1,6 @@
 <template lang="pug">
 q-card.q-px-md.full-height.collection-card.transparent-grey.no-box-shadow(rounded)
-  q-badge.text-weight-bold.text-subtitle2(color="accent" floating v-if="badge") {{ badge }}
+  q-badge.text-weight-bold.text-subtitle2(color="accent" floating v-if="badge" style="right: -1px; top: -10px;") {{ badge }}
   .row.justify-center
     q-img(
       fit="cover"

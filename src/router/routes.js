@@ -68,6 +68,13 @@ const routes = [
               }
             }
           }),
+          {
+            // CREATE record in ANY community (user can choose in component)
+            path: `datasets/create`,
+            name: 'datasets-create',
+            component: () => import(/* webpackChunkName: 'forms' */ '../pages/forms/CreateForm'),
+            meta: { useFacets: false }
+          },
           collection({
             path: 'articles/all/',
             name: 'articles',

@@ -48,8 +48,8 @@
   "app": {
     "copyright": "©  2021 CESNET z.s.p.o.  Zikova 4, 160 00 Praha 6",
     "copyrightNotice": "Tato služba je součástí e-infrastruktury CESNET",
-    "description": "Národní Repozitář",
-    "productName": "Národní Repozitář"
+    "description": "Národní repozitář",
+    "productName": "Národní repozitář"
   },
   "error": {
     "popupLoginFail": "Nebylo možno se přihlásit, prosím povolte v prohlížeči vyskakovací okna pro tento web",

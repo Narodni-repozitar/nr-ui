@@ -1,11 +1,14 @@
 <template lang="pug">
 q-page.bg-image.column(style="min-height: calc(100vh - 150px)")
-  div.fit.column.col
-    .row.fit.col
+  .column.col
+    .row.col
       .col-lg-2.col-md-1.col-xs-0
       .col
         .row.justify-center.q-py-xl
-          .text-h1.text-weight-bolder.text-dark.q-my-xl {{ $t('app.productName') }}
+          product-logo.q-mt-xl
+        .row.justify-center.q-mb-xl
+          .col-fit
+            q-badge.q-mb-lg.q-py-xs.q-px-md.text-weight-bold.text-subtitle2(color="accent" style="right: -1px; top: -10px;") PILOTNÍ PROVOZ DATOVÉHO REPOZITÁŘE
         .row.justify-center
           .col-2
           .col-grow
@@ -17,27 +20,28 @@ q-page.bg-image.column(style="min-height: calc(100vh - 150px)")
             .q-py-sm.q-pb-lg
               q-btn(flat color="primary" size="md" to="/all/") {{ $t('label.browseRecords') }}
           .col-2
-        .row.empty
-        .row.justify-around.q-col-gutter-lg
-          .col-auto(v-for="c in collections" :key="c.title")
-            collection-link(
-              :icon="c.icon"
-              :title="c.title"
-              :description="c.description"
-              :to="c.route"
-              :badge="c.badge")
+        //.row.empty
+        //.row.justify-around.q-col-gutter-lg
+        //  .col-auto(v-for="c in collections" :key="c.title")
+        //    collection-link(
+        //      :icon="c.icon"
+        //      :title="c.title"
+        //      :description="c.description"
+        //      :to="c.route"
+        //      :badge="c.badge")
       .col-lg-2.col-md-1.col-xs-0
-    .row.empty
+    //.row.empty
 </template>
 
 <script>
 import SearchBox from 'src/components/controls/SearchBox'
+import ProductLogo from 'components/ui/ProductLogo'
 import CollectionLink from 'components/ui/CollectionLink'
 import {defineComponent, ref} from 'vue'
 
 export default defineComponent({
   name: 'Home',
-  components: {CollectionLink, SearchBox},
+  components: {CollectionLink, SearchBox, ProductLogo},
   setup() {
     const collections = ref([
       {
@@ -50,7 +54,6 @@ export default defineComponent({
       {
         icon: 'NR2021_ikony_vyzkum.png',
         title: 'výzkumné zprávy',
-        badge: 'PILOTNÍ PROVOZ',
         route: {name: 'articles'}
       },
       {

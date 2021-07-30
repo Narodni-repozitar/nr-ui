@@ -1,5 +1,5 @@
 <template lang="pug">
-q-input.full-width(
+q-input.search-box.full-width(
   color="primary" outlined square :dense='dense' bg-color="transparent-grey" v-model="model"
   debounce="500" @keyup.enter='onEnter' ref="input"
   autofocus :placeholder="`${$t('action.search')}…`")
@@ -22,8 +22,8 @@ q-input.full-width(
 import {defineComponent, ref, watch} from "vue";
 import {useQuery} from "@oarepo/vue-query-synchronizer";
 import deepcopy from "deepcopy";
-import CancelButton from './CancelButton.vue'
-import {useRouter} from "vue-router";
+import CancelButton from 'components/controls/buttons/CancelButton'
+import {useRouter} from 'vue-router'
 
 export default defineComponent({
   name: 'SearchBox',

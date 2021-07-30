@@ -113,6 +113,7 @@ module.exports = configure(function (ctx) {
           bypass: function (req, res, proxyOptions) {
             if (req.headers.accept.indexOf('html') !== -1 &&
               !req.path.startsWith('/oauth') &&
+              !req.path.startsWith('/2.0') &&
               !req.path.startsWith('/api/oauth')) { // TODO: check query here
               console.log('Skipping proxy for browser request.', req.path)
               return '/index.html'
@@ -135,7 +136,7 @@ module.exports = configure(function (ctx) {
       //
       components: [
         'QExpansionItem', 'QList', 'QItem',
-        'QItemSection', 'QBadge', 'QCheckbox',
+        'QItemSection', 'QBadge', 'QCheckbox', 'QStepper', 'QStep', 'QStepperNavigation',
         'QTabs', 'QTab', 'QBtn', 'QChip', 'QTooltip', 'QBtnDropdown', 'QSpinnerDots'
       ],
       // directives: [],

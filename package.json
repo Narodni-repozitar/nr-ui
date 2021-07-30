@@ -23,7 +23,11 @@
     "deepcopy": "^2.1.0",
     "quasar": "^2.0.1",
     "vue-class-component": "^8.0.0-rc.1",
-    "vue-i18n": "^9.0.0"
+    "vue-i18n": "^9.0.0",
+    "@uppy/aws-s3-multipart": "^1.8.15",
+    "@uppy/core": "^1.18.1",
+    "@uppy/locales": "^1.19.0",
+    "@uppy/vue": "^0.2.2"
   },
   "devDependencies": {
     "@quasar/app": "^3.0.1",
