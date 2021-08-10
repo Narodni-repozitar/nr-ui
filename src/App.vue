@@ -13,6 +13,8 @@
 import {defineComponent} from 'vue'
 import {useI18n} from 'vue-i18n'
 import {useMeta, useQuasar} from 'quasar'
+import {community} from 'src/contexts/community'
+import {createContext, provideContext} from 'vue-context-composition'
 
 export default defineComponent({
   name: 'App',
@@ -27,6 +29,13 @@ export default defineComponent({
           })
     } catch (err) {
     }
+
+    // Load available communities for this app & provide community context
+    const {newContextFn} = community
+    const {loadCommunities} = newContextFn()
+    loadCommunities()
+
+    provideContext(community)
 
     useMeta(() => {
       return {

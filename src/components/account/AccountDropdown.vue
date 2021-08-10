@@ -17,7 +17,7 @@ q-btn-dropdown(
       .row.no-wrap.q-pa-md.justify-start
         .col-grow.column
           slot.col-auto(name="avatar")
-            q-icon.q-my-sm.text-h4.content-center.text-accent(name="face")
+            q-icon.q-my-sm.text-h4.content-center.text-primary(name="face")
         .col-fit.q-px-md.column.no-wrap
           .col-auto.text-subtitle1.text-bold.no-wrap.text-dark {{ currentUserName }}
           .col-auto.text-grey.text-caption {{ currentUserInfo.email }}

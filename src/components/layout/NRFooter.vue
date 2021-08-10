@@ -30,13 +30,10 @@ q-footer.nr-footer.bg-grey-7.text-white(bordered).text-body1
       //  .q-pa-xs.text-weight-bold Akce
       //  .text-weight-light.text-body2
       //    .q-pa-xs Archiv akcí
-      .col.q-pa-sm
+      .col.q-pa-sm.text-center
         .q-pa-xs.text-weight-bold Kontakt
         .text-weight-light.text-body2
           a.q-pa-xs.text-white(href="mailto:support@narodni-repozitar.cz") support@narodni-repozitar.cz
-      .col.q-pa-lg
-        .q-pa-xs.text-weight-light.text-body2
-          p Obsah je dostupný pod licencí Creative Commons BY-SA 4.0 International, není-li určeno jinak.
     .col-lg-2.col-md-1.col-xs-0
   .row.justify-between.bg-grey-8.items-center
     .col-lg-2.col-md-1.col-xs-0

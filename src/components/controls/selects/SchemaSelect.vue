@@ -1,41 +1,44 @@
 <template lang="pug">
-q-select(
-  input-class="col-auto"
+base-select(
   ref="input"
-  label-slot
   v-bind="$attrs"
   :label="label"
   :rules="rules"
-  v-model="modelValue"
-  :options="options"
+  v-model="model"
+  options-dense
+  :options="schemes"
   @update:model-value="$emit('update:modelValue', $event)")
 </template>
 
 <script>
 import {ref} from 'vue'
-import ValidateMixin from '@/mixins/ValidateMixin'
+import ValidateMixin from '/src/mixins/ValidateMixin'
+import BaseSelect from 'components/controls/selects/BaseSelect'
 
 export default {
-  name: 'BaseSelect',
+  name: 'SchemaSelect',
   mixins: [ValidateMixin],
+  components: {BaseSelect},
   emits: ['update:modelValue'],
   props: {
     label: {
       type: String,
       default: ''
     },
-    options: {
+    schemes: {
       type: Array,
-      required: true
+      default: () => []
     },
     modelValue: {
-      type: [String, Number, Array, Object],
+      type: [String, Number, Array],
       default: ''
     }
   },
-  setup () {
+  setup(props) {
     const input = ref(null)
-    return {input}
+    const model = ref(props.modelValue)
+
+    return {model, input}
   }
 }
 </script>

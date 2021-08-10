@@ -134,14 +134,14 @@ module.exports = configure(function (ctx) {
       // you can manually specify Quasar components/directives to be available everywhere:
       //
       components: [
-        'QExpansionItem', 'QList', 'QItem',
+        'QExpansionItem', 'QList', 'QItem', 'QSeparator',
         'QItemSection', 'QBadge', 'QCheckbox', 'QStepper', 'QStep', 'QStepperNavigation',
-        'QTabs', 'QTab', 'QBtn', 'QChip', 'QTooltip', 'QBtnDropdown', 'QSpinnerDots'
+        'QTabs', 'QTab', 'QBtn', 'QChip', 'QTooltip', 'QBtnDropdown', 'QSpinnerDots', 'QCircularProgress'
       ],
       // directives: [],
 
       // Quasar plugins
-      plugins: ['Dialog', 'AddressbarColor', 'Meta']
+      plugins: ['Dialog', 'AddressbarColor', 'Meta', 'BottomSheet', 'Notify']
     },
 
     // animations: 'all', // --- includes all animations

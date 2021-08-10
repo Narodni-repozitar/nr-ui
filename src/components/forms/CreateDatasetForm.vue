@@ -86,6 +86,7 @@ import AuthorsContributors from 'components/forms/steps/AuthorsContributors'
 import StepperNav from 'components/controls/StepperNav'
 import {axios} from 'src/boot/axios'
 import useNotify from 'src/composables/useNotify'
+import CircularSpinner from 'components/ui/CircularSpinner'
 
 export const steps = Object.freeze({
   BASIC: 1,
@@ -97,7 +98,7 @@ export const steps = Object.freeze({
 
 export default defineComponent({
   name: 'CreateDatasetForm',
-  components: {AuthorsContributors, BasicInfo, UploadData, Identifiers, StepperNav},
+  components: {AuthorsContributors, BasicInfo, UploadData, Identifiers, StepperNav, CircularSpinner},
   setup() {
     const {notifySuccess, notifyError} = useNotify()
 
@@ -132,6 +133,26 @@ export default defineComponent({
       submitting.value = true
 
       // Set internal metadata fields
+      // TODO: Subject to change after new data model is available
+      formData.value['accessRights'] = {
+        "busy_count": 0,
+        "descendants_busy_count": 0,
+        "descendants_count": 0,
+        "level": 1,
+        "links": {
+          "self": "https://127.0.0.1:5000/2.0/taxonomies/accessRights/c-abf2",
+          "tree": "https://127.0.0.1:5000/2.0/taxonomies/accessRights/c-abf2?representation:include=dsc"
+        },
+        "relatedURI": {
+          "coar": "http://purl.org/coar/access_right/c_abf2"
+        },
+        "slug": "c-abf2",
+        "status": "alive",
+        "title": {
+          "cs": "otev\u0159en\u00fd p\u0159\u00edstup",
+          "en": "open access"
+        }
+      }
       formData.value['resource_type'] = {type: `${window.location.origin}/2.0/taxonomies/resourceType/datasets`}
 
       const submitUrl = `/${formData.value._primary_community}/datasets/draft/`

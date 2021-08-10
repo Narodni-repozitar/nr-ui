@@ -4,14 +4,16 @@ q-field.no-label-float.row(
   v-bind="$attrs"
   :label="label"
   :error="error"
-  @focus="onFocus"
+  :stack-label=false
+  @focus.prevent="onFocus"
   :error_message="errorMessage"
-  borderless)
+  borderless
+  square)
   q-list(dense separator).full-width.no-margin.q-pt-md
     q-separator(spaced v-if="model.length > 0")
     q-item.full-width(v-for="(val,idx) in model" :key="idx")
       q-item-section
-        multilingual-editor(
+        multilingual-input(
           :label="`${itemLabel} #${idx + 1}`"
           :rules="rules"
           :ref="setInputRef"
@@ -30,11 +32,11 @@ import ListInputButtons from 'components/controls/buttons/ListInputButtons'
 import useValidation from '/src/composables/useValidation'
 import useInputRefs from '/src/composables/useInputRefs'
 import useModel from '/src/composables/useModel'
-import MultilingualEditor from 'components/controls/inputs/MultilingualEditor'
+import MultilingualInput from 'components/controls/inputs/MultilingualInput'
 
 export default defineComponent({
-  name: 'MultilingualEditorList',
-  components: {ListInputButtons, MultilingualEditor},
+  name: 'MultilingualInputList',
+  components: {MultilingualInput, ListInputButtons},
   emits: ['update:modelValue'],
   props: {
     empty: {
@@ -108,6 +110,6 @@ export default defineComponent({
 })
 </script>
 
-<style scoped>
+<style lang="sass">
 
 </style>

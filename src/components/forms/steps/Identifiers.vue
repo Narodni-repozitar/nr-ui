@@ -11,13 +11,13 @@
 <script>
 import {defineComponent, reactive, ref, watch} from 'vue'
 import StepperNav from 'components/controls/StepperNav'
-import IdentifierInput from 'components/controls/inputs/IdentifierInput'
 import useNotify from 'src/composables/useNotify'
 import {RESOURCE_IDENTIFIER_SCHEMES} from 'src/constants'
+import IdentifierInputList from 'components/controls/inputs/IdentifierInputList'
 
 export default defineComponent({
   name: 'Identifiers',
-  components: {IdentifierInput, StepperNav},
+  components: {IdentifierInputList, StepperNav},
   emits: ['update:modelValue', 'prev', 'next'],
   props: {
     modelValue: Object

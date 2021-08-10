@@ -3,9 +3,11 @@ q-select(
   v-bind="$attrs"
   v-model="model"
   use-input
+  outlined
+  square
+  color="primary"
   :hide-selected="false"
   hide-dropdown-icon
-  :clearable="!multiple"
   :multiple="multiple"
   :input-debounce="debounce"
   :label="label"
@@ -23,8 +25,10 @@ q-select(
       q-item-section.text-secondary
         div(v-if="searchValue") {{ $t('message.noResults') }}
         div(v-else) {{ $t('message.typeAFewLetters') }}
-  template(v-slot:append)
-    q-btn(icon="unfold_more" flat color="primary" dense @click="showTaxonomy" :label="$t('label.showTaxonomyTree')")
+  template.full-height(v-slot:append)
+    .full-height.items-center
+      cancel-button(v-if="model?.length" @click="clear" size="md")
+      q-btn(icon="unfold_more" flat color="primary" dense @click="showTaxonomy" :label="$t('label.showTaxonomyTree')")
   template(v-slot:option="{opt, selected, focused, itemProps, itemEvents}")
     q-item(v-bind="itemProps" v-on="itemEvents")
       term-chip(:term="opt" :taxonomy="taxonomy" color="primary")
@@ -34,19 +38,19 @@ q-select(
 
 <script>
 import {computed, defineComponent, onMounted, ref, toRefs, watch} from 'vue'
-import useTaxonomy from '@/composables/useTaxonomy'
+import useTaxonomy from '/src/composables/useTaxonomy'
 import {useI18n} from 'vue-i18n'
-import {copyValue, termOrArrayChanged} from '@/utils'
+import {copyValue, termOrArrayChanged} from '/src/utils'
 import {useQuasar} from 'quasar'
-import TaxonomyInputDialog from "@/components/widgets/dialogs/TaxonomyInputDialog";
-import TermChip from "@/components/widgets/taxonomy/TermChip";
+import TaxonomyInputDialog from 'components/dialogs/TermInputDialog'
+import TermChip from 'components/taxonomy/TermChip'
 
 const DEFAULT = {}
 
 export default defineComponent({
   name: 'TermSelect',
   components: {TermChip},
-  emits: ['update:modelValue'],
+  emits: ['update:modelValue', 'clear'],
   props: {
     taxonomy: String,
     multiple: {
@@ -180,6 +184,12 @@ export default defineComponent({
       }
     }
 
+    function clear() {
+      ctx.emit('update:modelValue', null)
+      ctx.emit('clear', null)
+      clearText()
+    }
+
     function clearText() {
       select.value.updateInputValue('')
     }
@@ -209,6 +219,7 @@ export default defineComponent({
       select,
       filterFn,
       onKeyDown,
+      clear,
       clearText,
       openSelector,
       options,

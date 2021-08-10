@@ -8,16 +8,16 @@ q-field.fit.row(
   :error_message="errorMessage"
   @focus="onFocus"
   borderless)
-  q-list(dense).fit.no-margin.q-pt-md
-    q-separator(spaced v-if="model.length > 0")
-    q-item.no-padding.no-margin.full-width(v-for="(val,idx) in model" :key="idx")
-      q-item-section
-        identifier-input(
-          :label="`${itemLabel} #${idx + 1}`"
-          v-model="model[idx]"
-          :schemes="schemes"
-          :ref="setInputRef"
-          @update:model-value="onChange")
+  q-list(dense separator).fit.no-margin
+    div(v-for="(val,idx) in model" :key="idx")
+      q-item.no-padding.no-margin.full-width
+        q-item-section
+          identifier-input(
+            :label="`${itemLabel} #${idx + 1}`"
+            v-model="model[idx]"
+            :schemes="schemes"
+            :ref="setInputRef"
+            @update:model-value="onChange")
   template(v-if="model.length > 0" v-slot:append)
     list-input-buttons(@add="addItem" @remove="rmItem" can-remove)
   template(v-else v-slot:prepend)
@@ -26,16 +26,17 @@ q-field.fit.row(
 
 <script>
 import {reactive, ref} from 'vue'
-import ValidateMixin from '@/mixins/ValidateMixin'
-import useInputRefs from '@/composables/useInputRefs'
-import useValidation from '@/composables/useValidation'
-import ListInputButtons from '@/components/widgets/forms/ListInputButtons'
-import useModel from '@/composables/useModel'
+import ValidateMixin from '/src/mixins/ValidateMixin'
+import useInputRefs from '/src/composables/useInputRefs'
+import useValidation from '/src/composables/useValidation'
+import ListInputButtons from 'components/controls/buttons/ListInputButtons'
+import useModel from '/src/composables/useModel'
+import IdentifierInput from 'components/controls/inputs/IdentifierInput'
 
 export default {
   name: 'IdentifierInputList',
   emits: ['update:modelValue'],
-  components: {ListInputButtons},
+  components: {ListInputButtons, IdentifierInput},
   mixins: [ValidateMixin],
   props: {
     label: {

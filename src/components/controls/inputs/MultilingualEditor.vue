@@ -1,5 +1,5 @@
 <template lang="pug">
-q-field.row.fit(
+q-field.no-label-float.row.fit(
   ref="fieldRef"
   v-bind="$attrs"
   :label="label"
@@ -11,15 +11,16 @@ q-field.row.fit(
     .row.full-width(v-for="(val, idx) in model" :key="idx")
       .row.col-12.no-wrap.justify-between
         locale-select.col.q-mt-md(
+          outlined
           v-model="model[idx].lang"
           new-value-mode="add-unique"
           :rules="[required($t('error.validation.required'))]"
           @update:model-value="onChange")
         q-btn.q-ma-md.col-auto(round dense flat icon="remove" color="negative"  @click.prevent="rmLang(idx)")
           q-tooltip {{ $t('action.rmLang') }}
-      q-editor.col-12.q-mt-md.col-12.no-outline(
+      q-editor.col-12.col-12.no-outline(
         :ref="setInputRef"
-        flat
+        toolbar-outline
         hide-bottom-space
         v-model="model[idx].val"
         @update:model-value="onChange")
@@ -31,10 +32,10 @@ q-field.row.fit(
 <script>
 import {computed, reactive, ref} from 'vue'
 import {useI18n} from 'vue-i18n'
-import LocaleSelect from '@/components/widgets/forms/LocaleSelect'
-import useValidation from '@/composables/useValidation'
-import useModel from '@/composables/useModel'
-import useInputRefs from '@/composables/useInputRefs'
+import LocaleSelect from 'components/i18n/LocaleSelect'
+import useValidation from '/src/composables/useValidation'
+import useModel from '/src/composables/useModel'
+import useInputRefs from '/src/composables/useInputRefs'
 
 export default {
   name: 'MultilingualEditor',
@@ -141,6 +142,6 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="sass">
 
 </style>

@@ -15,11 +15,13 @@ term-select(
 <script>
 import {defineComponent, ref} from 'vue'
 import ValidateMixin from 'src/mixins/ValidateMixin'
+import TermSelect from 'components/controls/selects/TermSelect'
 
 export default defineComponent({
   name: 'LicensesSelect',
   emits: ['update:modelValue'],
   mixins: [ValidateMixin],
+  components: {TermSelect},
   props: {
     label: {
       type: String,

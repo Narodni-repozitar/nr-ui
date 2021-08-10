@@ -1,6 +1,8 @@
 <template lang="pug">
 base-select(
   ref="input"
+  hide-hint
+  hide-bottom-space
   v-bind="$attrs"
   :label="$t('label.authorType')"
   :rules="rules"
@@ -12,11 +14,13 @@ base-select(
 
 <script>
 import {ref} from 'vue'
-import ValidateMixin from '@/mixins/ValidateMixin'
-import {AUTHOR_TYPES} from '@/constants'
+import ValidateMixin from '/src/mixins/ValidateMixin'
+import {AUTHOR_TYPES} from '/src/constants'
+import BaseSelect from 'components/controls/selects/BaseSelect'
 
 export default {
   name: 'AuthorTypeSelect',
+  components: {BaseSelect},
   mixins: [ValidateMixin],
   emits: ['update:modelValue'],
   props: {

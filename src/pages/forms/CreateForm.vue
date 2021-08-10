@@ -4,13 +4,13 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height(padding)
     .col.row.q-pb-md
       .text-h3.gt-md
         span {{ $t(header?.title) }}
-        q-icon.q-pl-md(color="accent" size="md" :name="header?.icon")
+        q-icon.q-pl-md(color="primary" size="md" :name="header?.icon")
       .text-h4.lt-lg.gt-sm.q-mt-none.q-mb-lg
         span {{ $t(header?.title) }}
-        q-icon.q-pl-md(color="accent" size="sm" :name="header?.icon")
+        q-icon.q-pl-md(color="primary" size="sm" :name="header?.icon")
       .text-h6.lt-md.q-mt-none.q-mb-md
         span {{ $t(header?.title) }}
-        q-icon.q-pl-md(color="accent" size="xs" :name="header?.icon")
+        q-icon.q-pl-md(color="primary" size="xs" :name="header?.icon")
     .q-separator(spaced)
     create-dataset-form.col.q-pr-md
 </template>

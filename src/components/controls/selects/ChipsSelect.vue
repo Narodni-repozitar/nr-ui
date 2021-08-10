@@ -7,6 +7,7 @@ base-select.full-width(
   use-chips
   multiple
   clearable
+  color="primary"
   :rules="rules"
   :options="keywordOptions"
   hide-dropdown-icon
@@ -16,11 +17,13 @@ base-select.full-width(
 </template>
 <script>
 import {defineComponent, ref} from 'vue'
-import ValidateMixin from '@/mixins/ValidateMixin'
+import ValidateMixin from '/src/mixins/ValidateMixin'
+import BaseSelect from 'components/controls/selects/BaseSelect'
 
 export default defineComponent({
   name: 'ChipsSelect',
   emits: ['update:modelValue'],
+  components: {BaseSelect},
   mixins: [ValidateMixin],
   props: {
     modelValue: {
@@ -34,7 +37,6 @@ export default defineComponent({
     const keywordOptions = ref([])
 
     function clear (value) {
-      console.log(value)
       model.value = []
     }
 

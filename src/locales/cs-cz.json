@@ -66,7 +66,7 @@
   "hint": {
     "localeSwitcher": "Zadejte kód jazyka ve formátu ISO 639-2/B",
     "primaryCommunity": "Vyberte primární komunitu / skupinu do které bude záznam patřit",
-    "publicationDate": "Pokud byl váš upload již publikován jinde, použijte datum prvního zveřejnění. Formát: RRRR-MM-DD, RRRR-MM nebo RRRR. Pro intervaly použijte DATE / DATE, např. 1939/1945. "
+    "publicationDate": "Pokud byl váš upload již publikován jinde, použijte datum prvního zveřejnění. Formát: RRRR-MM-DD, RRRR-MM nebo RRRR. Pro intervaly použijte DATE/DATE, např. 1939/1945. "
   },
   "icon": {
     "approve": "verified",
@@ -97,14 +97,14 @@
     "affiliations": "Afilace",
     "articleMetadata": "Metadata článku",
     "author": "Autor",
-    "authorType": "Typ autora",
+    "authorType": "Role",
     "authors": "Autoři",
     "back": "Zpět",
     "backToCollection": "Zpět na výpis",
     "chooseLocale": "Vyberte prosím jazyk",
     "community": "Komunita",
     "contact": "Kontaktujte nás",
-    "continue": "Dále",
+    "continue": "Pokračovat",
     "contributor": "Přispěvatel",
     "contributors": "Přispěvatelé",
     "createArticle": "Vytvořit článek",

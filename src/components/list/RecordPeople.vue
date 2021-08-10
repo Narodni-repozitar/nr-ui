@@ -19,16 +19,13 @@ div.row.authors
 </style>
 <script>
 import {Options, Vue} from 'vue-class-component'
-import ListRecord from './Record'
 
 export default @Options({
   name: 'RecordPeople',
   props: {
     m: Object
   },
-  components: {
-    ListRecord
-  }
+  components: {}
 })
 class RecordList extends Vue {
 }

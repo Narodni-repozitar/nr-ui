@@ -6,6 +6,7 @@ q-select(
   icon="flag"
   v-model="model"
   :label="$t('label.localeSwitcher')"
+  :options="API_MULTILINGUAL_SUPPORTED_LANGUAGES"
   :option-label="opt => opt? $t(`value.lang.${opt}`) + ` (${opt})`: `${$t('label.chooseLocale')}…`"
   dense
   options-cover
@@ -19,6 +20,7 @@ q-select(
 </template>
 <script>
 import {defineComponent, ref} from 'vue'
+import {API_MULTILINGUAL_SUPPORTED_LANGUAGES} from 'src/constants'
 
 export default defineComponent({
   name: 'LocaleSelect',
@@ -31,7 +33,7 @@ export default defineComponent({
   },
   setup (props) {
     const model = ref(props.modelValue)
-    return {model}
+    return {model, API_MULTILINGUAL_SUPPORTED_LANGUAGES}
   }
 })
 </script>

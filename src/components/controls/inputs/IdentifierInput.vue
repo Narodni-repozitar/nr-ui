@@ -1,21 +1,21 @@
 <template lang="pug">
 q-field.fit(
-  filled
-  borderless
   ref="input"
   :error="error"
   stack-label
+  square
+  borderless
   :label="label")
   template(v-slot:control)
     .row.no-padding.no-wrap.full-width
-      schema-select.col-3(
+      schema-select.q-pt-xs.col-3(
         ref="scheme"
         :schemes="schemes"
         v-model="model.scheme"
         :label="$t('label.scheme') + ' *'"
         :rules="[required($t('error.validation.required'))]"
         @update:model-value="onChange")
-      base-input.q-ml-sm.col-grow(
+      base-input.q-pt-xs.col-grow(
         autogrow
         ref="identifier"
         :rules="rules || [required($t('error.validation.required'))]"
@@ -27,13 +27,16 @@ q-field.fit(
 
 <script>
 import {reactive, ref} from 'vue'
-import ValidateMixin from 'src/mixins/ValidateMixin'
-import useValidation from 'src/composables/useValidation'
-import useInputRefs from 'src/composables/useInputRefs'
+import ValidateMixin from '/src/mixins/ValidateMixin'
+import useValidation from '/src/composables/useValidation'
+import useInputRefs from '/src/composables/useInputRefs'
+import BaseInput from 'components/controls/inputs/BaseInput'
+import SchemaSelect from 'components/controls/selects/SchemaSelect'
 
 export default {
   name: 'IdentifierInput',
   emits: ['update:modelValue'],
+  components: {BaseInput, SchemaSelect},
   mixins: [ValidateMixin],
   props: {
     label: {

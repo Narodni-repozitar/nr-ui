@@ -1,5 +1,9 @@
 <template lang="pug">
 q-input(
+  outlined
+  square
+  item-aligned
+  color="primary"
   ref="input"
   :rules="rules"
   v-bind="$attrs"
@@ -33,6 +37,5 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="sass" scoped>
 </style>

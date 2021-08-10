@@ -1,7 +1,7 @@
 <template lang="pug">
-div.record-page
+q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
   .q-mt-lg.row
-    access-icon(:accessRights="m.accessRights" size="64px")
+    access-icon(:accessRights="[m.accessRights]" size="64px")
     .title.col
       mt(:text="m.title")
   .row.q-mt-xl
@@ -74,7 +74,7 @@ div.record-page
       label-block(label="Podrobnosti o dostupnosti")
         mt(:text="m.accessibility")
       label-block(label="Práva")
-        simple-term(:term="m.accessRights")
+        simple-term(:term="[m.accessRights]")
       label-block(label="Dostupnost")
         span TODO: kde vzit ?
       label-block(label="Původní záznam")

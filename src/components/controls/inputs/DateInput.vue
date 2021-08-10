@@ -1,6 +1,9 @@
 <template lang="pug">
 q-input(
   ref="input"
+  outlined
+  square
+  color="primary"
   :rules="[edtf0Rule]"
   v-bind="$attrs"
   :label="label"
@@ -9,15 +12,15 @@ q-input(
   template(v-slot:append)
     q-icon(name="event" class="cursor-pointer")
     q-popup-proxy(ref="qDateProxy" transition-show="scale" transition-hide="scale")
-      q-date(v-model="modelValue")
+      q-date(flat v-model="modelValue" mask="YYYY-MM-DD")
         .row.items-center.justify-end
           q-btn(v-close-popup :label="$t('action.close')" color="primary" flat)
 </template>
 
 <script>
 import {ref} from 'vue'
-import ValidateMixin from '@/mixins/ValidateMixin'
-import useDate from '@/composables/useDate'
+import ValidateMixin from '/src/mixins/ValidateMixin'
+import useDate from '/src/composables/useDate'
 
 export default {
   name: 'DateInput',

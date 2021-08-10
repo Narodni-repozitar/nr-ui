@@ -16,10 +16,14 @@ base-select(
 
 <script>
 import {onMounted, ref} from 'vue'
-import ValidateMixin from 'src/mixins/ValidateMixin'
+import ValidateMixin from '/src/mixins/ValidateMixin'
+import BaseSelect from 'components/controls/selects/BaseSelect'
+import {useContext} from 'vue-context-composition'
+import {community} from 'src/contexts/community'
 
 export default {
   name: 'CommunitySelect',
+  components: {BaseSelect},
   mixins: [ValidateMixin],
   emits: ['update:modelValue'],
   props: {
@@ -33,11 +37,7 @@ export default {
     }
   },
   setup(props) {
-    const {communities, communitiesLoading, loadCommunities} = useContext(community)
-
-    onMounted(() => {
-      loadCommunities()
-    })
+    const {communities, communitiesLoading} = useContext(community)
 
     const input = ref(null)
     const model = ref(props.modelValue)

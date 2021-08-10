@@ -8,8 +8,7 @@ q-field.row(
   :error_message="errorMessage"
   @focus="onFocus"
   borderless)
-  q-list(dense).full-width.no-padding.no-margin.q-pt-md
-    q-separator(spaced v-if="model.length > 0")
+  q-list(dense separator).full-width.no-padding.no-margin
     q-item.full-width.no-margin.no-padding(v-for="(val,idx) in model" :key="idx")
       q-item-section.no-padding.no-margin
         author-input(
@@ -26,16 +25,17 @@ q-field.row(
 
 <script>
 import {reactive, ref} from 'vue'
-import ValidateMixin from 'src/mixins/ValidateMixin'
-import useInputRefs from 'src/composables/useInputRefs'
-import useValidation from 'src/composables/useValidation'
+import ValidateMixin from '/src/mixins/ValidateMixin'
+import useInputRefs from '/src/composables/useInputRefs'
+import useValidation from '/src/composables/useValidation'
 import ListInputButtons from 'components/controls/inputs/ListInputButtons'
-import useModel from 'src/composables/useModel'
+import useModel from '/src/composables/useModel'
+import AuthorInput from 'components/controls/inputs/AuthorInput'
 
 export default {
   name: 'AuthorInputList',
   emits: ['update:modelValue'],
-  components: {ListInputButtons},
+  components: {ListInputButtons, AuthorInput},
   mixins: [ValidateMixin],
   props: {
     label: {

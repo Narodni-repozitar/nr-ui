@@ -1,5 +1,5 @@
 <template lang="pug">
-q-field.row.fit(
+q-field.no-label-float.row.fit(
   ref="fieldRef"
   v-bind="$attrs"
   :label="label"
@@ -8,9 +8,9 @@ q-field.row.fit(
   @focus="onFocus"
   borderless)
   template(v-slot:control)
-    q-input.col-grow.q-mt-md.no-outline(
+    q-input.col-grow.q-mr-sm.q-mt-md.no-outline(
       autogrow
-      borderless
+      stack-label
       v-for="(val, idx) in model" :key="idx"
       v-bind="$attrs"
       :rules="rules"
@@ -20,6 +20,7 @@ q-field.row.fit(
         locale-select.fit.q-pt-sm(
           hide-bottom-space
           hide-hint
+          outlined
           v-model="model[idx].lang"
           new-value-mode="add-unique"
           @update:model-value="onChange")
@@ -27,15 +28,15 @@ q-field.row.fit(
         q-btn(round dense flat icon="remove" color="negative"  @click="rmLang(idx)")
           q-tooltip {{ $t('action.rmLang') }}
   template(v-slot:append)
-    q-btn(round dense flat icon="add" @click="addLang")
+    q-btn(round color="positive" dense flat icon="add" @click="addLang")
       q-tooltip {{ $t('action.addLang') }}
 </template>
 <script>
 import {computed, reactive, ref} from 'vue'
 import {useI18n} from 'vue-i18n'
-import LocaleSelect from '@/components/widgets/forms/LocaleSelect'
-import useModel from '@/composables/useModel'
-import useValidation from '@/composables/useValidation'
+import LocaleSelect from 'components/i18n/LocaleSelect'
+import useModel from '/src/composables/useModel'
+import useValidation from '/src/composables/useValidation'
 
 export default {
   name: 'MultilingualInput',
@@ -119,6 +120,5 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style lang="sass">
 </style>

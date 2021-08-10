@@ -5,9 +5,10 @@ q-header.bordered-header.bg-color
     router-link.col-auto(to="/")
       product-logo(dense v-if="route.path !== '/'")
     .col-grow
-    create-record-btn
-    locale-switcher.self-center.push-right.col-auto.q-mr-sm(hide-hint)
-    account-dropdown.float-right.col-auto(dark :authenticated="authenticated")
+    .row.col-auto.q-gutter-md
+      create-record-btn(v-if="authenticated")
+      locale-switcher.self-center.push-right.col-auto.q-mr-sm(hide-hint)
+      account-dropdown.float-right.col-auto(dark :authenticated="authenticated")
     .col-lg-2.col-md-1.col-xs-0
 </template>
 <script>

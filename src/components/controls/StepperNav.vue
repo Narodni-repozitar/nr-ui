@@ -1,13 +1,13 @@
 <template lang="pug">
 q-stepper-navigation
   .row.full-width.justify-start
-    q-btn.q-mr-md.col-auto(padding="md" v-if="hasPrev" color="secondary" :label="$t('label.back')" @click="$emit('prev')")
-    q-btn.col-auto.q-px-lg(padding="md" v-if="hasNext" color="primary" :label="$t('label.continue')" @click="$emit('next')")
+    q-btn.q-mr-md.col-auto(padding="md" v-if="hasPrev" color="primary" :label="$t('label.back')" @click="$emit('prev')")
+    q-btn.col-auto.q-px-lg(padding="md" v-if="hasNext" color="secondary" :label="$t('label.continue')" @click="$emit('next')")
     q-btn.col-auto.q-px-lg(
       padding="md"
       icon="rotate_right"
       v-if="hasRetry"
-      color="positive"
+      color="info"
       :label="$t('label.retry')"
       @click="$emit('retry')")
     q-btn.col-auto.q-px-lg(

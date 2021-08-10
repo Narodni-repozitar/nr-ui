@@ -15,7 +15,7 @@
     "@oarepo/invenio-vue": "^1.0.0-a9",
     "@oarepo/quasar-es-facets": "^1.0.0-a21",
     "@oarepo/vue-popup-login": "^3.0.0-a5",
-    "@oarepo/vue-query-synchronizer": "^3.0.0-a9",
+    "@oarepo/vue-query-synchronizer": "^3.0.0-a4",
     "@quasar/extras": "^1.0.0",
     "@uppy/aws-s3-multipart": "^1.8.15",
     "@uppy/core": "^1.18.1",
@@ -27,6 +27,7 @@
     "deepcopy": "^2.1.0",
     "quasar": "^2.0.1",
     "vue-class-component": "^8.0.0-rc.1",
+    "vue-context-composition": "^0.2.3",
     "vue-i18n": "^9.0.0"
   },
   "devDependencies": {

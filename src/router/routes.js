@@ -20,7 +20,7 @@ const routes = [
           }, {
             meta: {
               query: {
-                sort: 'string:alphabetical'
+                // sort: 'string:alphabetical'
               }
             }
           }),
@@ -31,7 +31,7 @@ const routes = [
           }, {
             meta: {
               query: {
-                sort: 'string:alphabetical'
+                // sort: 'string:alphabetical'
               }
             }
           }),
@@ -42,7 +42,7 @@ const routes = [
           }, {
             meta: {
               query: {
-                sort: 'string:alphabetical'
+                // sort: 'string:alphabetical'
               }
             }
           }),
@@ -53,7 +53,7 @@ const routes = [
           }, {
             meta: {
               query: {
-                sort: 'string:alphabetical'
+                // sort: 'string:alphabetical'
               }
             }
           }),
@@ -64,7 +64,7 @@ const routes = [
           }, {
             meta: {
               query: {
-                sort: 'string:alphabetical'
+                // sort: 'string:alphabetical'
               }
             }
           }),

@@ -1,20 +1,20 @@
 <template lang="pug">
-q-field.fit(
-  filled
-  borderless
+q-field.bg-grey-2.q-pa-sm.fit(
   ref="input"
   v-bind="$attrs"
   :error="error"
   stack-label
+  square
+  borderless
   :label="authorLabel")
   template(v-slot:control)
-    .row.full-width.q-mt-md
+    .row.full-width.q-mt-md.q-mb-md
       author-type-select.col-auto(
         ref="authorType"
         v-model="model.person_or_org.type"
         :rules="[required($t('error.validation.required'))]"
         @update:model-value="onChange")
-      base-input.q-ml-sm.col-grow(
+      base-input.q-pa-none.q-ml-sm.col-grow(
         v-if="model.person_or_org.type === AUTHOR_TYPES.PERSON"
         autogrow
         ref="givenName"
@@ -22,7 +22,7 @@ q-field.fit(
         :rules="[required($t('error.validation.required'))]"
         :label="$t('label.givenName') + ' *'"
         @update:model-value="onChange")
-      base-input.q-ml-sm.col-grow(
+      base-input.q-pa-none.q-ml-sm.col-grow(
         v-if="model.person_or_org.type === AUTHOR_TYPES.PERSON"
         autogrow
         ref="familyName"
@@ -30,7 +30,7 @@ q-field.fit(
         :rules="[required($t('error.validation.required'))]"
         :label="$t('label.familyName') + ' *'"
         @update:model-value="onChange")
-      base-input.q-ml-sm.col-grow(
+      base-input.q-pa-none.q-ml-sm.col-grow(
         v-if="model.person_or_org.type === AUTHOR_TYPES.ORGANIZATION"
         autogrow
         ref="name"
@@ -69,19 +69,21 @@ q-field.fit(
 
 <script>
 import {computed, reactive, ref} from 'vue'
-import ValidateMixin from '@/mixins/ValidateMixin'
-import useValidation from '@/composables/useValidation'
-import useInputRefs from '@/composables/useInputRefs'
-import AuthorTypeSelect from '@/components/widgets/forms/AuthorTypeSelect'
-import IdentifierInputList from '@/components/widgets/forms/IdentifierInputList'
-import {AFFILIATIONS, AUTHOR_TYPES, PERSON_IDENTIFIER_SCHEMES} from '@/constants'
-import TermSelect from '@/components/widgets/forms/TermSelect'
+import ValidateMixin from '/src/mixins/ValidateMixin'
+import useValidation from '/src/composables/useValidation'
+import useInputRefs from '/src/composables/useInputRefs'
+import AuthorTypeSelect from 'components/controls/selects/AuthorTypeSelect'
+import IdentifierInputList from 'components/controls/inputs/IdentifierInputList'
+import {AFFILIATIONS, AUTHOR_TYPES, PERSON_IDENTIFIER_SCHEMES} from '/src/constants'
+import TermSelect from 'components/controls/selects/TermSelect'
+import ChipsSelect from 'components/controls/selects/ChipsSelect'
+import BaseInput from 'components/controls/inputs/BaseInput'
 
 export default {
   name: 'IdentifierInput',
   emits: ['update:modelValue'],
   mixins: [ValidateMixin],
-  components: {IdentifierInputList, AuthorTypeSelect, TermSelect},
+  components: {IdentifierInputList, AuthorTypeSelect, TermSelect, ChipsSelect, BaseInput},
   props: {
     label: {
       type: String,

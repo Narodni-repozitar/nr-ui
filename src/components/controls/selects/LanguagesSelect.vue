@@ -15,10 +15,12 @@ term-select(
 <script>
 import {defineComponent, ref} from 'vue'
 import ValidateMixin from 'src/mixins/ValidateMixin'
+import TermSelect from 'components/controls/selects/TermSelect'
 
 export default defineComponent({
   name: 'LanguagesSelect',
   emits: ['update:modelValue'],
+  components: {TermSelect},
   mixins: [ValidateMixin],
   props: {
     modelValue: {

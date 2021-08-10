@@ -16,7 +16,7 @@ export default @Options({
 })
 class AccessIcon extends Vue {
   get right() {
-    return this.accessRights.filter(x => x.level === 1)[0];
+    return this.accessRights[0] // .filter(x => x.level === 1)[0];
   }
   get accessIcon() {
     const slug = this.right?.links.self.split('/').pop()

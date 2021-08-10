@@ -11,8 +11,7 @@
 </template>
 
 <script>
-import {defineComponent, ref, watch} from "vue";
-import {computed} from "@vue/reactivity";
+import {defineComponent, ref, watch, computed} from 'vue'
 
 export default defineComponent({
   name: 'Pagination',
