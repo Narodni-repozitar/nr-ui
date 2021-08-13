@@ -1,5 +1,5 @@
 <template lang="pug">
-q-img(:src="rightsIcon" v-if="rights.length && rightsIcon" :title="title")
+q-img(:src="rightsIcon" v-if="rights.length && rightsIcon" :width="size" :title="title")
 </template>
 
 <script>
@@ -8,6 +8,9 @@ import {Options, Vue} from 'vue-class-component'
 export default @Options({
   name: 'RightsIcon',
   props: {
+    size: {
+      type: String
+    },
     rights: {
       type: Array,
       required: true

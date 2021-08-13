@@ -232,6 +232,9 @@
   },
   "src/i18n": "",
   "value": {
+    "dateType": {
+      "created": "vytvořeno"
+    },
     "authorType": {
       "organizational": "Organizace",
       "personal": "Osoba"

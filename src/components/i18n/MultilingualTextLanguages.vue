@@ -2,7 +2,7 @@
 div
   .row(v-for="ltext in langTexts")
     div
-      q-badge(outline color="primary") {{ ltext.language }}
+      q-badge(outline color="primary") {{ $t(`value.lang.${ltext.language}`) }}
     div.q-pl-sm
       template(v-for="(a, idx) in ltext.texts")
         slot(name="separator" v-if="idx>0")
