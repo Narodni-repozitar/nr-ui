@@ -39,7 +39,7 @@ q-field.bg-grey-2.q-pa-sm.fit(
         :label="$t('label.name')"
         @update:model-value="onChange")
     .row.full-width.q-mb-sm
-      .col-4.q-mr-sm(v-if="!noRoles")
+      .col-auto.q-mr-sm.q-mb-sm(v-if="!noRoles")
         term-select(
           ref="input"
           v-bind="$attrs"
@@ -70,7 +70,7 @@ q-field.bg-grey-2.q-pa-sm.fit(
 </template>
 
 <script>
-import {computed, reactive, ref} from 'vue'
+import {computed, onMounted, reactive, ref} from 'vue'
 import ValidateMixin from '/src/mixins/ValidateMixin'
 import useValidation from '/src/composables/useValidation'
 import useInputRefs from '/src/composables/useInputRefs'
@@ -133,6 +133,12 @@ export default {
       }
     })
 
+    onMounted(() => {
+      // the DOM element will be assigned to the ref after initial render
+      console.log(givenName.value) // <div>This is a root element</div>
+    })
+
+
     function onChange() {
       if (model.person_or_org.type === AUTHOR_TYPES.PERSON) {
         model.person_or_org.name = personName.value
@@ -151,11 +157,14 @@ export default {
 
     function validate() {
       let atr = true
+      let idr = true
 
       if (!props.noRoles) {
         atr = authorType.value.validate()
       }
-      const idr = identifiers.value.validate()
+      if (identifiers.value) {
+        idr = identifiers.value.validate()
+      }
 
       if (model.person_or_org.type === AUTHOR_TYPES.PERSON) {
         const gnr = givenName.value.validate()

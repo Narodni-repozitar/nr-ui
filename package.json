@@ -26,6 +26,7 @@
     "core-js": "^3.6.5",
     "deepcopy": "^2.1.0",
     "quasar": "^2.0.1",
+    "sanitize-html": "^2.4.0",
     "vue-class-component": "^8.0.0-rc.1",
     "vue-context-composition": "^0.2.3",
     "vue-i18n": "^9.0.0"

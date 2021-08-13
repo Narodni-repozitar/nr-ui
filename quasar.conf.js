@@ -44,7 +44,7 @@ module.exports = configure(function (ctx) {
       'login',
       'invenio',
       'addressbar-color',
-      'common-components'
+      'common-components',
     ],
 
     // https://v2.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css

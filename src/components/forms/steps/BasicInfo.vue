@@ -27,7 +27,7 @@
     .col-auto
       licenses-select(
         ref="rights"
-        v-model="basicInfo.rights"
+        v-model="basicInfo.licenses"
         :label="$t('label.license')")
     .col-auto
       languages-select(

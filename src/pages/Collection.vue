@@ -11,9 +11,9 @@ div.collection-page
   .row
     .col-8
       q-separator(color="secondary")
-  .row.q-py-lg.q-pl-lg
+  .row.q-py-lg.q-pl-md
     .col-8
-      URLPagination.q-mt-md(:pages="collection.pages")
+      URLPagination(:pages="collection.pages")
     .col-4.row.justify-end
       q-btn(stack icon="svguse:/icons.svg#arrow-up"
         label="Zpět nahoru" color="primary" flat no-caps dense

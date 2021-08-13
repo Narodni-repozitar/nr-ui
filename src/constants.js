@@ -71,7 +71,7 @@ export const CONTRIBUTOR_ROLES = [
   'referee',
   'researcher',
   'reviewer',
-  'rights-holder',
+  'licenses-holder',
   'supervisor',
   'translator'
 ]
