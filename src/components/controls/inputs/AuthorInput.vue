@@ -50,12 +50,14 @@ q-field.bg-grey-2.q-pa-sm.fit(
           :label="$t('label.authorType')"
           @update:model-value="onChange")
       .col-grow
-        chips-select(
+        term-select(
           ref="affiliations"
-          options-dense
-          :label="$t('label.affiliations')"
+          v-bind="$attrs"
           v-model="model.affiliations"
-          :options="AFFILIATIONS"
+          taxonomy="institutions"
+          :elasticsearch="false"
+          multiple
+          :label="$t('label.affiliations')"
           @update:model-value="onChange")
     .row.full-width
       identifier-input-list(
