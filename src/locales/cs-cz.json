@@ -1,6 +1,8 @@
 {
   "accessibility": {},
   "action": {
+    "showActions": "Zobrazit akce",
+    "hideActions": "Skrýt akce",
     "copyPermalink": "Kopírovat perzistentní odkaz do schránky",
     "share": "Sdílet",
     "ok": "OK",

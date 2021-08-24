@@ -1,6 +1,8 @@
 {
   "accessibility": {},
   "action": {
+    "showActions": "Show actions",
+    "hideActions": "Hide actions",
     "search": "Search",
     "share": "Share",
     "copyPermalink": "Copy permanent link to clipboard",

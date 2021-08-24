@@ -28,6 +28,9 @@ export default function useFSM(record) {
 
     function makeTransition (transition) {
         $q.dialog({
+            class: 'bg-primary-dark',
+            dark: true,
+            square: true,
             title: t('label.actionApprove'),
             message: `${t('message.doYRlyWnt')} ${transition.actionLabel}?`,
             cancel: true,
@@ -38,6 +41,7 @@ export default function useFSM(record) {
                 _makeTransition(transition, false)
             } else {
                 $q.dialog({
+                    class: 'bg-warning',
                     title: t('label.actionApprove'),
                     message: `${t('message.recordNotValid')}. ${t('message.doYRlyWnt')} ${transition.actionLabel}?`,
                     cancel: true,
@@ -99,9 +103,13 @@ export default function useFSM(record) {
                 color: 'positive',
                 icon: 'published_with_changes'
             })
+            // Force refresh of record data after state change
+            await record.http.reload({keepPrevious: false})
         } catch (e) {
             console.log(e)
             $q.dialog({
+                class: 'bg-negative',
+                dark: true,
                 title: t('error.stateChangeFail'),
                 message: `${t('error.stateChangeMessage')}: ${e} ${JSON.stringify(e.response.data)}`,
                 cancel: false,

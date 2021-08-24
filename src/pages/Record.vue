@@ -174,10 +174,25 @@ export default defineComponent({
         })}
     }
 
-    const recordActions = ref([
-      EDIT_ACTION,
-      ATTACH_ARTICLE
-    ])
+    const recordActions = computed(() => {
+      const res = [
+        EDIT_ACTION,
+        ATTACH_ARTICLE
+      ]
+
+      if (transitions.value.length) {
+        transitions.value.forEach(t => {
+          res.push({
+            id: t.code,
+            can: () => true, // transitions available are already filtered for current record/user
+            func: () => makeTransition(t),
+            ...t
+          })
+          console.log(t)
+        })
+      }
+      return res.filter(act => act.can() === true)
+    })
 
     function sanitize (value) {
       Object.keys(value).map(function(key, index) {
@@ -189,14 +204,6 @@ export default defineComponent({
     function download (file) {
       window.open(`${file.url}?download`, '_blank')
     }
-
-    if (transitions.value.length) {
-      transitions.value.forEach(t => {
-
-      })
-    }
-
-    recordActions.value = recordActions.value.filter(act => act.can() === true)
 
     return {m, year, recordActions, sanitize, download}
   }

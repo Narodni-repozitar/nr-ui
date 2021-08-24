@@ -1,9 +1,24 @@
 <template lang="pug">
-q-page-sticky(position="top-right" :offset="[38, 38]" v-if="actions.length")
-  .q-pa-md.row.items-start.q-gutter-md
-    q-card.transparent-grey(square bordered flat)
+q-page-sticky(position="top-right" :offset="[38, 20]" v-if="actions.length")
+  .q-pa-md.row.items-start.q-gutter-md.relative-position
+    q-btn.absolute-top-right(
+      v-morph:btn:morphgroup:200.tween="expansionState"
+      fab
+      color="primary"
+      size="xs"
+      icon="published_with_changes"
+      @click="expand")
+      q-tooltip {{ $t('action.showActions') }}
+    q-card.absolute-top-right.transparent-grey(
+      v-morph:card:morphgroup:300.tween="expansionState"
+      square
+      bordered
+      flat)
       q-card-section
-        sidebar-section-header(label="label.actions" icon="published_with_changes")
+        .row.justify-between
+          sidebar-section-header.self-center.col-auto(label="label.actions" icon="published_with_changes")
+          q-btn.col-auto.q-pa-sm(size="sm" round flat padding icon="close_fullscreen" @click="collapse")
+            q-tooltip {{ $t('action.hideActions') }}
       //q-separator(dark inset)
       q-list.bg-primary-dark-transparent(padding separator dark bordered)
         action-block(
@@ -28,7 +43,7 @@ q-page-sticky(position="top-right" :offset="[38, 38]" v-if="actions.length")
 <script>
 import SidebarSectionHeader from 'components/ui/SidebarSectionHeader'
 import ActionBlock from 'components/record/ActionBlock'
-import {defineComponent} from 'vue'
+import {defineComponent, ref} from 'vue'
 
 export default defineComponent({
   name: 'ActionsSidebar',
@@ -38,6 +53,14 @@ export default defineComponent({
   },
   props: {
     actions: Array
+  },
+  setup () {
+    const expansionState = ref('card')
+
+    const expand = () => expansionState.value = 'card'
+    const collapse = () => expansionState.value = 'btn'
+
+    return {expansionState, expand, collapse}
   }
 })
 </script>
