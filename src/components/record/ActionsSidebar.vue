@@ -17,7 +17,7 @@ q-page-sticky(position="top-right" :offset="[38, 20]" v-if="actions.length")
       q-card-section
         .row.justify-between
           sidebar-section-header.self-center.col-auto(label="label.actions" icon="published_with_changes")
-          q-btn.col-auto.q-pa-sm(size="sm" round flat padding icon="close_fullscreen" @click="collapse")
+          q-btn.col-auto.q-pa-sm(size="sm" color="secondary" round flat padding icon="close_fullscreen" @click="collapse")
             q-tooltip {{ $t('action.hideActions') }}
       //q-separator(dark inset)
       q-list.bg-primary-dark-transparent(padding separator dark bordered)

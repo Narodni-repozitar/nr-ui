@@ -188,7 +188,6 @@ export default defineComponent({
             func: () => makeTransition(t),
             ...t
           })
-          console.log(t)
         })
       }
       return res.filter(act => act.can() === true)

@@ -89,7 +89,7 @@ const routes = [
         ]
       },
       {
-        path: '/:communityId/:model/:state/:recordId',
+        path: '/:communityId/:model/draft/:recordId',
         component: () => import(/* webpackChunkName: 'layouts' */'layouts/CenteredLayout'),
         children: [
           record({
@@ -103,11 +103,27 @@ const routes = [
             component: () => import(/* webpackChunkName: 'record' */'../pages/Record')
           }),
           {
-            // EDIT an existing record
+            // EDIT an existing DRAFT record
             path: `edit`,
             name: 'edit-record',
             component: () => import(/* webpackChunkName: 'forms' */ '../pages/forms/EditForm'),
           },
+        ]
+      },
+      {
+        path: '/:communityId/:model/:recordId',
+        component: () => import(/* webpackChunkName: 'layouts' */'layouts/CenteredLayout'),
+        children: [
+          record({
+            path: 'raw',
+            name: 'published-record',
+            component: () => import(/* webpackChunkName: 'record' */'../pages/RawRecord')
+          }),
+          record({
+            path: '',
+            name: 'published-record',
+            component: () => import(/* webpackChunkName: 'record' */'../pages/Record')
+          })
         ]
       }
     ]
