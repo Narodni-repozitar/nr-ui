@@ -43,8 +43,6 @@ q-stepper.full-width(
     :name="steps.UPLOAD"
     :title="$t('label.forms.uploadData')"
     :done="step > steps.UPLOAD")
-    .column.justify-center.items-center
-      .col.text-subtitle1 {{ $t('label.forms.uploadData') }}
     file-list(:dataset="record")
     stepper-nav(
       has-prev
