@@ -136,7 +136,7 @@ module.exports = configure(function (ctx) {
       components: [
         'QExpansionItem', 'QList', 'QItem', 'QSeparator',
         'QItemSection', 'QBadge', 'QCheckbox', 'QStepper', 'QStep', 'QStepperNavigation',
-        'QTabs', 'QTab', 'QBtn', 'QChip', 'QTooltip', 'QBtnDropdown', 'QSpinnerDots', 'QCircularProgress'
+        'QTabs', 'QTab', 'QBtn', 'QChip', 'QTooltip', 'QBtnDropdown', 'QSpinnerDots', 'QCircularProgress', 'QPageSticky'
       ],
       // directives: [],
 

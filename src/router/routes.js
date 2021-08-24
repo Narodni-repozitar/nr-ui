@@ -101,7 +101,13 @@ const routes = [
             path: '',
             name: 'record',
             component: () => import(/* webpackChunkName: 'record' */'../pages/Record')
-          })
+          }),
+          {
+            // EDIT an existing record
+            path: `edit`,
+            name: 'edit-record',
+            component: () => import(/* webpackChunkName: 'forms' */ '../pages/forms/EditForm'),
+          },
         ]
       }
     ]

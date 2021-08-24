@@ -23,9 +23,8 @@ class RightsIcon extends Vue {
   }
   get rightsIcon() {
     const slug = this.right?.links.self.split('/').pop()
-    console.log(this.slug)
 
-    if (slug.endsWith('by')) {
+    if (slug && slug.endsWith('by')) {
       return require('src/assets/licenses/by.png')
     } else if (slug.endsWith('by-nc')) {
       return require('src/assets/licenses/by-nc.png')
