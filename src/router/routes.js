@@ -14,50 +14,6 @@ const routes = [
         component: () => import(/* webpackChunkName: 'layouts' */'layouts/CenteredLayout'),
         children: [
           collection({
-            path: 'all/',
-            name: 'all',
-            component: () => import(/* webpackChunkName: 'collection' */'../pages/Collection')
-          }, {
-            meta: {
-              query: {
-                // sort: 'string:alphabetical'
-              }
-            }
-          }),
-          collection({
-            path: 'theses/all/',
-            name: 'theses',
-            component: () => import(/* webpackChunkName: 'collection' */'../pages/Collection')
-          }, {
-            meta: {
-              query: {
-                // sort: 'string:alphabetical'
-              }
-            }
-          }),
-          collection({
-            path: 'events/all/',
-            name: 'events',
-            component: () => import(/* webpackChunkName: 'collection' */'../pages/Collection')
-          }, {
-            meta: {
-              query: {
-                // sort: 'string:alphabetical'
-              }
-            }
-          }),
-          collection({
-            path: 'nresults/all/',
-            name: 'nresults',
-            component: () => import(/* webpackChunkName: 'collection' */'../pages/Collection')
-          }, {
-            meta: {
-              query: {
-                // sort: 'string:alphabetical'
-              }
-            }
-          }),
-          collection({
             path: 'datasets/all/',
             name: 'datasets',
             component: () => import(/* webpackChunkName: 'collection' */'../pages/Collection')

@@ -12,7 +12,7 @@ q-stepper.full-width(
   q-step(
     icon="info"
     :name="steps.BASIC"
-    :title="$t('label.forms.basicInfo')"
+    :title="$t('label.forms.datasetBasicInfo')"
     :done="step > steps.BASIC"
     done-icon="done"
     done-color="positive")

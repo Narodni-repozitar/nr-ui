@@ -8,27 +8,31 @@ q-field.no-label-float.row.fit(
   @focus="onFocus"
   borderless)
   template(v-slot:control)
-    q-input.col-grow.q-mr-sm.q-mt-md.no-outline(
-      autogrow
-      stack-label
-      v-for="(val, idx) in model" :key="idx"
-      v-bind="$attrs"
-      :rules="rules"
-      v-model="model[idx].val"
-      @update:model-value="onChange")
-      template(v-slot:prepend)
-        locale-select.fit.q-pt-sm(
-          hide-bottom-space
-          hide-hint
-          outlined
-          v-model="model[idx].lang"
-          new-value-mode="add-unique"
-          @update:model-value="onChange")
-      template(v-slot:append)
-        q-btn(round dense flat icon="remove" color="negative"  @click="rmLang(idx)")
-          q-tooltip {{ $t('action.rmLang') }}
+    .col-grow.row.multilingual-input.q-pr-sm
+      q-input.col-12.q-mr-sm.q-mt-md.no-outline(
+        autogrow
+        stack-label
+        v-for="(val, idx) in model" :key="idx"
+        v-bind="$attrs"
+        :rules="rules"
+        v-model="model[idx].val"
+        @update:model-value="onChange")
+        template(v-slot:prepend)
+          locale-select.fit.q-pt-sm(
+            hide-bottom-space
+            hide-hint
+            outlined
+            :ref="setInputRef"
+            :rules="[required($t('error.validation.required'))]"
+            :options="availableLangs"
+            v-model="model[idx].lang"
+            new-value-mode="add-unique"
+            @update:model-value="onChange")
+        template(v-slot:append)
+          q-btn(v-if="model.length > 1" round dense flat icon="remove" color="negative"  @click="rmLang(idx)")
+            q-tooltip {{ $t('action.rmLang') }}
   template(v-slot:append)
-    q-btn(round color="positive" dense flat icon="add" @click="addLang")
+    q-btn.q-mr-sm(v-if="availableLangs.length" round color="positive" dense flat icon="add" @click="addLang")
       q-tooltip {{ $t('action.addLang') }}
 </template>
 <script>
@@ -37,6 +41,8 @@ import {useI18n} from 'vue-i18n'
 import LocaleSelect from 'components/i18n/LocaleSelect'
 import useModel from '/src/composables/useModel'
 import useValidation from '/src/composables/useValidation'
+import {API_MULTILINGUAL_SUPPORTED_LANGUAGES} from "src/constants";
+import useInputRefs from "src/composables/useInputRefs";
 
 export default {
   name: 'MultilingualInput',
@@ -50,25 +56,23 @@ export default {
     rules: Array,
     modelValue: {
       type: Object,
-      default: () => { return {} }
+      default: () => {
+        return {}
+      }
     }
   },
-  setup (props, ctx) {
-    const i18n = useI18n()
-    const {error, errorMessage, resetValidation} = useValidation()
+  setup(props, ctx) {
+    const {t, locale} = useI18n()
+    const {setInputRef, inputRefs} = useInputRefs()
+    const {error, errorMessage, resetValidation, required} = useValidation()
 
     const fieldRef = ref(null)
-    const inputRefs = ref([])
 
     const model = ref([])
     const {isEmpty} = useModel(ctx, model)
 
     if (!Object.keys(props.modelValue).length) {
-      model.value.push(reactive({lang: i18n.locale.value, val: ''}))
-    } else {
-      Object.keys(props.modelValue).forEach(l => {
-        model.value.push(reactive({lang: l, val: props.modelValue[l]}))
-      })
+      model.value.push({lang: locale.value, val: ''})
     }
 
     function validate() {
@@ -81,6 +85,13 @@ export default {
         }
       })
 
+      inputRefs.value.forEach(inp => {
+        const res = inp.validate()
+        if (res !== true) {
+          error.value = true
+        }
+      })
+
       if (error.value !== true) {
         resetValidation()
         return true
@@ -89,17 +100,25 @@ export default {
     }
 
     function rmLang(idx) {
-      model.value.splice(idx, 1)
+      model.value = model.value.splice(idx, 1)
+      onChange()
     }
 
     function addLang() {
-      model.value.push(reactive({lang: '', val: ''}))
+      model.value.push({lang: '', val: ''})
+      onChange()
     }
+
+    const availableLangs = computed(() => {
+      return API_MULTILINGUAL_SUPPORTED_LANGUAGES // TODO: .filter(ln => !model.value.map(v => v.lang).includes(ln))
+    })
 
     const modelExternal = computed(() => {
       let values = {}
       model.value.forEach(v => {
-        values[v.lang] = v.val
+        if (v.lang) {
+          values[v.lang] = v.val
+        }
       })
       return values
     })
@@ -115,10 +134,26 @@ export default {
       }
     }
 
-    return {model, fieldRef, inputRefs, error, errorMessage, validate, onFocus, onChange, addLang, rmLang}
+    return {
+      model,
+      fieldRef,
+      inputRefs,
+      error,
+      errorMessage,
+      availableLangs,
+      setInputRef,
+      required,
+      validate,
+      onFocus,
+      onChange,
+      addLang,
+      rmLang
+    }
   }
 }
 </script>
 
 <style lang="sass">
+.multilingual-input
+  border-right: 2px dotted $secondary
 </style>

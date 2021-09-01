@@ -1,19 +1,22 @@
 <template lang="pug">
-.column.q-col-gutter-md
+.column.q-gutter-md
   community-select.col(
     ref="primaryCommunity"
     v-model="basicInfo._primary_community"
     :rules="[required($t('error.validation.required'))]")
-  multilingual-input.col(
-    ref="title"
-    v-model="basicInfo.title"
-    :rules="[required($t('error.validation.required'))]"
-    :label="$t('label.titles') + ' *'")
-  multilingual-input-list.col(
-    ref="additionalTitles"
+  title-input.col(
+    ref="mainTitle"
     empty
-    v-model="basicInfo.additional_titles"
-    :label="$t('label.forms.additionalTitles')")
+    v-model="basicInfo.titles"
+    :label="$t('label.titles') + ' *'"
+    :rules="[required($t('error.validation.required'))]")
+  pre.q-pa-md.q-ma-md.bg-dark.text-white.text-code.rounded-borders {{ {titles:basicInfo.titles} }}
+  languages-select.col(
+    ref="languages"
+    v-model="basicInfo.language"
+    :label="$t('label.language') + ' *'"
+    :rules="[required($t('error.validation.required'))]")
+  pre.q-pa-md.q-ma-md.bg-dark.text-white.text-code.rounded-borders {{ {language:basicInfo.language} }}
   multilingual-editor.col(
     ref="abstract"
     v-model="basicInfo.abstract"
@@ -30,10 +33,7 @@
         v-model="basicInfo.rights"
         :label="$t('label.license')")
     .col-auto
-      languages-select(
-        ref="languages"
-        v-model="basicInfo.languages"
-        :label="$t('label.languages')")
+
     .col-auto
       base-input.q-pa-none(
         ref="publisher"
@@ -65,6 +65,7 @@ import MultilingualEditorList from 'components/controls/inputs/MultilingualEdito
 import ChipsSelect from 'components/controls/selects/ChipsSelect'
 import DateInput from 'components/controls/inputs/DateInput'
 import MultilingualInputList from 'components/controls/inputs/MultilingualInputList'
+import TitleInput from 'components/controls/inputs/TitleInput'
 
 export default defineComponent({
   name: 'BasicInfo',
@@ -72,6 +73,7 @@ export default defineComponent({
     ChipsSelect,
     BaseInput,
     DateInput,
+    TitleInput,
     CommunitySelect,
     StepperNav,
     LanguagesSelect,
@@ -89,10 +91,9 @@ export default defineComponent({
     const {required} = useValidation()
     const {notifyError} = useNotify()
     const primaryCommunity = ref(null)
-    const title = ref(null)
+    const mainTitle = ref(null)
     const abstract = ref(null)
     const keywords = ref(null)
-    const additionalTitles = ref(null)
 
     const basicInfo = reactive(props.modelValue || {})
 
@@ -102,16 +103,14 @@ export default defineComponent({
 
     const onNext = () => {
       const pcr = primaryCommunity.value.validate()
-      const tr = title.value.validate()
+      const tr = mainTitle.value.validate()
       const abr = abstract.value.validate()
       const kr = keywords.value.validate()
-      const atr = additionalTitles.value.validate()
 
       if (pcr !== true ||
           tr !== true ||
           abr !== true ||
-          kr !== true ||
-          atr !== true) {
+          kr !== true) {
         notifyError('error.validationFail')
 
       } else {
@@ -119,7 +118,7 @@ export default defineComponent({
       }
     }
 
-    return {basicInfo, required, primaryCommunity, title, abstract, keywords, additionalTitles, onNext}
+    return {basicInfo, required, primaryCommunity, mainTitle, abstract, keywords, onNext}
   }
 })
 </script>

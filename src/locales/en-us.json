@@ -81,7 +81,6 @@
     "revert_approval": "assignment_return"
   },
   "label": {
-    "fullText": "fulltext",
     "browseRecords": "browse all records",
     "fullText": "Fulltext search",
     "state": "Stav záznamu",
@@ -119,7 +118,7 @@
       "additionalTitles": "Additional titles",
       "authors": "Authors",
       "authorsContributors": "Authors and Contributors",
-      "basicInfo": "Basic Info",
+      "datasetBasicInfo": "Data Set",
       "identifiers": "Identifiers",
       "identifiersCaption": "Are there any existing identifiers associated with the dataset",
       "keywords": "Keywords",
@@ -165,9 +164,10 @@
       "alphabetical": "Alphabetical"
     },
     "submit": "Submit",
-    "titles": "Titles"
+    "titles": "Dataset Title"
   },
   "message": {
+    "typeAFewLetters": "Start typing",
     "noActions" : "No Actions Available",
     "saveChangesSuccess": "Changes successfully saved",
     "articleExistsError": "An article record with this DOI already exists in this repository. Would you like to attach the dataset to this article?",
@@ -211,7 +211,7 @@
       "datasetEdit": "Edit Dataset",
       "datasetItem": "Dataset",
       "datasetList": "Datasets",
-      "datasetUpload": "Upload dataset"
+      "datasetUpload": "New dataset"
     }
   },
   "section": {

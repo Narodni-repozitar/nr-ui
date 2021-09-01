@@ -1,8 +1,10 @@
 <template lang="pug">
 q-select(
+  class="q-py-sm"
   v-bind="$attrs"
   v-model="model"
   use-input
+  item-aligned
   outlined
   square
   color="primary"
@@ -160,7 +162,11 @@ export default defineComponent({
       })
     }
 
-    function abortFilterFn() {
+    function abortFilterFn () {
+    }
+
+    function resetValidation () {
+      select.value.resetValidation()
     }
 
     function showTaxonomy() {
@@ -226,6 +232,7 @@ export default defineComponent({
       translatedPlaceholder,
       showTaxonomy,
       abortFilterFn,
+      resetValidation,
       emptyModel,
       model,
     }

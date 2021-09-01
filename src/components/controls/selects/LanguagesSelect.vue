@@ -1,21 +1,27 @@
 <template lang="pug">
-term-select(
+q-field.no-label-float.row.fit(
+  ref="fieldRef"
   v-bind="$attrs"
-  v-model="model"
-  :label="$t('label.localeSwitcher')"
-  :hint="$t('hint.localeSwitcher')"
-  dense
-  ref="input"
-  taxonomy="languages"
-  multiple
-  :elasticsearch="false"
-  :rules="rules"
-  @update:model-value="onChange($event)")
+  :label="label"
+  :error="error"
+  :error-message="errorMessage"
+  borderless)
+  template(v-slot:control)
+    term-select.col-12.q-mr-sm.q-mt-md.no-outline(
+      v-model="model"
+      dense
+      ref="input"
+      taxonomy="languages"
+      multiple
+      :elasticsearch="false"
+      :rules="rules"
+      @update:model-value="onChange($event)")
 </template>
 <script>
-import {defineComponent, ref} from 'vue'
+import {defineComponent, onMounted, ref} from 'vue'
 import ValidateMixin from 'src/mixins/ValidateMixin'
 import TermSelect from 'components/controls/selects/TermSelect'
+import useValidation from 'src/composables/useValidation'
 
 export default defineComponent({
   name: 'LanguagesSelect',
@@ -23,19 +29,29 @@ export default defineComponent({
   components: {TermSelect},
   mixins: [ValidateMixin],
   props: {
+    label: {
+      type: String,
+      default: ''
+    },
     modelValue: {
       type: Array,
       default: () => []
     }
   },
-  setup (props, ctx) {
+  setup(props, ctx) {
+    const input = ref(null)
     const model = ref(props.modelValue)
+    const {error, errorMessage, resetValidation, required} = useValidation()
+
+    onMounted(() => {
+      input.value.resetValidation()
+    })
 
     function onChange(event) {
       ctx.emit('update:modelValue', event)
     }
 
-    return {model, onChange}
+    return {input, model, onChange, error, errorMessage}
   }
 })
 </script>

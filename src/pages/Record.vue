@@ -8,13 +8,13 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
     .col-3.q-pl-md
       .column.full-height.q-pr-lg
         rights-icon.q-mb-md.col-auto.self-start.block(:rights="m.rights" size="128px")
-        label-block.column.q-mt-lg(label="Soubory")
+        label-block.column.full-width.q-mt-lg(label="Soubory")
           .col-auto.text-left.self-start.column.q-mt-lg.cursor-pointer(
             @click="download(f)"
             v-for="f in m._files"
             :key="f.file_id")
             file-icon(:file="f" size="64px" :title="f.name")
-            pre.text-caption {{ f.name }}
+            p.q-my-sm.text-primary.text-caption {{ f.name }}
         label-block.q-mt-lg(label="Trvalý odkaz na tento záznam")
           a.block(:href="record.http.data.links.self" target="_blank") {{ record.http.data.links.self }}
           .text-caption.text-italic TODO: odkaz by mel byt nahrazen DOIckem, pokud existuje
@@ -26,9 +26,11 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
         record-people.text-primary.text-weight-medium(:m="m")
       label-block(label="Datum")
         div.year-lang
-          div(v-for="(d, idx) in m.dates" :key="idx")
+          .row(v-for="(d, idx) in m.dates" :key="idx")
             vertical-separator(v-if="idx > 0")
             span {{ d.date }} ({{ $t(`value.dateType.${d.type}`) }})
+          .row(v-if="m.publication_date")
+            span {{ m.publication_date }} ({{ $t(`value.dateType.published`) }})
       label-block(label="Jazyk")
         div(v-for="(l, idx) in m.languages" :key="l.links.self")
           simple-term.inline(:term="[l]")

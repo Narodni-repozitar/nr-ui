@@ -12,13 +12,13 @@ q-page.bg-image.column(style="min-height: calc(100vh - 150px)")
         .row.justify-center
           .col-2
           .col-grow
-            search-box.q-my-md(:route="{name: 'all'}" :dense="false")
+            search-box.q-my-md(:route="{name: 'datasets'}" :dense="false")
           .col-2
         .row
           .col-2
           .col.row.justify-end
             .q-py-sm.q-pb-lg
-              q-btn(flat color="primary" size="md" to="/all/") {{ $t('label.browseRecords') }}
+              q-btn(flat color="primary" size="md" :to="{name: 'datasets'}") {{ $t('label.browseRecords') }}
           .col-2
         //.row.empty
         //.row.justify-around.q-col-gutter-lg

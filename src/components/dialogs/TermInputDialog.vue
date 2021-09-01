@@ -14,8 +14,8 @@ q-dialog.taxonomy(ref="dialog" @hide="onDialogHide")
         :multiple="multiple"
         :initial-size="10")
     q-card-section(v-if="multiple")
-      .row.items-end.q-gutter-md
-        q-field.col(:label="$t('label.selectedTerms')" stack-label)
+      .row.items-end.q-gutter-md.q-mx-md
+        q-field.col(:label="$t('label.selectedTerms')" readonly stack-label)
           template(v-slot:control)
             .row.items-end.q-gutter-sm
               term-chip.q-mt-md(

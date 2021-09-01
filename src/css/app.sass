@@ -10,6 +10,18 @@
 .nr
   background-color: $background
 
+  .q-field
+    padding: 5px
+
+  .q-field--error
+    border-right: 3px solid $negative
+    border-radius: 6px
+    padding-right: 1rem
+
+  .q-field--highlighted
+    .q-field__inner
+      background-color: lighten($primary, 50%)
+
   .q-field--outlined .q-field__control:before
     border-color: $secondary
     background-color: $control-background-color
@@ -23,6 +35,9 @@
 
   .q-field--with-bottom
     padding-bottom: 10px
+
+  .q-field--auto-height.q-field--dense.q-field--labeled .q-field__control-container
+    padding-bottom: 7px
 
   .q-field__bottom
     padding-top: 5px

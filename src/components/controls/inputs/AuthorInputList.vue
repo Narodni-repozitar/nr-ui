@@ -28,7 +28,7 @@ import {reactive, ref} from 'vue'
 import ValidateMixin from '/src/mixins/ValidateMixin'
 import useInputRefs from '/src/composables/useInputRefs'
 import useValidation from '/src/composables/useValidation'
-import ListInputButtons from 'components/controls/inputs/ListInputButtons'
+import ListInputButtons from 'components/controls/buttons/ListInputButtons'
 import useModel from '/src/composables/useModel'
 import AuthorInput from 'components/controls/inputs/AuthorInput'
 
