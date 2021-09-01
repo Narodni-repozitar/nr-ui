@@ -1,53 +1,48 @@
 <template lang="pug">
 .column.q-gutter-md
-  community-select.col(
-    ref="primaryCommunity"
-    v-model="basicInfo._primary_community"
-    :rules="[required($t('error.validation.required'))]")
-  title-input.col(
+  title-input-list.col(
     ref="mainTitle"
     empty
     v-model="basicInfo.titles"
     :label="$t('label.titles') + ' *'"
     :rules="[required($t('error.validation.required'))]")
-  pre.q-pa-md.q-ma-md.bg-dark.text-white.text-code.rounded-borders {{ {titles:basicInfo.titles} }}
+  //pre.q-pa-md.q-ma-md.bg-dark.text-white.text-code.rounded-borders {{ {titles:basicInfo.titles} }}
   languages-select.col(
     ref="languages"
     v-model="basicInfo.language"
     :label="$t('label.language') + ' *'"
     :rules="[required($t('error.validation.required'))]")
-  pre.q-pa-md.q-ma-md.bg-dark.text-white.text-code.rounded-borders {{ {language:basicInfo.language} }}
+  //pre.q-pa-md.q-ma-md.bg-dark.text-white.text-code.rounded-borders {{ {language:basicInfo.language} }}
   multilingual-editor.col(
     ref="abstract"
     v-model="basicInfo.abstract"
     :rules="[required($t('error.validation.required'))]"
     :label="$t('label.abstract') + ' *'")
-  chips-select.col(
-    ref="keywords"
-    v-model="basicInfo.keywords"
-    :label="$t('label.forms.keywords')")
-  .row.q-my-sm.col.q-col-gutter-md.justify-start.items-start
-    .col-auto
-      licenses-select(
-        ref="rights"
-        v-model="basicInfo.rights"
-        :label="$t('label.license')")
-    .col-auto
-
-    .col-auto
-      base-input.q-pa-none(
-        ref="publisher"
-        dense
-        autogrow
-        v-model="basicInfo.publisher"
-        :label="$t('label.publisher')")
-    .col-auto
-      date-input(
-        ref="publication_date"
-        dense
-        v-model="basicInfo.publication_date"
-        :hint="$t('hint.publicationDate')"
-        :label="$t('label.publicationDate')")
+  licenses-select.col(
+    ref="rights"
+    v-model="basicInfo.rights"
+    :label="$t('label.license')")
+  //chips-select.col(
+  //  ref="keywords"
+  //  v-model="basicInfo.keywords"
+  //  :label="$t('label.forms.keywords')")
+  //.row.q-my-sm.col.q-col-gutter-md.justify-start.items-start
+  //  .col-auto
+  //
+    //.col-auto
+    //  base-input.q-pa-none(
+    //    ref="publisher"
+    //    dense
+    //    autogrow
+    //    v-model="basicInfo.publisher"
+    //    :label="$t('label.publisher')")
+    //.col-auto
+    //  date-input(
+    //    ref="publication_date"
+    //    dense
+    //    v-model="basicInfo.publication_date"
+    //    :hint="$t('hint.publicationDate')"
+    //    :label="$t('label.publicationDate')")
   stepper-nav.q-mt-xl(has-prev=false @next="onNext")
 </template>
 <script>
@@ -65,7 +60,7 @@ import MultilingualEditorList from 'components/controls/inputs/MultilingualEdito
 import ChipsSelect from 'components/controls/selects/ChipsSelect'
 import DateInput from 'components/controls/inputs/DateInput'
 import MultilingualInputList from 'components/controls/inputs/MultilingualInputList'
-import TitleInput from 'components/controls/inputs/TitleInput'
+import TitleInputList from 'components/controls/inputs/TitleInputList'
 
 export default defineComponent({
   name: 'BasicInfo',
@@ -73,7 +68,7 @@ export default defineComponent({
     ChipsSelect,
     BaseInput,
     DateInput,
-    TitleInput,
+    TitleInputList,
     CommunitySelect,
     StepperNav,
     LanguagesSelect,
@@ -95,24 +90,57 @@ export default defineComponent({
     const abstract = ref(null)
     const keywords = ref(null)
 
-    const basicInfo = reactive(props.modelValue || {})
+    const basicInfo = reactive({
+      language: [
+        {
+          "alpha2": "en",
+          "busy_count": 0,
+          "descendants_busy_count": 0,
+          "descendants_count": 0,
+          "level": 1,
+          "links": {
+            "self": "https://127.0.0.1:5000/2.0/taxonomies/languages/eng",
+            "tree": "https://127.0.0.1:5000/2.0/taxonomies/languages/eng?representation:include=dsc"
+          },
+          "slug": "eng",
+          "status": "alive",
+          "title": {
+            "cs": "angličtina",
+            "en": "English"
+          },
+          "data": {
+            "alpha2": "en",
+            "busy_count": 0,
+            "descendants_busy_count": 0,
+            "descendants_count": 0,
+            "level": 1,
+            "links": {
+              "self": "https://127.0.0.1:5000/2.0/taxonomies/languages/eng",
+              "tree": "https://127.0.0.1:5000/2.0/taxonomies/languages/eng?representation:include=dsc"
+            },
+            "slug": "eng",
+            "status": "alive",
+            "title": {
+              "cs": "angličtina",
+              "en": "English"
+            }
+          },
+          "self": "https://127.0.0.1:5000/2.0/taxonomies/languages/eng",
+          "label": "angličtina"
+        }
+      ], ...(props.modelValue || {})})
 
     watch(basicInfo, () => {
       ctx.emit('update:modelValue', basicInfo)
     })
 
     const onNext = () => {
-      const pcr = primaryCommunity.value.validate()
       const tr = mainTitle.value.validate()
       const abr = abstract.value.validate()
-      const kr = keywords.value.validate()
 
-      if (pcr !== true ||
-          tr !== true ||
-          abr !== true ||
-          kr !== true) {
+      if (tr !== true ||
+          abr !== true) {
         notifyError('error.validationFail')
-
       } else {
         ctx.emit('next')
       }

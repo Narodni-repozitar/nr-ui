@@ -1,9 +1,9 @@
 <template lang="pug">
 q-dialog.taxonomy(ref="dialog" @hide="onDialogHide")
   q-card.q-dialog-plugin(style="width: 700px; max-width: 80vw;")
-    q-card-section(v-if="title")
-      .text-h6 {{ title }}
-    q-card-section.q-mt-lg
+    q-card-section.q-ml-md.q-mt-md.q-pb-none(v-if="title")
+      .text-h5 {{ title }}
+    q-card-section
       taxonomy-tree(
         :leaf-only="leafOnly"
         :taxonomy="taxonomy"
@@ -15,7 +15,7 @@ q-dialog.taxonomy(ref="dialog" @hide="onDialogHide")
         :initial-size="10")
     q-card-section(v-if="multiple")
       .row.items-end.q-gutter-md.q-mx-md
-        q-field.col(:label="$t('label.selectedTerms')" readonly stack-label)
+        q-field.q-mr-md.col(:label="$t('label.selectedTerms')" readonly stack-label)
           template(v-slot:control)
             .row.items-end.q-gutter-sm
               term-chip.q-mt-md(
@@ -25,7 +25,7 @@ q-dialog.taxonomy(ref="dialog" @hide="onDialogHide")
                 :taxonomy="taxonomy"
                 removable
                 @remove="valueUnselected(term)")
-    q-card-actions(align="right")
+    q-card-actions(align="right").q-pa-md.q-mr-md
       q-btn(@click="hide" flat color="grey") {{ $t('action.cancel') }}
       q-btn(@click="onOKClick" flat color="positive" icon="done" v-if="multiple")
         .q-pl-sm {{ $t('action.ok') }}

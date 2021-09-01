@@ -12,6 +12,7 @@ q-field.no-label-float.row.fit(
       dense
       ref="input"
       taxonomy="languages"
+      :selector-title="`${$t('action.choose')} ${label.toLowerCase()}`"
       multiple
       :elasticsearch="false"
       :rules="rules"

@@ -1,7 +1,14 @@
 <template lang="pug">
 div.q-pa-md.q-gutter-sm
   .row.justify-end.q-mb-md
-    q-input.col-grow.q-mr-lg.print-hide(v-model="filter" dense @keyup.enter="search()")
+    q-pagination.col-auto.paginator.order.order-md-last(
+      v-model="page" :max="maxPage" :direction-links="true" :max-pages="6"
+      v-if="maxPage > 1" color="secondary")
+    q-input.col-grow.q-ml-lg.print-hide(
+      v-model="filter"
+      autofocus
+      dense
+      @keyup.enter="search()")
       template(v-slot:append)
         q-icon(v-if="filter !== ''" name="close" @click="filter = ''; search()" class="cursor-pointer")
         q-icon(name="search")
@@ -18,9 +25,7 @@ div.q-pa-md.q-gutter-sm
       @update:ticked="onTicked($event)"
       accordion)
   .row.justify-center
-    q-pagination.col-auto.paginator.order.order-md-last(
-      v-model="page" :max="maxPage" :direction-links="true" :max-pages="6"
-      v-if="maxPage > 1" color="secondary")
+
 </template>
 <script>
 import {computed, defineComponent, nextTick, onMounted, ref, watch, toRefs} from 'vue'

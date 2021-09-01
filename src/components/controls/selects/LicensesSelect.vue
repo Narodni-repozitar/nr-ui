@@ -6,6 +6,7 @@ term-select(
   taxonomy="licenses"
   multiple
   leaf-only
+  :selector-title="`${$t('action.choose')} ${label.toLowerCase()}`"
   :elasticsearch="false"
   dense
   ref="input"

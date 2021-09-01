@@ -14,6 +14,7 @@ q-btn-dropdown(
   v-if="authenticated")
   slot(name="authenticated")
     .bg-white.account
+      pre {{ currentUserCommunities }}
       .row.no-wrap.q-pa-md.justify-start
         .col-grow.column
           slot.col-auto(name="avatar")
@@ -75,7 +76,8 @@ export default defineComponent({
       doLogout,
       currentUserName,
       currentUserInfo,
-      currentUserRoles
+      currentUserRoles,
+      currentUserCommunities
     } = useAuth()
 
     const adminMenuItems = ref([
@@ -98,7 +100,7 @@ export default defineComponent({
 
     const currentUserMenuItems = computed(() => {
       if (hasRole('admin')) {
-        return[
+        return [
           ...adminMenuItems.value,
           ...menuItems.value
         ]
@@ -106,7 +108,7 @@ export default defineComponent({
       return menuItems.value
     })
 
-    function translateRoleLabel (label) {
+    function translateRoleLabel(label) {
       // Returns i18n path for last component of role label separated by '-'
       return `label.role.${label.split('-').slice(-1)[0].trim()}`
     }
@@ -120,6 +122,7 @@ export default defineComponent({
       currentUserInfo,
       currentUserName,
       currentUserRoles,
+      currentUserCommunities,
       doLogin,
       doLogout,
       translateRoleLabel

@@ -1,7 +1,7 @@
 <template lang="pug">
 multilingual-input.col(
   ref="input"
-  v-model="modelValue[0].title"
+  v-model="model.title"
   :rules="[required($t('error.validation.required'))]"
   :label="label"
   @update:model-value="onChange")
@@ -12,6 +12,7 @@ import {computed, ref} from 'vue'
 import ValidateMixin from 'src/mixins/ValidateMixin'
 import MultilingualInput from 'components/controls/inputs/MultilingualInput'
 import useValidation from 'src/composables/useValidation'
+import deepcopy from "deepcopy";
 
 export default {
   name: 'TitleInput',
@@ -21,35 +22,27 @@ export default {
   },
   mixins: [ValidateMixin],
   props: {
-    titleType: {
-      type: String,
-      enum: ['mainTitle', 'alternativeTitle', 'subtitle', 'other'],
-      default: 'mainTitle'
-    },
     label: {
       type: String,
       default: ''
     },
     modelValue: {
-      type: Array,
-      default: () => [{'title': {}, 'titleType': ''}]
+      type: Object,
+      required: true
     }
   },
   setup (props, ctx) {
     const input = ref(null)
     const {required, resetValidation} = useValidation()
 
-
-    const modelExternal = computed(() => {
-      return [{...props.modelValue[0], ...{titleType: props.titleType}}]
-    })
+    const model = ref(deepcopy(props.modelValue))
 
     function onChange() {
       resetValidation()
-      ctx.emit('update:modelValue', modelExternal.value)
+      ctx.emit('update:modelValue', {...model.value})
     }
 
-    return {input, required, onChange}
+    return {input, model, required, onChange}
   }
 }
 </script>

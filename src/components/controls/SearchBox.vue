@@ -3,10 +3,8 @@ q-input.search-box.full-width(
   color="primary" outlined square :dense='dense' bg-color="transparent-grey" v-model="model"
   debounce="500" @change="onEnter" @keyup.enter="onEnter" ref="input"
   autofocus :placeholder="`${$t('action.search')}…`")
-
   template(v-slot:prepend)
     q-icon(name="search")
-
   template(v-slot:append)
     cancel-button(v-if="model" @click="clear" size="md")
     q-checkbox.z-top.text-overline(

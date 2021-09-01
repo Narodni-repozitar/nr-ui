@@ -17,7 +17,7 @@
     "altLogin": "Přejít na alternativní přihlášení",
     "approve": "schválit záznam",
     "attachArticle": "Připojit článek",
-    "choose": "Vybrat",
+    "choose": "Vyberte",
     "close": "Zavřít",
     "decline": "Nesouhlasím",
     "delete_draft": "smazat rozpracovaný záznam",
@@ -121,7 +121,7 @@
     "filters": "Filtry",
     "forms": {
       "additionalTitles": "Další názvy",
-      "authorsContributors": "Autoři a přispěvatelé",
+      "authorsContributors": "Tvůrci",
       "datasetBasicInfo": "Datová sada",
       "identifiers": "Identifikátory",
       "identifiersCaption": "Zadejte existující identifikátory spojené s tímto datasetem",

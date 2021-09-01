@@ -12,14 +12,21 @@ q-btn.col-auto(
 
 <script>
 import {computed, defineComponent} from 'vue'
+import {useContext} from 'vue-context-composition'
+import {community} from 'src/contexts/community'
 
 export default defineComponent({
   name: 'CreateRecordBtn',
   setup() {
+    const {communityId} = useContext(community)
+
     const createRoute = computed(() => {
-      let routeName = 'datasets-create'
+      let routeName = 'create'
       let label = ''
-      let routeParams = {}
+      let routeParams = {
+        model: 'dataset',
+        communityId: communityId.value
+      }
 
       label = 'action.uploadDataset'
 

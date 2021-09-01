@@ -17,17 +17,7 @@ q-stepper.full-width(
     done-color="positive")
     basic-info(
       v-model="formData"
-      @next="step = steps.IDENTIFIERS")
-  q-step(
-    icon="tag"
-    :name="steps.IDENTIFIERS"
-    :title="$t('label.forms.identifiers')"
-    :caption="$t('label.forms.identifiersCaption')"
-    :done="step > steps.IDENTIFIERS")
-    identifiers(s
-    v-model="formData"
-      @next="step = steps.AUTHORS"
-      @prev="step = steps.BASIC")
+      @next="step = steps.AUTHORS")
   q-step(
     icon="groups"
     :name="steps.AUTHORS"
@@ -35,9 +25,10 @@ q-stepper.full-width(
     :done="step > steps.AUTHORS")
     authors-contributors(
       v-model="formData"
-      @prev="step = steps.IDENTIFIERS"
-      @next="step = steps.SUBMISSION"
+      @prev="step = steps.BASIC"
+      @next="step = steps.IDENTIFIERS"
       @submit="submit")
+
   q-step(
     active-icon="published_with_changes"
     icon="published_with_changes"
@@ -90,8 +81,8 @@ import CircularSpinner from 'components/ui/CircularSpinner'
 
 export const steps = Object.freeze({
   BASIC: 1,
-  IDENTIFIERS: 2,
-  AUTHORS: 3,
+  AUTHORS: 2,
+  IDENTIFIERS: 3,
   SUBMISSION: 4,
   UPLOAD: 5
 })

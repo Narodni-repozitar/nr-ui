@@ -28,7 +28,7 @@ q-select(
         div(v-if="searchValue") {{ $t('message.noResults') }}
         div(v-else) {{ $t('message.typeAFewLetters') }}
   template.full-height(v-slot:append)
-    .full-height.items-center
+    .full-height.items-center.q-pt-xs
       cancel-button(v-if="model?.length" @click="clear" size="md")
       q-btn(icon="unfold_more" flat color="primary" dense @click="showTaxonomy" :label="$t('label.showTaxonomyTree')")
   template(v-slot:option="{opt, selected, focused, itemProps, itemEvents}")

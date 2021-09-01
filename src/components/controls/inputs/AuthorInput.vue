@@ -46,6 +46,7 @@ q-field.bg-grey-2.q-pa-sm.fit(
           v-model="model.role"
           taxonomy="contributor-type"
           multiple
+          :selector-title="`${$t('action.choose')} ${label.toLowerCase()}`"
           :elasticsearch="false"
           :label="$t('label.authorType')"
           @update:model-value="onChange")

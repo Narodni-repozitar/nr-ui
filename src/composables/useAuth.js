@@ -2,10 +2,13 @@ import {usePopupLogin} from '@oarepo/vue-popup-login'
 import {computed, ref} from 'vue'
 import useGDPR from 'src/composables/useGDPR'
 import {loginOptions} from 'src/constants'
+import {useContext} from 'vue-context-composition'
+import {community} from 'src/contexts/community'
 
 
 export default function useAuth() {
   const {state, login, logout} = usePopupLogin(loginOptions)
+  const {communities} = useContext(community)
   const {showGdprPrompt} = useGDPR()
 
   const authenticating = ref(false)
@@ -33,6 +36,11 @@ export default function useAuth() {
       return state.value.userInfo
     }
     return null
+  })
+
+  const currentUserCommunities = computed(() => {
+    const croles = currentUserRoles.value.filter(r => r.id.startsWith('community:')).map(r => r.id.split(':')[1])
+    return communities.value.filter(c => croles.includes(c.id))
   })
 
   const currentUserName = computed(() => {
@@ -78,6 +86,7 @@ export default function useAuth() {
     currentUserInfo,
     currentUserRoles,
     currentUserName,
+    currentUserCommunities,
     hasRole,
     doLogin,
     doLogout

@@ -23,25 +23,20 @@ const routes = [
                 // sort: 'string:alphabetical'
               }
             }
-          }),
+          })
+        ]
+      },
+      {
+        path: '',
+        component: () => import(/* webpackChunkName: 'layouts' */'layouts/CenteredLayout'),
+        children: [
           {
             // CREATE record in ANY community (user can choose in component)
-            path: `datasets/create`,
-            name: 'datasets-create',
+            path: `/:communityId/:model/create`,
+            name: 'create',
             component: () => import(/* webpackChunkName: 'forms' */ '../pages/forms/CreateForm'),
-            meta: { useFacets: false }
+            meta: {useFacets: false}
           },
-          collection({
-            path: 'articles/all/',
-            name: 'articles',
-            component: () => import(/* webpackChunkName: 'collection' */'../pages/Collection')
-          }, {
-            meta: {
-              query: {
-                sort: 'string:alphabetical'
-              }
-            }
-          })
         ]
       },
       {
