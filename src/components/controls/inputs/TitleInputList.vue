@@ -1,12 +1,11 @@
 <template lang="pug">
 q-field(
-  ref="input"
   readonly
   borderless
   v-bind="$attrs"
   :label="label")
   template(v-slot:control)
-    multilingual-input.no-padding.no-margin(v-model="model.mainTitle.title")
+    multilingual-input.no-padding.no-margin(ref="input" :rules="rules" v-model="model.mainTitle.title")
     q-list.full-width.no-padding.no-margin(dense)
       q-item.q-pl-md.full-width.no-margin(v-for="(val,idx) in model.alternativeTitles" :key="idx")
         q-item-section.no-padding.no-margin
@@ -16,7 +15,7 @@ q-field(
           q-btn.self-center.q-mt-sm(round dense flat color="negative" icon="backspace"
             v-if="model.alternativeTitles.length"
             @click="rmItem(idx)")
-            q-tooltip {{ $t('action.rmItem') }}
+            q-tooltip {{ $t('action.rmTitle') }}
     q-btn.q-pl-sm(dense flat color="positive" icon="post_add" @click="addItem")
       q-tooltip {{ $t('action.addTitle') }}
 

@@ -1,6 +1,8 @@
 {
   "accessibility": {},
   "action": {
+    "addTitle": "Add Title",
+    "rmTitle": "Remove Title",
     "showActions": "Show actions",
     "hideActions": "Hide actions",
     "search": "Search",
