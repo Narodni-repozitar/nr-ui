@@ -10,7 +10,7 @@ q-field.no-label-float.row.multilingual-input(
   borderless)
   template(v-slot:control)
     .col-grow.row.full-width.multilingual-input.q-pr-sm.q-mt-lg.q-gutter-sm
-      .col-12.row.no-outline(v-for="(val, idx) in model" :key="idx")
+      .col-12.no-margin.row.no-outline(v-for="(val, idx) in model" :key="idx")
         q-editor.full-width(
           :ref="setInputRef"
           toolbar-outline
@@ -79,7 +79,6 @@ export default {
       if (!isEmpty.value && model.value.length > 1) {
         langGroup.push('rmLang')
       }
-      console.log(langGroup, model.value)
       return [
         langGroup,
         ['left', 'center', 'right', 'justify'],

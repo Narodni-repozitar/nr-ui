@@ -1,12 +1,12 @@
 <template lang="pug">
-.column.q-gutter-md
+.column.q-gutter-sm
   title-input-list.col(
     ref="mainTitle"
     empty
     v-model="basicInfo.titles"
     :label="$t('label.titles') + ' *'"
     :rules="[required($t('error.validation.required'))]")
-  pre.q-pa-md.q-ma-md.bg-dark.text-white.text-code.rounded-borders {{ {titles:basicInfo.titles} }}
+  //pre.q-pa-md.q-ma-md.bg-dark.text-white.text-code.rounded-borders {{ {titles:basicInfo.titles} }}
   languages-select.col(
     ref="languages"
     v-model="basicInfo.language"

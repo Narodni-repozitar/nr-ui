@@ -1,17 +1,26 @@
 <template lang="pug">
-term-select(
+q-field.no-label-float.row.fit(
+  ref="fieldRef"
   v-bind="$attrs"
-  v-model="model"
   :label="label"
-  taxonomy="licenses"
-  multiple
-  leaf-only
-  :selector-title="`${$t('action.choose')} ${label.toLowerCase()}`"
-  :elasticsearch="false"
-  dense
-  ref="input"
-  :rules="rules"
-  @update:model-value="onChange($event)")
+  :error="error"
+  :error-message="errorMessage"
+  hide-bottom-space
+  borderless
+  readonly)
+  template(v-slot:control)
+    term-select.col-12.q-pl-none.q-mr-sm.q-mt-md.no-outline(
+      v-model="model"
+      taxonomy="licenses"
+      multiple
+      hide-bottom-space
+      leaf-only
+      :selector-title="`${$t('action.choose')} ${label.toLowerCase()}`"
+      :elasticsearch="false"
+      dense
+      ref="input"
+      :rules="rules"
+      @update:model-value="onChange($event)")
 </template>
 <script>
 import {defineComponent, ref} from 'vue'

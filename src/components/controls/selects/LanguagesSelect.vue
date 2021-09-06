@@ -5,11 +5,14 @@ q-field.no-label-float.row.fit(
   :label="label"
   :error="error"
   :error-message="errorMessage"
-  borderless)
+  borderless
+  hide-bottom-space
+  readonly)
   template(v-slot:control)
-    term-select.col-12.q-mr-sm.q-mt-md.no-outline(
+    term-select.col-12.q-pl-none.q-mr-sm.q-mt-md.no-outline(
       v-model="model"
       dense
+      hide-bottom-space
       ref="input"
       taxonomy="languages"
       :selector-title="`${$t('action.choose')} ${label.toLowerCase()}`"
