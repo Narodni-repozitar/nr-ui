@@ -21,7 +21,6 @@ export default function useValidation() {
           return !!val
         })
       }
-      console.log('valid', valid)
       return valid || msg
     }
   }

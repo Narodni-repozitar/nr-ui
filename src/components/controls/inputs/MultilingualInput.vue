@@ -1,39 +1,32 @@
 <template lang="pug">
-q-field.no-label-float.row.fit(
+q-field.no-margin.no-label-float.row.full-width.multilingual-input(
   ref="fieldRef"
   v-bind="$attrs"
+  :class="[dense? 'dense': '']"
   :label="label"
   :error="error"
+  readonly
+  borderless
   :error-message="errorMessage"
-  @focus="onFocus"
-  borderless)
+  @focus="onFocus")
   template(v-slot:control)
     .col-grow.row.multilingual-input.q-pr-sm
-      q-input.col-12.q-mr-sm.q-mt-md.no-outline(
-        autogrow
+      q-input.col-12.q-mr-sm.no-outline(
         stack-label
+        :input-class="[dense? 'dense-input': '']"
         v-for="(val, idx) in model" :key="idx"
         v-bind="$attrs"
         :rules="rules"
         v-model="model[idx].val"
         @update:model-value="onChange")
-        template(v-slot:prepend)
-          locale-select.fit.q-pt-sm(
-            hide-bottom-space
-            hide-hint
-            outlined
-            :ref="setInputRef"
-            :rules="[required($t('error.validation.required'))]"
-            :options="availableLangs"
-            v-model="model[idx].lang"
-            new-value-mode="add-unique"
-            @update:model-value="onChange")
+        template(v-slot:prepend="slotProps")
+          q-badge.q-ml-sm.q-mt-md.q-pb-sm.q-pt-xs(transparent color="accent") {{ model[idx].lang }}
+            q-tooltip {{ $t(`value.lang.${model[idx].lang}`) }}
         template(v-slot:append)
-          q-btn(v-if="model.length > 1" round dense flat icon="remove" color="negative"  @click="rmLang(idx)")
+          q-btn.q-mr-sm(v-if="model.length > 1" round dense flat icon="remove" color="negative"  @click="rmLang(idx)")
             q-tooltip {{ $t('action.rmLang') }}
-  template(v-slot:append)
-    q-btn.q-mr-sm(v-if="availableLangs.length" round color="positive" dense flat icon="add" @click="addLang")
-      q-tooltip {{ $t('action.addLang') }}
+          q-btn.q-mr-sm(v-if="idx === model.length -1" round color="positive" dense flat icon="add" @click="addLang")
+            q-tooltip {{ $t('action.addLang') }}
 </template>
 <script>
 import {computed, reactive, ref} from 'vue'
@@ -41,8 +34,9 @@ import {useI18n} from 'vue-i18n'
 import LocaleSelect from 'components/i18n/LocaleSelect'
 import useModel from '/src/composables/useModel'
 import useValidation from '/src/composables/useValidation'
-import {API_MULTILINGUAL_SUPPORTED_LANGUAGES} from "src/constants";
-import useInputRefs from "src/composables/useInputRefs";
+import {API_MULTILINGUAL_SUPPORTED_LANGUAGES} from 'src/constants'
+import useInputRefs from 'src/composables/useInputRefs'
+import {useQuasar} from 'quasar'
 
 export default {
   name: 'MultilingualInput',
@@ -53,6 +47,7 @@ export default {
       type: String,
       default: ''
     },
+    dense: Boolean,
     rules: Array,
     modelValue: {
       type: Object,
@@ -62,6 +57,7 @@ export default {
     }
   },
   setup(props, ctx) {
+    const $q = useQuasar()
     const {t, locale} = useI18n()
     const {setInputRef, inputRefs} = useInputRefs()
     const {error, errorMessage, resetValidation, required} = useValidation()
@@ -77,7 +73,7 @@ export default {
 
     function validate() {
       resetValidation()
-      props.rules.forEach(rule => {
+      props.rules?.forEach(rule => {
         const res = rule(modelExternal.value)
         if (res !== true) {
           error.value = true
@@ -100,17 +96,31 @@ export default {
     }
 
     function rmLang(idx) {
-      model.value = model.value.splice(idx, 1)
+      model.value.splice(idx, 1)
+      inputRefs.value.splice(idx, 1)
       onChange()
     }
 
     function addLang() {
-      model.value.push({lang: '', val: ''})
-      onChange()
+      $q.dialog({
+        title: t('label.language'),
+        message: `${t('action.choose')} ${t('label.language')}`,
+        options: {
+          type: 'radio',
+          model: 'lang',
+          // inline: true
+          items: availableLangs.value.map(l => {return {label: t(`value.lang.${l}`), value: l}})
+        },
+        cancel: true,
+        persistent: false
+      }).onOk(data => {
+        model.value.push({lang: data, val: ''})
+        onChange()
+      })
     }
 
     const availableLangs = computed(() => {
-      return API_MULTILINGUAL_SUPPORTED_LANGUAGES // TODO: .filter(ln => !model.value.map(v => v.lang).includes(ln))
+      return API_MULTILINGUAL_SUPPORTED_LANGUAGES.filter(ln => !model.value.map(v => v.lang).includes(ln))
     })
 
     const modelExternal = computed(() => {
@@ -155,5 +165,10 @@ export default {
 
 <style lang="sass">
 .multilingual-input
-  border-right: 2px dotted $secondary
+  &.dense
+    .q-field__control-container
+      padding-top: 0 !important
+
+    .dense-input
+      padding-top: 24px
 </style>

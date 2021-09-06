@@ -46,7 +46,11 @@ export const RESOURCE_IDENTIFIER_SCHEMES = [
 ]
 
 // Refers to MULTILINGUAL_SUPPORTED_LANGUAGES config.py API option
-export const API_MULTILINGUAL_SUPPORTED_LANGUAGES = ['cs', 'en']
+export const API_MULTILINGUAL_SUPPORTED_LANGUAGES = [
+  'cs', 'en', 'sk', 'de', 'fr', 'ru',
+  'es', 'nl', 'it', 'no', 'pl', 'da', 'el',
+  'hu', 'lt', 'pt', 'bg', 'ro', 'sv'
+]
 
 export const PERSON_IDENTIFIER_SCHEMES = ["orcid", "isni", "gnd", "ror"]
 

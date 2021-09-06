@@ -81,6 +81,7 @@
     "revert_approval": "assignment_return"
   },
   "label": {
+    "nameType": "Name type",
     "browseRecords": "browse all records",
     "fullText": "Fulltext search",
     "state": "Stav záznamu",
@@ -232,6 +233,11 @@
   },
   "src/i18n": "",
   "value": {
+    "titleType": {
+      "subtitle": "Subtitle",
+      "alternativeTitle": "Alternative name",
+      "other": "Other name"
+    },
     "authorType": {
       "organizational": "Organization",
       "personal": "Person"
@@ -240,7 +246,24 @@
       "cs": "Czech",
       "cs-cz": "Czech",
       "en": "English",
-      "en-us": "English"
+      "en-us": "English",
+      "sk": "Slovak",
+      "de": "German",
+      "fr": "French",
+      "ru": "Russian",
+      "es": "Spanish",
+      "nl": "Dutch",
+      "it": "Italian",
+      "no": "Norwegian",
+      "pl": "Polish",
+      "da": "Danish",
+      "el": "Greek",
+      "hu": "Hungarian",
+      "lt": "Lithuanian",
+      "pt": "Portuguese",
+      "bg": "Bulgarian",
+      "ro": "Romanian",
+      "sv": "Swedish"
     }
   }
 }

@@ -18,7 +18,7 @@ q-field.no-label-float.row.fit(
           @update:model-value="onChange")
         q-btn.q-ma-md.col-auto(round dense flat icon="remove" color="negative"  @click.prevent="rmLang(idx)")
           q-tooltip {{ $t('action.rmLang') }}
-      q-editor.col-12.col-12.no-outline(
+      q-editor.col-12.col-12.q-ml-xs.no-outline(
         :ref="setInputRef"
         toolbar-outline
         hide-bottom-space

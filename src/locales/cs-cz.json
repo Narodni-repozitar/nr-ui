@@ -80,6 +80,7 @@
     "revert_approval": "assignment_return"
   },
   "label": {
+    "nameType": "Typ názvu",
     "fullText": "plný text",
     "browseRecords": "procházet všechny záznamy",
     "state": "Stav záznamu",
@@ -235,6 +236,11 @@
   },
   "src/i18n": "",
   "value": {
+    "titleType": {
+      "subtitle": "Podtitul",
+      "alternativeTitle": "Alternativní název",
+      "other": "Další název"
+    },
     "dateType": {
       "created": "vytvořeno",
       "published": "publikováno"
@@ -247,7 +253,24 @@
       "cs": "Česky",
       "cs-cz": "Česky",
       "en": "Anglicky",
-      "en-us": "Anglicky"
+      "en-us": "Anglicky",
+      "sk": "Slovak",
+      "de": "German",
+      "fr": "French",
+      "ru": "Russian",
+      "es": "Spanish",
+      "nl": "Dutch",
+      "it": "Italian",
+      "no": "Norwegian",
+      "pl": "Polish",
+      "da": "Danish",
+      "el": "Greek",
+      "hu": "Hungarian",
+      "lt": "Lithuanian",
+      "pt": "Portuguese",
+      "bg": "Bulgarian",
+      "ro": "Romanian",
+      "sv": "Swedish"
     }
   }
 }

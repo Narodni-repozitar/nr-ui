@@ -79,6 +79,11 @@ const routes = [
       }
     ]
   },
+  {
+    // TODO: remove
+    path: '/playground',
+    component: () => import(/* webpackChunkName: 'error' */'pages/Playground.vue')
+  },
   // Always leave this as last one,
   // but you can also remove it
   {
