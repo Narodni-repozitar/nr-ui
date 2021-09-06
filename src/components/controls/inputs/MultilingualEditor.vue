@@ -1,32 +1,27 @@
 <template lang="pug">
-q-field.no-label-float.row.fit(
+q-field.no-label-float.row.multilingual-input(
   ref="fieldRef"
   v-bind="$attrs"
   :label="label"
   :error="error"
   :error-message="errorMessage"
   @focus="onFocus"
+  readonly
   borderless)
   template(v-slot:control)
-    .row.full-width(v-for="(val, idx) in model" :key="idx")
-      .row.col-12.no-wrap.justify-between
-        locale-select.col.q-mt-md(
-          outlined
-          v-model="model[idx].lang"
-          new-value-mode="add-unique"
-          :rules="[required($t('error.validation.required'))]"
+    .col-grow.row.full-width.multilingual-input.q-pr-sm.q-mt-lg.q-gutter-sm
+      .col-12.row.no-outline(v-for="(val, idx) in model" :key="idx")
+        q-editor.full-width(
+          :ref="setInputRef"
+          toolbar-outline
+          hide-bottom-space
+          v-model="model[idx].val"
+          :definitions="definitions"
+          :toolbar="toolbar"
           @update:model-value="onChange")
-        q-btn.q-ma-md.col-auto(round dense flat icon="remove" color="negative"  @click.prevent="rmLang(idx)")
-          q-tooltip {{ $t('action.rmLang') }}
-      q-editor.col-12.col-12.q-ml-xs.no-outline(
-        :ref="setInputRef"
-        toolbar-outline
-        hide-bottom-space
-        v-model="model[idx].val"
-        @update:model-value="onChange")
-  template(v-slot:append)
-    q-btn(v-if="!isEmpty" round dense flat color="positive" icon="add" @click.stop="addLang")
-      q-tooltip {{ $t('action.addLang') }}
+          template(v-slot:lang)
+            q-badge.q-pb-sm.q-pt-xs.q-mb-xs.q-mr-xs.shadow-1(transparent color="accent") {{ model[idx].lang }}
+              q-tooltip {{ $t(`value.lang.${model[idx].lang}`) }}
 </template>
 
 <script>
@@ -36,6 +31,7 @@ import LocaleSelect from 'components/i18n/LocaleSelect'
 import useValidation from '/src/composables/useValidation'
 import useModel from '/src/composables/useModel'
 import useInputRefs from '/src/composables/useInputRefs'
+import useMultilingual from 'src/composables/useMultilingual'
 
 export default {
   name: 'MultilingualEditor',
@@ -59,17 +55,43 @@ export default {
     }
   },
   setup(props, ctx) {
-    const i18n = useI18n()
+    const model = ref([])
+
+    const {t, locale} = useI18n()
     const {error, required, errorMessage, resetValidation} = useValidation()
+    const {setInputRef, inputRefs} = useInputRefs()
+    const {isEmpty} = useModel(ctx, model)
+    const {addLangVariant, rmLangVariant} = useMultilingual(model, inputRefs, onChange)
+    const definitions = ref({
+      addLang: {
+        tip: t('action.addLang'),
+        icon: 'add',
+        handler: addLangVariant
+      },
+      rmLang: {
+        tip: t('action.rmLang'),
+        icon: 'remove',
+        handler: rmLangVariant
+      }
+    })
+    const toolbar = computed(() => {
+      const langGroup = ['lang', 'addLang']
+      if (!isEmpty.value && model.value.length > 1) {
+        langGroup.push('rmLang')
+      }
+      console.log(langGroup, model.value)
+      return [
+        langGroup,
+        ['left', 'center', 'right', 'justify'],
+        ['bold', 'italic', 'underline', 'strike'],
+        ['undo', 'redo']
+      ]
+    })
 
     const fieldRef = ref(null)
 
-    const model = ref([])
-    const {isEmpty} = useModel(ctx, model)
-    const {setInputRef, inputRefs} = useInputRefs()
-
     if (!Object.keys(props.modelValue).length && !props.empty) {
-      model.value.push(reactive({lang: i18n.locale.value, val: ''}))
+      model.value.push(reactive({lang: locale.value, val: ''}))
     } else {
       Object.keys(props.modelValue).forEach(l => {
         model.value.push(reactive({lang: l, val: props.modelValue[l]}))
@@ -93,15 +115,6 @@ export default {
       return errorMessage.value
     }
 
-    function rmLang(idx) {
-      model.value.splice(idx, 1)
-      onChange()
-    }
-
-    function addLang() {
-      model.value.push(reactive({lang: '', val: ''}))
-    }
-
     function onChange() {
       resetValidation()
       ctx.emit('update:modelValue', modelExternal.value)
@@ -109,22 +122,22 @@ export default {
 
     function onFocus() {
       if (isEmpty.value) {
-        addLang()
+        addLangVariant()
       }
     }
 
     const modelExternal = computed(() => {
       let values = {}
       model.value.forEach(v => {
-        values[v.lang] = v.val !== '<br>'? v.val : ''
+        values[v.lang] = v.val !== '<br>' ? v.val : ''
       })
       return values
     })
 
     return {
       model,
-      addLang,
-      rmLang,
+      toolbar,
+      definitions,
       fieldRef,
       inputRefs,
       setInputRef,
@@ -136,6 +149,8 @@ export default {
       resetValidation,
       onChange,
       onFocus,
+      addLangVariant,
+      rmLangVariant,
       isEmpty
     }
   }

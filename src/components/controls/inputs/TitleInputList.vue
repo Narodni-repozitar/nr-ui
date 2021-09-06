@@ -16,7 +16,7 @@ q-field(
             v-if="model.alternativeTitles.length"
             @click="rmItem(idx)")
             q-tooltip {{ $t('action.rmTitle') }}
-    q-btn.q-pl-sm(dense flat color="positive" icon="post_add" @click="addItem")
+    q-btn.q-pl-sm(dense flat color="secondary" icon="post_add" @click="addItem")
       q-tooltip {{ $t('action.addTitle') }}
 
 </template>
