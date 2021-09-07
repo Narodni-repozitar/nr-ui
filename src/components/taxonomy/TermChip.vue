@@ -11,9 +11,8 @@ q-chip(
     q-tooltip
       mt.self-center(:text="term.title")
   term-span.q-pl-sm(
-    v-if="term && !term.icon"
-    :term="term"
-    :taxonomy="taxonomy")
+    v-if="(term && !term.icon) || extended"
+    :term="term" :extended="extended")
 </template>
 
 <script>
@@ -25,14 +24,17 @@ export default defineComponent({
   components: {TermSpan},
   emits: ['remove'],
   props: {
+    extended: {
+      type: Boolean,
+      default: false
+    },
     removable: {
       type: Boolean,
       default: false
     },
-    term: Object,
-    taxonomy: String
+    term: Object
   },
-  setup () {
+  setup() {
     function iconName(term) {
       if (term.icon.startsWith('http')) {
         return `img:${term.icon}`

@@ -5,6 +5,7 @@ q-dialog.taxonomy(ref="dialog" @hide="onDialogHide")
       .text-h5 {{ title }}
     q-card-section
       taxonomy-tree(
+        :exclude="exclude"
         :leaf-only="leafOnly"
         :taxonomy="taxonomy"
         :start-expanded="true"
@@ -12,6 +13,7 @@ q-dialog.taxonomy(ref="dialog" @hide="onDialogHide")
         ref="tree"
         v-model="selected"
         :multiple="multiple"
+        @select="onOKClick"
         :initial-size="10")
     q-card-section(v-if="multiple")
       .row.items-end.q-gutter-md.q-mx-md
@@ -40,6 +42,7 @@ export default defineComponent({
   components: {TermChip, TaxonomyTree},
   emits: ['ok', 'hide'],
   props: {
+    exclude: Array,
     multiple: {
       type: Boolean,
       default: false
@@ -60,21 +63,6 @@ export default defineComponent({
       checkbox: true,
       autoCheckChildren: false
     })
-
-    function treeSelected(value) {
-      if (props.multiple) {
-        selected.value = value
-      } else if (value.length) {
-        ctx.emit('ok', value[0])
-        hide()
-      }
-    }
-
-    function valueUnselected(value) {
-      selected.value = selected.value.filter(x => {
-        return (x.slug !== value.slug)
-      })
-    }
 
     function show() {
       if (props.multiple) {
@@ -107,8 +95,6 @@ export default defineComponent({
       tree,
       selected,
       opts,
-      treeSelected,
-      valueUnselected,
       show,
       hide,
       onDialogHide,

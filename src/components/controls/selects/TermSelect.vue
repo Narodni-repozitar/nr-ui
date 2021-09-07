@@ -17,25 +17,32 @@ q-select(
   @filter="filterFn"
   @filter-abort="abortFilterFn"
   :hint="hint"
+  :rules="rules"
   :placeholder="emptyModel ? translatedPlaceholder: ''"
   @update:model-value="clearText"
   @keydown="onKeyDown"
   @input="clearText"
-  ref="select")
+  ref="input")
   template(v-slot:no-option)
     q-item
-      q-item-section.text-secondary
-        div(v-if="searchValue") {{ $t('message.noResults') }}
+      q-item-section.text-primary
+        div.text-negative(v-if="searchValue") {{ $t('message.noResults') }}
         div(v-else) {{ $t('message.typeAFewLetters') }}
-  template.full-height(v-slot:append)
+  template(v-slot:append)
     .full-height.items-center.q-pt-xs
       cancel-button(v-if="model?.length" @click="clear" size="md")
-      q-btn(icon="unfold_more" flat color="primary" dense @click="showTaxonomy" :label="$t('label.showTaxonomyTree')")
+      q-btn(
+        icon="unfold_more"
+        flat
+        color="primary"
+        dense
+        @click="showTaxonomy"
+        :label="$t(multiple? 'action.chooseTerms':'action.chooseTerm')")
   template(v-slot:option="{opt, selected, focused, itemProps, itemEvents}")
-    q-item(v-bind="itemProps" v-on="itemEvents")
-      term-chip(:term="opt" :taxonomy="taxonomy" color="primary")
+    q-item(v-bind="itemProps" v-on="itemEvents || {}")
+      term-chip(:term="opt" :taxonomy="taxonomy" color="primary" extended)
   template(v-slot:selected-item="{opt, index, removeAtIndex}")
-    term-chip(@remove="removeAtIndex(index)" :term="opt" :taxonomy="taxonomy" v-if="multiple" color="primary" removable)
+    term-chip(@remove="removeAtIndex(index)" :term="opt" color="primary" :removable="multiple" :extended="!multiple")
 </template>
 
 <script>
@@ -44,13 +51,15 @@ import useTaxonomy from '/src/composables/useTaxonomy'
 import {useI18n} from 'vue-i18n'
 import {copyValue, termOrArrayChanged} from '/src/utils'
 import {useQuasar} from 'quasar'
-import TaxonomyInputDialog from 'components/dialogs/TermInputDialog'
+import TermInputDialog from 'components/dialogs/TermInputDialog'
 import TermChip from 'components/taxonomy/TermChip'
+import ValidateMixin from 'src/mixins/ValidateMixin'
 
 const DEFAULT = {}
 
 export default defineComponent({
   name: 'TermSelect',
+  mixins: [ValidateMixin],
   components: {TermChip},
   emits: ['update:modelValue', 'clear'],
   props: {
@@ -65,7 +74,7 @@ export default defineComponent({
     },
     debounce: {
       type: Number,
-      default: 100
+      default: 500
     },
     levels: {
       type: Number,
@@ -76,6 +85,7 @@ export default defineComponent({
       default: ''
     },
     hint: String,
+    exclude: Array,
     placeholder: {
       type: [String, Object],
       default: () => DEFAULT
@@ -96,7 +106,7 @@ export default defineComponent({
     const model = ref(null)
     const options = ref([])
     const searchValue = ref(null)
-    const select = ref(null)
+    const input = ref(null)
 
     const emptyModel = computed(() => {
       return !model.value || (Array.isArray(model.value) && !model.value.length)
@@ -113,7 +123,11 @@ export default defineComponent({
     })
 
     const leafValue = computed(() => {
-      return (arrayValue.value || []).filter(x => x.is_ancestor !== true)
+      const leaf = (arrayValue.value || []).filter(x => x.is_ancestor !== true)
+      if (props.multiple) {
+        return leaf
+      }
+      return leaf.length > 1? leaf[0] : undefined
     })
 
     function valueChanged() {
@@ -134,7 +148,7 @@ export default defineComponent({
 
     watch(model, async () => {
       if (props.elasticsearch) {
-        ctx.emit('update:modelValue', await convertToElasticsearch(model.value))
+        ctx.emit('update:modelValue', await convertToElasticsearch(model))
       } else {
         ctx.emit('update:modelValue', model.value)
       }
@@ -152,7 +166,7 @@ export default defineComponent({
       }).then((terms) => {
         if (props.leafOnly) {
           terms = terms.filter(x => {
-            return !x.descendants_count
+            return !x.descendants_count && !props.exclude.includes(x.slug)
           })
         }
 
@@ -166,18 +180,19 @@ export default defineComponent({
     }
 
     function resetValidation () {
-      select.value.resetValidation()
+      input.value.resetValidation()
     }
 
     function showTaxonomy() {
       $q.dialog({
-        component: TaxonomyInputDialog,
+        component: TermInputDialog,
         componentProps: {
           leafOnly: props.leafOnly,
           taxonomy: props.taxonomy,
           title: props.selectorTitle,
           value: model.value,
-          multiple: props.multiple
+          multiple: props.multiple,
+          exclude: props.exclude
         }
       }).onOk((value) => {
         model.value = value
@@ -197,11 +212,7 @@ export default defineComponent({
     }
 
     function clearText() {
-      select.value.updateInputValue('')
-    }
-
-    function openSelector() {
-      showTaxonomy()
+      input.value.updateInputValue('')
     }
 
     const translatedPlaceholder = computed(() => {
@@ -212,7 +223,7 @@ export default defineComponent({
     })
 
     function convertToElasticsearch(model) {
-      if (!model) {
+      if (!model.value) {
         return []
       }
       if (!props.multiple) {
@@ -222,17 +233,17 @@ export default defineComponent({
     }
 
     return {
-      select,
+      input,
       filterFn,
       onKeyDown,
       clear,
       clearText,
-      openSelector,
       options,
       translatedPlaceholder,
       showTaxonomy,
       abortFilterFn,
       resetValidation,
+      searchValue,
       emptyModel,
       model,
     }

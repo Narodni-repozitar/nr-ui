@@ -1,6 +1,8 @@
 {
   "accessibility": {},
   "action": {
+    "chooseTerm": "Choose Term",
+    "chooseTerms": "Choose Terms",
     "addTitle": "Add Title",
     "rmTitle": "Remove Title",
     "showActions": "Show actions",
@@ -186,6 +188,7 @@
     "loggedOut": "You have been logged out",
     "noArticles": "No articles found",
     "noAuthors": "No Authors",
+    "noResults": "No results found",
     "noContributors": "No Contributors",
     "noData": "No data",
     "noDatasets": "No datasets found",

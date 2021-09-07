@@ -1,6 +1,6 @@
 <template lang="pug">
-span.row
-  template(v-if="!term.icon" v-for="(t, idx) in termPath")
+span.row.q-pr-sm
+  template(v-if="!term.icon || extended" v-for="(t, idx) in termPath")
     .text-primary(v-if="idx>0")
       q-icon(size="sm" name="chevron_left")
     mt.self-center(:text="t.title")
@@ -14,8 +14,14 @@ import {useTranslated} from '/src/composables/useTranslated'
 export default defineComponent({
   name: 'TermSpan',
   props: {
-    code: String,
-    term: Object,
+    extended: {
+      type: Boolean,
+      default: false
+    },
+    term: {
+      required: true,
+      type: Object,
+    },
     levels: {
       type: Number,
       default: 20

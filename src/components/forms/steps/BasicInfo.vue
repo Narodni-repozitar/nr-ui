@@ -20,6 +20,7 @@
     :label="$t('label.abstract') + ' *'")
   licenses-select.col(
     ref="rights"
+    :exclude="['copyright']"
     v-model="basicInfo.rights"
     :label="$t('label.license')")
   //chips-select.col(

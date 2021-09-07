@@ -21,8 +21,10 @@ div.q-pa-md.q-gutter-sm
       :ticked="selectedValues"
       :default-expand-all="startExpanded"
       node-key="self"
+      v-model:selected="selected"
       @update:model-value="valueChanged"
       @update:ticked="onTicked($event)"
+      @update:selected="onSelected($event)"
       accordion)
   .row.justify-center
 
@@ -35,10 +37,11 @@ import {useI18n} from 'vue-i18n'
 
 export default defineComponent({
   name: 'TaxonomyTree',
-  emits: ['loaded', 'input', 'update:modelValue'],
+  emits: ['loaded', 'input', 'update:modelValue', 'select'],
   props: {
     taxonomy: String,
     startExpanded: Boolean,
+    exclude: Array,
     treeOptions: {
       type: Object,
       default: () => ({
@@ -99,6 +102,20 @@ export default defineComponent({
 
     function processData(data) {
       return data.map(x => {
+        if (props.exclude.includes(x.slug)) {
+          x.selectable = false
+          x.noTick = false
+          x.disabled = true
+        }
+
+        if (!props.multiple) {
+          x.noTick = true
+          x.tickable = false
+          x.selectable = true
+        } else {
+          x.selectable = false
+        }
+
         if (x.children !== undefined) {
           x.children = processData(x.children)
         }
@@ -109,9 +126,9 @@ export default defineComponent({
           x.icon = `img:${x.icon}`
         }
         if (props.leafOnly && x.descendants_count) {
-          x.selectable = false
           x.noTick = true
         }
+
         x.self = x.links.self
         x.label = mt(x.title)
         return x
@@ -203,8 +220,10 @@ export default defineComponent({
     }
 
     const selectedValues = computed(() => {
-      const res = selected.value.map(s => s?.links?.self)
-      return res
+      if (props.multiple) {
+        return selected.value.map(s => s?.links?.self)
+      }
+      return [selected.value]
     })
 
     const maxPage = computed(() => {
@@ -303,21 +322,21 @@ export default defineComponent({
     //   }
     // }
 
+    const _findTermByLink = (termTree, link) => {
+      if (termTree.links?.self === link) {
+        return termTree
+      }
+
+      if (termTree.children?.length) {
+        return termTree.children.map(t => {
+          return _findTermByLink(t, link)
+        }).filter(t => t)[0]
+      }
+    }
+
     function onTicked(term) {
       const addedVal = term.filter(x => !selectedValues.value.includes(x))
       const removedVal = selected.value.filter(x => !term.includes(x.links.self))
-
-      const _findTermByLink = (termTree, link) => {
-        if (termTree.links?.self === link) {
-          return termTree
-        }
-
-        if (termTree.children?.length) {
-          return termTree.children.map(t => {
-            return _findTermByLink(t, link)
-          }).filter(t => t)[0]
-        }
-      }
 
       if (addedVal.length > 0) {
         const added = addedVal.map(val => {
@@ -335,6 +354,16 @@ export default defineComponent({
         })
       }
       ctx.emit('update:modelValue', selected.value)
+    }
+
+    function onSelected(term) {
+      let termData = data.value.map(dat => {
+        return _findTermByLink(dat, term)
+      })
+      selected.value = termData.filter(el => el)[0]
+
+      ctx.emit('update:modelValue', selected.value)
+      ctx.emit('select', selected.value)
     }
 
     return {
@@ -360,7 +389,8 @@ export default defineComponent({
       selected,
       selectedValues,
       valueChanged,
-      onTicked
+      onTicked,
+      onSelected
     }
   }
 })

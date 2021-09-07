@@ -12,9 +12,9 @@ q-field.no-label-float.row.fit(
     term-select.col-12.q-pl-none.q-mr-sm.q-mt-md.no-outline(
       v-model="model"
       taxonomy="licenses"
-      multiple
       hide-bottom-space
       leaf-only
+      :exclude="exclude"
       :selector-title="`${$t('action.choose')} ${label.toLowerCase()}`"
       :elasticsearch="false"
       dense
@@ -37,6 +37,7 @@ export default defineComponent({
       type: String,
       default: ''
     },
+    exclude: Array,
     modelValue: {
       type: Array,
       default: () => []

@@ -1,6 +1,8 @@
 {
   "accessibility": {},
   "action": {
+    "chooseTerm": "Vybrat pojem",
+    "chooseTerms": "Vybrat pojmy",
     "showActions": "Zobrazit akce",
     "hideActions": "Skrýt akce",
     "copyPermalink": "Kopírovat perzistentní odkaz do schránky",
@@ -90,7 +92,6 @@
     "activeFilters": "Aktivní filtry",
     "selectedTerms": "Vybrané pojmy",
     "startWriting": "Začněte psát",
-    "showTaxonomyTree": "Vybrat pojem",
     "type": "Typ",
     "download": "Stáhnout",
     "abstract": "Abstrakt",
@@ -191,6 +192,7 @@
     "loading": "Načítám",
     "loadingMetadata": "Načítám metadata",
     "loggedOut": "Byli jste odhlášeni",
+    "noResults": "Zadanému dotazu neodpovídají žádné výsledky",
     "noArticles": "Žádné články nenalezeny",
     "noAuthors": "Žádní autoři",
     "noContributors": "Žádní přispěvatelé",
