@@ -3,25 +3,24 @@ q-field.fit.row(
   :filled="isEmpty"
   ref="input"
   v-bind="$attrs"
-  :label="isEmpty? label: ''"
+  :label="label"
   :error="error"
   :error_message="errorMessage"
   @focus="onFocus"
   borderless)
-  q-list(dense separator).fit.no-margin
-    div(v-for="(val,idx) in model" :key="idx")
-      q-item.no-padding.no-margin.full-width
-        q-item-section
-          identifier-input(
+  template(v-slot:control)
+    q-list.q-px-md.full-width(dense)
+      q-item.no-padding.no-margin.full-width(v-for="(val,idx) in model" :key="idx")
+        q-item-section.no-padding.no-margin
+          identifier-input.no-padding.no-margin(
             :label="`${itemLabel} #${idx + 1}`"
             v-model="model[idx]"
             :schemes="schemes"
             :ref="setInputRef"
             @update:model-value="onChange")
-  template(v-if="model.length > 0" v-slot:append)
-    list-input-buttons(@add="addItem" @remove="rmItem" can-remove)
-  template(v-else v-slot:prepend)
-    list-input-buttons(@add="addItem" @remove="rmItem")
+        q-item-section(side)
+          rm-list-item-btn(:item-label="$t('label.identifier')" @remove="rmItem(idx)")
+    add-list-item-btn(:item-label="$t('label.identifier')" @add="addItem")
 </template>
 
 <script>
@@ -32,11 +31,13 @@ import useValidation from '/src/composables/useValidation'
 import ListInputButtons from 'components/controls/buttons/ListInputButtons'
 import useModel from '/src/composables/useModel'
 import IdentifierInput from 'components/controls/inputs/IdentifierInput'
+import RmListItemBtn from 'components/controls/buttons/RmListItemBtn'
+import AddListItemBtn from 'components/controls/buttons/AddListItemBtn'
 
 export default {
   name: 'IdentifierInputList',
   emits: ['update:modelValue'],
-  components: {ListInputButtons, IdentifierInput},
+  components: {ListInputButtons, IdentifierInput, AddListItemBtn, RmListItemBtn},
   mixins: [ValidateMixin],
   props: {
     label: {

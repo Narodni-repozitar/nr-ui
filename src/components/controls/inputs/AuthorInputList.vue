@@ -12,7 +12,7 @@ q-field.row(
   template(v-slot:control)
     q-list.full-width.q-pt-md.q-pl-md(dense)
       q-item.full-width.no-margin.no-padding(v-for="(val,idx) in model" :key="idx")
-        q-item-section.no-padding.no-margin(top)
+        q-item-section.no-padding.no-margin
           author-input.no-padding.no-margin(
             :no-roles="noRoles"
             :label="`${itemLabel} #${idx + 1}`"

@@ -4,18 +4,19 @@ q-field.fit(
   :error="error"
   stack-label
   square
+  readonly
   borderless
   :label="label")
   template(v-slot:control)
     .row.no-padding.no-wrap.full-width
-      schema-select.q-pt-xs.col-3(
+      schema-select.col-2.q-mr-sm(
         ref="scheme"
         :schemes="schemes"
         v-model="model.scheme"
         :label="$t('label.scheme') + ' *'"
         :rules="[required($t('error.validation.required'))]"
         @update:model-value="onChange")
-      base-input.q-pt-xs.col-grow(
+      base-input.col-grow(
         autogrow
         ref="identifier"
         :rules="rules || [required($t('error.validation.required'))]"
