@@ -3,24 +3,25 @@ q-field.row(
   :filled="isEmpty"
   ref="input"
   v-bind="$attrs"
-  :label="isEmpty? label: ''"
+  :label="label"
   :error="error"
   :error_message="errorMessage"
   @focus="onFocus"
+  readonly
   borderless)
-  q-list(dense separator).full-width.no-padding.no-margin
-    q-item.full-width.no-margin.no-padding(v-for="(val,idx) in model" :key="idx")
-      q-item-section.no-padding.no-margin
-        author-input(
-          :no-roles="noRoles"
-          :label="`${itemLabel} #${idx + 1}`"
-          v-model="model[idx]"
-          :ref="setInputRef"
-          @update:model-value="onChange")
-  template(v-if="model.length > 0" v-slot:append)
-    list-input-buttons(@add="addItem" @remove="rmItem" can-remove)
-  template(v-else v-slot:prepend)
-    list-input-buttons(@add="addItem" @remove="rmItem")
+  template(v-slot:control)
+    q-list.full-width.q-pt-md.q-pl-md(dense)
+      q-item.full-width.no-margin.no-padding(v-for="(val,idx) in model" :key="idx")
+        q-item-section.no-padding.no-margin(top)
+          author-input.no-padding.no-margin(
+            :no-roles="noRoles"
+            :label="`${itemLabel} #${idx + 1}`"
+            v-model="model[idx]"
+            :ref="setInputRef"
+            @update:model-value="onChange")
+        q-item-section(side)
+          rm-list-item-btn(:item-label="$t('label.ofAuthor')" @remove="rmItem(idx)")
+    add-list-item-btn(:item-label="$t('label.ofAuthor')" @add="addItem")
 </template>
 
 <script>
@@ -31,11 +32,15 @@ import useValidation from '/src/composables/useValidation'
 import ListInputButtons from 'components/controls/buttons/ListInputButtons'
 import useModel from '/src/composables/useModel'
 import AuthorInput from 'components/controls/inputs/AuthorInput'
+import {DEFAULT_AUTHOR_ITEM} from 'src/constants'
+import AddListItemBtn from 'components/controls/buttons/AddListItemBtn'
+import RmListItemBtn from 'components/controls/buttons/RmListItemBtn'
+
 
 export default {
   name: 'AuthorInputList',
   emits: ['update:modelValue'],
-  components: {ListInputButtons, AuthorInput},
+  components: {RmListItemBtn, AddListItemBtn, ListInputButtons, AuthorInput},
   mixins: [ValidateMixin],
   props: {
     label: {
@@ -64,15 +69,7 @@ export default {
     const {isEmpty, onChange} = useModel(ctx, model)
 
     function addItem() {
-      model.value.push(reactive({
-        person_or_org: {
-          name: '',
-          type: 'personal',
-          given_name: '',
-          family_name: '',
-          identifiers: []
-        }, role: [], affiliations: []
-      }))
+      model.value.push(reactive(DEFAULT_AUTHOR_ITEM))
     }
 
     function rmItem() {

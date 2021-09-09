@@ -28,7 +28,6 @@ q-stepper.full-width(
       @prev="step = steps.BASIC"
       @next="step = steps.IDENTIFIERS"
       @submit="submit")
-
   q-step(
     active-icon="published_with_changes"
     icon="published_with_changes"

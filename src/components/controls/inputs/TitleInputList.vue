@@ -5,20 +5,18 @@ q-field(
   v-bind="$attrs"
   :label="label")
   template(v-slot:control)
-    multilingual-input.no-padding.no-margin(ref="input" :rules="rules" v-model="model.mainTitle.title")
+    multilingual-input.no-padding.no-margin(autofocus ref="input" :rules="rules" v-model="model.mainTitle.title")
     q-list.full-width.no-padding.no-margin(dense)
       q-item.q-pl-md.full-width.no-margin(v-for="(val,idx) in model.alternativeTitles" :key="idx")
         q-item-section.no-padding.no-margin
           q-item-label.q-pt-sm.q-pl-sm(caption) {{ $t(`value.titleType.${model.alternativeTitles[idx].titleType}`) }}
           multilingual-input.no-padding.no-margin(dense v-model="model.alternativeTitles[idx].title")
         q-item-section(side)
-          q-btn.self-center.q-mt-sm(round dense flat color="negative" icon="backspace"
+          rm-list-item-btn(
+            :item-label="$t('label.name')"
             v-if="model.alternativeTitles.length"
-            @click="rmItem(idx)")
-            q-tooltip {{ $t('action.rmTitle') }}
-    q-btn.q-pl-sm(dense flat color="secondary" icon="post_add" @click="addItem")
-      q-tooltip {{ $t('action.addTitle') }}
-
+            @remove="rmItem(idx)")
+    add-list-item-btn(:item-label="$t('label.name')" @add="addItem")
 </template>
 
 <script>
@@ -28,15 +26,18 @@ import useValidation from 'src/composables/useValidation'
 import {useQuasar} from 'quasar'
 import MultilingualInput from 'components/controls/inputs/MultilingualInput'
 import {useI18n} from 'vue-i18n'
+import AddListItemBtn from 'components/controls/buttons/AddListItemBtn'
+import RmListItemBtn from 'components/controls/buttons/RmListItemBtn'
+import {DEFAULT_MAIN_TITLE} from 'src/constants'
 
-
-const DEFAULT_MAIN_TITLE = {'title': {}, 'titleType': 'mainTitle'}
 
 export default defineComponent({
   name: 'TitleInputList',
   emits: ['update:modelValue'],
   components: {
     MultilingualInput,
+    AddListItemBtn,
+    RmListItemBtn
   },
   mixins: [ValidateMixin],
   props: {

@@ -16,6 +16,8 @@ q-select(
   :options="options"
   @filter="filterFn"
   @filter-abort="abortFilterFn"
+  @blur="input.validate()"
+  lazy-rules="ondemand"
   :hint="hint"
   :rules="rules"
   :placeholder="emptyModel ? translatedPlaceholder: ''"
@@ -85,7 +87,10 @@ export default defineComponent({
       default: ''
     },
     hint: String,
-    exclude: Array,
+    exclude: {
+      type: Array,
+      default: () => []
+    },
     placeholder: {
       type: [String, Object],
       default: () => DEFAULT
@@ -147,6 +152,9 @@ export default defineComponent({
     })
 
     watch(model, async () => {
+      if (!emptyModel.value) {
+        input.value.validate(model.value)
+      }
       if (props.elasticsearch) {
         ctx.emit('update:modelValue', await convertToElasticsearch(model))
       } else {

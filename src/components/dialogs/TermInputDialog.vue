@@ -36,6 +36,7 @@ q-dialog.taxonomy(ref="dialog" @hide="onDialogHide")
 import {defineComponent, reactive, ref} from 'vue'
 import TermChip from 'components/taxonomy/TermChip'
 import TaxonomyTree from 'components/taxonomy/TaxonomyTree'
+import deepcopy from 'deepcopy'
 
 export default defineComponent({
   name: 'TermInputDialog',
@@ -66,9 +67,9 @@ export default defineComponent({
 
     function show() {
       if (props.multiple) {
-        selected.value = props.value || []
+        selected.value = (deepcopy(props.value) || [])
       } else if (props.value) {
-        selected.value = props.value
+        selected.value = deepcopy(props.value)
       }
       dialog.value.show()
     }

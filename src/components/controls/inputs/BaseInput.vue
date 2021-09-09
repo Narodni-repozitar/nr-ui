@@ -15,6 +15,7 @@ q-input(
 <script>
 import {ref} from 'vue'
 import ValidateMixin from 'src/mixins/ValidateMixin'
+import useValidation from "src/composables/useValidation";
 
 export default {
   name: 'BaseInput',
@@ -31,8 +32,9 @@ export default {
     }
   },
   setup () {
+    const {resetValidation} = useValidation()
     const input = ref(null)
-    return {input}
+    return {input, resetValidation}
   }
 }
 </script>

@@ -23,27 +23,7 @@
     :exclude="['copyright']"
     v-model="basicInfo.rights"
     :label="$t('label.license')")
-  //chips-select.col(
-  //  ref="keywords"
-  //  v-model="basicInfo.keywords"
-  //  :label="$t('label.forms.keywords')")
-  //.row.q-my-sm.col.q-col-gutter-md.justify-start.items-start
-  //  .col-auto
-  //
-    //.col-auto
-    //  base-input.q-pa-none(
-    //    ref="publisher"
-    //    dense
-    //    autogrow
-    //    v-model="basicInfo.publisher"
-    //    :label="$t('label.publisher')")
-    //.col-auto
-    //  date-input(
-    //    ref="publication_date"
-    //    dense
-    //    v-model="basicInfo.publication_date"
-    //    :hint="$t('hint.publicationDate')"
-    //    :label="$t('label.publicationDate')")
+  //pre.q-pa-md.q-ma-md.bg-dark.text-white.text-code.rounded-borders {{ {rights:basicInfo.rights} }}
   stepper-nav.q-mt-xl(has-prev=false @next="onNext")
 </template>
 <script>
@@ -89,6 +69,7 @@ export default defineComponent({
     const primaryCommunity = ref(null)
     const mainTitle = ref(null)
     const abstract = ref(null)
+    const languages = ref(null)
     const keywords = ref(null)
 
     const basicInfo = reactive({
@@ -138,16 +119,18 @@ export default defineComponent({
     const onNext = () => {
       const tr = mainTitle.value.validate()
       const abr = abstract.value.validate()
+      const lnr = languages.value.validate()
 
       if (tr !== true ||
-          abr !== true) {
+          abr !== true ||
+          lnr !== true) {
         notifyError('error.validationFail')
       } else {
         ctx.emit('next')
       }
     }
 
-    return {basicInfo, required, primaryCommunity, mainTitle, abstract, keywords, onNext}
+    return {basicInfo, required, primaryCommunity, mainTitle, abstract, languages, keywords, onNext}
   }
 })
 </script>

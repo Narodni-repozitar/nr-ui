@@ -57,6 +57,10 @@ export default defineComponent({
       type: Number,
       default: 50
     },
+    sorting: {
+      // TODO: implement sorting in taxonomy API
+      type: Function
+    },
     multiple: {
       type: Boolean,
       default: false

@@ -1,7 +1,6 @@
 <template lang="pug">
 q-field.no-margin.no-label-float.row.full-width.multilingual-input(
   ref="fieldRef"
-  v-bind="$attrs"
   :class="[dense? 'dense': '']"
   :label="label"
   :error="error"
@@ -34,13 +33,12 @@ q-field.no-margin.no-label-float.row.full-width.multilingual-input(
 
 </template>
 <script>
-import {computed, reactive, ref, watch} from 'vue'
+import {computed, ref} from 'vue'
 import {useI18n} from 'vue-i18n'
 import LocaleSelect from 'components/i18n/LocaleSelect'
 import useModel from '/src/composables/useModel'
 import useValidation from '/src/composables/useValidation'
 import useInputRefs from 'src/composables/useInputRefs'
-import {useQuasar} from 'quasar'
 import useMultilingual from 'src/composables/useMultilingual'
 
 export default {
@@ -66,8 +64,7 @@ export default {
     const {setInputRef, inputRefs} = useInputRefs()
     const {addLangVariant, rmLangVariant} = useMultilingual(model, inputRefs, onChange)
 
-    const $q = useQuasar()
-    const {t, locale} = useI18n()
+    const {locale} = useI18n()
     const {error, errorMessage, resetValidation, required} = useValidation()
 
     const fieldRef = ref(null)

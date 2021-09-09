@@ -17,6 +17,7 @@ import {ref} from 'vue'
 import ValidateMixin from '/src/mixins/ValidateMixin'
 import {AUTHOR_TYPES} from '/src/constants'
 import BaseSelect from 'components/controls/selects/BaseSelect'
+import useValidation from 'src/composables/useValidation'
 
 export default {
   name: 'AuthorTypeSelect',
@@ -29,15 +30,16 @@ export default {
       default: ''
     },
     modelValue: {
-      type: [String, Number, Array],
-      default: ''
+      type: String,
+      default: AUTHOR_TYPES.PERSON
     }
   },
   setup(props) {
     const input = ref(null)
     const model = ref(props.modelValue)
+    const {resetValidation} = useValidation()
 
-    return {model, input, AUTHOR_TYPES}
+    return {model, input, AUTHOR_TYPES, resetValidation}
   }
 }
 </script>

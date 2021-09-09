@@ -101,7 +101,8 @@ export default {
       onChange,
       onFocus,
       isEmpty,
-      validate
+      validate,
+      resetValidation
     }
   }
 }

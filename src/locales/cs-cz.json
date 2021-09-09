@@ -48,7 +48,9 @@
     "submitDataset": "Nahrát dataset",
     "upload": "Nahrát",
     "uploadArticle": "Nahrát nový článek",
-    "uploadDataset": "Nahrát nový dataset"
+    "uploadDataset": "Nahrát nový dataset",
+    "remove": "Odebrat",
+    "add": "Přidat"
   },
   "app": {
     "copyright": "©  2021 CESNET z.s.p.o.  Zikova 4, 160 00 Praha 6",
@@ -147,6 +149,9 @@
     "languages": "Jazyky",
     "license": "Licence",
     "localeSwitcher": "Jazyk",
+    "ofAuthor": "autora",
+    "ofContributor": "přispěvatele",
+    "fullName": "Celé jméno",
     "name": "Název",
     "noCommunitySelected": "Nevybrána žádná komunita",
     "or": "nebo",
@@ -249,8 +254,8 @@
       "published": "publikováno"
     },
     "authorType": {
-      "organizational": "Organizace",
-      "personal": "Osoba"
+      "organizational": "organizace",
+      "personal": "osoba"
     },
     "lang": {
       "cs": "Česky",

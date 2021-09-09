@@ -23,6 +23,16 @@ export const AUTHOR_TYPES = Object.freeze({
   ORGANIZATION: 'organizational',
 })
 
+export const DEFAULT_AUTHOR_ITEM = {
+  fullName: '',
+  nameType: AUTHOR_TYPES.PERSON,
+  identifiers: [],
+  role: [],
+  affiliation: []
+}
+
+export const DEFAULT_MAIN_TITLE = {'title': {}, 'titleType': 'mainTitle'}
+
 export const RESOURCE_IDENTIFIER_SCHEMES = [
   "ark",
   "arxiv",
@@ -84,6 +94,8 @@ export const CONTRIBUTOR_ROLES = [
 export const AFFILIATIONS = ['CESNET', 'VŠCHT', 'NTK', 'AVČR']
 
 export default {
+  DEFAULT_AUTHOR_ITEM,
+  DEFAULT_MAIN_TITLE,
   DATASETS_COLLECTION_CODE,
   DATASETS_DRAFT_COLLECTION_CODE,
   ARTICLES_COLLECTION_CODE,

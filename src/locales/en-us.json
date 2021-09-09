@@ -49,7 +49,9 @@
     "submitDataset": "Submit dataset record",
     "upload": "Upload",
     "uploadArticle": "Upload new article",
-    "uploadDataset": "Upload new dataset"
+    "uploadDataset": "Upload new dataset",
+    "add": "Add",
+    "remove": "Remove"
   },
   "app": {
     "copyright": "©  2021 CESNET a. l. e., Zikova 4, 160 00 Praha 6, Czech Republic",
@@ -85,6 +87,9 @@
     "revert_approval": "assignment_return"
   },
   "label": {
+    "abstract": "Abstract",
+    "continue": "Continue",
+    "license": "License",
     "nameType": "Name type",
     "browseRecords": "browse all records",
     "fullText": "Fulltext search",
@@ -105,6 +110,9 @@
     "authorType": "Contributor Type",
     "authors": "Authors",
     "back": "Back",
+    "ofAuthor": "author",
+    "ofContributor": "of contributor",
+    "fullName": "Celé jméno",
     "backToCollection": "Back to collection",
     "community": "Community",
     "contact": "Contact Us",

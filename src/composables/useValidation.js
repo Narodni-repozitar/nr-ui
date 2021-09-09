@@ -17,9 +17,7 @@ export default function useValidation() {
         valid = !!x.length
       }
       if (x && typeof x === 'object') {
-        valid = Object.keys(x).length > 0 && Object.values(x).every(val => {
-          return !!val
-        })
+        valid = Object.keys(x).length > 0 && Object.values(x).some(v => !!v)
       }
       return valid || msg
     }
