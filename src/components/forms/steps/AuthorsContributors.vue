@@ -11,6 +11,7 @@
     ref="contributors"
     :label="$t('label.contributors')"
     :item-label="$t('label.contributor')")
+  pre.q-pa-md.q-ma-md.bg-dark.text-white.text-code.rounded-borders {{ {creators:model.creators, contributors:model.contributors} }}
   stepper-nav(has-prev @next="onNext" @prev="$emit('prev')")
 </template>
 <script>
@@ -20,7 +21,8 @@ import useNotify from 'src/composables/useNotify'
 import AuthorInputList from 'components/controls/inputs/AuthorInputList'
 import AuthorInput from 'components/controls/inputs/AuthorInput'
 import {DEFAULT_AUTHOR_ITEM} from 'src/constants'
-import useModel from "src/composables/useModel";
+import useValidation from 'src/composables/useValidation'
+import {useI18n} from 'vue-i18n'
 
 export default defineComponent({
   name: 'AuthorsContributors',
@@ -30,11 +32,11 @@ export default defineComponent({
     modelValue: Object
   },
   setup(props, ctx) {
+    const {t} = useI18n()
     const {notifyError} = useNotify()
+    const {required} = useValidation()
 
     const model = ref(props.modelValue)
-
-    const {isEmpty} = useModel(ctx, model)
 
     const creators = ref(null)
     const contributors = ref(null)
@@ -51,6 +53,14 @@ export default defineComponent({
       const crr = creators.value.validate()
       const cor = contributors.value.validate()
 
+      const req = required(t('error.validation.required'))(model.value.creators)
+      if (req !== true) {
+        creators.value.error = true
+        creators.value.errorMessage = req
+        notifyError(req)
+        return
+      }
+
       if (crr !== true) {
         notifyError(crr)
         return
@@ -62,7 +72,7 @@ export default defineComponent({
       ctx.emit('next')
     }
 
-    return {model, creators, contributors, onNext}
+    return {model, creators, contributors, required, onNext}
   }
 })
 </script>

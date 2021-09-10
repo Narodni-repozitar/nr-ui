@@ -26,7 +26,7 @@ q-stepper.full-width(
     authors-contributors(
       v-model="formData"
       @prev="step = steps.BASIC"
-      @next="step = steps.IDENTIFIERS"
+      @next="step = steps.SUBMISSION"
       @submit="submit")
   q-step(
     active-icon="published_with_changes"

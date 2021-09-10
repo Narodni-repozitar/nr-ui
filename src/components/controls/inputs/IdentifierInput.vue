@@ -9,7 +9,7 @@ q-field.fit(
   :label="label")
   template(v-slot:control)
     .row.no-padding.no-wrap.full-width
-      schema-select.col-2.q-mr-sm(
+      schema-select.col-3.q-mr-sm(
         ref="scheme"
         :schemes="schemes"
         v-model="model.scheme"

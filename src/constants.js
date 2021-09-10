@@ -62,7 +62,14 @@ export const API_MULTILINGUAL_SUPPORTED_LANGUAGES = [
   'hu', 'lt', 'pt', 'bg', 'ro', 'sv'
 ]
 
-export const PERSON_IDENTIFIER_SCHEMES = ["orcid", "isni", "gnd", "ror"]
+export const PERSON_IDENTIFIER_SCHEMES = [
+  "orcid",
+  "scopusID",
+  "researcherID",
+  "czenasAutID",
+  "vedidk",
+  "ISNI",
+]
 
 // TODO: migrate to taxonomy terms
 export const CONTRIBUTOR_ROLES = [

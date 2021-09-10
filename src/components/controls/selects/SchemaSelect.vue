@@ -7,6 +7,7 @@ base-select(
   v-model="model"
   options-dense
   :options="schemes"
+  :option-label="opt => opt? $t(`value.idScheme.${opt}`): `${$t('action.choose')} ${$t('label.scheme').toLowerCase()}…`"
   @update:model-value="$emit('update:modelValue', $event)")
 </template>
 

@@ -257,6 +257,14 @@
       "organizational": "organizace",
       "personal": "osoba"
     },
+    "idScheme": {
+      "orcid" : "ORCID",
+      "scopusID": "Scopus AuthorID",
+      "researcherID": "ResearcherID (Web of Science)",
+      "czenasAutID": "Národní autorita",
+      "vedidk": "Vedidk (IS VaVaI)",
+      "ISNI": "ISNI"
+    },
     "lang": {
       "cs": "Česky",
       "cs-cz": "Česky",

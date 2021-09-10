@@ -255,6 +255,14 @@
       "organizational": "Organization",
       "personal": "Person"
     },
+    "idScheme": {
+      "orcid" : "ORCID",
+      "scopusID": "Scopus AuthorID",
+      "researcherID": "ResearcherID (Web of Science)",
+      "czenasAutID": "Czech National Authority",
+      "vedidk": "Vedidk (IS VaVaI)",
+      "ISNI": "ISNI"
+    },
     "lang": {
       "cs": "Czech",
       "cs-cz": "Czech",

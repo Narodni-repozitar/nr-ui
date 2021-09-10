@@ -45,7 +45,7 @@ q-field.no-margin.no-label-float.row(
           @update:model-value="onChange")
     .row.full-width
       identifier-input-list(
-        v-model="model.identifiers"
+        v-model="model.authorityIdentifiers"
         ref="identifiers"
         :schemes="PERSON_IDENTIFIER_SCHEMES"
         :label="$t('label.identifiers')"

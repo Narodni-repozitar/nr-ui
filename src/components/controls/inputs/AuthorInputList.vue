@@ -17,6 +17,7 @@ q-field.row(
             :no-roles="noRoles"
             :label="`${itemLabel} #${idx + 1}`"
             v-model="model[idx]"
+            :rules="rules"
             :ref="setInputRef"
             @update:model-value="onChange")
         q-item-section(side)
@@ -71,6 +72,7 @@ export default {
     const {isEmpty, onChange} = useModel(ctx, model)
 
     function addItem() {
+      resetValidation()
       model.value.push(deepcopy(DEFAULT_AUTHOR_ITEM))
     }
 
