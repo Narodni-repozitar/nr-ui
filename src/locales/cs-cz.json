@@ -85,6 +85,7 @@
     "revert_approval": "assignment_return"
   },
   "label": {
+    "institutionName": "Název organizace",
     "nameType": "Typ názvu",
     "fullText": "plný text",
     "browseRecords": "procházet všechny záznamy",

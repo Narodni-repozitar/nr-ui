@@ -93,7 +93,7 @@ export default defineComponent({
     const {notifySuccess, notifyError} = useNotify()
 
     const formData = ref({})
-    const step = ref(steps.BASIC)
+    const step = ref(steps.AUTHORS)
     const submitting = ref(false)
     const failed = ref(false)
     const created = ref(false)

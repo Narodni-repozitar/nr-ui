@@ -26,9 +26,13 @@ export const AUTHOR_TYPES = Object.freeze({
 export const DEFAULT_AUTHOR_ITEM = {
   fullName: '',
   nameType: AUTHOR_TYPES.PERSON,
-  identifiers: [],
-  role: [],
+  authorityIdentifiers: [],
   affiliation: []
+}
+
+export const DEFAULT_ORGANIZATION_ITEM = {
+  fullName: '',
+  nameType: AUTHOR_TYPES.ORGANIZATION
 }
 
 export const DEFAULT_MAIN_TITLE = {'title': {}, 'titleType': 'mainTitle'}

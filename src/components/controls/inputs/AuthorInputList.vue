@@ -92,6 +92,7 @@ export default {
         const res = inp.validate()
         if (res !== true) {
           error.value = true
+          errorMessage.value = res
         }
       })
       return error.value ? 'error.validationFail' : true

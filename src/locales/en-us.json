@@ -87,6 +87,7 @@
     "revert_approval": "assignment_return"
   },
   "label": {
+    "institutionName": "Organization Name",
     "abstract": "Abstract",
     "continue": "Continue",
     "license": "License",

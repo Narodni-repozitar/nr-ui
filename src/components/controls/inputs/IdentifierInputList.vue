@@ -33,6 +33,7 @@ import useModel from '/src/composables/useModel'
 import IdentifierInput from 'components/controls/inputs/IdentifierInput'
 import RmListItemBtn from 'components/controls/buttons/RmListItemBtn'
 import AddListItemBtn from 'components/controls/buttons/AddListItemBtn'
+import deepcopy from "deepcopy";
 
 export default {
   name: 'IdentifierInputList',
@@ -62,15 +63,17 @@ export default {
     const {input, inputRefs, setInputRef} = useInputRefs()
     const {error, errorMessage, resetValidation} = useValidation()
 
-    const model = ref([...props.modelValue] || [])
+    const model = ref(deepcopy(props.modelValue) || [])
     const {isEmpty, onChange} = useModel(ctx, model)
 
     function addItem() {
       model.value.push(reactive({scheme: '', identifier: ''}))
+      onChange()
     }
 
     function rmItem() {
       model.value.splice(model.value.length - 1, 1)
+      onChange()
     }
 
     function onFocus() {
