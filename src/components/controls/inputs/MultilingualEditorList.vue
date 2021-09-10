@@ -8,7 +8,6 @@ q-field.no-label-float.row(
   :error_message="errorMessage"
   borderless)
   q-list(dense separator).full-width.no-margin.q-pt-md
-    q-separator(spaced v-if="model.length > 0")
     q-item.full-width(v-for="(val,idx) in model" :key="idx")
       q-item-section
         multilingual-editor(

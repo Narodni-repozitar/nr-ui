@@ -39,16 +39,16 @@ export default defineComponent({
     const creators = ref(null)
     const contributors = ref(null)
 
-    if (isEmpty.value) {
-      model.value = reactive({creators: [DEFAULT_AUTHOR_ITEM], contributors: []})
-    }
+    model.value = reactive({
+      creators: props.modelValue.creators?.length? [...props.modelValue.creators] : [DEFAULT_AUTHOR_ITEM],
+      contributors: props.modelValue.contributors?.length? [...props.modelValue.contributors] : []})
 
     watch(model, () => {
       ctx.emit('update:modelValue', model)
     })
 
     function onNext() {
-      const crr = creator.value.validate()
+      const crr = creators.value.validate()
       const cor = contributors.value.validate()
 
       if (crr !== true) {

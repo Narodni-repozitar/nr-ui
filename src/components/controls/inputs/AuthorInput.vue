@@ -54,7 +54,7 @@ q-field.no-margin.no-label-float.row(
 </template>
 
 <script>
-import {computed, onMounted, reactive, ref, watch} from 'vue'
+import {computed, onMounted, reactive, ref} from 'vue'
 import ValidateMixin from '/src/mixins/ValidateMixin'
 import useValidation from '/src/composables/useValidation'
 import useInputRefs from '/src/composables/useInputRefs'
@@ -116,18 +116,20 @@ export default {
     }
 
     function validate() {
+      resetValidation()
       let idr = true
 
       const atr = authorType.value.validate()
       const fnr = fullName.value.validate()
       const afr = affiliations.value.validate()
 
-      if (identifiers.value) {
+      if (identifiers.value.length) {
         idr = identifiers.value.validate()
       }
 
       if (atr !== true ||
           fnr !== true ||
+          afr !== true ||
           idr !== true) {
         error.value = true
       }

@@ -10,7 +10,7 @@ q-field.row(
   readonly
   borderless)
   template(v-slot:control)
-    q-list.full-width.q-pt-md.q-pl-md(dense)
+    q-list.full-width.q-pt-md.q-pl-md(dense separator padding)
       q-item.full-width.no-margin.no-padding(v-for="(val,idx) in model" :key="idx")
         q-item-section.no-padding.no-margin
           author-input.no-padding.no-margin(
@@ -20,6 +20,7 @@ q-field.row(
             :ref="setInputRef"
             @update:model-value="onChange")
         q-item-section(side)
+          q-separator.full-height.q-mr-sm.ti-line-dotted(vertical inset)
           rm-list-item-btn(:item-label="$t('label.ofAuthor')" @remove="rmItem(idx)")
     add-list-item-btn(:item-label="$t('label.ofAuthor')" @add="addItem")
 </template>
@@ -35,6 +36,7 @@ import AuthorInput from 'components/controls/inputs/AuthorInput'
 import {DEFAULT_AUTHOR_ITEM} from 'src/constants'
 import AddListItemBtn from 'components/controls/buttons/AddListItemBtn'
 import RmListItemBtn from 'components/controls/buttons/RmListItemBtn'
+import deepcopy from "deepcopy";
 
 
 export default {
@@ -65,11 +67,11 @@ export default {
     const {input, inputRefs, setInputRef} = useInputRefs()
     const {error, errorMessage, resetValidation} = useValidation()
 
-    const model = ref([...props.modelValue] || [])
+    const model = ref(props.modelValue.length? deepcopy(props.modelValue) : [])
     const {isEmpty, onChange} = useModel(ctx, model)
 
     function addItem() {
-      model.value.push(reactive(DEFAULT_AUTHOR_ITEM))
+      model.value.push(deepcopy(DEFAULT_AUTHOR_ITEM))
     }
 
     function rmItem() {

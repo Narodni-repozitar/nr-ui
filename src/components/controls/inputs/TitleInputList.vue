@@ -12,6 +12,7 @@ q-field(
           q-item-label.q-pt-sm.q-pl-sm(caption) {{ $t(`value.titleType.${model.alternativeTitles[idx].titleType}`) }}
           multilingual-input.no-padding.no-margin(dense v-model="model.alternativeTitles[idx].title")
         q-item-section(side)
+          q-separator.full-height.q-mr-sm.ti-line-dotted(vertical inset)
           rm-list-item-btn(
             :item-label="$t('label.name')"
             v-if="model.alternativeTitles.length"

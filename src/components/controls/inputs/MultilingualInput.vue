@@ -20,7 +20,10 @@ q-field.no-margin.no-label-float.row.full-width.multilingual-input(
         v-model="model[idx].val"
         @update:model-value="onChange")
         template(v-slot:prepend="slotProps")
-          q-badge.shadow-1.q-ml-sm.q-mr-xs.q-mt-md.q-pb-sm.q-pt-xs(transparent color="accent") {{ model[idx].lang }}
+          q-badge.shadow-1.q-ml-sm.q-mr-xs.q-mt-md.q-pb-sm.q-pt-xs(
+            @click="replace(idx)"
+            transparent
+            color="accent") {{ model[idx].lang }}
             q-tooltip {{ $t(`value.lang.${model[idx].lang}`) }}
           q-btn.q-mt-md.q-mr-xs(v-if="idx === model.length -1" size="sm" color="accent" dense outline icon="add"
             @click="addLangVariant")
@@ -114,6 +117,10 @@ export default {
       ctx.emit('update:modelValue', modelExternal.value)
     }
 
+    function replace() {
+
+    }
+
     function onFocus() {
       if (isEmpty.value) {
         addLangVariant()
@@ -132,7 +139,8 @@ export default {
       required,
       validate,
       onFocus,
-      onChange
+      onChange,
+      replace
     }
   }
 }
