@@ -15,7 +15,7 @@ q-field.no-label-float.row.fit(
       hide-bottom-space
       ref="input"
       :taxonomy="taxonomy"
-      :selector-title="`${$t('action.choose')} ${label.toLowerCase()}`"
+      :selector-title="selectorTitle? selectorTitle : `${$t('action.choose')} ${$t(label).toLowerCase()}`"
       multiple
       :elasticsearch="false"
       :rules="rules"
@@ -33,6 +33,9 @@ export default defineComponent({
   components: {TermSelect},
   mixins: [ValidateMixin],
   props: {
+    selectorTitle: {
+      type: String
+    },
     label: {
       type: String,
       default: ''

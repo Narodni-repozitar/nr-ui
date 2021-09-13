@@ -53,7 +53,7 @@ q-field.no-margin.no-label-float.row(
           :elasticsearch="false"
           multiple
           :rules="[required($t('error.validation.required'))]"
-          :label="$t('label.affiliations')"
+          :label="`${$t('label.affiliations')} *`"
           @update:model-value="onChange")
     .row.full-width(v-if="isPerson")
       identifier-input-list(
@@ -66,7 +66,7 @@ q-field.no-margin.no-label-float.row(
 </template>
 
 <script>
-import {computed, onMounted, reactive, ref, watch, watchEffect} from 'vue'
+import {computed, ref} from 'vue'
 import ValidateMixin from '/src/mixins/ValidateMixin'
 import useValidation from '/src/composables/useValidation'
 import useInputRefs from '/src/composables/useInputRefs'

@@ -20,8 +20,11 @@ q-field.no-label-float.row.multilingual-input(
           :toolbar="toolbar"
           @update:model-value="onChange")
           template(v-slot:lang)
-            q-badge.q-pb-sm.q-pt-xs.q-mb-xs.q-mr-xs.shadow-1(transparent color="accent") {{ model[idx].lang }}
-              q-tooltip {{ $t(`value.lang.${model[idx].lang}`) }}
+            lang-badge.q-pb-sm.q-pt-xs.q-mb-xs.q-mr-xs(
+              dense
+              v-model="model[idx].lang"
+              @update:model-value="onChange"
+              :lang-picker="showLangDialog")
 </template>
 
 <script>
@@ -32,10 +35,11 @@ import useValidation from '/src/composables/useValidation'
 import useModel from '/src/composables/useModel'
 import useInputRefs from '/src/composables/useInputRefs'
 import useMultilingual from 'src/composables/useMultilingual'
+import LangBadge from "components/ui/LangBadge";
 
 export default {
   name: 'MultilingualEditor',
-  components: {LocaleSelect},
+  components: {LangBadge, LocaleSelect},
   emits: ['update:modelValue'],
   props: {
     empty: {
@@ -61,7 +65,7 @@ export default {
     const {error, required, errorMessage, resetValidation} = useValidation()
     const {setInputRef, inputRefs} = useInputRefs()
     const {isEmpty} = useModel(ctx, model)
-    const {addLangVariant, rmLangVariant} = useMultilingual(model, inputRefs, onChange)
+    const {addLangVariant, rmLangVariant, showLangDialog} = useMultilingual(model, inputRefs, onChange)
     const definitions = ref({
       addLang: {
         tip: t('action.addLang'),
@@ -148,6 +152,7 @@ export default {
       resetValidation,
       onChange,
       onFocus,
+      showLangDialog,
       addLangVariant,
       rmLangVariant,
       isEmpty

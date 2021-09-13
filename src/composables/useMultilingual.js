@@ -12,6 +12,13 @@ export default function useMultilingual (model, inputRefs, onChangeFn) {
   })
 
   function addLangVariant() {
+    showLangDialog((data) => {
+      model.value.push({lang: data, val: ''})
+      onChangeFn()
+    })
+  }
+
+  function showLangDialog(okCallbackFn) {
     $q.dialog({
       title: t('label.language'),
       message: `${t('action.choose')} ${t('label.language')}`,
@@ -25,8 +32,7 @@ export default function useMultilingual (model, inputRefs, onChangeFn) {
       cancel: true,
       persistent: false
     }).onOk(data => {
-      model.value.push({lang: data, val: ''})
-      onChangeFn()
+      okCallbackFn(data)
     })
   }
 
@@ -36,5 +42,5 @@ export default function useMultilingual (model, inputRefs, onChangeFn) {
     onChangeFn()
   }
 
-  return {addLangVariant, rmLangVariant, availableLangs}
+  return {addLangVariant, rmLangVariant, showLangDialog, availableLangs}
 }

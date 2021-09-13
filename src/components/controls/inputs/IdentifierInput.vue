@@ -67,7 +67,6 @@ export default {
     }
 
     function validate () {
-      console.log('validate')
       scheme.value.validate()
       identifier.value.validate()
 

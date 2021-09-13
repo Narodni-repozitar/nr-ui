@@ -18,6 +18,7 @@
     v-model="basicInfo.abstract"
     :rules="[required($t('error.validation.required'))]"
     :label="$t('label.abstract') + ' *'")
+  //pre.q-pa-md.q-ma-md.bg-dark.text-white.text-code.rounded-borders {{ {abstract:basicInfo.abstract} }}
   licenses-select.col(
     ref="rights"
     :exclude="['copyright']"

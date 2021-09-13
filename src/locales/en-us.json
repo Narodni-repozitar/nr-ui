@@ -87,6 +87,9 @@
     "revert_approval": "assignment_return"
   },
   "label": {
+    "technicalInfo": "Technical Info",
+    "methods": "Methods",
+    "subjectCategories": "Subject Categories",
     "institutionName": "Organization Name",
     "abstract": "Abstract",
     "continue": "Continue",

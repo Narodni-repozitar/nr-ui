@@ -20,11 +20,10 @@ q-field.no-margin.no-label-float.row.full-width.multilingual-input(
         v-model="model[idx].val"
         @update:model-value="onChange")
         template(v-slot:prepend="slotProps")
-          q-badge.shadow-1.q-ml-sm.q-mr-xs.q-mt-md.q-pb-sm.q-pt-xs.cursor-pointer(
-            @click="replace(idx)"
-            transparent
-            color="accent") {{ model[idx].lang }}
-            q-tooltip {{ $t(`value.lang.${model[idx].lang}`) }}
+          lang-badge(
+            v-model="model[idx].lang"
+            @update:model-value="onChange"
+            :lang-picker="showLangDialog")
           q-btn.q-mt-md.q-mr-xs(v-if="idx === model.length -1" size="sm" color="accent" dense outline icon="add"
             @click="addLangVariant")
             q-tooltip {{ $t('action.addLang') }}
@@ -33,7 +32,6 @@ q-field.no-margin.no-label-float.row.full-width.multilingual-input(
             q-tooltip {{ $t('action.rmLang') }}
           q-separator.q-mt-lg(inset vertical)
         template(v-slot:append)
-
 </template>
 <script>
 import {computed, ref} from 'vue'
@@ -43,10 +41,11 @@ import useModel from '/src/composables/useModel'
 import useValidation from '/src/composables/useValidation'
 import useInputRefs from 'src/composables/useInputRefs'
 import useMultilingual from 'src/composables/useMultilingual'
+import LangBadge from 'components/ui/LangBadge'
 
 export default {
   name: 'MultilingualInput',
-  components: {LocaleSelect},
+  components: {LangBadge, LocaleSelect},
   emits: ['update:modelValue'],
   props: {
     label: {
@@ -65,7 +64,7 @@ export default {
   setup(props, ctx) {
     const model = ref([])
     const {setInputRef, inputRefs} = useInputRefs()
-    const {addLangVariant, rmLangVariant} = useMultilingual(model, inputRefs, onChange)
+    const {addLangVariant, rmLangVariant, showLangDialog} = useMultilingual(model, inputRefs, onChange)
 
     const {locale} = useI18n()
     const {error, errorMessage, resetValidation, required} = useValidation()
@@ -117,10 +116,11 @@ export default {
       ctx.emit('update:modelValue', modelExternal.value)
     }
 
-    function replace() {
-      console.log('replace')
-
-    }
+    // function replace(idx) {
+    //   showLangDialog((lang) => {
+    //     model.value[idx].lang = lang
+    //   })
+    // }
 
     function onFocus() {
       if (isEmpty.value) {
@@ -136,12 +136,13 @@ export default {
       errorMessage,
       addLangVariant,
       rmLangVariant,
+      showLangDialog,
       setInputRef,
       required,
       validate,
       onFocus,
       onChange,
-      replace
+      // replace
     }
   }
 }

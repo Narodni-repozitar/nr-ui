@@ -85,6 +85,9 @@
     "revert_approval": "assignment_return"
   },
   "label": {
+    "technicalInfo": "Technické informace",
+    "methods": "Metodologie",
+    "subjectCategories": "Oborové kategorie",
     "institutionName": "Název organizace",
     "nameType": "Typ názvu",
     "fullText": "plný text",
