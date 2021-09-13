@@ -36,6 +36,16 @@ q-stepper.full-width(
     dataset-description(
       v-model="formData"
       @prev="step = steps.AUTHORS"
+      @next="step = steps.DATES"
+      @submit="submit")
+  q-step(
+    icon="date_range"
+    :name="steps.DATES"
+    :title="$t('label.forms.dates')"
+    :done="step > steps.DATES")
+    dates(
+      v-model="formData"
+      @prev="step = steps.DESCRIPTION"
       @next="step = steps.FUNDING"
       @submit="submit")
   q-step(
@@ -99,14 +109,16 @@ import useNotify from 'src/composables/useNotify'
 import CircularSpinner from 'components/ui/CircularSpinner'
 import DatasetDescription from 'components/forms/steps/DatasetDescription'
 import FundingInfo from 'components/forms/steps/FundingInfo'
+import Dates from 'components/forms/steps/Dates'
 
 export const steps = Object.freeze({
   BASIC: 1,
   AUTHORS: 2,
   DESCRIPTION: 3,
-  FUNDING: 4,
-  SUBMISSION: 5,
-  UPLOAD: 6
+  DATES: 4,
+  FUNDING: 5,
+  SUBMISSION: 6,
+  UPLOAD: 7
 })
 
 export default defineComponent({
@@ -116,6 +128,7 @@ export default defineComponent({
     AuthorsContributors,
     BasicInfo,
     FundingInfo,
+    Dates,
     UploadData,
     Identifiers,
     StepperNav,
@@ -125,7 +138,7 @@ export default defineComponent({
     const {notifySuccess, notifyError} = useNotify()
 
     const formData = ref({})
-    const step = ref(steps.FUNDING)
+    const step = ref(steps.DATES)
     const submitting = ref(false)
     const failed = ref(false)
     const created = ref(false)

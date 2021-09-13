@@ -139,6 +139,7 @@
     "familyName": "Family Name",
     "filters": "Filters",
     "forms": {
+      "dates": "Dates",
       "fundingInfo": "Funding Info",
       "datasetDescription": "Dataset description",
       "additionalTitles": "Additional titles",

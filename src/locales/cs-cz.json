@@ -136,6 +136,7 @@
     "files": "Soubory",
     "filters": "Filtry",
     "forms": {
+      "dates": "Datace",
       "fundingInfo": "Informace o financování",
       "datasetDescription": "Popis datové sady",
       "additionalTitles": "Další názvy",
