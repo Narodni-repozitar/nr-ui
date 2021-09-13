@@ -15,7 +15,7 @@ base-select(
 <script>
 import {ref} from 'vue'
 import ValidateMixin from '/src/mixins/ValidateMixin'
-import {AUTHOR_TYPES} f rom '/src/constants'
+import {AUTHOR_TYPES} from '/src/constants'
 import BaseSelect from 'components/controls/selects/BaseSelect'
 import useValidation from 'src/composables/useValidation'
 

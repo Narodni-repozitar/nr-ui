@@ -25,6 +25,7 @@
     v-model="description.technicalInfo"
     :rules="[required($t('error.validation.required'))]"
     :label="$t('label.technicalInfo')")
+
   stepper-nav.q-mt-xl(has-prev @next="onNext" @prev="$emit('prev')")
 </template>
 <script>
