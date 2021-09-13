@@ -126,12 +126,14 @@
     "files": "Soubory",
     "filters": "Filtry",
     "forms": {
+      "datasetDescription": "Popis datové sady",
       "additionalTitles": "Další názvy",
       "authorsContributors": "Tvůrci",
       "datasetBasicInfo": "Datová sada",
       "identifiers": "Identifikátory",
       "identifiersCaption": "Zadejte existující identifikátory spojené s tímto datasetem",
       "keywords": "Klíčová slova",
+      "keyword": "klíčové slovo",
       "saveChanges": "Uložit změny",
       "submission": "Vytvoření draftového záznamu",
       "uploadData": "Upload dat"

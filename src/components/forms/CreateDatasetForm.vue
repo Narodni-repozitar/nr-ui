@@ -26,6 +26,16 @@ q-stepper.full-width(
     authors-contributors(
       v-model="formData"
       @prev="step = steps.BASIC"
+      @next="step = steps.DESCRIPTION"
+      @submit="submit")
+  q-step(
+    icon="analytics"
+    :name="steps.DESCRIPTION"
+    :title="$t('label.forms.datasetDescription')"
+    :done="step > steps.SUBMISSION")
+    dataset-description(
+      v-model="formData"
+      @prev="step = steps.AUTHORS"
       @next="step = steps.SUBMISSION"
       @submit="submit")
   q-step(
@@ -77,23 +87,24 @@ import StepperNav from 'components/controls/StepperNav'
 import {axios} from 'src/boot/axios'
 import useNotify from 'src/composables/useNotify'
 import CircularSpinner from 'components/ui/CircularSpinner'
+import DatasetDescription from "components/forms/steps/DatasetDescription";
 
 export const steps = Object.freeze({
   BASIC: 1,
   AUTHORS: 2,
-  IDENTIFIERS: 3,
+  DESCRIPTION: 3,
   SUBMISSION: 4,
   UPLOAD: 5
 })
 
 export default defineComponent({
   name: 'CreateDatasetForm',
-  components: {AuthorsContributors, BasicInfo, UploadData, Identifiers, StepperNav, CircularSpinner},
+  components: {DatasetDescription, AuthorsContributors, BasicInfo, UploadData, Identifiers, StepperNav, CircularSpinner},
   setup() {
     const {notifySuccess, notifyError} = useNotify()
 
     const formData = ref({})
-    const step = ref(steps.AUTHORS)
+    const step = ref(steps.DESCRIPTION)
     const submitting = ref(false)
     const failed = ref(false)
     const created = ref(false)

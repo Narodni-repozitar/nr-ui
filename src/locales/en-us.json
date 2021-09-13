@@ -129,6 +129,7 @@
     "familyName": "Family Name",
     "filters": "Filters",
     "forms": {
+      "datasetDescription": "Dataset description",
       "additionalTitles": "Additional titles",
       "authors": "Authors",
       "authorsContributors": "Authors and Contributors",
@@ -136,6 +137,7 @@
       "identifiers": "Identifiers",
       "identifiersCaption": "Are there any existing identifiers associated with the dataset",
       "keywords": "Keywords",
+      "keyword": "keyword",
       "saveChanges": "Save Changes",
       "submission": "DRAFT Record Submission",
       "uploadData": "Data Upload"

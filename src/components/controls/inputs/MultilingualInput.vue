@@ -20,7 +20,7 @@ q-field.no-margin.no-label-float.row.full-width.multilingual-input(
         v-model="model[idx].val"
         @update:model-value="onChange")
         template(v-slot:prepend="slotProps")
-          q-badge.shadow-1.q-ml-sm.q-mr-xs.q-mt-md.q-pb-sm.q-pt-xs(
+          q-badge.shadow-1.q-ml-sm.q-mr-xs.q-mt-md.q-pb-sm.q-pt-xs.cursor-pointer(
             @click="replace(idx)"
             transparent
             color="accent") {{ model[idx].lang }}
@@ -118,6 +118,7 @@ export default {
     }
 
     function replace() {
+      console.log('replace')
 
     }
 
