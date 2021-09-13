@@ -35,6 +35,13 @@ export const DEFAULT_ORGANIZATION_ITEM = {
   nameType: AUTHOR_TYPES.ORGANIZATION
 }
 
+export const DEFAULT_FUNDING_ITEM = {
+  projectID: '',
+  projectName: '',
+  fundingProgram: '',
+  funder: {}
+}
+
 export const DEFAULT_MAIN_TITLE = {'title': {}, 'titleType': 'mainTitle'}
 
 export const RESOURCE_IDENTIFIER_SCHEMES = [

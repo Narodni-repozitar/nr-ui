@@ -19,10 +19,12 @@ q-field.no-label-float.row(
           :ref="setInputRef"
           v-model="model[idx]"
           @update:model-value="onChange")
-  template(v-if="!isEmpty" v-slot:append)
-    list-input-buttons(@add="addItem" @remove="rmItem" can-remove)
-  template(v-else v-slot:prepend)
-    list-input-buttons(@add="addItem" @remove="rmItem")
+      q-item-section(side)
+        q-separator.full-height.q-mr-sm.ti-line-dotted(vertical inset)
+        rm-list-item-btn(
+          :item-label="$t('action.rmItem')"
+          @remove="rmItem(idx)")
+  add-list-item-btn(:item-label="$t('action.addItem')" @add="addItem")
 </template>
 
 <script>
@@ -33,10 +35,12 @@ import useValidation from '/src/composables/useValidation'
 import useInputRefs from '/src/composables/useInputRefs'
 import useModel from '/src/composables/useModel'
 import MultilingualInput from 'components/controls/inputs/MultilingualInput'
+import RmListItemBtn from 'components/controls/buttons/RmListItemBtn'
+import AddListItemBtn from 'components/controls/buttons/AddListItemBtn'
 
 export default defineComponent({
   name: 'MultilingualInputList',
-  components: {MultilingualInput, ListInputButtons},
+  components: {MultilingualInput, ListInputButtons, AddListItemBtn, RmListItemBtn},
   emits: ['update:modelValue'],
   props: {
     empty: {

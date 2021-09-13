@@ -86,6 +86,7 @@ import {useI18n} from 'vue-i18n'
 import TermListSelect from 'components/controls/selects/TermListSelect'
 import deepcopy from 'deepcopy'
 import {useTranslated} from 'src/composables/useTranslated'
+import useModel from 'src/composables/useModel'
 
 export default {
   name: 'AuthorInput',
@@ -109,7 +110,10 @@ export default {
     }
   },
   setup(props, ctx) {
+    const model = ref(deepcopy(props.modelValue))
+
     const {t, locale} = useI18n()
+    const {onChange} = useModel(ctx, model)
     const {mt} = useTranslated(locale)
     const {error, required, resetValidation} = useValidation()
     const {input} = useInputRefs()
@@ -118,8 +122,6 @@ export default {
     const identifiers = ref(null)
     const affiliations = ref(null)
     const organization = ref(null)
-
-    const model = ref(deepcopy(props.modelValue))
 
     const isPerson = computed(() => {
       return model.value.nameType === AUTHOR_TYPES.PERSON
@@ -135,10 +137,6 @@ export default {
       }
       return `${t('label.name')} ${t('value.authorType.organizational')} *`
     })
-
-    function onChange() {
-      ctx.emit('update:modelValue', model.value)
-    }
 
     function onOrgChange() {
       // TODO: what to actually use here as full name??? Should this be correct?

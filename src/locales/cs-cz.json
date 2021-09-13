@@ -85,6 +85,13 @@
     "revert_approval": "assignment_return"
   },
   "label": {
+    "funder": "Poskytovatel projektu",
+    "funding": "Financování",
+    "fundingProjectID": "Kód projektu",
+    "fundingProjectName": "Název projektu",
+    "fundingProgram": "Výzkumný program",
+    "notes": "Poznámky",
+    "note": "poznámku",
     "technicalInfo": "Technické informace",
     "methods": "Metodologie",
     "subjectCategories": "Oborové kategorie",
@@ -129,6 +136,7 @@
     "files": "Soubory",
     "filters": "Filtry",
     "forms": {
+      "fundingInfo": "Informace o financování",
       "datasetDescription": "Popis datové sady",
       "additionalTitles": "Další názvy",
       "authorsContributors": "Tvůrci",

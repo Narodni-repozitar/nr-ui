@@ -32,10 +32,20 @@ q-stepper.full-width(
     icon="analytics"
     :name="steps.DESCRIPTION"
     :title="$t('label.forms.datasetDescription')"
-    :done="step > steps.SUBMISSION")
+    :done="step > steps.DESCRIPTION")
     dataset-description(
       v-model="formData"
       @prev="step = steps.AUTHORS"
+      @next="step = steps.FUNDING"
+      @submit="submit")
+  q-step(
+    icon="euro_symbol"
+    :name="steps.FUNDING"
+    :title="$t('label.forms.fundingInfo')"
+    :done="step > steps.FUNDING")
+    funding-info(
+      v-model="formData"
+      @prev="step = steps.DESCRIPTION"
       @next="step = steps.SUBMISSION"
       @submit="submit")
   q-step(
@@ -55,7 +65,7 @@ q-stepper.full-width(
       :has-submit="!created && !failed"
       :has-next="false"
       @submit="submit"
-      @prev="step = steps.AUTHORS"
+      @prev="step = steps.FUNDING"
       @retry="retry")
     q-inner-loading(:showing="submitting")
       circular-spinner(:message="$t('message.submitting')")
@@ -87,24 +97,35 @@ import StepperNav from 'components/controls/StepperNav'
 import {axios} from 'src/boot/axios'
 import useNotify from 'src/composables/useNotify'
 import CircularSpinner from 'components/ui/CircularSpinner'
-import DatasetDescription from "components/forms/steps/DatasetDescription";
+import DatasetDescription from 'components/forms/steps/DatasetDescription'
+import FundingInfo from 'components/forms/steps/FundingInfo'
 
 export const steps = Object.freeze({
   BASIC: 1,
   AUTHORS: 2,
   DESCRIPTION: 3,
-  SUBMISSION: 4,
-  UPLOAD: 5
+  FUNDING: 4,
+  SUBMISSION: 5,
+  UPLOAD: 6
 })
 
 export default defineComponent({
   name: 'CreateDatasetForm',
-  components: {DatasetDescription, AuthorsContributors, BasicInfo, UploadData, Identifiers, StepperNav, CircularSpinner},
+  components: {
+    DatasetDescription,
+    AuthorsContributors,
+    BasicInfo,
+    FundingInfo,
+    UploadData,
+    Identifiers,
+    StepperNav,
+    CircularSpinner
+  },
   setup() {
     const {notifySuccess, notifyError} = useNotify()
 
     const formData = ref({})
-    const step = ref(steps.DESCRIPTION)
+    const step = ref(steps.FUNDING)
     const submitting = ref(false)
     const failed = ref(false)
     const created = ref(false)
@@ -114,13 +135,13 @@ export default defineComponent({
       step.value = steps.BASIC
     }
 
-    function _submissionFail (err) {
+    function _submissionFail(err) {
       console.log(err)
       failed.value = true
       notifyError('error.submissionFail')
     }
 
-    function _submissionSuccess (response) {
+    function _submissionSuccess(response) {
       created.value = response.data
       notifySuccess('message.submissionSuccess', {pid: created.value.metadata.id})
       step.value = steps.UPLOAD

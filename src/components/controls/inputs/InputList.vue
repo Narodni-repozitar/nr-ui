@@ -1,5 +1,5 @@
 <template lang="pug">
-q-field.no-label-float.row(
+q-field.no-label-float(
   :filled="isEmpty"
   v-bind="$attrs"
   :label="label"
@@ -8,34 +8,39 @@ q-field.no-label-float.row(
   @focus.prevent="onFocus"
   :error_message="errorMessage"
   borderless
+  readonly
   square)
-  q-list(dense separator).full-width.no-margin.q-pt-md
-    q-separator(spaced v-if="model.length > 0")
-    q-item.full-width(v-for="(val,idx) in model" :key="idx")
-      q-item-section
-        q-input(
-          :label="`${itemLabel} #${idx + 1}`"
-          :rules="rules"
-          :ref="setInputRef"
-          v-model="model[idx]"
-          @update:model-value="onChange")
-  template(v-if="!isEmpty" v-slot:append)
-    list-input-buttons(@add="addItem" @remove="rmItem" can-remove)
-  template(v-else v-slot:prepend)
-    list-input-buttons(@add="addItem" @remove="rmItem")
+  template(v-slot:control)
+    q-list.full-width(dense)
+      q-item.q-pl-md.full-width(v-for="(val,idx) in model" :key="idx")
+        q-item-section
+          q-input.q-pt-sm(
+            :label="`${itemLabel} #${idx + 1}`"
+            :rules="rules"
+            :ref="setInputRef"
+            v-model="model[idx]"
+            @update:model-value="onChange")
+        q-item-section(side)
+          q-separator.full-height.q-mr-sm.ti-line-dotted(vertical inset)
+          rm-list-item-btn(
+            :item-label="$t('label.note')"
+            @remove="rmItem(idx)")
+    add-list-item-btn.q-mt-sm(:item-label="$t('label.note')" @add="addItem")
 </template>
 
 <script>
 import {defineComponent, reactive, ref} from 'vue'
-import {useI18n} from 'vue-i18n'
-import ListInputButtons from 'components/controls/buttons/ListInputButtons'
 import useValidation from '/src/composables/useValidation'
 import useInputRefs from '/src/composables/useInputRefs'
 import useModel from '/src/composables/useModel'
+import deepcopy from 'deepcopy'
+import AddListItemBtn from 'components/controls/buttons/AddListItemBtn'
+import RmListItemBtn from 'components/controls/buttons/RmListItemBtn'
+
 
 export default defineComponent({
   name: 'InputList',
-  components: {ListInputButtons},
+  components: {AddListItemBtn, RmListItemBtn},
   emits: ['update:modelValue'],
   props: {
     empty: {
@@ -57,28 +62,19 @@ export default defineComponent({
     }
   },
   setup(props, ctx) {
-    const i18n = useI18n()
     const {setInputRef, inputRefs} = useInputRefs()
     const {error, errorMessage, resetValidation} = useValidation()
 
-    const model = ref([...props.modelValue] || [])
+    const model = ref(deepcopy(props.modelValue) || [])
     const {onChange, isEmpty} = useModel(ctx, model)
 
-    if (!Object.keys(props.modelValue).length && !props.empty) {
-      let defVal = reactive({})
-      defVal[i18n.locale.value] = ''
-      model.value.push(defVal)
-    } else {
-      model.value = reactive([...props.modelValue])
-    }
-
     function validate() {
-      // TODO: implement editor validation
+      // TODO: implement validation
       return true
     }
 
     function addItem() {
-      model.value.push(reactive({}))
+      model.value.push('')
     }
 
     function onFocus() {

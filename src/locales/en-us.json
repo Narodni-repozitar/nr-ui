@@ -87,6 +87,13 @@
     "revert_approval": "assignment_return"
   },
   "label": {
+    "funder": "Project Funder",
+    "funding": "Funding",
+    "fundingProjectID": "Project ID",
+    "fundingProjectName": "Project Name",
+    "fundingProgram": "Funding Program",
+    "note": "note",
+    "notes": "Notes",
     "technicalInfo": "Technical Info",
     "methods": "Methods",
     "subjectCategories": "Subject Categories",
@@ -132,6 +139,7 @@
     "familyName": "Family Name",
     "filters": "Filters",
     "forms": {
+      "fundingInfo": "Funding Info",
       "datasetDescription": "Dataset description",
       "additionalTitles": "Additional titles",
       "authors": "Authors",
