@@ -7,6 +7,8 @@ export const loginOptions = {
 }
 
 
+export const PRIMARY_COMMUNITY_FIELD = 'oarepo:primaryCommunity'
+
 export const DATASETS_COLLECTION_CODE = 'datasets'
 export const DATASETS_DRAFT_COLLECTION_CODE = 'datasets/draft'
 
@@ -22,6 +24,54 @@ export const AUTHOR_TYPES = Object.freeze({
   PERSON: 'personal',
   ORGANIZATION: 'organizational',
 })
+
+export const TAXONOMY_TERM_DATASET = {
+  "COAR": {
+    "type": {
+      "1": "dataset"
+    }
+  },
+  "alias": {
+    "cs": "Data"
+  },
+  "busy_count": 0,
+  "descendants_busy_count": 0,
+  "descendants_count": 0,
+  "level": 1,
+  "links": {
+    "self": "https://127.0.0.1:5000/2.0/taxonomies/resourceType/datasets",
+    "tree": "https://127.0.0.1:5000/2.0/taxonomies/resourceType/datasets?representation:include=dsc"
+  },
+  "relatedURI": {
+    "1": "http://purl.org/coar/resource_type/c_ddb1"
+  },
+  "slug": "datasets",
+  "status": "alive",
+  "title": {
+    "cs": "Datov\u00e1 sada",
+    "en": "Dataset"
+  }
+}
+
+export const TAXONOMY_TERM_OPENACCESS = {
+  "busy_count": 0,
+  "descendants_busy_count": 0,
+  "descendants_count": 0,
+  "level": 1,
+  "links": {
+    "self": "https://127.0.0.1:5000/2.0/taxonomies/accessRights/c-abf2",
+    "tree": "https://127.0.0.1:5000/2.0/taxonomies/accessRights/c-abf2?representation:include=dsc"
+  },
+  "relatedURI": {
+    "coar": "http://purl.org/coar/access_right/c_abf2"
+  },
+  "slug": "c-abf2",
+  "status": "alive",
+  "title": {
+    "cs": "otev\u0159en\u00fd p\u0159\u00edstup",
+    "en": "open access"
+  }
+}
 
 export const DEFAULT_AUTHOR_ITEM = {
   fullName: '',
@@ -112,6 +162,9 @@ export const CONTRIBUTOR_ROLES = [
 export const AFFILIATIONS = ['CESNET', 'VŠCHT', 'NTK', 'AVČR']
 
 export default {
+  TAXONOMY_TERM_OPENACCESS,
+  TAXONOMY_TERM_DATASET,
+  PRIMARY_COMMUNITY_FIELD,
   DEFAULT_AUTHOR_ITEM,
   DEFAULT_MAIN_TITLE,
   DATASETS_COLLECTION_CODE,

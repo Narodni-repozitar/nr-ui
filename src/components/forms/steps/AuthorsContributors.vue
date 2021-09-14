@@ -11,7 +11,7 @@
     ref="contributors"
     :label="$t('label.contributors')"
     :item-label="$t('label.contributor')")
-  pre.q-pa-md.q-ma-md.bg-dark.text-white.text-code.rounded-borders {{ {creators:model.creators, contributors:model.contributors} }}
+  //pre.q-pa-md.q-ma-md.bg-dark.text-white.text-code.rounded-borders {{ {creators:model.creators, contributors:model.contributors} }}
   stepper-nav(has-prev @next="onNext" @prev="$emit('prev')")
 </template>
 <script>

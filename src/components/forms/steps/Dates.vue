@@ -4,7 +4,7 @@
     ref="dateAvailable"
     v-model="model.dateAvailable"
     :rules="[required($t('error.validation.required'))]"
-    :label="$t('label.dateAvailable')"
+    :label="`${$t('label.dateAvailable')} *`"
     :hint="$t('hint.publicationDate')")
   q-expansion-item.q-ml-none.q-pl-none.q-mt-xl(
     switch-toggle-side

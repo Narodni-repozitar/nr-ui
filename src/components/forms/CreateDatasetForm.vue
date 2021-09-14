@@ -29,8 +29,7 @@ q-stepper.full-width(
     authors-contributors(
       v-model="formData"
       @prev="step = steps.BASIC"
-      @next="step = steps.DESCRIPTION"
-      @submit="submit")
+      @next="step = steps.DESCRIPTION")
   q-step(
     :disable="maxFilled < steps.DESCRIPTION"
     icon="analytics"
@@ -40,8 +39,7 @@ q-stepper.full-width(
     dataset-description(
       v-model="formData"
       @prev="step = steps.AUTHORS"
-      @next="step = steps.DATES"
-      @submit="submit")
+      @next="step = steps.DATES")
   q-step(
     :disable="maxFilled < steps.DATES"
     icon="date_range"
@@ -51,8 +49,7 @@ q-stepper.full-width(
     dates(
       v-model="formData"
       @prev="step = steps.DESCRIPTION"
-      @next="step = steps.FUNDING"
-      @submit="submit")
+      @next="step = steps.FUNDING")
   q-step(
     :disable="maxFilled < steps.FUNDING"
     icon="euro_symbol"
@@ -62,30 +59,19 @@ q-stepper.full-width(
     funding-info(
       v-model="formData"
       @prev="step = steps.DATES"
-      @next="step = steps.SUBMISSION"
-      @submit="submit")
+      @next="step = steps.SUBMISSION")
   q-step(
     :disable="maxFilled < steps.SUBMISSION"
     active-icon="published_with_changes"
     icon="published_with_changes"
-    :error="failed"
     :name="steps.SUBMISSION"
     :title="$t('label.forms.submission')"
     :done="step > steps.SUBMISSION")
-    .text-subtitle2 {{ $t('message.submissionInfo') }}
-    .text-subtitle1.text-negative(v-if="failed")
-      .block {{ $t('error.submissionFail') }}
-        q-icon.q-ml-sm(name="sentiment_very_dissatisfied")
-    stepper-nav(
-      :has-prev="!created && !failed"
-      :has-retry="!created && failed"
-      :has-submit="!created && !failed"
-      :has-next="false"
-      @submit="submit"
+    submission(
+      :data="formData"
       @prev="step = steps.FUNDING"
-      @retry="retry")
-    q-inner-loading(:showing="submitting")
-      circular-spinner(:message="$t('message.submitting')")
+      @retry="step = steps.BASIC"
+      @create="onCreated")
   q-step(
     :disable="maxFilled < steps.UPLOAD"
     icon="cloud_upload"
@@ -112,12 +98,10 @@ import BasicInfo from 'components/forms/steps/BasicInfo'
 import Identifiers from 'components/forms/steps/Identifiers'
 import AuthorsContributors from 'components/forms/steps/AuthorsContributors'
 import StepperNav from 'components/controls/StepperNav'
-import {axios} from 'src/boot/axios'
-import useNotify from 'src/composables/useNotify'
-import CircularSpinner from 'components/ui/CircularSpinner'
 import DatasetDescription from 'components/forms/steps/DatasetDescription'
 import FundingInfo from 'components/forms/steps/FundingInfo'
 import Dates from 'components/forms/steps/Dates'
+import Submission from 'components/forms/steps/Submission'
 
 export const steps = Object.freeze({
   BASIC: 1,
@@ -132,6 +116,7 @@ export const steps = Object.freeze({
 export default defineComponent({
   name: 'CreateDatasetForm',
   components: {
+    Submission,
     DatasetDescription,
     AuthorsContributors,
     BasicInfo,
@@ -140,17 +125,12 @@ export default defineComponent({
     UploadData,
     Identifiers,
     StepperNav,
-    CircularSpinner
   },
   setup() {
-    const {notifySuccess, notifyError} = useNotify()
-
     const formData = ref({})
     const step = ref(steps.BASIC)
-    const submitting = ref(false)
-    const failed = ref(false)
-    const created = ref(false)
     const maxFilled = ref(steps.BASIC)
+    const created = ref(false)
 
     watch(step, () => {
       if (step.value > maxFilled.value) {
@@ -158,20 +138,8 @@ export default defineComponent({
       }
     })
 
-    function retry() {
-      failed.value = false
-      step.value = steps.BASIC
-    }
-
-    function _submissionFail(err) {
-      console.log(err)
-      failed.value = true
-      notifyError('error.submissionFail')
-    }
-
-    function _submissionSuccess(response) {
-      created.value = response.data
-      notifySuccess('message.submissionSuccess', {pid: created.value.metadata.id})
+    function onCreated(val) {
+      created.value = val
       step.value = steps.UPLOAD
     }
 
@@ -179,53 +147,7 @@ export default defineComponent({
       return new URL(url).pathname
     }
 
-    function submit() {
-      submitting.value = true
-
-      // Set internal metadata fields
-      // TODO: Subject to change after new data model is available
-      formData.value['accessRights'] = {
-        "busy_count": 0,
-        "descendants_busy_count": 0,
-        "descendants_count": 0,
-        "level": 1,
-        "links": {
-          "self": "https://127.0.0.1:5000/2.0/taxonomies/accessRights/c-abf2",
-          "tree": "https://127.0.0.1:5000/2.0/taxonomies/accessRights/c-abf2?representation:include=dsc"
-        },
-        "relatedURI": {
-          "coar": "http://purl.org/coar/access_right/c_abf2"
-        },
-        "slug": "c-abf2",
-        "status": "alive",
-        "title": {
-          "cs": "otev\u0159en\u00fd p\u0159\u00edstup",
-          "en": "open access"
-        }
-      }
-      formData.value['resource_type'] = {type: `${window.location.origin}/2.0/taxonomies/resourceType/datasets`}
-
-      const submitUrl = `/${formData.value._primary_community}/datasets/draft/`
-
-      // TODO: change this upon createRecord implementation in invenio-vue library
-      axios.post(submitUrl, JSON.stringify(formData.value), {
-        headers: {
-          'Content-Type': 'application/json; charset=utf-8'
-        }
-      }).then(res => {
-        if (res.status === 201) {
-          _submissionSuccess(res)
-          return
-        }
-        _submissionFail(res)
-      }).catch(err => {
-        _submissionFail(err)
-      }).finally(() => {
-        submitting.value = false
-      })
-    }
-
-    return {formData, step, steps, created, failed, maxFilled, submit, retry, submitting, pathFromUrl}
+    return {formData, step, steps, maxFilled, created, onCreated, pathFromUrl}
   }
 })
 </script>
