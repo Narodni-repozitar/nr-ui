@@ -8,14 +8,18 @@ q-input(
   :rules="rules"
   v-bind="$attrs"
   :label="label"
-  v-model="modelValue"
-  @update:model-value="$emit('update:modelValue', $event)")
+  v-model="model"
+  @update:model-value="onChange")
+  template(v-slot:append)
+    cancel-button.self-center(v-if="model?.length" @click="clear" size="md")
 </template>
 
 <script>
 import {ref} from 'vue'
 import ValidateMixin from 'src/mixins/ValidateMixin'
-import useValidation from "src/composables/useValidation";
+import useValidation from 'src/composables/useValidation'
+import deepcopy from 'deepcopy'
+import useModel from 'src/composables/useModel'
 
 export default {
   name: 'BaseInput',
@@ -31,10 +35,19 @@ export default {
       default: ''
     }
   },
-  setup () {
+  setup (props, ctx) {
+    const model = ref(deepcopy(props.modelValue))
+
+    const {onChange} = useModel(ctx, model)
     const {resetValidation} = useValidation()
     const input = ref(null)
-    return {input, resetValidation}
+
+    function clear() {
+      model.value = ''
+      onChange()
+    }
+
+    return {input, resetValidation, model, onChange, clear}
   }
 }
 </script>

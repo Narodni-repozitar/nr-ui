@@ -73,7 +73,7 @@
   "hint": {
     "localeSwitcher": "Zadejte kód jazyka ve formátu ISO 639-2/B",
     "primaryCommunity": "Vyberte primární komunitu / skupinu do které bude záznam patřit",
-    "publicationDate": "Pokud byl váš upload již publikován jinde, použijte datum prvního zveřejnění. Formát: RRRR-MM-DD, RRRR-MM nebo RRRR. Pro intervaly použijte DATE/DATE, např. 1939/1945. "
+    "publicationDate": "Pokud byl váš upload již publikován jinde, použijte datum prvního zveřejnění. Formát: RRRR-MM-DD, RRRR-MM nebo RRRR. "
   },
   "icon": {
     "approve": "verified",
@@ -85,6 +85,12 @@
     "revert_approval": "assignment_return"
   },
   "label": {
+    "from": "od",
+    "to": "do",
+    "dateValidTo": "Datum platnosti datové sady",
+    "dateCreated": "Datum vytvoření datové sady",
+    "dateAvailable": "Datum zveřejnění",
+    "dateCollected": "Datum sběru dat",
     "funder": "Poskytovatel projektu",
     "funding": "Financování",
     "fundingProjectID": "Kód projektu",
@@ -247,6 +253,7 @@
     }
   },
   "section": {
+    "otherDateInfo": "Další časové údaje",
     "articleExistsError": "Nalezen existující článek",
     "articleList": "Články",
     "datasetDetail": "Detail datasetu",

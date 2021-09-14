@@ -3,9 +3,11 @@ q-stepper.full-width(
   flat
   keep-alive
   v-model="step"
+  header-nav
   doneIcon="done"
   done-color="positive"
   vertical
+  bordered
   color="primary"
   animated)
   q-step(
@@ -19,6 +21,7 @@ q-stepper.full-width(
       v-model="formData"
       @next="step = steps.AUTHORS")
   q-step(
+    :disable="maxFilled < steps.AUTHORS"
     icon="groups"
     :name="steps.AUTHORS"
     :title="$t('label.forms.authorsContributors')"
@@ -29,6 +32,7 @@ q-stepper.full-width(
       @next="step = steps.DESCRIPTION"
       @submit="submit")
   q-step(
+    :disable="maxFilled < steps.DESCRIPTION"
     icon="analytics"
     :name="steps.DESCRIPTION"
     :title="$t('label.forms.datasetDescription')"
@@ -39,6 +43,7 @@ q-stepper.full-width(
       @next="step = steps.DATES"
       @submit="submit")
   q-step(
+    :disable="maxFilled < steps.DATES"
     icon="date_range"
     :name="steps.DATES"
     :title="$t('label.forms.dates')"
@@ -49,16 +54,18 @@ q-stepper.full-width(
       @next="step = steps.FUNDING"
       @submit="submit")
   q-step(
+    :disable="maxFilled < steps.FUNDING"
     icon="euro_symbol"
     :name="steps.FUNDING"
     :title="$t('label.forms.fundingInfo')"
     :done="step > steps.FUNDING")
     funding-info(
       v-model="formData"
-      @prev="step = steps.DESCRIPTION"
+      @prev="step = steps.DATES"
       @next="step = steps.SUBMISSION"
       @submit="submit")
   q-step(
+    :disable="maxFilled < steps.SUBMISSION"
     active-icon="published_with_changes"
     icon="published_with_changes"
     :error="failed"
@@ -80,6 +87,7 @@ q-stepper.full-width(
     q-inner-loading(:showing="submitting")
       circular-spinner(:message="$t('message.submitting')")
   q-step(
+    :disable="maxFilled < steps.UPLOAD"
     icon="cloud_upload"
     :name="steps.UPLOAD"
     :title="$t('label.forms.uploadData')")
@@ -98,7 +106,7 @@ q-stepper.full-width(
 </template>
 
 <script>
-import {defineComponent, ref} from 'vue'
+import {defineComponent, ref, watch} from 'vue'
 import UploadData from 'components/forms/steps/UploadData'
 import BasicInfo from 'components/forms/steps/BasicInfo'
 import Identifiers from 'components/forms/steps/Identifiers'
@@ -138,10 +146,17 @@ export default defineComponent({
     const {notifySuccess, notifyError} = useNotify()
 
     const formData = ref({})
-    const step = ref(steps.DATES)
+    const step = ref(steps.BASIC)
     const submitting = ref(false)
     const failed = ref(false)
     const created = ref(false)
+    const maxFilled = ref(steps.BASIC)
+
+    watch(step, () => {
+      if (step.value > maxFilled.value) {
+        maxFilled.value = step.value
+      }
+    })
 
     function retry() {
       failed.value = false
@@ -210,7 +225,7 @@ export default defineComponent({
       })
     }
 
-    return {formData, step, steps, created, failed, submit, retry, submitting, pathFromUrl}
+    return {formData, step, steps, created, failed, maxFilled, submit, retry, submitting, pathFromUrl}
   }
 })
 </script>

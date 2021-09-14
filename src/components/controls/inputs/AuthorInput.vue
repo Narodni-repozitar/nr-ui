@@ -111,7 +111,6 @@ export default {
   },
   setup(props, ctx) {
     const model = ref(deepcopy(props.modelValue))
-
     const {t, locale} = useI18n()
     const {onChange} = useModel(ctx, model)
     const {mt} = useTranslated(locale)
@@ -138,9 +137,14 @@ export default {
       return `${t('label.name')} ${t('value.authorType.organizational')} *`
     })
 
-    function onOrgChange() {
+    function onOrgChange(newVal) {
       // TODO: what to actually use here as full name??? Should this be correct?
-      model.value.fullName = mt(model.value.title)
+      if (model.value && newVal) {
+        model.value = newVal
+        model.value.fullName = deepcopy(mt(model.value.title))
+      } else {
+        model.value = deepcopy(DEFAULT_ORGANIZATION_ITEM)
+      }
       onChange()
     }
 

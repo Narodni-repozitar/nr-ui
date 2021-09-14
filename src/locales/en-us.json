@@ -75,7 +75,7 @@
   "hint": {
     "localeSwitcher": "Language code in ISO 639-2 format",
     "primaryCommunity": "Choose a primary community / group to which the record will belong to",
-    "publicationDate": "In case your upload was already published elsewhere, please use the date of the first publication. Format: YYYY-MM-DD, YYYY-MM, or YYYY. For intervals use DATE/DATE, e.g. 1939/1945."
+    "publicationDate": "In case your upload was already published elsewhere, please use the date of the first publication. Format: YYYY-MM-DD, YYYY-MM, or YYYY."
   },
   "icon": {
     "approve": "verified",
@@ -87,6 +87,12 @@
     "revert_approval": "assignment_return"
   },
   "label": {
+    "from": "from",
+    "to": "to",
+    "dateValidTo": "Dataset validity date",
+    "dateCreated": "Dataset creationo date",
+    "dateCollected": "Data collection date",
+    "dateAvailable": "Date Available",
     "funder": "Project Funder",
     "funding": "Funding",
     "fundingProjectID": "Project ID",
@@ -244,6 +250,7 @@
     }
   },
   "section": {
+    "otherDateInfo": "Other date info",
     "addFiles": "Add files",
     "articleExistsError": "Found article with DOI",
     "articleList": "Articles",
