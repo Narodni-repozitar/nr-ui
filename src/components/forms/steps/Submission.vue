@@ -3,15 +3,29 @@
   .text-subtitle1.text-weight-bold.col(v-if="!failed") {{ $t('section.submitRecordMetadata') }}
   label-block(:label="$t('label.titles')")
     span(v-for="(t, idx) in internalData.titles" :key="idx")
-      span(v-for="(tt, idx) in Object.keys(t.title)" :key="idx") {{ t.title[tt] }} ({{ tt }}),
+      span.text-italic(v-for="(tt, idx) in Object.keys(t.title)" :key="idx") {{ t.title[tt] }} ({{ tt }}),
   label-block(:label="$t('label.language')")
-    span(v-for="(l, idx) in internalData.language" :key="idx") {{ $mt(l.title) }}
+    span.text-italic(v-for="(l, idx) in internalData.language" :key="idx") {{ $mt(l.title) }}
   label-block(:label="$t('label.abstract')")
-    span(v-for="(a, idx) in Object.keys(internalData.abstract)" :key="idx") {{ internalData.abstract[a] }} ({{ a }}),
-  label-block(:label="$t('label.license')" v-if="internalData.rights")
-    span {{ $mt(internalData.rights.title) }}
+    span.text-italic(v-for="(a, idx) in Object.keys(internalData.abstract)" :key="idx") {{ internalData.abstract[a] }} ({{ a }}),
+  label-block(:label="$t('label.license')" v-if="internalData.rights?.length")
+    span.text-italic {{ $mt(internalData.rights.title) }}
   label-block(:label="$t('label.authors')")
-    pre {{ internalData }}
+    span.text-italic(v-for="(c, idx) in internalData.creators" :key="idx") {{ c.fullName }} ({{ c.affiliation.map(a => $mt(a.title)) }}),
+  label-block(:label="$t('label.contributors')" v-if="internalData.contributors?.length")
+    span.text-italic(v-for="(c, idx) in internalData.contributors" :key="idx") {{ c.fullName }} ({{ c.affiliation.map(a => $mt(a.title)) }}),
+  label-block(:label="$t('label.forms.keywords')" v-if="internalData.keywords?.length")
+    span.text-italic(v-for="(kw, idx) in internalData.keywords" :key="idx") {{ $mt(kw) }},
+  label-block(:label="$t('label.methods')")
+    span.text-italic {{ $mt(internalData.methods) }}
+  label-block(:label="$t('label.technicalInfo')")
+    span.text-italic {{ $mt(internalData.technicalInfo) }}
+  label-block(:label="$t('label.subjectCategories')")
+    span.text-italic(v-for="(s, idx) in internalData.subjectCategories" :key="idx") {{ $mt(s.title) }},
+  label-block(:label="$t('label.notes')" v-if="internalData.notes?.length")
+    span.text-italic {{ internalData.notes }}
+  label-block(:label="$t('label.funding')" v-if="internalData.fundingReferences?.length")
+    span.text-italic(v-for="(f, idx) in internalData.fundingReferences" :key="f") {{ f.projectID }} ({{$mt(f.funder.title)}})
   .text-subtitle1.col.text-negative(v-if="failed")
     .block {{ $t('error.submissionFail') }}
       q-icon.q-ml-sm(name="sentiment_very_dissatisfied")
