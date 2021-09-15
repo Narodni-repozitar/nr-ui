@@ -10,12 +10,13 @@ q-field.no-margin.no-label-float.row.full-width(
       term-list-select.q-mt-none.no-padding.no-margin(
         ref="input"
         v-bind="$attrs"
-        v-model="model.subjectCategories"
+        v-model="model"
         taxonomy="subjects"
         :rules="rules"
         multiple
         readonly
         borderless
+        @update:model-value="onChange"
         :selector-title="`${$t('action.choose')} ${$t('label.subjectCategories').toLowerCase()}`"
         :elasticsearch="false")
 </template>
@@ -27,6 +28,7 @@ import useValidation from '/src/composables/useValidation'
 import useInputRefs from '/src/composables/useInputRefs'
 import TermListSelect from 'components/controls/selects/TermListSelect'
 import deepcopy from 'deepcopy'
+import useModel from "src/composables/useModel";
 
 export default {
   name: 'SubjectCategoryInput',
@@ -44,23 +46,12 @@ export default {
     }
   },
   setup(props, ctx) {
-    const {error, errorMessage, required, resetValidation} = useValidation()
-    const {input} = useInputRefs()
-
     const model = ref(deepcopy(props.modelValue))
 
-    function onChange() {
-      ctx.emit('update:modelValue', model.value)
-    }
+    const {onChange} = useModel(ctx, model)
+    const {error, errorMessage, required} = useValidation()
+    const {input} = useInputRefs()
 
-    // function validate() {
-    //   resetValidation()
-    //
-    //   if (false) {
-    //     error.value = true
-    //   }
-    //   return error.value ? 'error.validationFail' : true
-    // }
 
     return {
       input,

@@ -130,6 +130,7 @@ export default defineComponent({
           x.icon = `img:${x.icon}`
         }
         if (props.leafOnly && x.descendants_count) {
+          x.selectable = false
           x.noTick = true
         }
 

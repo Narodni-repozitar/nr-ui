@@ -253,6 +253,7 @@
     }
   },
   "section": {
+    "submitRecordMetadata": "Vyplněná metadata",
     "otherDateInfo": "Další časové údaje",
     "articleExistsError": "Nalezen existující článek",
     "articleList": "Články",

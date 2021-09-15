@@ -17,6 +17,7 @@ q-field.no-margin.no-label-float.row(
         base-input.q-pa-none(
           v-if="isPerson"
           autogrow
+          autofocus
           ref="fullName"
           v-model="model.fullName"
           :rules="[required($t('error.validation.required'))]"
@@ -24,6 +25,7 @@ q-field.no-margin.no-label-float.row(
           @update:model-value="onChange")
         term-select.q-pa-none(
           v-else
+          autofocus
           ref="organization"
           v-bind="$attrs"
           v-model="model"

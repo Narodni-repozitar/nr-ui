@@ -1,10 +1,11 @@
 <template lang="pug">
 .column.q-gutter-sm
   funding-input-list(
-    v-model="funding.fundingReferences"
+    v-model="model.fundingReferences"
     ref="fundingReferences"
     no-roles
     :label="$t('label.funding')"
+    @update:model-value="onChange"
     :item-label="$t('label.funding')")
   //pre.q-pa-md.q-ma-md.bg-dark.text-white.text-code.rounded-borders {{ {fundingReferences:funding.fundingReferences} }}
   stepper-nav.q-mt-xl(has-prev @next="onNext" @prev="$emit('prev')")
@@ -15,6 +16,8 @@ import useValidation from 'src/composables/useValidation'
 import StepperNav from 'components/controls/StepperNav'
 import FundingInputList from 'components/controls/inputs/FundingInputList'
 import useNotify from 'src/composables/useNotify'
+import deepcopy from "deepcopy";
+import useModel from "src/composables/useModel";
 
 export default defineComponent({
   name: 'FundingInfo',
@@ -27,14 +30,16 @@ export default defineComponent({
     modelValue: Object
   },
   setup(props, ctx) {
+    const model = reactive(deepcopy(props.modelValue))
+
+    const {onChange} = useModel(ctx, model)
     const {required} = useValidation()
     const {notifyError} = useNotify()
     const fundingReferences = ref(null)
 
-    const funding = reactive({...(props.modelValue || {})})
 
-    watch(funding, () => {
-      ctx.emit('update:modelValue', funding)
+    watch(model, () => {
+      ctx.emit('update:modelValue', model)
     })
 
     const onNext = () => {
@@ -47,7 +52,7 @@ export default defineComponent({
       ctx.emit('next')
     }
 
-    return {funding, fundingReferences, required, onNext}
+    return {model, fundingReferences, onChange, required, onNext}
   }
 })
 </script>

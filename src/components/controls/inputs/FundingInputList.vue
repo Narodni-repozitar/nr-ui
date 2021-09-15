@@ -60,19 +60,22 @@ export default {
     }
   },
   setup(props, ctx) {
+    const model = ref(deepcopy(props.modelValue))
+
     const {input, inputRefs, setInputRef} = useInputRefs()
     const {error, errorMessage, resetValidation} = useValidation()
 
-    const model = ref(props.modelValue.length ? deepcopy(props.modelValue) : [])
     const {isEmpty, onChange} = useModel(ctx, model)
 
     function addItem() {
       resetValidation()
       model.value.push(deepcopy(DEFAULT_FUNDING_ITEM))
+      onChange()
     }
 
     function rmItem() {
       model.value.splice(model.value.length - 1, 1)
+      onChange()
     }
 
     function onFocus() {

@@ -18,6 +18,7 @@ q-field.no-wrap.no-margin.no-label-float.row(
         ref="input"
         outlined
         square
+        autofocus
         color="primary"
         :rules="[edtf0Rule, ...(rules || [])]"
         :label="`${label}${range? '(' + $t('label.to') + ')' : ''}`"
@@ -117,6 +118,7 @@ export default {
     })
 
     watch(externalModel, () => {
+      console.log('beubu')
       ctx.emit('update:modelValue', externalModel.value)
     })
 

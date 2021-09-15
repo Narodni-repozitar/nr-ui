@@ -1,9 +1,18 @@
 <template lang="pug">
 .column.q-gutter-sm
-  .text-body2
-    q-icon.q-pr-sm.q-py-sm(size="md" color="primary" name="info")
-    span {{ $t('message.submissionInfo') }}
-  .text-subtitle1.text-negative(v-if="failed")
+  .text-subtitle1.text-weight-bold.col(v-if="!failed") {{ $t('section.submitRecordMetadata') }}
+  label-block(:label="$t('label.titles')")
+    span(v-for="(t, idx) in internalData.titles" :key="idx")
+      span(v-for="(tt, idx) in Object.keys(t.title)" :key="idx") {{ t.title[tt] }} ({{ tt }}),
+  label-block(:label="$t('label.language')")
+    span(v-for="(l, idx) in internalData.language" :key="idx") {{ $mt(l.title) }}
+  label-block(:label="$t('label.abstract')")
+    span(v-for="(a, idx) in Object.keys(internalData.abstract)" :key="idx") {{ internalData.abstract[a] }} ({{ a }}),
+  label-block(:label="$t('label.license')" v-if="internalData.rights")
+    span {{ $mt(internalData.rights.title) }}
+  label-block(:label="$t('label.authors')")
+    pre {{ internalData }}
+  .text-subtitle1.col.text-negative(v-if="failed")
     .block {{ $t('error.submissionFail') }}
       q-icon.q-ml-sm(name="sentiment_very_dissatisfied")
   stepper-nav(
@@ -16,21 +25,26 @@
     @retry="retry")
     q-inner-loading(:showing="submitting")
       circular-spinner(:message="$t('message.submitting')")
+  .text-body2.col
+    q-icon.q-pr-sm.q-py-sm(size="md" color="accent" name="info")
+    span {{ $t('message.submissionInfo') }}
 </template>
 <script>
-import {defineComponent, reactive, ref} from 'vue'
+import {defineComponent, ref} from 'vue'
 import StepperNav from 'components/controls/StepperNav'
 import useNotify from 'src/composables/useNotify'
 import {axios} from 'boot/axios'
 import deepcopy from 'deepcopy'
 import CircularSpinner from 'components/ui/CircularSpinner'
+import LabelBlock from 'components/record/LabelBlock'
 import {PRIMARY_COMMUNITY_FIELD, TAXONOMY_TERM_DATASET, TAXONOMY_TERM_OPENACCESS} from 'src/constants'
 
 export default defineComponent({
   name: 'Submission',
   components: {
     CircularSpinner,
-    StepperNav
+    StepperNav,
+    LabelBlock
   },
   emits: ['create', 'prev', 'retry'],
   props: {

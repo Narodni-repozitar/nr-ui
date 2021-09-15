@@ -12,6 +12,7 @@ q-field.no-margin.no-label-float.row(
       .row.full-width.q-py-none.q-my-none
         q-input.full-width(
           ref="projectID"
+          autofocus
           :label="`${$t('label.fundingProjectID')} *`"
           v-model="model.projectID"
           :rules="[required($t('error.validation.required'))]"
@@ -31,7 +32,7 @@ q-field.no-margin.no-label-float.row(
       .row.full-width.q-py-none.q-my-none
         funder-select(
           ref="funder"
-          :label="$t('label.funder')"
+          :label="`${$t('label.funder')} *`"
           v-model="model.funder"
           :rules="[required($t('error.validation.required'))]")
 </template>

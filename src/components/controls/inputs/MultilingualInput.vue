@@ -12,6 +12,7 @@ q-field.no-margin.no-label-float.row.full-width.multilingual-input(
     .col-grow.row.multilingual-input.q-pr-sm
       q-input.col-12.q-mr-sm.no-outline(
         stack-label
+        autofocus
         ref="setInputRef"
         :input-class="[dense? 'dense-input': '']"
         v-for="(val, idx) in model" :key="idx"

@@ -2,7 +2,9 @@
 .column.q-gutter-sm.q-pt-sm
   date-input.col(
     ref="dateAvailable"
+    autofocus
     v-model="model.dateAvailable"
+    @update:model-value="onChange"
     :rules="[required($t('error.validation.required'))]"
     :label="`${$t('label.dateAvailable')} *`"
     :hint="$t('hint.publicationDate')")
@@ -16,10 +18,12 @@
             ref="dateCollected"
             range
             v-model="model.dateCollected"
+            @update:model-value="onChange"
             :label="$t('label.dateCollected')")
           date-input.col(
             ref="dateCreated"
             v-model="model.dateCreated"
+            @update:model-value="onChange"
             :label="$t('label.dateCreated')")
   //pre.q-pa-md.q-ma-md.bg-dark.text-white.text-code.rounded-borders {{ model }}
   stepper-nav.q-mt-xl(has-prev @next="onNext" @prev="$emit('prev')")
@@ -31,6 +35,8 @@ import StepperNav from 'components/controls/StepperNav'
 import DateInput from 'components/controls/inputs/DateInput'
 import useNotify from 'src/composables/useNotify'
 import {date} from 'quasar'
+import deepcopy from "deepcopy";
+import useModel from "src/composables/useModel";
 
 export default defineComponent({
   name: 'Dates',
@@ -43,10 +49,12 @@ export default defineComponent({
     modelValue: Object
   },
   setup(props, ctx) {
-    const model = reactive({...(props.modelValue || {})})
+    const model = ref(deepcopy(props.modelValue))
+    const {onChange} = useModel(ctx,model)
 
-    if (!model.dateAvailable) {
-      model.dateAvailable = date.formatDate(new Date(), 'YYYY-MM-DD')
+    if (!model.value.dateAvailable) {
+      model.value.dateAvailable = date.formatDate(new Date(), 'YYYY-MM-DD')
+      onChange()
     }
 
     const {notifyError} = useNotify()
@@ -54,10 +62,6 @@ export default defineComponent({
     const dateAvailable = ref(null)
     const dateCreated = ref(null)
     const dateCollected = ref(null)
-
-    watch(model, () => {
-      ctx.emit('update:modelValue', model)
-    })
 
     const onNext = () => {
       const dar = dateAvailable.value.validate()
@@ -69,7 +73,7 @@ export default defineComponent({
       }
     }
 
-    return {model, dateAvailable, dateCreated, dateCollected, required, onNext}
+    return {model, dateAvailable, dateCreated, dateCollected, required, onNext, onChange}
   }
 })
 </script>

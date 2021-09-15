@@ -5,12 +5,14 @@
     ref="creators"
     no-roles
     :label="$t('label.authors')"
-    :item-label="$t('label.author')")
+    :item-label="$t('label.author')"
+    @update:model-value="onChange")
   author-input-list.full-width.no-padding.col(
     v-model="model.contributors"
     ref="contributors"
     :label="$t('label.contributors')"
-    :item-label="$t('label.contributor')")
+    :item-label="$t('label.contributor')"
+    @update:model-value="onChange")
   //pre.q-pa-md.q-ma-md.bg-dark.text-white.text-code.rounded-borders {{ {creators:model.creators, contributors:model.contributors} }}
   stepper-nav(has-prev @next="onNext" @prev="$emit('prev')")
 </template>
@@ -24,6 +26,8 @@ import {DEFAULT_AUTHOR_ITEM} from 'src/constants'
 import useValidation from 'src/composables/useValidation'
 import {useI18n} from 'vue-i18n'
 import useAuth from 'src/composables/useAuth'
+import useModel from "src/composables/useModel";
+import deepcopy from "deepcopy";
 
 export default defineComponent({
   name: 'AuthorsContributors',
@@ -33,27 +37,27 @@ export default defineComponent({
     modelValue: Object
   },
   setup(props, ctx) {
+    const model = ref(reactive({
+      creators: [],
+      contributors: [],
+      ...deepcopy(props.modelValue)
+    }))
+
     const {t} = useI18n()
+    const {onChange} = useModel(ctx, model)
     const {notifyError} = useNotify()
     const {currentUserName} = useAuth()
     const {required} = useValidation()
 
-    const model = ref(props.modelValue)
+    if (!model.value.creators.length) {
+      model.value.creators.push({
+        ...DEFAULT_AUTHOR_ITEM,
+        ...{fullName: currentUserName}
+      })
+    }
 
     const creators = ref(null)
     const contributors = ref(null)
-
-    model.value = reactive({
-      creators: props.modelValue.creators?.length ? [...props.modelValue.creators] : [{
-        ...DEFAULT_AUTHOR_ITEM,
-        ...{fullName: currentUserName}
-      }],
-      contributors: props.modelValue.contributors?.length ? [...props.modelValue.contributors] : []
-    })
-
-    watch(model, () => {
-      ctx.emit('update:modelValue', model)
-    })
 
     function onNext() {
       const crr = creators.value.validate()
@@ -78,7 +82,7 @@ export default defineComponent({
       ctx.emit('next')
     }
 
-    return {model, creators, contributors, required, onNext}
+    return {model, creators, contributors, onChange, required, onNext}
   }
 })
 </script>
