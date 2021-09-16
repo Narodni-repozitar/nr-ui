@@ -75,6 +75,7 @@
     "validationFail": "Please correct the errors and try again"
   },
   "hint": {
+    "fileNote": "Briefly describe what the file contains",
     "localeSwitcher": "Language code in ISO 639-2 format",
     "primaryCommunity": "Choose a primary community / group to which the record will belong to",
     "publicationDate": "In case your upload was already published elsewhere, please use the date of the first publication. Format: YYYY-MM-DD, YYYY-MM, or YYYY."
@@ -89,6 +90,7 @@
     "revert_approval": "assignment_return"
   },
   "label": {
+    "fileNote": "File Description",
     "inCommunity": "in community",
     "from": "from",
     "to": "to",

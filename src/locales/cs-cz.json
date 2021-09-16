@@ -73,6 +73,7 @@
     "validationFail": "Prosím opravte chyby a zkuste to znovu"
   },
   "hint": {
+    "fileNote": "Zadejte popis obsahu nebo poznámky k souboru",
     "localeSwitcher": "Zadejte kód jazyka ve formátu ISO 639-2/B",
     "primaryCommunity": "Vyberte primární komunitu / skupinu do které bude záznam patřit",
     "publicationDate": "Pokud byl váš upload již publikován jinde, použijte datum prvního zveřejnění. Formát: RRRR-MM-DD, RRRR-MM nebo RRRR. "
@@ -87,6 +88,7 @@
     "revert_approval": "assignment_return"
   },
   "label": {
+    "fileNote": "Poznámka k souboru",
     "inCommunity": "v komunitě",
     "from": "od",
     "to": "do",
