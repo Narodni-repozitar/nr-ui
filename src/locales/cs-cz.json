@@ -1,6 +1,7 @@
 {
   "accessibility": {},
   "action": {
+    "bugReport": "Nahlásit chybu",
     "chooseTerm": "Vybrat pojem",
     "chooseTerms": "Vybrat pojmy",
     "showActions": "Zobrazit akce",
@@ -59,6 +60,7 @@
     "productName": "Národní repozitář"
   },
   "error": {
+    "detail": "Detail chyby:",
     "popupLoginFail": "Nebylo možno se přihlásit, prosím povolte v prohlížeči vyskakovací okna pro tento web",
     "saveChangesFail": "Nepodařilo se uložit změny",
     "stateChangeFail": "Chyba při změně stavu",
@@ -204,6 +206,7 @@
     "titles": "Název datové sady"
   },
   "message": {
+    "bugReportSent": "Chybové hlášení bylo zasláno",
     "typeAFewLetters": "Napište více znaků",
     "noActions" : "Žádné dostupné akce",
     "saveChangesSuccess": "Změny uloženy",

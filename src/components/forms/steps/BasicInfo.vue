@@ -43,6 +43,7 @@ import ChipsSelect from 'components/controls/selects/ChipsSelect'
 import DateInput from 'components/controls/inputs/DateInput'
 import MultilingualInputList from 'components/controls/inputs/MultilingualInputList'
 import TitleInputList from 'components/controls/inputs/TitleInputList'
+import {DEFAULT_MAIN_TITLE} from "src/constants";
 
 export default defineComponent({
   name: 'BasicInfo',
@@ -74,6 +75,7 @@ export default defineComponent({
     const keywords = ref(null)
 
     const basicInfo = reactive({
+      titles: [DEFAULT_MAIN_TITLE],
       language: [
         {
           "alpha2": "en",

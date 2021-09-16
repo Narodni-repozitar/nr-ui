@@ -1,34 +1,53 @@
 <template lang="pug">
 .column.q-gutter-sm
-  .text-subtitle1.text-weight-bold.col(v-if="!failed") {{ $t('section.submitRecordMetadata') }}
-  label-block(:label="$t('label.titles')")
-    span(v-for="(t, idx) in internalData.titles" :key="idx")
-      span.text-italic(v-for="(tt, idx) in Object.keys(t.title)" :key="idx") {{ t.title[tt] }} ({{ tt }}),
-  label-block(:label="$t('label.language')")
-    span.text-italic(v-for="(l, idx) in internalData.language" :key="idx") {{ $mt(l.title) }}
-  label-block(:label="$t('label.abstract')")
-    span.text-italic(v-for="(a, idx) in Object.keys(internalData.abstract)" :key="idx") {{ internalData.abstract[a] }} ({{ a }}),
-  label-block(:label="$t('label.license')" v-if="internalData.rights?.length")
-    span.text-italic {{ $mt(internalData.rights.title) }}
-  label-block(:label="$t('label.authors')")
-    span.text-italic(v-for="(c, idx) in internalData.creators" :key="idx") {{ c.fullName }} ({{ c.affiliation.map(a => $mt(a.title)) }}),
-  label-block(:label="$t('label.contributors')" v-if="internalData.contributors?.length")
-    span.text-italic(v-for="(c, idx) in internalData.contributors" :key="idx") {{ c.fullName }} ({{ c.affiliation.map(a => $mt(a.title)) }}),
-  label-block(:label="$t('label.forms.keywords')" v-if="internalData.keywords?.length")
-    span.text-italic(v-for="(kw, idx) in internalData.keywords" :key="idx") {{ $mt(kw) }},
-  label-block(:label="$t('label.methods')")
-    span.text-italic {{ $mt(internalData.methods) }}
-  label-block(:label="$t('label.technicalInfo')")
-    span.text-italic {{ $mt(internalData.technicalInfo) }}
-  label-block(:label="$t('label.subjectCategories')")
-    span.text-italic(v-for="(s, idx) in internalData.subjectCategories" :key="idx") {{ $mt(s.title) }},
-  label-block(:label="$t('label.notes')" v-if="internalData.notes?.length")
-    span.text-italic {{ internalData.notes }}
-  label-block(:label="$t('label.funding')" v-if="internalData.fundingReferences?.length")
-    span.text-italic(v-for="(f, idx) in internalData.fundingReferences" :key="f") {{ f.projectID }} ({{$mt(f.funder.title)}})
-  .text-subtitle1.col.text-negative(v-if="failed")
-    .block {{ $t('error.submissionFail') }}
-      q-icon.q-ml-sm(name="sentiment_very_dissatisfied")
+  q-card(v-if="!failed" flat square)
+    q-card-section
+      .text-h6.text-weight-bold.col {{ $t('section.submitRecordMetadata') }}
+    q-card-section
+      label-block(:label="$t('label.titles')")
+        span(v-for="(t, idx) in internalData.titles" :key="idx")
+          span.text-weight-bold(v-for="(tt, idx) in Object.keys(t.title)" :key="idx") {{ t.title[tt] }} ({{ tt }}),
+      label-block(:label="$t('label.language')")
+        span.text-weight-bold(v-for="(l, idx) in internalData.language" :key="idx") {{ $mt(l.title) }}
+      label-block(:label="$t('label.abstract')")
+        span.text-weight-bold(v-for="(a, idx) in Object.keys(internalData.abstract)" :key="idx") {{ internalData.abstract[a] }} ({{ a }}),
+      label-block(:label="$t('label.license')" v-if="internalData.rights?.length")
+        span.text-weight-bold {{ $mt(internalData.rights.title) }}
+      label-block(:label="$t('label.authors')")
+        span.text-weight-bold(v-for="(c, idx) in internalData.creators" :key="idx") {{ c.fullName }} ({{ c.affiliation.map(a => $mt(a.title)) }}),
+      label-block(:label="$t('label.contributors')" v-if="internalData.contributors?.length")
+        span.text-weight-bold(v-for="(c, idx) in internalData.contributors" :key="idx") {{ c.fullName }} ({{ c.affiliation.map(a => $mt(a.title)) }}),
+      label-block(:label="$t('label.forms.keywords')" v-if="internalData.keywords?.length")
+        span.text-weight-bold(v-for="(kw, idx) in internalData.keywords" :key="idx") {{ $mt(kw) }},
+      label-block(:label="$t('label.methods')"  v-if="internalData.methods && Object.keys(internalData.methods).length")
+        span.text-weight-bold {{ $mt(internalData.methods) }}
+      label-block(:label="$t('label.technicalInfo')" v-if="internalData.technicalInfo && Object.keys(internalData.technicalInfo).length")
+        span.text-weight-bold {{ $mt(internalData.technicalInfo) }}
+      label-block(:label="$t('label.subjectCategories')")
+        span.text-weight-bold(v-for="(s, idx) in internalData.subjectCategories" :key="idx") {{ $mt(s.title) }},
+      label-block(:label="$t('label.notes')" v-if="internalData.notes?.length")
+        span.text-weight-bold {{ internalData.notes }}
+      label-block(:label="$t('label.dateAvailable')")
+        span.text-weight-bold {{ internalData.dateAvailable }}
+      label-block(:label="$t('label.dateCollected')" v-if="internalData.dateCollected")
+        span.text-weight-bold {{ internalData.dateCollected }}
+      label-block(:label="$t('label.dateCreated')" v-if="internalData.dateCreated")
+        span.text-weight-bold {{ internalData.dateCreated }}
+      label-block(:label="$t('label.funding')" v-if="internalData.fundingReferences?.length")
+        span.text-weight-bold(v-for="(f, idx) in internalData.fundingReferences" :key="idx") {{ f.projectID }} ({{$mt(f.funder.title)}})
+  q-card.col.full-width(v-else flat square)
+    q-card-section
+      .text-h6.text-negative {{ $t('error.submissionFail') }}: "{{ error.message }}"
+        q-icon.q-ml-sm.q-pb-sm(size="md" name="sentiment_very_dissatisfied")
+    q-card-section.full-width
+      .text-subtitle1 {{ $t('error.detail') }}
+      pre.bg-red-1.rounded-borders.q-pa-md.text-caption.text-weight-medium.wrap {{ JSON.stringify({config: error.config, message: error.message, name: error.name, time: new Date()}, null, 2) }}
+      q-btn.q-ma-xl.absolute-bottom-right(
+        @click="reportError"
+        color="negative"
+        outline
+        icon="bug_report"
+        :label="$t('action.bugReport')")
   stepper-nav(
     :has-prev="!created && !failed"
     :has-retry="!created && failed"
@@ -37,11 +56,11 @@
     @submit="submit"
     @prev="$emit('prev')"
     @retry="retry")
-    q-inner-loading(:showing="submitting")
-      circular-spinner(:message="$t('message.submitting')")
-  .text-body2.col
-    q-icon.q-pr-sm.q-py-sm(size="md" color="accent" name="info")
-    span {{ $t('message.submissionInfo') }}
+  q-inner-loading(:showing="submitting")
+    circular-spinner(:message="$t('message.submitting')")
+  .text-body2.col(v-if="!failed")
+    q-icon.q-pr-sm.q-py-sm(size="sm" color="info" name="info")
+    span.text-caption {{ $t('message.submissionInfo') }}
 </template>
 <script>
 import {defineComponent, ref} from 'vue'
@@ -70,25 +89,32 @@ export default defineComponent({
   setup(props, ctx) {
     const submitting = ref(false)
     const failed = ref(false)
+    const error = ref(null)
     const created = ref(false)
     const internalData = ref(deepcopy(props.data))
 
-    const {notifyError, notifySuccess} = useNotify()
+    const {notifyError, notifySuccess, submitBugReport} = useNotify()
 
     function _submissionFail(err) {
       console.log(err)
       failed.value = true
+      error.value = err
       notifyError('error.submissionFail')
     }
 
     function _submissionSuccess(response) {
       created.value = response.data
-      notifySuccess('message.submissionSuccess', {pid: created.value.metadata.id})
+      notifySuccess('message.submissionSuccess', {pid: created.value.id})
     }
 
     function retry() {
       failed.value = false
       ctx.emit('retry')
+    }
+
+    function reportError() {
+      submitBugReport(error.value)
+      retry()
     }
 
     function submit() {
@@ -124,7 +150,7 @@ export default defineComponent({
       })
     }
 
-    return {internalData, created, failed, submit, retry}
+    return {internalData, created, failed, error, submit, reportError, retry, submitting}
   }
 })
 </script>

@@ -1,6 +1,7 @@
 {
   "accessibility": {},
   "action": {
+    "bugReport": "Report",
     "chooseTerm": "Choose Term",
     "chooseTerms": "Choose Terms",
     "addTitle": "Add Title",
@@ -60,6 +61,7 @@
     "productName": "Czech national repository"
   },
   "error": {
+    "detail": "Error Detail:",
     "completeSuccess": "Completed successfully",
     "popupLoginFail": "We were unable to log you in, please allow pop-ups for this website.",
     "saveChangesFail": "Failed to save changes",
@@ -202,6 +204,7 @@
     "titles": "Dataset Title"
   },
   "message": {
+    "bugReportSent": "Chybové hlášení bylo zasláno",
     "typeAFewLetters": "Start typing",
     "noActions" : "No Actions Available",
     "saveChangesSuccess": "Changes successfully saved",

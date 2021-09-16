@@ -9,7 +9,9 @@ q-btn.col-auto(
   :to="communityRoute(effectiveCommunity.id)"
   :label="$t('action.upload')")
   q-tooltip {{ communityRoute(effectiveCommunity.id).label }}
-q-btn-dropdown(v-else color="dark" stretch flat icon="cloud_upload" :label="$t('action.upload')")
+q-btn-dropdown(
+  v-else color="dark" :content-style="{zIndex: 8000}"
+  stretch flat icon="cloud_upload" :label="$t('action.upload')")
   q-list(separator padding)
     q-item.q-px-md(v-for="c in currentUserCommunities" :key="c.id" clickable :to="communityRoute(c.id).to")
       q-item-section(avatar)

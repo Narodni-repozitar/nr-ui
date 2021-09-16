@@ -60,7 +60,6 @@ q-stepper.full-width(
       v-model="formData"
       @prev="step = steps.DATES"
       @next="step = steps.SUBMISSION")
-    pre.q-pa-md.q-ma-md.bg-dark.text-white.text-code.rounded-borders {{ formData }}
   q-step(
     :disable="maxFilled < steps.SUBMISSION"
     active-icon="published_with_changes"
@@ -71,7 +70,6 @@ q-stepper.full-width(
     submission(
       :data="formData"
       @prev="step = steps.FUNDING"
-      @retry="step = steps.BASIC"
       @create="onCreated")
   q-step(
     :disable="maxFilled < steps.UPLOAD"

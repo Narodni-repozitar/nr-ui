@@ -54,6 +54,7 @@ q-field.no-margin.no-label-float.row(
           taxonomy="institutions"
           :elasticsearch="false"
           multiple
+          :selector-title="$t('label.affiliations')"
           :rules="[required($t('error.validation.required'))]"
           :label="`${$t('label.affiliations')} *`"
           @update:model-value="onChange")

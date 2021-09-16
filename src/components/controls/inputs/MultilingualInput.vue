@@ -43,6 +43,7 @@ import useValidation from '/src/composables/useValidation'
 import useInputRefs from 'src/composables/useInputRefs'
 import useMultilingual from 'src/composables/useMultilingual'
 import LangBadge from 'components/ui/LangBadge'
+import deepcopy from "deepcopy";
 
 export default {
   name: 'MultilingualInput',
@@ -63,7 +64,7 @@ export default {
     }
   },
   setup(props, ctx) {
-    const model = ref([])
+    const model = ref(Object.keys(props.modelValue).length ? [deepcopy(props.modelValue)]: [])
     const {setInputRef, inputRefs} = useInputRefs()
     const {addLangVariant, rmLangVariant, showLangDialog} = useMultilingual(model, inputRefs, onChange)
 
