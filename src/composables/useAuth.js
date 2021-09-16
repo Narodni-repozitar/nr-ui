@@ -8,7 +8,7 @@ import {community} from 'src/contexts/community'
 
 export default function useAuth() {
   const {state, login, logout} = usePopupLogin(loginOptions)
-  const {communities} = useContext(community)
+  const {communities, currentCommunity} = useContext(community)
   const {showGdprPrompt} = useGDPR()
 
   const authenticating = ref(false)
@@ -41,6 +41,16 @@ export default function useAuth() {
   const currentUserCommunities = computed(() => {
     const croles = currentUserRoles.value.filter(r => r.id.startsWith('community:')).map(r => r.id.split(':')[1])
     return communities.value.filter(c => croles.includes(c.id))
+  })
+
+  const effectiveCommunity = computed(() => {
+    if (currentCommunity.value) {
+      return currentCommunity.value
+    } else if (currentUserCommunities.value.length === 1) {
+      return currentUserCommunities.value[0]
+    } else {
+      return false
+    }
   })
 
   const currentUserName = computed(() => {
@@ -87,6 +97,7 @@ export default function useAuth() {
     currentUserRoles,
     currentUserName,
     currentUserCommunities,
+    effectiveCommunity,
     hasRole,
     doLogin,
     doLogout

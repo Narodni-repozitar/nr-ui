@@ -14,7 +14,6 @@ q-btn-dropdown(
   v-if="authenticated")
   slot(name="authenticated")
     .bg-white.account
-      pre {{ currentUserCommunities }}
       .row.no-wrap.q-pa-md.justify-start
         .col-grow.column
           slot.col-auto(name="avatar")

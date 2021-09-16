@@ -6,10 +6,13 @@ q-header.bordered-header.bg-color
       product-logo(dense v-if="route.path !== '/'")
     .col-grow
     .row.col-auto.q-gutter-md
-      create-record-btn(v-if="authenticated")
+      create-record-btn(v-if="authenticated && currentUserCommunities.length")
       locale-switcher.self-center.push-right.col-auto.q-mr-sm(hide-hint)
       account-dropdown.float-right.col-auto(dark :authenticated="authenticated")
     .col-lg-2.col-md-1.col-xs-0
+  q-badge.community-badge.q-mr-xl.bg-accent.rounded-borders.absolute-bottom.absolute-center.q-pa-xs.q-px-md.text-subtitle2.shadow-2(v-if="effectiveCommunity")
+    q-icon.q-mr-sm(size="sm" name="groups")
+    span {{ effectiveCommunity.title }}
 </template>
 <script>
 import {defineComponent} from 'vue'
@@ -24,10 +27,10 @@ export default defineComponent({
   name: 'NRHeader',
   components: {ProductLogo, LocaleSwitcher, AccountDropdown, CreateRecordBtn},
   setup () {
-    const { authenticated } = useAuth()
+    const { authenticated, currentUserCommunities, effectiveCommunity } = useAuth()
     const route = useRoute()
 
-    return { authenticated, route }
+    return { authenticated, currentUserCommunities, effectiveCommunity, route }
   }
 })
 </script>

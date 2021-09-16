@@ -8,7 +8,7 @@ q-page.bg-image.column(style="min-height: calc(100vh - 150px)")
           product-logo.q-mt-xl
         .row.justify-center.q-mb-xl
           .col-fit
-            q-badge.q-mb-lg.q-py-xs.q-px-md.text-weight-bold.text-subtitle2(color="accent" style="right: -1px; top: -10px;") PILOTNÍ PROVOZ DATOVÉHO REPOZITÁŘE
+            q-badge.q-mb-lg.q-py-xs.q-px-md.text-weight-bold.text-subtitle2.shadow-2(color="accent" style="right: -1px; top: -10px;") PILOTNÍ PROVOZ DATOVÉHO REPOZITÁŘE
         .row.justify-center
           .col-2
           .col-grow

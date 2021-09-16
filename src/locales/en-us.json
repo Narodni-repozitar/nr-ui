@@ -87,6 +87,7 @@
     "revert_approval": "assignment_return"
   },
   "label": {
+    "inCommunity": "in community",
     "from": "from",
     "to": "to",
     "dateValidTo": "Dataset validity date",
