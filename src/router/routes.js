@@ -23,6 +23,17 @@ const routes = [
                 // sort: 'string:alphabetical'
               }
             }
+          }),
+          collection({
+            path: '/:communityId/datasets/all/',
+            name: 'community-datasets',
+            component: () => import(/* webpackChunkName: 'collection' */'../pages/Collection')
+          }, {
+            meta: {
+              query: {
+                // sort: 'string:alphabetical'
+              }
+            }
           })
         ]
       },
