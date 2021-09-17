@@ -14,9 +14,9 @@
       label-block(:label="$t('label.license')" v-if="internalData.rights?.length")
         span.text-weight-bold {{ $mt(internalData.rights.title) }}
       label-block(:label="$t('label.authors')")
-        span.text-weight-bold(v-for="(c, idx) in internalData.creators" :key="idx") {{ c.fullName }} ({{ c.affiliation.map(a => $mt(a.title)) }}),
+        span.text-weight-bold(v-for="(c, idx) in internalData.creators" :key="idx") {{ c.fullName }} ({{ c.affiliation? c.affiliation.map(a => $mt(a.title)): '' }}),
       label-block(:label="$t('label.contributors')" v-if="internalData.contributors?.length")
-        span.text-weight-bold(v-for="(c, idx) in internalData.contributors" :key="idx") {{ c.fullName }} ({{ c.affiliation.map(a => $mt(a.title)) }}),
+        span.text-weight-bold(v-for="(c, idx) in internalData.contributors" :key="idx") {{ c.fullName }} ({{ c.affiliation? c.affiliation.map(a => $mt(a.title)): ' ' }}),
       label-block(:label="$t('label.forms.keywords')" v-if="internalData.keywords?.length")
         span.text-weight-bold(v-for="(kw, idx) in internalData.keywords" :key="idx") {{ $mt(kw) }},
       label-block(:label="$t('label.methods')"  v-if="internalData.methods && Object.keys(internalData.methods).length")

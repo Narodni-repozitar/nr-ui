@@ -5,26 +5,19 @@
     autofocus
     v-model="model.dateAvailable"
     @update:model-value="onChange"
-    :rules="[required($t('error.validation.required'))]"
-    :label="`${$t('label.dateAvailable')} *`"
+    :label="$t('label.dateAvailable')"
     :hint="$t('hint.publicationDate')")
-  q-expansion-item.q-ml-none.q-pl-none.q-mt-xl(
-    switch-toggle-side
-    :label="$t('section.otherDateInfo')")
-    q-card
-      q-card-section
-        .column
-          date-input.col(
-            ref="dateCollected"
-            range
-            v-model="model.dateCollected"
-            @update:model-value="onChange"
-            :label="$t('label.dateCollected')")
-          date-input.col(
-            ref="dateCreated"
-            v-model="model.dateCreated"
-            @update:model-value="onChange"
-            :label="$t('label.dateCreated')")
+  date-input.col.q-pt-lg(
+    ref="dateCollected"
+    range
+    v-model="model.dateCollected"
+    @update:model-value="onChange"
+    :label="$t('label.dateCollected')")
+  date-input.col(
+    ref="dateCreated"
+    v-model="model.dateCreated"
+    @update:model-value="onChange"
+    :label="$t('label.dateCreated')")
   //pre.q-pa-md.q-ma-md.bg-dark.text-white.text-code.rounded-borders {{ model }}
   stepper-nav.q-mt-xl(has-prev @next="onNext" @prev="$emit('prev')")
 </template>

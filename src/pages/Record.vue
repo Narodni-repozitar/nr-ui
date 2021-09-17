@@ -14,7 +14,7 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
             v-for="f in m._files"
             :key="f.file_id")
             file-icon(:file="f" size="64px" :title="f.name")
-            p.q-my-sm.text-primary.text-caption {{ f.name }}
+            p.q-my-sm.text-primary.text-caption.wrap-anywhere {{ f.name }}
         label-block.q-mt-lg(label="Trvalý odkaz na tento záznam")
           a.block(:href="record.http.data.links.self" target="_blank") {{ record.http.data.links.self }}
           .text-caption.text-italic TODO: odkaz by mel byt nahrazen DOIckem, pokud existuje
@@ -36,7 +36,7 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
           simple-term.inline(:term="[l]")
           span(v-if="idx < m.language.length-1") ,&nbsp;
       label-block(label="Typ dokumentu")
-        simple-term(:term="m.resourceType")
+        simple-term(:term="[m.resourceType]")
       label-block(label="Identifikátory díla" v-if="m.identifiers?.length")
         separated-list(:list='m.persistentIdentifiers')
           template(v-slot:default="{item}")
@@ -66,7 +66,7 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
             template(v-if="item.projectName")
               span {{ item.projectName }}
               vertical-separator
-            simple-term(:term="item.funder")
+            simple-term(:term="[item.funder]")
       label-block(label="Práva" v-if="m.rights?.length")
         simple-term(:term="m.rights")
   .row.q-my-xl.full-width.justify-between
