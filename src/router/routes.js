@@ -64,7 +64,7 @@ const routes = [
         children: [
           record({
             path: 'raw',
-            name: 'record',
+            name: 'raw-record',
             component: () => import(/* webpackChunkName: 'record' */'../pages/RawRecord')
           }, { meta: {showCreateRecord: true}}),
           record({
@@ -86,7 +86,7 @@ const routes = [
         children: [
           record({
             path: 'raw',
-            name: 'published-record',
+            name: 'raw-published-record',
             component: () => import(/* webpackChunkName: 'record' */'../pages/RawRecord')
           }, { meta: {showCreateRecord: true}}),
           record({
