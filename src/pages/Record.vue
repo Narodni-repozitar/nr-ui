@@ -1,13 +1,13 @@
 <template lang="pug">
 q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
   .q-mt-lg.row
-    access-icon(:accessRights="[m.accessRights]" size="64px")
+    access-icon(:accessRights="m.accessRights" size="64px")
     .title.col
-      mt(:text="m.title")
+      mt(:text="mainTitle")
   .row.q-my-xl
     .col-3.q-pl-md
       .column.full-height.q-pr-lg
-        rights-icon.q-mb-md.col-auto.self-start.block(:rights="m.rights" size="128px")
+        rights-icon.q-mb-md.col-auto.self-start.block(v-if="m.rights" :rights="m.rights" size="128px")
         label-block.column.full-width.q-mt-lg(label="Soubory")
           .col-auto.text-left.self-start.column.q-mt-lg.cursor-pointer(
             @click="download(f)"
@@ -19,9 +19,9 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
           a.block(:href="record.http.data.links.self" target="_blank") {{ record.http.data.links.self }}
           .text-caption.text-italic TODO: odkaz by mel byt nahrazen DOIckem, pokud existuje
     .col-9
-      label-block(label="Překlad názvu" v-if="Object.keys(m.title).length > 1")
+      label-block(label="Překlad názvu" v-if="Object.keys(mainTitle).length > 1")
         .block.column
-          mt-languages(:text="m.title" exclude-current-language)
+          mt-languages(:text="mainTitle" exclude-current-language)
       label-block(label="Osoby")
         record-people.text-primary.text-weight-medium(:m="m")
       label-block(label="Datum")
@@ -29,25 +29,21 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
           .row(v-for="(d, idx) in m.dates" :key="idx")
             vertical-separator(v-if="idx > 0")
             span {{ d.date }} ({{ $t(`value.dateType.${d.type}`) }})
-          .row(v-if="m.publication_date")
-            span {{ m.publication_date }} ({{ $t(`value.dateType.published`) }})
+          .row(v-if="m.dateAvailable")
+            span {{ m.dateAvailable }} ({{ $t(`value.dateType.published`) }})
       label-block(label="Jazyk")
-        div(v-for="(l, idx) in m.languages" :key="l.links.self")
+        div(v-for="(l, idx) in m.language" :key="l.links.self")
           simple-term.inline(:term="[l]")
-          span(v-if="idx < m.languages.length-1") ,&nbsp;
+          span(v-if="idx < m.language.length-1") ,&nbsp;
       label-block(label="Typ dokumentu")
-        simple-term(:term="m.resource_type.type")
+        simple-term(:term="m.resourceType")
       label-block(label="Identifikátory díla" v-if="m.identifiers?.length")
-        separated-list(:list='m.identifiers')
+        separated-list(:list='m.persistentIdentifiers')
           template(v-slot:default="{item}")
-            span.identifier-type {{ item.key }}
-            a(:href="`https://doi.org/${item.value}`" v-if="item.key === 'DOI'")
-              span.identifier-value {{ item.value }}
-            span.identifier-value(v-else) {{ item.value }}
-      label-block(label="Vydavatel")
-        separated-list(:list='[m.publisher]')
-          template(v-slot:default="{item}")
-            span {{ item }}
+            span.identifier-type {{ item.scheme }}
+            a(:href="`https://doi.org/${item.identifier}`" v-if="item.scheme.toLowerCase() === 'doi'")
+              span.identifier-value {{ item.identifier }}
+            span.identifier-value(v-else) {{ item.identifier }}
       label-block(label="Klíčová slova")
         .block.col
           span(v-for="(kw, idx) in m.keywords" :key="idx")
@@ -59,40 +55,20 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
         separated-list(:list='m.notes')
           template(v-slot:default="{item}")
             span {{ item }}
-      label-block(label="Akce" v-if="m.events?.length")
-        separated-list(:list='m.events')
-          template(v-slot:default="{item}")
-            span {{ item.nameOriginal }}
-            template(v-if='item.location')
-              span , 
-              simple-term(:term="item.location")
-            template(v-if='item.date')
-              span , {{ item.date }}
-      label-block(label="Je součástí" v-if="m.relatedIdentifiers?.length")
-        span TODO: odkud brat ?
-      label-block(label="Projekt" v-if="m.events?.length")
-        separated-list(:list='m.events' double)
+      label-block(label="Je součástí" v-if="m.relatedItems?.length")
+        span TODO: implementovat vypis relatedItems
+      label-block(label="Projekt" v-if="m.fundingReferences?.length")
+        separated-list(:list='m.fundingReferences' double)
           template(v-slot:default="{item}")
             template(v-if="item.projectID")
               span.text-primary {{ item.projectID }}
               vertical-separator
-            template (v-if="item.projectName")
+            template(v-if="item.projectName")
               span {{ item.projectName }}
               vertical-separator
             simple-term(:term="item.funder")
-      label-block(label="Instituce/grantor" v-if="m.degreeGrantor")
-        simple-term(:term="m.degreeGrantor")
-      label-block(label="Podrobnosti o dostupnosti" v-if="m.accessibility")
-        mt(:text="m.accessibility")
       label-block(label="Práva" v-if="m.rights?.length")
         simple-term(:term="m.rights")
-      label-block(label="Dostupnost")
-        span TODO: kde vzit ?
-      label-block(label="Původní záznam" v-if="m.originalRecord")
-        a(:href="m.originalRecord" v-if="m.originalRecord") {{ m.originalRecord }}
-        a(:href="m.recordIdentifiers.originalRecord"
-          v-if="m.recordIdentifiers && m.recordIdentifiers.originalRecord"
-        ) {{ m.recordIdentifiers.originalRecord }}
   .row.q-my-xl.full-width.justify-between
     .col-auto.column.items-start
       q-btn.col-auto(flat color="primary" icon="arrow_back" label="Předchozí záznam")
@@ -145,6 +121,10 @@ export default defineComponent({
     const canEdit = computed(() => {
       // TODO: check also if user is record owner or can edit community records
       return ![STATE_APPROVED, STATE_PUBLISHED].includes(props.record.metadata.state) && authenticated.value
+    })
+
+    const mainTitle = computed(() => {
+      return m.value.titles.filter(t => t.titleType === 'mainTitle')[0].title
     })
 
     const EDIT_ACTION = {
@@ -207,7 +187,7 @@ export default defineComponent({
       window.open(`${file.url}?download`, '_blank')
     }
 
-    return {m, year, recordActions, sanitize, download}
+    return {m, year, recordActions, mainTitle, sanitize, download}
   }
 })
 </script>
