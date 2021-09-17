@@ -20,17 +20,18 @@ div.collection-page.q-mt-xl
         @click="scrollToTop"
         )
 </template>
-
 <script>
 import {Options, Vue} from 'vue-class-component'
 
-import CollectionFacets from 'src/components/list/CollectionFacets';
-import RecordList from 'src/components/list/RecordList';
-import SearchHeader from 'src/components/list/SearchHeader';
-import SelectedFacets from 'src/components/list/SelectedFacets';
-import URLPagination from 'src/components/controls/URLPagination';
+import CollectionFacets from 'src/components/list/CollectionFacets'
+import RecordList from 'src/components/list/RecordList'
+import SearchHeader from 'src/components/list/SearchHeader'
+import SelectedFacets from 'src/components/list/SelectedFacets'
+import URLPagination from 'src/components/controls/URLPagination'
+import {defineComponent, onMounted, ref} from 'vue'
+import {useRouter} from 'vue-router'
 
-export default @Options({
+export default defineComponent({
   name: 'Collection',
   props: {
     collection: Object
@@ -41,31 +42,35 @@ export default @Options({
     SearchHeader,
     SelectedFacets,
     URLPagination
+  },
+  setup() {
+    const fullText = ref(true)
+    const searchField = ref('')
+    const drawer = ref(null)
+    const activeFacets = ref(null)
+
+    const router = useRouter()
+
+    function search() {
+      router.push({
+        path: '/all',
+        query: {q: searchField.value}
+      })
+    }
+
+    function scrollToTop() {
+      window.scrollTo(0, 0);
+    }
+
+    onMounted(() => {
+      setTimeout(() => {
+        drawer.value = '#facets-drawer'
+      })
+    })
+
+    return {fullText, searchField, drawer, activeFacets, search, scrollToTop}
   }
 })
-class Collection extends Vue {
-  fullText = true
-  searchField = ''
-  drawer = null
-  activeFacets = null
-
-  search() {
-    this.$router.push({
-      path: '/all',
-      query: {q: this.searchField}
-    })
-  }
-
-  scrollToTop() {
-    window.scrollTo(0,0);
-  }
-
-  mounted() {
-    setTimeout(() => {
-      this.drawer = '#facets-drawer'
-    })
-  }
-}
 </script>
 
 <style scoped lang="sass">

@@ -17,7 +17,7 @@ q-btn-dropdown(
       q-item-section(avatar)
         q-avatar(icon="groups" color="primary" size="md" text-color="white")
       q-item-section
-        q-item-label {{ c.title }}
+        q-item-label.text-subtitle2.text-weight-bold {{ c.title }}
         q-item-label(caption) {{ c.metadata.description }}
       q-tooltip {{ communityRoute(c.id).label }}
 </template>

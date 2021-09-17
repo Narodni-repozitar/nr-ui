@@ -1,48 +1,49 @@
 <template lang="pug">
-base-select(
-  ref="input"
-  v-bind="$attrs"
-  :label="$t('label.primaryCommunity')"
-  :hint="$t('hint.primaryCommunity')"
-  :rules="rules"
-  :loading="communitiesLoading"
-  v-model="model"
-  :options="communities"
-  clearable
-  option-value="id"
-  option-label="title"
-  @update:model-value="$emit('update:modelValue', $event?.id || '')")
+q-btn-dropdown.bg-white.community-badge.q-mr-xl.rounded-borders.q-pa-xs.q-px-md.shadow-2(
+  :label="label"
+  icon="groups"
+  outline
+  menu-self="top middle"
+  menu-anchor="bottom middle"
+  color="accent"
+  :content-style="{zIndex: 8000}"
+  no-caps)
+  q-list.bg-accent.text-white(separator padding)
+    q-item.q-px-md(v-for="c in currentUserCommunities" :key="c.id" clickable @click="setCommunity(c.id)")
+      q-item-section(avatar)
+        q-avatar(icon="groups" color="white" size="md" text-color="dark")
+      q-item-section
+        q-item-label.text-subtitle2.text-weight-bold {{ c.title }}
+        q-item-label(caption).text-white {{ c.metadata.description }}
 </template>
 
 <script>
-import {onMounted, ref} from 'vue'
-import ValidateMixin from '/src/mixins/ValidateMixin'
 import BaseSelect from 'components/controls/selects/BaseSelect'
+import useAuth from 'src/composables/useAuth'
+import {computed} from 'vue'
+import {useI18n} from 'vue-i18n'
+import {useRoute} from 'vue-router'
 import {useContext} from 'vue-context-composition'
 import {community} from 'src/contexts/community'
 
 export default {
   name: 'CommunitySelect',
   components: {BaseSelect},
-  mixins: [ValidateMixin],
-  emits: ['update:modelValue'],
-  props: {
-    label: {
-      type: String,
-      default: ''
-    },
-    modelValue: {
-      type: [String, Object],
-      default: ''
-    }
-  },
+  props: {},
   setup(props) {
-    const {communities, communitiesLoading} = useContext(community)
+    const {t} = useI18n()
+    const route = useRoute()
+    const {setCommunity} = useContext(community)
+    const {effectiveCommunity, currentUserCommunities} = useAuth()
 
-    const input = ref(null)
-    const model = ref(props.modelValue)
+    const label = computed(() => {
+      if (effectiveCommunity.value) {
+        return effectiveCommunity.value.title
+      }
+      return t('label.chooseCommunity')
+    })
 
-    return {model, input, communities, communitiesLoading}
+    return {effectiveCommunity, currentUserCommunities, setCommunity, label}
   }
 }
 </script>

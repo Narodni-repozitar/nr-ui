@@ -10,9 +10,7 @@ q-header.bordered-header.bg-color
       locale-switcher.self-center.push-right.col-auto.q-mr-sm(hide-hint)
       account-dropdown.float-right.col-auto(dark :authenticated="authenticated")
     .col-lg-2.col-md-1.col-xs-0
-  q-badge.community-badge.q-mr-xl.bg-accent.rounded-borders.absolute-bottom.absolute-center.q-pa-xs.q-px-md.text-subtitle2.shadow-2(v-if="effectiveCommunity")
-    q-icon.q-mr-sm(size="sm" name="groups")
-    span {{ effectiveCommunity.title }}
+  community-select.absolute-bottom.absolute-center(v-if="authenticated && route.meta.communitySelect")
 </template>
 <script>
 import {defineComponent} from 'vue'
@@ -22,10 +20,11 @@ import AccountDropdown from 'components/account/AccountDropdown'
 import LocaleSwitcher from 'components/i18n/LocaleSwitcher'
 import ProductLogo from 'components/ui/ProductLogo'
 import CreateRecordBtn from 'components/controls/buttons/CreateRecordBtn'
+import CommunitySelect from 'components/controls/selects/CommunitySelect'
 
 export default defineComponent({
   name: 'NRHeader',
-  components: {ProductLogo, LocaleSwitcher, AccountDropdown, CreateRecordBtn},
+  components: {CommunitySelect, ProductLogo, LocaleSwitcher, AccountDropdown, CreateRecordBtn},
   setup () {
     const { authenticated, currentUserCommunities, effectiveCommunity } = useAuth()
     const route = useRoute()

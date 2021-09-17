@@ -19,6 +19,7 @@ const routes = [
             component: () => import(/* webpackChunkName: 'collection' */'../pages/Collection')
           }, {
             meta: {
+              communitySelect: true,
               query: {
                 // sort: 'string:alphabetical'
               }
@@ -30,6 +31,7 @@ const routes = [
             component: () => import(/* webpackChunkName: 'collection' */'../pages/Collection')
           }, {
             meta: {
+              communitySelect: true,
               query: {
                 // sort: 'string:alphabetical'
               }
@@ -46,7 +48,10 @@ const routes = [
             path: `/:communityId/:model/create`,
             name: 'create',
             component: () => import(/* webpackChunkName: 'forms' */ '../pages/forms/CreateForm'),
-            meta: {useFacets: false}
+            meta: {
+              communitySelect: true,
+              useFacets: false
+            }
           },
         ]
       },
@@ -89,11 +94,6 @@ const routes = [
         ]
       }
     ]
-  },
-  {
-    // TODO: remove
-    path: '/playground',
-    component: () => import(/* webpackChunkName: 'error' */'pages/Playground.vue')
   },
   // Always leave this as last one,
   // but you can also remove it

@@ -90,6 +90,7 @@
     "revert_approval": "assignment_return"
   },
   "label": {
+    "chooseCommunity": "Choose community",
     "fileNote": "File Description",
     "inCommunity": "in community",
     "from": "from",

@@ -88,6 +88,7 @@
     "revert_approval": "assignment_return"
   },
   "label": {
+    "chooseCommunity": "Vyberte komunitu",
     "fileNote": "Poznámka k souboru",
     "inCommunity": "v komunitě",
     "from": "od",
