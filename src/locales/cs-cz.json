@@ -273,6 +273,7 @@
   },
   "src/i18n": "",
   "value": {
+    "unknown": "neznámý",
     "titleType": {
       "subtitle": "Podtitul",
       "alternativeTitle": "Alternativní název",

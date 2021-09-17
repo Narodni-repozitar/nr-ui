@@ -1,5 +1,5 @@
 <template lang="pug">
-div.collection-page
+div.collection-page.q-mt-xl
   .row.items-stretch
     search-header.col-8(:collection="collection")
     selected-facets.col-4(:activeFacets="activeFacets")

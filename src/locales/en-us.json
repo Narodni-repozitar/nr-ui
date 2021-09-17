@@ -275,6 +275,7 @@
   },
   "src/i18n": "",
   "value": {
+    "unknown": "unknown",
     "titleType": {
       "subtitle": "Subtitle",
       "alternativeTitle": "Alternative name",

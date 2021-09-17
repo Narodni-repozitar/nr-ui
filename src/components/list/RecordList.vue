@@ -3,8 +3,7 @@ div
   q-list
     list-record.collection-item.q-py-lg(
       v-for="record in collection.records" :key="record.id"
-      :record="record"
-      )
+      :record="record")
 </template>
 <style lang="sass">
 .collection-item

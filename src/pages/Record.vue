@@ -111,7 +111,7 @@ import LabelBlock from "components/record/LabelBlock"
 import RecordPeople from 'components/list/RecordPeople'
 import sanitizeHtml from 'sanitize-html'
 import {STATE_APPROVED, STATE_PUBLISHED} from 'src/constants'
-import {computed, defineComponent, ref} from 'vue'
+import {computed, defineComponent} from 'vue'
 import useAuth from 'src/composables/useAuth'
 import {useRouter} from 'vue-router'
 import useCollection from 'src/composables/useCollection'
@@ -132,7 +132,7 @@ export default defineComponent({
     RecordPeople,
     FileIcon
   },
-  setup (props) {
+  setup(props) {
     const $q = useQuasar()
     const {authenticated} = useAuth()
     const router = useRouter()
@@ -147,7 +147,7 @@ export default defineComponent({
       return ![STATE_APPROVED, STATE_PUBLISHED].includes(props.record.metadata.state) && authenticated.value
     })
 
-    const EDIT_ACTION ={
+    const EDIT_ACTION = {
       id: 'edit',
       label: 'action.edit',
       icon: 'edit',
@@ -157,7 +157,7 @@ export default defineComponent({
       can: () => canEdit.value
     }
 
-    const ATTACH_ARTICLE ={
+    const ATTACH_ARTICLE = {
       id: 'attach_article',
       label: 'action.attachArticle',
       icon: 'link',
@@ -173,7 +173,8 @@ export default defineComponent({
         }).onOk(async () => {
         }).onCancel(() => {
         }).onDismiss(() => {
-        })}
+        })
+      }
     }
 
     const recordActions = computed(() => {
@@ -195,14 +196,14 @@ export default defineComponent({
       return res.filter(act => act.can() === true)
     })
 
-    function sanitize (value) {
-      Object.keys(value).map(function(key, index) {
+    function sanitize(value) {
+      Object.keys(value).map(function (key, index) {
         value[key] = sanitizeHtml(value[key], {allowedTags: []})
       })
       return value
     }
 
-    function download (file) {
+    function download(file) {
       window.open(`${file.url}?download`, '_blank')
     }
 

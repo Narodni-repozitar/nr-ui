@@ -71,6 +71,7 @@ import deepcopy from 'deepcopy'
 import CircularSpinner from 'components/ui/CircularSpinner'
 import LabelBlock from 'components/record/LabelBlock'
 import {PRIMARY_COMMUNITY_FIELD, TAXONOMY_TERM_DATASET, TAXONOMY_TERM_OPENACCESS} from 'src/constants'
+import useAuth from 'src/composables/useAuth'
 
 export default defineComponent({
   name: 'Submission',
@@ -93,6 +94,7 @@ export default defineComponent({
     const created = ref(false)
     const internalData = ref(deepcopy(props.data))
 
+    const {effectiveCommunity} = useAuth()
     const {notifyError, notifySuccess, submitBugReport} = useNotify()
 
     function _submissionFail(err) {
@@ -123,7 +125,7 @@ export default defineComponent({
       // Set internal metadata fields
 
       // TODO: properly set primary community on metadata
-      internalData.value[PRIMARY_COMMUNITY_FIELD] = 'cesnet'
+      internalData.value[PRIMARY_COMMUNITY_FIELD] = effectiveCommunity.value.id
       // AccessRights - for datasets will always be 'open access'
       internalData.value['accessRights'] = TAXONOMY_TERM_OPENACCESS
       // We support datasets ResourceType only

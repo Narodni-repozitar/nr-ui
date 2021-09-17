@@ -2,16 +2,16 @@
 div.row.authors.full-height.items-baseline
   .creator(v-for="(creator, idx) in m.creators")
     vertical-separator(v-if="idx>0")
-    span {{ creator.person_or_org.name }}
-    identifier-icon(v-for="id in creator.person_or_org.identifiers" :key="id.identifier" :identifier="id")
+    span {{ creator.fullName }}
+    identifier-icon(v-for="id in creator.identifiers" :key="id.identifier" :identifier="id")
     q-tooltip {{ $t('label.author') }}
   template(v-if="m.contributors && m.contributors.length")
     double-separator
   separated-list(:list='m.contributors' item-class="contributor inline")
     template(v-slot:default="{item}")
-      span {{ item.person_or_org.name }}
+      span {{ item.fullName }}
         q-tooltip {{ $t('label.contributor') }}
-      identifier-icon(v-for="id in item.person_or_org.identifiers" :key="id.identifier" :identifier="id")
+      identifier-icon(v-for="id in item.identifiers" :key="id.identifier" :identifier="id")
       span.role &nbsp;(
       div(v-for="(r, idx) in item.role" :key="r.links.self")
         simple-term.role.inline(:term="[r]")
