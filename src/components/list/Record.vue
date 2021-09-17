@@ -23,7 +23,7 @@ q-item.record.q-py-lg.text-dark(:to="record.links.ui")
             span(v-if="idx < m.languages.length-1") ,&nbsp;
             q-tooltip {{ $t('label.languages') }}
       .type.row.full-height.items-baseline.text-caption.text-weight-medium.text-uppercase.q-mt-xs
-        simple-term(:term="m.resourceType" :levels="1")
+        simple-term(:term="[m.resourceType]" :levels="1")
     .keywords
       .row.text-overline.items-baseline.full-height
         div(v-for="(kw, idx) in m.keywords" :key="idx")

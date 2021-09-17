@@ -70,7 +70,7 @@ import {axios} from 'boot/axios'
 import deepcopy from 'deepcopy'
 import CircularSpinner from 'components/ui/CircularSpinner'
 import LabelBlock from 'components/record/LabelBlock'
-import {PRIMARY_COMMUNITY_FIELD, TAXONOMY_TERM_DATASET, TAXONOMY_TERM_OPENACCESS} from 'src/constants'
+import {PRIMARY_COMMUNITY_FIELD, TAXONOMY_TERM_DATASET, TAXONOMY_TERM_RESTRICTED} from 'src/constants'
 import useAuth from 'src/composables/useAuth'
 
 export default defineComponent({
@@ -127,7 +127,7 @@ export default defineComponent({
       // TODO: properly set primary community on metadata
       internalData.value[PRIMARY_COMMUNITY_FIELD] = effectiveCommunity.value.id
       // AccessRights - for datasets will always be 'open access'
-      internalData.value['accessRights'] = TAXONOMY_TERM_OPENACCESS
+      internalData.value['accessRights'] = TAXONOMY_TERM_RESTRICTED
       // We support datasets ResourceType only
       internalData.value['resourceType'] = TAXONOMY_TERM_DATASET
 

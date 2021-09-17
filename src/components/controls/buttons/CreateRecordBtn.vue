@@ -6,7 +6,7 @@ q-btn.col-auto(
   flat
   color="dark"
   icon="cloud_upload"
-  :to="communityRoute(effectiveCommunity.id)"
+  :to="communityRoute(effectiveCommunity.id).to"
   :label="$t('action.upload')")
   q-tooltip {{ communityRoute(effectiveCommunity.id).label }}
 q-btn-dropdown(
