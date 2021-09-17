@@ -23,13 +23,9 @@ q-item.record.q-py-lg.text-dark(:to="record.links.ui")
             span(v-if="idx < m.languages.length-1") ,&nbsp;
             q-tooltip {{ $t('label.languages') }}
       .type.row.full-height.items-baseline.text-caption.text-weight-medium.text-uppercase.q-mt-xs
-        simple-term(:term="[m.resourceType]" :levels="1")
-    .keywords
-      .row.text-overline.items-baseline.full-height
-        div(v-for="(kw, idx) in m.keywords" :key="idx")
-          vertical-separator(v-if="idx>0")
-          span {{ kw }}
-          q-tooltip {{ $t('label.forms.keywords') }}
+        simple-term(:term="m.resourceType" :levels="1")
+    .keywords.q-mt-sm
+      multilingual-chip.q-mr-sm(:multilingual="kw" v-for="(kw, idx) in m.keywords" :key="idx")
     mt.abstract.q-pr-md(:text="sanitizeHtml(m.abstract)" :shorten="500")
 </template>
 <style lang="sass">
@@ -44,6 +40,7 @@ import RightsIcon from 'components/icons/RightsIcon'
 import RecordPeople from './RecordPeople'
 import {date} from 'quasar'
 import sanitizeHtml from 'sanitize-html'
+import MultilingualChip from 'components/i18n/MultilingualChip'
 
 export default @Options({
   name: 'ListRecord',
@@ -51,6 +48,7 @@ export default @Options({
     record: Object
   },
   components: {
+    MultilingualChip,
     AccessIcon,
     RightsIcon,
     RecordPeople

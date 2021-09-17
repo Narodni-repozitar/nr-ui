@@ -26,31 +26,17 @@ q-field.no-margin.no-label-float.row.full-width.multilingual-input(
             readonly
             hide-dropdown-icon)
             template(v-slot:selected-item="scope")
-              q-chip.q-mx-xs(
-                square
+              multilingual-chip.q-mx-xs(
                 removable
-                outline
-                dense
-                size="md"
-                @remove="rmKeyword(scope)"
+                :multilingual="scope.opt"
                 :tabindex="scope.tabindex"
-                color="secondary"
-                text-color="dark"
-                class="q-ma-none")
-                q-avatar(color="accent" text-color="white" :icon="scope.opt.icon") {{ keywordData(scope.opt).lang }}
-                  q-tooltip {{ $t(`value.lang.${keywordData(scope.opt).lang}`) }}
-                span.text-dark.q-px-sm {{ keywordData(scope.opt).label }}
-                  q-tooltip(v-if="keywordData(scope.opt).other.length")
-                    .full-width(v-for="([l, v]) in keywordData(scope.opt).other")
-                      .span.text-weight-bold {{ $t(`value.lang.${l}`) }}
-                      .span {{ v }}
+                @remove="rmKeyword(scope)")
           q-btn.q-ml-xs.q-mt-md.q-mr-xs(
             size="sm"
             color="accent"
             dense outline icon="add"
             @click="addKeyword")
             q-tooltip {{ $t('action.add') }}
-
 </template>
 <script>
 import {ref} from 'vue'
@@ -62,10 +48,11 @@ import {useQuasar} from 'quasar'
 import {useI18n} from 'vue-i18n'
 import BaseSelect from 'components/controls/selects/BaseSelect'
 import {useTranslated} from 'src/composables/useTranslated'
+import MultilingualChip from "components/i18n/MultilingualChip";
 
 export default {
   name: 'MultilingualChips',
-  components: {ChipsSelect, LocaleSelect, BaseSelect},
+  components: {MultilingualChip, ChipsSelect, LocaleSelect, BaseSelect},
   emits: ['update:modelValue'],
   props: {
     label: {
@@ -106,13 +93,6 @@ export default {
       return errorMessage.value
     }
 
-    function keywordData(opt) {
-      const label = mt(opt)
-      const lang = mtr(opt, label)
-      const other = Object.entries(opt).filter(([l, val]) => l !== lang && val !== label)
-
-      return {label: label, lang: lang, other: other}
-    }
 
     function addKeyword() {
       $q.dialog({
@@ -145,7 +125,6 @@ export default {
       fieldRef,
       error,
       errorMessage,
-      keywordData,
       addKeyword,
       rmKeyword,
       required,

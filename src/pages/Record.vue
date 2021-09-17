@@ -45,10 +45,7 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
               span.identifier-value {{ item.identifier }}
             span.identifier-value(v-else) {{ item.identifier }}
       label-block(label="Klíčová slova")
-        .block.col
-          span(v-for="(kw, idx) in m.keywords" :key="idx")
-            vertical-separator(v-if="idx>0")
-            span {{ kw }}
+        multilingual-chip.q-mr-sm(:multilingual="kw" v-for="(kw, idx) in m.keywords" :key="idx")
       label-block(label="Abstrakt")
         mt-tabs(:text="sanitize(m.abstract) || []")
       label-block(label="Poznámka" v-if="m.notes?.length")
@@ -94,6 +91,7 @@ import useCollection from 'src/composables/useCollection'
 import {useQuasar} from 'quasar'
 import NewArticleDialog from 'components/dialogs/NewArticleDialog'
 import useFSM from 'src/composables/useFsm'
+import MultilingualChip from 'components/i18n/MultilingualChip'
 
 export default defineComponent({
   name: 'Record',
@@ -101,6 +99,7 @@ export default defineComponent({
     record: Object
   },
   components: {
+    MultilingualChip,
     ActionsSidebar,
     AccessIcon,
     LabelBlock,
