@@ -9,12 +9,11 @@
   subject-category-input.col(
     ref="subjectCategories"
     v-model="model.subjectCategories"
-    taxonomy="subjects"
     multiple
     :rules="[required($t('error.validation.required'))]"
     :elasticsearch="false"
     @update:model-value="onChange"
-    :label="$t('label.subjectCategories') + ' *    !!!!TODO: CHANGE TAXONOMY TREE!!!!'")
+    :label="$t('label.subjectCategories')")
   //pre.q-pa-md.q-ma-md.bg-dark.text-white.text-code.rounded-borders {{ {subjectCategories:description.subjectCategories} }}
   multilingual-editor.q-ml-none.q-mt-none.col(
     ref="methods"

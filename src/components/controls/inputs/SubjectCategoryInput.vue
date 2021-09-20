@@ -11,7 +11,7 @@ q-field.no-margin.no-label-float.row.full-width(
         ref="input"
         v-bind="$attrs"
         v-model="model"
-        taxonomy="subjects"
+        taxonomy="subjectCategories"
         :rules="rules"
         multiple
         readonly
