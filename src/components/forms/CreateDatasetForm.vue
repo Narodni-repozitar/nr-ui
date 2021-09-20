@@ -79,7 +79,7 @@ q-stepper.full-width(
     .column.justify-center.items-center
       .col.text-h2
         q-icon.flex-center(color="positive" name="check_circle")
-      .col.text-h5 {{ $t('message.submissionSuccess', {pid: created.metadata.id}) }}
+      .col.text-h5 {{ $t('message.submissionSuccess', {pid: created.metadata.InvenioID}) }}
     q-separator(spaced)
     .column.justify-center.items-center
       .col.text-subtitle1 {{ $t('label.forms.uploadData') }}

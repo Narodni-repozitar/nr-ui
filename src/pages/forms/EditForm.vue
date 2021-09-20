@@ -5,15 +5,15 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height(padding)
       .text-h3.gt-md.self-baseline.text-center
         p {{ $t(header?.title) }}
         p
-          u.text-bold {{record.metadata? record.metadata.id : ''}}
+          p.text-bold {{record.metadata? record.metadata.InvenioID : ''}}
       .text-h4.lt-lg.gt-sm.q-mt-none.q-mb-lg.self-baseline.text-center
         p {{ $t(header?.title) }}
         p
-          u.text-bold {{record.metadata? record.metadata.id : ''}}
+          p.text-bold {{record.metadata? record.metadata.InvenioID : ''}}
       .text-h6.lt-md.q-mt-none.q-mb-md.self-baseline
         p {{ $t(header?.title) }}
         p
-          u.text-bold {{record.metadata? record.metadata.id : ''}}
+          p.text-bold {{record.metadata? record.metadata.InvenioID : ''}}
     .q-separator(spaced)
     edit-dataset-form.col.q-pr-md(v-if="record.metadata" :record="record")
 </template>
@@ -38,7 +38,7 @@ export default defineComponent({
 
     const header = computed(() => {
       return {
-        title: ` ${t('route.title.datasetEdit')} `,
+        title: t('route.title.datasetEdit'),
         icon: 'edit'
       }
     })

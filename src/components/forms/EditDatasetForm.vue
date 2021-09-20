@@ -1,12 +1,13 @@
 <template lang="pug">
 q-stepper.full-width(
   flat
-  header-nav
   keep-alive
   v-model="step"
+  header-nav
   doneIcon="done"
   done-color="positive"
   vertical
+  bordered
   color="primary"
   animated)
   q-step(
@@ -18,17 +19,17 @@ q-stepper.full-width(
     done-color="positive")
     basic-info(
       v-model="formData"
-      @next="step = steps.IDENTIFIERS")
+      @next="step = steps.AUTHORS")
   q-step(
     icon="tag"
-    :name="steps.IDENTIFIERS"
+    :name="steps.AUTHORS"
     :title="$t('label.forms.identifiers')"
     :caption="$t('label.forms.identifiersCaption')"
     :done="step > steps.IDENTIFIERS")
-    identifiers(s
-    v-model="formData"
-      @next="step = steps.AUTHORS"
-      @prev="step = steps.BASIC")
+    authors-contributors(
+      v-model="formData"
+      @prev="step = steps.IDENTIFIERS"
+      @next="step = steps.UPLOAD")
   q-step(
     icon="groups"
     :name="steps.AUTHORS"

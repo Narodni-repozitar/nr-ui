@@ -118,7 +118,6 @@ export default {
     })
 
     watch(externalModel, () => {
-      console.log('beubu')
       ctx.emit('update:modelValue', externalModel.value)
     })
 
