@@ -20,7 +20,8 @@ q-field.no-label-float.row.multilingual-input(
           :toolbar="toolbar"
           @update:model-value="onChange")
           template(v-slot:lang)
-            lang-badge.q-pb-sm.q-pt-xs.q-mb-xs.q-mr-xs(
+            lang-badge.q-mr-xs(
+              :style="{minHeight: '2em', paddingBottom: '6px'}"
               dense
               v-model="model[idx].lang"
               @update:model-value="onChange"
@@ -87,7 +88,8 @@ export default {
         langGroup,
         ['left', 'center', 'right', 'justify'],
         ['bold', 'italic', 'underline', 'strike'],
-        ['undo', 'redo']
+        ['undo', 'redo'], ['link'],
+        ['subscript', 'superscript']
       ]
     })
 

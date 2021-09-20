@@ -89,9 +89,9 @@ export default defineComponent({
           model: 'lang',
           // inline: true
           items: [
-            {label: t('value.titleType.alternativeTitle'), value: 'alternativeTitle'},
+            // {label: t('value.titleType.alternativeTitle'), value: 'alternativeTitle'},
             {label: t('value.titleType.subtitle'), value: 'subtitle'},
-            {label: t('value.titleType.other'), value: 'other'}
+            // {label: t('value.titleType.other'), value: 'other'}
           ]
         },
         cancel: true,

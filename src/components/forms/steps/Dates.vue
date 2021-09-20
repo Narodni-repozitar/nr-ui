@@ -15,6 +15,7 @@
     :label="$t('label.dateCollected')")
   date-input.col(
     ref="dateCreated"
+    range
     v-model="model.dateCreated"
     @update:model-value="onChange"
     :label="$t('label.dateCreated')")

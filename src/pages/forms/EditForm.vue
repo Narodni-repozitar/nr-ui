@@ -3,15 +3,15 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height(padding)
   .column.justify-center.items-center
     .col.row.q-pb-md
       .text-h3.gt-md.self-baseline.text-center
-        p {{ $t(header?.title) }}
+        p {{ header?.title }}
         p
           p.text-bold {{record.metadata? record.metadata.InvenioID : ''}}
       .text-h4.lt-lg.gt-sm.q-mt-none.q-mb-lg.self-baseline.text-center
-        p {{ $t(header?.title) }}
+        p {{ header?.title }}
         p
           p.text-bold {{record.metadata? record.metadata.InvenioID : ''}}
       .text-h6.lt-md.q-mt-none.q-mb-md.self-baseline
-        p {{ $t(header?.title) }}
+        p {{ header?.title }}
         p
           p.text-bold {{record.metadata? record.metadata.InvenioID : ''}}
     .q-separator(spaced)
@@ -44,7 +44,7 @@ export default defineComponent({
     })
 
     useMeta(() => {
-      return {title: header.value? `${t(header.value.title)} ${record.value.metadata? record.value.metadata.id : ''}` : ''}
+      return {title: header.value? `${header.value.title} ${record.value.metadata? record.value.metadata.InvenioID : ''}` : ''}
     })
 
     return {header, record}

@@ -44,7 +44,7 @@ q-field.no-margin.no-label-float.row(
           multiple
           :selector-title="`${$t('action.choose')} ${label.toLowerCase()}`"
           :elasticsearch="false"
-          :label="$t('label.authorType')"
+          :label="$t('section.roles')"
           @update:model-value="onChange")
       .col-grow(v-if="isPerson")
         term-list-select(

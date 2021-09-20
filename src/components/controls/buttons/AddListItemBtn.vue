@@ -1,5 +1,5 @@
 <template lang="pug">
-q-btn.q-pl-sm(dense flat color="secondary" icon="post_add" @click="$emit('add')")
+q-btn.q-pl-sm(dense flat color="secondary" icon="post_add" @click="$emit('add')" :label="`${$t('action.add')} ${itemLabel.toLowerCase()}`")
   q-tooltip {{ `${$t('action.add')} ${itemLabel.toLowerCase()}` }}
 </template>
 

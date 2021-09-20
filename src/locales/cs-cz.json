@@ -127,7 +127,7 @@
     "affiliations": "Afilace",
     "articleMetadata": "Metadata článku",
     "author": "Autor",
-    "authorType": "Role",
+    "authorType": "Typ",
     "authors": "Autoři",
     "back": "Zpět",
     "backToCollection": "Zpět na výpis",
@@ -276,7 +276,7 @@
   "value": {
     "unknown": "neznámý",
     "titleType": {
-      "subtitle": "Podtitul",
+      "subtitle": "Podnázev",
       "alternativeTitle": "Alternativní název",
       "other": "Další název"
     },
