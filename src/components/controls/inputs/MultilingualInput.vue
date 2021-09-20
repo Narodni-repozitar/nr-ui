@@ -28,7 +28,7 @@ q-field.no-margin.no-label-float.row.full-width.multilingual-input(
           q-btn.q-mt-md.q-mr-xs(v-if="idx === model.length -1" size="sm" color="accent" dense outline icon="add"
             @click="addLangVariant")
             q-tooltip {{ $t('action.addLang') }}
-          q-btn.q-mt-md.q-mr-xs(v-if="model.length > 1" size="sm" dense outline icon="remove" color="dark"
+          q-btn.q-mt-md.q-mr-xs(v-if="model.length > 1" size="sm" dense color="accent" outline icon="remove"
             @click="rmLangVariant(idx)")
             q-tooltip {{ $t('action.rmLang') }}
           q-separator.q-mt-lg(inset vertical)

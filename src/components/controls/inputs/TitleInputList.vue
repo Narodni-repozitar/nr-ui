@@ -6,7 +6,7 @@ q-field(
   :label="label")
   template(v-slot:control)
     multilingual-input.no-padding.no-margin(autofocus ref="input" :rules="rules" v-model="model.mainTitle.title")
-    q-list.full-width.no-padding.no-margin(dense)
+    q-list.full-width.no-padding.q-mt-md(dense v-on:keyup.enter="addItem")
       q-item.q-pl-md.full-width.no-margin(v-for="(val,idx) in model.alternativeTitles" :key="idx")
         q-item-section.no-padding.no-margin
           q-item-label.q-pt-sm.q-pl-sm(caption) {{ $t(`value.titleType.${model.alternativeTitles[idx].titleType}`) }}
@@ -17,7 +17,7 @@ q-field(
             :item-label="$t('label.name')"
             v-if="model.alternativeTitles.length"
             @remove="rmItem(idx)")
-    add-list-item-btn(:item-label="$t('label.name')" @add="addItem")
+    add-list-item-btn.q-mt-md(:item-label="$t('value.titleType.subtitle')" @add="addItem")
 </template>
 
 <script>
@@ -81,24 +81,24 @@ export default defineComponent({
     })
 
     function addItem() {
-      $q.dialog({
-        title: t('label.nameType'),
-        message: `${t('action.choose')} ${t('label.nameType').toLowerCase()}`,
-        options: {
-          type: 'radio',
-          model: 'lang',
-          // inline: true
-          items: [
-            // {label: t('value.titleType.alternativeTitle'), value: 'alternativeTitle'},
-            {label: t('value.titleType.subtitle'), value: 'subtitle'},
-            // {label: t('value.titleType.other'), value: 'other'}
-          ]
-        },
-        cancel: true,
-        persistent: false
-      }).onOk(data => {
-        model.alternativeTitles.push({title: {}, titleType: data})
-      })
+      // $q.dialog({
+      //   title: t('label.nameType'),
+      //   message: `${t('action.choose')} ${t('label.nameType').toLowerCase()}`,
+      //   options: {
+      //     type: 'radio',
+      //     model: 'lang',
+      //     // inline: true
+      //     items: [
+      //       // {label: t('value.titleType.alternativeTitle'), value: 'alternativeTitle'},
+      //       {label: t('value.titleType.subtitle'), value: 'subtitle'},
+      //       // {label: t('value.titleType.other'), value: 'other'}
+      //     ]
+      //   },
+      //   cancel: true,
+      //   persistent: false
+      // }).onOk(data => {
+      model.alternativeTitles.push({title: {}, titleType: 'subtitle'})
+      // })
     }
 
     return {input, model, required, onChange, addItem, rmItem, mainTitle, alternativeTitles}

@@ -111,7 +111,7 @@ export default {
     })
 
     const externalModel = computed(() => {
-      if (props.range) {
+      if (props.range && model.value.from && model.value.to) {
         return `${model.value.from}/${model.value.to}`
       }
       return model.value

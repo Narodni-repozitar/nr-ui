@@ -25,12 +25,11 @@
     v-model="basicInfo.rights"
     :label="$t('label.license')")
   //pre.q-pa-md.q-ma-md.bg-dark.text-white.text-code.rounded-borders {{ {rights:basicInfo.rights} }}
-  stepper-nav.q-mt-xl(has-prev=false @next="onNext")
+  stepper-nav.q-mt-xl(has-prev=false @next="$emit('next')")
 </template>
 <script>
 import {defineComponent, reactive, ref, watch} from 'vue'
 import useValidation from 'src/composables/useValidation'
-import useNotify from 'src/composables/useNotify'
 import StepperNav from 'components/controls/StepperNav'
 import LanguagesSelect from 'components/controls/selects/LanguagesSelect'
 import LicensesSelect from 'components/controls/selects/LicensesSelect'
@@ -43,7 +42,7 @@ import ChipsSelect from 'components/controls/selects/ChipsSelect'
 import DateInput from 'components/controls/inputs/DateInput'
 import MultilingualInputList from 'components/controls/inputs/MultilingualInputList'
 import TitleInputList from 'components/controls/inputs/TitleInputList'
-import {DEFAULT_MAIN_TITLE} from "src/constants";
+import {DEFAULT_MAIN_TITLE} from 'src/constants'
 
 export default defineComponent({
   name: 'BasicInfo',
@@ -61,13 +60,12 @@ export default defineComponent({
     MultilingualEditorList,
     MultilingualInputList
   },
-  emits: ['update:modelValue', 'next'],
+  emits: ['update:modelValue', 'next', 'validate'],
   props: {
     modelValue: Object
   },
   setup(props, ctx) {
     const {required} = useValidation()
-    const {notifyError} = useNotify()
     const primaryCommunity = ref(null)
     const mainTitle = ref(null)
     const abstract = ref(null)
@@ -113,13 +111,14 @@ export default defineComponent({
           "self": "https://127.0.0.1:5000/2.0/taxonomies/languages/eng",
           "label": "angličtina"
         }
-      ], ...(props.modelValue || {})})
+      ], ...(props.modelValue || {})
+    })
 
     watch(basicInfo, () => {
       ctx.emit('update:modelValue', basicInfo)
     })
 
-    const onNext = () => {
+    function validate() {
       const tr = mainTitle.value.validate()
       const abr = abstract.value.validate()
       const lnr = languages.value.validate()
@@ -127,13 +126,13 @@ export default defineComponent({
       if (tr !== true ||
           abr !== true ||
           lnr !== true) {
-        notifyError('error.validationFail')
+        ctx.emit('validate', false)
       } else {
-        ctx.emit('next')
+        ctx.emit('validate', true)
       }
     }
 
-    return {basicInfo, required, primaryCommunity, mainTitle, abstract, languages, keywords, onNext}
+    return {basicInfo, required, primaryCommunity, mainTitle, abstract, languages, keywords, validate}
   }
 })
 </script>

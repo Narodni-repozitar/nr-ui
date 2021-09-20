@@ -24,6 +24,7 @@ q-select(
   @update:model-value="clearText"
   @keydown="onKeyDown"
   @input="clearText"
+  tabindex="tabindex"
   ref="input")
   template(v-slot:no-option)
     q-item
@@ -65,6 +66,7 @@ export default defineComponent({
   components: {TermChip},
   emits: ['update:modelValue', 'clear'],
   props: {
+    tabindex: Number,
     taxonomy: String,
     multiple: {
       type: Boolean,
@@ -152,7 +154,7 @@ export default defineComponent({
     })
 
     watch(model, async () => {
-      if (!emptyModel.value) {
+      if (!emptyModel.value && input.value) {
         input.value.validate(model.value)
       }
       if (props.elasticsearch) {

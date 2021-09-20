@@ -10,7 +10,7 @@
       label-block(:label="$t('label.language')")
         span.text-weight-bold(v-for="(l, idx) in internalData.language" :key="idx") {{ $mt(l.title) }}
       label-block(:label="$t('label.abstract')")
-        span.text-weight-bold(v-for="(a, idx) in Object.keys(internalData.abstract)" :key="idx") {{ internalData.abstract[a] }} ({{ a }}),
+        span.text-weight-bold(v-for="(a, idx) in internalData.abstract? Object.keys(internalData.abstract): []" :key="idx") {{ internalData.abstract[a] }} ({{ a }}),
       label-block(:label="$t('label.license')" v-if="internalData.rights?.length")
         span.text-weight-bold {{ $mt(internalData.rights.title) }}
       label-block(:label="$t('label.authors')")
@@ -51,7 +51,7 @@
   stepper-nav(
     :has-prev="!created && !failed"
     :has-retry="!created && failed"
-    :has-submit="!created && !failed"
+    :has-submit="!created && !failed && !hasErrors"
     :has-next="false"
     @submit="submit"
     @prev="$emit('prev')"
@@ -82,6 +82,7 @@ export default defineComponent({
   },
   emits: ['create', 'prev', 'retry'],
   props: {
+    hasErrors: Boolean,
     data: {
       type: Object,
       required: true
