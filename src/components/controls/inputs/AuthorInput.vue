@@ -144,7 +144,9 @@ export default {
       // TODO: what to actually use here as full name??? Should this be correct?
       if (model.value && newVal) {
         model.value = newVal
+        // Keep the settings neccessary for orgs
         model.value.fullName = deepcopy(mt(model.value.title))
+        model.value.nameType = AUTHOR_TYPES.ORGANIZATION
       } else {
         model.value = deepcopy(DEFAULT_ORGANIZATION_ITEM)
       }
