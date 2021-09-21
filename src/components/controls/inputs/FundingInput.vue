@@ -34,6 +34,7 @@ q-field.no-margin.no-label-float.row(
           ref="funder"
           :label="`${$t('label.funder')} *`"
           v-model="model.funder"
+          @update:model-value="onChange"
           :rules="[required($t('error.validation.required'))]")
 </template>
 

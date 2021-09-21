@@ -23,7 +23,7 @@ q-stepper.full-width(
     basic-info(
       :ref="el => stepRefs[steps.BASIC] = el"
       ref="basicInfo"
-      v-model="formData"
+      v-model="formData.basic"
       @validate="onStepValidate(steps.BASIC, $event)"
       @next="step = steps.AUTHORS")
   q-step(
@@ -35,7 +35,7 @@ q-stepper.full-width(
     :title="$t('label.forms.authors')")
     authors-contributors(
       :ref="el => stepRefs[steps.AUTHORS] = el"
-      v-model="formData"
+      v-model="formData.authors"
       @validate="onStepValidate(steps.AUTHORS, $event)"
       @prev="step = steps.BASIC"
       @next="step = steps.DESCRIPTION")
@@ -48,7 +48,7 @@ q-stepper.full-width(
     :title="$t('label.forms.description')")
     dataset-description(
       :ref="el => stepRefs[steps.DESCRIPTION] = el"
-      v-model="formData"
+      v-model="formData.description"
       @validate="onStepValidate(steps.DESCRIPTION, $event)"
       @prev="step = steps.AUTHORS"
       @next="step = steps.DATES")
@@ -61,7 +61,7 @@ q-stepper.full-width(
     :title="$t('label.forms.dates')")
     dates(
       :ref="el => stepRefs[steps.DATES] = el"
-      v-model="formData"
+      v-model="formData.dates"
       @validate="onStepValidate(steps.DATES, $event)"
       @prev="step = steps.DESCRIPTION"
       @next="step = steps.FUNDING")
@@ -74,7 +74,7 @@ q-stepper.full-width(
     :title="$t('label.forms.funding')")
     funding-info(
       :ref="el => stepRefs[steps.FUNDING] = el"
-      v-model="formData"
+      v-model="formData.funding"
       @validate="onStepValidate(steps.FUNDING, $event)"
       @prev="step = steps.DATES"
       @next="step = steps.SUBMISSION")
@@ -87,7 +87,7 @@ q-stepper.full-width(
       :errors="errors"
       :has-errors="hasErrors"
       :ref="el => stepRefs[steps.SUBMISSION] = el"
-      :data="formData"
+      :data="submissionData"
       @prev="step = steps.FUNDING"
       @create="onCreated")
   q-step(
@@ -113,7 +113,7 @@ q-stepper.full-width(
 </template>
 
 <script>
-import {computed, defineComponent, ref, watch} from 'vue'
+import {computed, defineComponent, reactive, ref, watch} from 'vue'
 import UploadData from 'components/forms/steps/UploadData'
 import BasicInfo from 'components/forms/steps/BasicInfo'
 import Identifiers from 'components/forms/steps/Identifiers'
@@ -124,9 +124,27 @@ import FundingInfo from 'components/forms/steps/FundingInfo'
 import Dates from 'components/forms/steps/Dates'
 import Submission from 'components/forms/steps/Submission'
 import {useI18n} from 'vue-i18n'
+import {DEFAULT_AUTHOR_ITEM, DEFAULT_MAIN_TITLE, TAXONOMY_TERM_ENGLISH} from 'src/constants'
+import {date} from 'quasar'
 
 export const DEFAULT_VALUE = {
-
+  basic: {
+    titles: [DEFAULT_MAIN_TITLE],
+    abstract: {},
+    language: [TAXONOMY_TERM_ENGLISH],
+    rights: {},
+  },
+  authors: {
+    creators: [],
+    contributors: [],
+  },
+  description: {},
+  dates: {
+    dateAvailable: date.formatDate(new Date(), 'YYYY-MM-DD'),
+  },
+  funding: {
+    fundingReferences: [],
+  }
 }
 
 export const steps = Object.freeze({
@@ -155,7 +173,7 @@ export default defineComponent({
   setup() {
     const {t} = useI18n()
     const progress = ref({})
-    const formData = ref({})
+    const formData = ref(DEFAULT_VALUE)
     const step = ref(steps.BASIC)
     const maxFilled = ref(steps.BASIC)
     const created = ref(false)
@@ -163,6 +181,18 @@ export default defineComponent({
     const requiredSteps = ref([
       steps.BASIC, steps.AUTHORS, steps.DESCRIPTION
     ])
+
+    //TODO: figure out how to pass default author name
+    // const default_names = currentUserName.value.split(' ')
+    if (!formData.value.authors.creators.length) {
+      formData.value.authors.creators.push({
+        ...DEFAULT_AUTHOR_ITEM,
+        // ...{
+        //   givenName: default_names[0],
+        //   familyName: default_names[default_names.length -1]
+        // }
+      })
+    }
 
     watch(step, () => {
       if (step.value > maxFilled.value) {
@@ -177,6 +207,16 @@ export default defineComponent({
     function hasError(step) {
       return progress.value[step] === false
     }
+
+    const submissionData = computed(() => {
+      return reactive({
+        ...formData.value.basic,
+        ...formData.value.authors,
+        ...formData.value.description,
+        ...formData.value.dates,
+        ...formData.value.funding
+      })
+    })
 
     const hasErrors = computed(() => {
       return Object.values(progress.value).some(val => val === false)
@@ -227,6 +267,7 @@ export default defineComponent({
 
     return {
       formData,
+      submissionData,
       step,
       steps,
       maxFilled,

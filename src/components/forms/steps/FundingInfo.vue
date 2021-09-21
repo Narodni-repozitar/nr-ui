@@ -29,16 +29,11 @@ export default defineComponent({
     modelValue: Object
   },
   setup(props, ctx) {
-    const model = reactive(deepcopy(props.modelValue))
+    const model = ref(deepcopy(props.modelValue))
 
     const {onChange} = useModel(ctx, model)
     const {required} = useValidation()
     const fundingReferences = ref(null)
-
-
-    watch(model, () => {
-      ctx.emit('update:modelValue', model)
-    })
 
     function validate() {
       const fir = fundingReferences.value.validate()

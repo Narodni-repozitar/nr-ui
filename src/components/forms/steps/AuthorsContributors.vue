@@ -21,14 +21,12 @@
   stepper-nav(has-prev @next="$emit('next')" @prev="$emit('prev')")
 </template>
 <script>
-import {defineComponent, reactive, ref} from 'vue'
+import {defineComponent, ref} from 'vue'
 import StepperNav from 'components/controls/StepperNav'
 import AuthorInputList from 'components/controls/inputs/AuthorInputList'
 import AuthorInput from 'components/controls/inputs/AuthorInput'
-import {DEFAULT_AUTHOR_ITEM} from 'src/constants'
 import useValidation from 'src/composables/useValidation'
 import {useI18n} from 'vue-i18n'
-import useAuth from 'src/composables/useAuth'
 import useModel from "src/composables/useModel";
 import deepcopy from "deepcopy";
 
@@ -40,30 +38,10 @@ export default defineComponent({
     modelValue: Object
   },
   setup(props, ctx) {
-    const model = ref(reactive({
-      creators: [],
-      contributors: [],
-      ...deepcopy(props.modelValue)
-    }))
-
+    const model = ref(deepcopy(props.modelValue))
     const {t} = useI18n()
     const {onChange} = useModel(ctx, model)
-    const {currentUserName} = useAuth()
     const {required} = useValidation()
-
-    //TODO: figure out how to pass default author name
-    // const default_names = currentUserName.value.split(' ')
-
-    if (!model.value.creators.length) {
-      model.value.creators.push({
-        ...DEFAULT_AUTHOR_ITEM,
-        // ...{
-        //   givenName: default_names[0],
-        //   familyName: default_names[default_names.length -1]
-        // }
-      })
-      onChange()
-    }
 
     const creators = ref(null)
     const contributors = ref(null)

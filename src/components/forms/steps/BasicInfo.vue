@@ -3,32 +3,36 @@
   title-input-list.col(
     ref="mainTitle"
     empty
-    v-model="basicInfo.titles"
+    v-model="model.titles"
     :label="$t('label.titles') + ' *'"
+    @update:model-value="onChange"
     :rules="[required($t('error.validation.required'))]")
   //pre.q-pa-md.q-ma-md.bg-dark.text-white.text-code.rounded-borders {{ {titles:basicInfo.titles} }}
   languages-select.col(
     ref="languages"
-    v-model="basicInfo.language"
+    v-model="model.language"
     :label="$t('label.language') + ' *'"
+    @update:model-value="onChange"
     :rules="[required($t('error.validation.required'))]")
   //pre.q-pa-md.q-ma-md.bg-dark.text-white.text-code.rounded-borders {{ {language:basicInfo.language} }}
   multilingual-editor.col(
     ref="abstract"
-    v-model="basicInfo.abstract"
+    v-model="model.abstract"
     :rules="[required($t('error.validation.required'))]"
+    @update:model-value="onChange"
     :label="$t('label.abstract') + ' *'")
   //pre.q-pa-md.q-ma-md.bg-dark.text-white.text-code.rounded-borders {{ {abstract:basicInfo.abstract} }}
   licenses-select.col(
     ref="rights"
     :exclude="['copyright']"
-    v-model="basicInfo.rights"
+    v-model="model.rights"
+    @update:model-value="onChange"
     :label="$t('label.license')")
   //pre.q-pa-md.q-ma-md.bg-dark.text-white.text-code.rounded-borders {{ {rights:basicInfo.rights} }}
   stepper-nav.q-mt-xl(has-prev=false @next="$emit('next')")
 </template>
 <script>
-import {defineComponent, reactive, ref, watch} from 'vue'
+import {defineComponent, ref} from 'vue'
 import useValidation from 'src/composables/useValidation'
 import StepperNav from 'components/controls/StepperNav'
 import LanguagesSelect from 'components/controls/selects/LanguagesSelect'
@@ -42,7 +46,8 @@ import ChipsSelect from 'components/controls/selects/ChipsSelect'
 import DateInput from 'components/controls/inputs/DateInput'
 import MultilingualInputList from 'components/controls/inputs/MultilingualInputList'
 import TitleInputList from 'components/controls/inputs/TitleInputList'
-import {DEFAULT_MAIN_TITLE, TAXONOMY_TERM_ENGLISH} from 'src/constants'
+import deepcopy from 'deepcopy'
+import useModel from 'src/composables/useModel'
 
 export default defineComponent({
   name: 'BasicInfo',
@@ -65,22 +70,15 @@ export default defineComponent({
     modelValue: Object
   },
   setup(props, ctx) {
-    const {required} = useValidation()
     const primaryCommunity = ref(null)
     const mainTitle = ref(null)
     const abstract = ref(null)
     const languages = ref(null)
     const keywords = ref(null)
+    const model = ref(deepcopy(props.modelValue))
 
-    const basicInfo = reactive({
-      titles: [DEFAULT_MAIN_TITLE],
-      language: [TAXONOMY_TERM_ENGLISH],
-      ...(props.modelValue || {})
-    })
-
-    watch(basicInfo, () => {
-      ctx.emit('update:modelValue', basicInfo)
-    })
+    const {required} = useValidation()
+    const {onChange} = useModel(ctx, model)
 
     function validate() {
       const tr = mainTitle.value.validate()
@@ -96,7 +94,7 @@ export default defineComponent({
       }
     }
 
-    return {basicInfo, required, primaryCommunity, mainTitle, abstract, languages, keywords, validate}
+    return {model, required, primaryCommunity, mainTitle, abstract, languages, keywords, validate, onChange}
   }
 })
 </script>

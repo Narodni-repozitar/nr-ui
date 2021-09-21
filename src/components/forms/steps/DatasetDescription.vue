@@ -43,9 +43,9 @@ import MultilingualChips from 'components/controls/inputs/MultilingualChips'
 import TermListSelect from 'components/controls/selects/TermListSelect'
 import SubjectCategoryInput from 'components/controls/inputs/SubjectCategoryInput'
 import MultilingualEditor from 'components/controls/inputs/MultilingualEditor'
-import InputList from "components/controls/inputs/InputList";
-import deepcopy from "deepcopy";
-import useModel from "src/composables/useModel";
+import InputList from 'components/controls/inputs/InputList'
+import deepcopy from 'deepcopy'
+import useModel from 'src/composables/useModel'
 
 export default defineComponent({
   name: 'DatasetDescription',

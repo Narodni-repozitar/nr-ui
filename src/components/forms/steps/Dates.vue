@@ -27,9 +27,8 @@ import {defineComponent, ref} from 'vue'
 import useValidation from 'src/composables/useValidation'
 import StepperNav from 'components/controls/StepperNav'
 import DateInput from 'components/controls/inputs/DateInput'
-import {date} from 'quasar'
-import deepcopy from "deepcopy";
-import useModel from "src/composables/useModel";
+import deepcopy from 'deepcopy'
+import useModel from 'src/composables/useModel'
 
 export default defineComponent({
   name: 'Dates',
@@ -44,11 +43,6 @@ export default defineComponent({
   setup(props, ctx) {
     const model = ref(deepcopy(props.modelValue))
     const {onChange} = useModel(ctx, model)
-
-    if (!model.value.dateAvailable) {
-      model.value.dateAvailable = date.formatDate(new Date(), 'YYYY-MM-DD')
-      onChange()
-    }
 
     const {required} = useValidation()
     const dateAvailable = ref(null)
