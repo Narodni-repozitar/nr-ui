@@ -19,7 +19,7 @@ q-stepper.full-width(
     :error="hasError(steps.BASIC)"
     error-icon="info"
     :name="steps.BASIC"
-    :title="$t('label.forms.datasetBasicInfo')")
+    :title="$t('label.forms.basic')")
     basic-info(
       :ref="el => stepRefs[steps.BASIC] = el"
       ref="basicInfo"
@@ -32,7 +32,7 @@ q-stepper.full-width(
     :done="isDone(steps.AUTHORS)"
     :error="hasError(steps.AUTHORS)"
     :name="steps.AUTHORS"
-    :title="$t('label.forms.authorsContributors')")
+    :title="$t('label.forms.authors')")
     authors-contributors(
       :ref="el => stepRefs[steps.AUTHORS] = el"
       v-model="formData"
@@ -45,7 +45,7 @@ q-stepper.full-width(
     :done="isDone(steps.DESCRIPTION)"
     :error="hasError(steps.DESCRIPTION)"
     :name="steps.DESCRIPTION"
-    :title="$t('label.forms.datasetDescription')")
+    :title="$t('label.forms.description')")
     dataset-description(
       :ref="el => stepRefs[steps.DESCRIPTION] = el"
       v-model="formData"
@@ -71,7 +71,7 @@ q-stepper.full-width(
     :done="isDone(steps.FUNDING)"
     :error="hasError(steps.FUNDING)"
     :name="steps.FUNDING"
-    :title="$t('label.forms.fundingInfo')")
+    :title="$t('label.forms.funding')")
     funding-info(
       :ref="el => stepRefs[steps.FUNDING] = el"
       v-model="formData"
@@ -84,6 +84,7 @@ q-stepper.full-width(
     :name="steps.SUBMISSION"
     :title="$t('label.forms.submission')")
     submission(
+      :errors="errors"
       :has-errors="hasErrors"
       :ref="el => stepRefs[steps.SUBMISSION] = el"
       :data="formData"
@@ -122,6 +123,7 @@ import DatasetDescription from 'components/forms/steps/DatasetDescription'
 import FundingInfo from 'components/forms/steps/FundingInfo'
 import Dates from 'components/forms/steps/Dates'
 import Submission from 'components/forms/steps/Submission'
+import {useI18n} from "vue-i18n";
 
 export const steps = Object.freeze({
   BASIC: 1,
@@ -147,6 +149,7 @@ export default defineComponent({
     StepperNav,
   },
   setup() {
+    const {t} = useI18n()
     const progress = ref({})
     const formData = ref({})
     const step = ref(steps.BASIC)
@@ -175,12 +178,20 @@ export default defineComponent({
       return Object.values(progress.value).some(val => val === false)
     })
 
+    const errors = computed(() => {
+      return Object.keys(progress.value)
+          .filter(k => progress.value[k] === false)
+          .map(r => Object.keys(steps).find(key => {
+            return steps[key] === parseInt(r)
+          })).map(r => t(`label.forms.${r.toLowerCase()}`))
+    })
+
     function onStepValidate(validatedStep, result) {
       progress.value[validatedStep] = result
     }
 
     function onStepChange(newStep, oldStep) {
-      if (newStep !== steps.SUBMISSION) {
+      if (newStep !== steps.SUBMISSION && oldStep !== steps.SUBMISSION) {
         validateStep(oldStep)
       } else {
         for (const s of Object.values(steps)) {
@@ -219,6 +230,7 @@ export default defineComponent({
       progress,
       stepRefs,
       hasErrors,
+      errors,
       isDone,
       hasError,
       onStepValidate,

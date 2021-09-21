@@ -149,11 +149,11 @@
     "filters": "Filtry",
     "forms": {
       "dates": "Datace",
-      "fundingInfo": "Informace o financování",
-      "datasetDescription": "Popis datové sady",
+      "funding": "Informace o financování",
+      "description": "Popis datové sady",
       "additionalTitles": "Další názvy",
-      "authorsContributors": "Tvůrci",
-      "datasetBasicInfo": "Datová sada",
+      "authors": "Tvůrci",
+      "basic": "Datová sada",
       "identifiers": "Identifikátory",
       "identifiersCaption": "Zadejte existující identifikátory spojené s tímto datasetem",
       "keywords": "Klíčová slova",
@@ -209,6 +209,7 @@
     "titles": "Název datové sady"
   },
   "message": {
+    "submissionHasErrors": "Pro pokračování prosím opravte chyby ve formuláři",
     "bugReportSent": "Chybové hlášení bylo zasláno",
     "typeAFewLetters": "Napište více znaků",
     "noActions" : "Žádné dostupné akce",
@@ -260,6 +261,7 @@
     }
   },
   "section": {
+    "submitRecordErrors": "Následující sekce obsahují chyby",
     "submitRecordMetadata": "Vyplněná metadata",
     "otherDateInfo": "Další časové údaje",
     "articleExistsError": "Nalezen existující článek",

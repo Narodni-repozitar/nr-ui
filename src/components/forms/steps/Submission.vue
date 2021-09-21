@@ -1,5 +1,15 @@
 <template lang="pug">
 .column.q-gutter-sm
+  q-card.text-negative(v-if="hasErrors" flat)
+    q-card-section
+      .text-h6.no-padding.no-margin.text-weight-bold.col {{ $t('section.submitRecordErrors') }}
+    q-card-section
+      q-list(dense)
+        q-item(v-for="(item, idx) in errors" :key="idx")
+          q-item-section(avatar)
+            q-icon(name="error")
+          q-item-section {{ item }}
+    q-separator(inset)
   q-card(v-if="!failed" flat square)
     q-card-section
       .text-h6.text-weight-bold.col {{ $t('section.submitRecordMetadata') }}
@@ -58,9 +68,10 @@
     @retry="retry")
   q-inner-loading(:showing="submitting")
     circular-spinner(:message="$t('message.submitting')")
-  .text-body2.col(v-if="!failed")
-    q-icon.q-pr-sm.q-py-sm(size="sm" color="info" name="info")
-    span.text-caption {{ $t('message.submissionInfo') }}
+  .text-body2.col.q-ml-sm(v-if="!failed")
+    q-icon.q-pr-sm.q-py-sm(size="sm" :color="!hasErrors? 'info': 'negative'" :name="!hasErrors? 'info': 'warning'")
+    span.text-caption(v-if="!hasErrors") {{ $t('message.submissionInfo') }}
+    span.text-caption.text-negative {{ $t('message.submissionHasErrors') }}
 </template>
 <script>
 import {defineComponent, ref} from 'vue'
@@ -83,6 +94,10 @@ export default defineComponent({
   emits: ['create', 'prev', 'retry'],
   props: {
     hasErrors: Boolean,
+    errors: {
+      type: Array,
+      default: () => []
+    },
     data: {
       type: Object,
       required: true

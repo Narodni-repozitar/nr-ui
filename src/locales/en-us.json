@@ -152,12 +152,11 @@
     "filters": "Filters",
     "forms": {
       "dates": "Dates",
-      "fundingInfo": "Funding Info",
-      "datasetDescription": "Dataset description",
+      "funding": "Funding Info",
+      "description": "Dataset description",
       "additionalTitles": "Additional titles",
-      "authors": "Authors",
-      "authorsContributors": "Authors and Contributors",
-      "datasetBasicInfo": "Data Set",
+      "authors": "Authors and Contributors",
+      "basic": "Data Set",
       "identifiers": "Identifiers",
       "identifiersCaption": "Are there any existing identifiers associated with the dataset",
       "keywords": "Keywords",
@@ -257,6 +256,7 @@
     }
   },
   "section": {
+    "submitRecordErrors": "The following sections has errors",
     "submitRecordMetadata": "Record Metadata",
     "otherDateInfo": "Other date info",
     "addFiles": "Add files",
