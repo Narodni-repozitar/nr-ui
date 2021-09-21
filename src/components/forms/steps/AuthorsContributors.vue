@@ -4,6 +4,7 @@
     v-model="model.creators"
     ref="creators"
     no-roles
+    split-name
     :label="$t('label.authors')"
     :item-label="$t('label.author')"
     :add-item-label="$t('label.ofAuthor')"
@@ -11,6 +12,7 @@
   author-input-list.full-width.no-padding.col(
     v-model="model.contributors"
     ref="contributors"
+    split-name
     :label="$t('label.contributors')"
     :item-label="$t('label.contributor')"
     :add-item-label="$t('label.ofContributor')"
@@ -49,11 +51,18 @@ export default defineComponent({
     const {currentUserName} = useAuth()
     const {required} = useValidation()
 
+    //TODO: figure out how to pass default author name
+    // const default_names = currentUserName.value.split(' ')
+
     if (!model.value.creators.length) {
       model.value.creators.push({
         ...DEFAULT_AUTHOR_ITEM,
-        ...{fullName: currentUserName}
+        // ...{
+        //   givenName: default_names[0],
+        //   familyName: default_names[default_names.length -1]
+        // }
       })
+      onChange()
     }
 
     const creators = ref(null)

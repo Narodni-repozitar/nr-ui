@@ -18,6 +18,7 @@ q-field.row(
             :label="`${itemLabel} #${idx + 1}`"
             v-model="model[idx]"
             :rules="rules"
+            :split-name="splitName"
             :ref="setInputRef"
             @update:model-value="onChange")
         q-item-section(side)
@@ -62,6 +63,7 @@ export default {
       type: String,
       default: ''
     },
+    splitName: Boolean,
     rules: Array,
     modelValue: {
       type: Array,

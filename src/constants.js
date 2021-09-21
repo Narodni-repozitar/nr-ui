@@ -54,27 +54,64 @@ export const TAXONOMY_TERM_DATASET = {
   }
 }
 
-export const TAXONOMY_TERM_RESTRICTED = {
+export const TAXONOMY_TERM_ENGLISH = {
+  "alpha2": "en",
+  "busy_count": 0,
+  "descendants_busy_count": 0,
+  "descendants_count": 0,
+  "level": 1,
+  "links": {
+    "self": "https://127.0.0.1:5000/2.0/taxonomies/languages/eng",
+    "tree": "https://127.0.0.1:5000/2.0/taxonomies/languages/eng?representation:include=dsc"
+  },
+  "slug": "eng",
+  "status": "alive",
+  "title": {
+    "cs": "angličtina",
+    "en": "English"
+  },
+  "data": {
+    "alpha2": "en",
     "busy_count": 0,
     "descendants_busy_count": 0,
     "descendants_count": 0,
     "level": 1,
     "links": {
-      "self": "https://127.0.0.1:5000/2.0/taxonomies/accessRights/c-16ec",
-      "tree": "https://127.0.0.1:5000/2.0/taxonomies/accessRights/c-16ec?representation:include=dsc"
+      "self": "https://127.0.0.1:5000/2.0/taxonomies/languages/eng",
+      "tree": "https://127.0.0.1:5000/2.0/taxonomies/languages/eng?representation:include=dsc"
     },
-    "relatedURI": {
-      "coar": "http://purl.org/coar/access_right/c_16ec"
-    },
-    "slug": "c-16ec",
+    "slug": "eng",
     "status": "alive",
     "title": {
-      "cs": "omezen\u00fd p\u0159\u00edstup",
-      "en": "restricted access"
+      "cs": "angličtina",
+      "en": "English"
     }
-  }
+  },
+  "self": "https://127.0.0.1:5000/2.0/taxonomies/languages/eng",
+  "label": "angličtina"
+}
 
-  export const TAXONOMY_TERM_OPENACCESS = {
+export const TAXONOMY_TERM_RESTRICTED = {
+  "busy_count": 0,
+  "descendants_busy_count": 0,
+  "descendants_count": 0,
+  "level": 1,
+  "links": {
+    "self": "https://127.0.0.1:5000/2.0/taxonomies/accessRights/c-16ec",
+    "tree": "https://127.0.0.1:5000/2.0/taxonomies/accessRights/c-16ec?representation:include=dsc"
+  },
+  "relatedURI": {
+    "coar": "http://purl.org/coar/access_right/c_16ec"
+  },
+  "slug": "c-16ec",
+  "status": "alive",
+  "title": {
+    "cs": "omezen\u00fd p\u0159\u00edstup",
+    "en": "restricted access"
+  }
+}
+
+export const TAXONOMY_TERM_OPENACCESS = {
   "busy_count": 0,
   "descendants_busy_count": 0,
   "descendants_count": 0,
@@ -184,6 +221,7 @@ export const AFFILIATIONS = ['CESNET', 'VŠCHT', 'NTK', 'AVČR']
 
 export default {
   TAXONOMY_TERM_RESTRICTED,
+  TAXONOMY_TERM_ENGLISH,
   TAXONOMY_TERM_OPENACCESS,
   TAXONOMY_TERM_DATASET,
   PRIMARY_COMMUNITY_FIELD,

@@ -42,7 +42,7 @@ import ChipsSelect from 'components/controls/selects/ChipsSelect'
 import DateInput from 'components/controls/inputs/DateInput'
 import MultilingualInputList from 'components/controls/inputs/MultilingualInputList'
 import TitleInputList from 'components/controls/inputs/TitleInputList'
-import {DEFAULT_MAIN_TITLE} from 'src/constants'
+import {DEFAULT_MAIN_TITLE, TAXONOMY_TERM_ENGLISH} from 'src/constants'
 
 export default defineComponent({
   name: 'BasicInfo',
@@ -74,44 +74,8 @@ export default defineComponent({
 
     const basicInfo = reactive({
       titles: [DEFAULT_MAIN_TITLE],
-      language: [
-        {
-          "alpha2": "en",
-          "busy_count": 0,
-          "descendants_busy_count": 0,
-          "descendants_count": 0,
-          "level": 1,
-          "links": {
-            "self": "https://127.0.0.1:5000/2.0/taxonomies/languages/eng",
-            "tree": "https://127.0.0.1:5000/2.0/taxonomies/languages/eng?representation:include=dsc"
-          },
-          "slug": "eng",
-          "status": "alive",
-          "title": {
-            "cs": "angličtina",
-            "en": "English"
-          },
-          "data": {
-            "alpha2": "en",
-            "busy_count": 0,
-            "descendants_busy_count": 0,
-            "descendants_count": 0,
-            "level": 1,
-            "links": {
-              "self": "https://127.0.0.1:5000/2.0/taxonomies/languages/eng",
-              "tree": "https://127.0.0.1:5000/2.0/taxonomies/languages/eng?representation:include=dsc"
-            },
-            "slug": "eng",
-            "status": "alive",
-            "title": {
-              "cs": "angličtina",
-              "en": "English"
-            }
-          },
-          "self": "https://127.0.0.1:5000/2.0/taxonomies/languages/eng",
-          "label": "angličtina"
-        }
-      ], ...(props.modelValue || {})
+      language: [TAXONOMY_TERM_ENGLISH],
+      ...(props.modelValue || {})
     })
 
     watch(basicInfo, () => {

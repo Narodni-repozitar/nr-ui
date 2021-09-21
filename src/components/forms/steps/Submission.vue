@@ -13,11 +13,11 @@
   q-card(v-if="!failed" flat square)
     q-card-section
       .text-h6.text-weight-bold.col {{ $t('section.submitRecordMetadata') }}
-    q-card-section
+    q-card-section.q-ml-lg
       label-block(:label="$t('label.titles')")
         span(v-for="(t, idx) in internalData.titles" :key="idx")
           span.text-weight-bold(v-for="(tt, idx) in Object.keys(t.title)" :key="idx") {{ t.title[tt] }} ({{ tt }}),
-      label-block(:label="$t('label.language')")
+      label-block(:label="$t('label.language')" v-if="internalData.language")
         span.text-weight-bold(v-for="(l, idx) in internalData.language" :key="idx") {{ $mt(l.title) }}
       label-block(:label="$t('label.abstract')")
         span.text-weight-bold(v-for="(a, idx) in internalData.abstract? Object.keys(internalData.abstract): []" :key="idx") {{ internalData.abstract[a] }} ({{ a }}),
@@ -34,7 +34,7 @@
       label-block(:label="$t('label.technicalInfo')" v-if="internalData.technicalInfo && Object.keys(internalData.technicalInfo).length")
         span.text-weight-bold {{ $mt(internalData.technicalInfo) }}
       label-block(:label="$t('label.subjectCategories')")
-        span.text-weight-bold(v-for="(s, idx) in internalData.subjectCategories" :key="idx") {{ $mt(s.title) }},
+        span.text-weight-bold(v-for="(s, idx) in internalData.subjectCategories" :key="idx") {{ s.title }},
       label-block(:label="$t('label.notes')" v-if="internalData.notes?.length")
         span.text-weight-bold {{ internalData.notes }}
       label-block(:label="$t('label.dateAvailable')")
@@ -71,14 +71,13 @@
   .text-body2.col.q-ml-sm(v-if="!failed")
     q-icon.q-pr-sm.q-py-sm(size="sm" :color="!hasErrors? 'info': 'negative'" :name="!hasErrors? 'info': 'warning'")
     span.text-caption(v-if="!hasErrors") {{ $t('message.submissionInfo') }}
-    span.text-caption.text-negative {{ $t('message.submissionHasErrors') }}
+    span.text-caption.text-negative(v-else) {{ $t('message.submissionHasErrors') }}
 </template>
 <script>
 import {defineComponent, ref} from 'vue'
 import StepperNav from 'components/controls/StepperNav'
 import useNotify from 'src/composables/useNotify'
 import {axios} from 'boot/axios'
-import deepcopy from 'deepcopy'
 import CircularSpinner from 'components/ui/CircularSpinner'
 import LabelBlock from 'components/record/LabelBlock'
 import {PRIMARY_COMMUNITY_FIELD, TAXONOMY_TERM_DATASET, TAXONOMY_TERM_RESTRICTED} from 'src/constants'
@@ -108,7 +107,7 @@ export default defineComponent({
     const failed = ref(false)
     const error = ref(null)
     const created = ref(false)
-    const internalData = ref(deepcopy(props.data))
+    const internalData = ref(props.data)
 
     const {effectiveCommunity} = useAuth()
     const {notifyError, notifySuccess, submitBugReport} = useNotify()

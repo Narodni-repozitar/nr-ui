@@ -123,7 +123,11 @@ import DatasetDescription from 'components/forms/steps/DatasetDescription'
 import FundingInfo from 'components/forms/steps/FundingInfo'
 import Dates from 'components/forms/steps/Dates'
 import Submission from 'components/forms/steps/Submission'
-import {useI18n} from "vue-i18n";
+import {useI18n} from 'vue-i18n'
+
+export const DEFAULT_VALUE = {
+
+}
 
 export const steps = Object.freeze({
   BASIC: 1,

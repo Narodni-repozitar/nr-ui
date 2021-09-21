@@ -1,10 +1,10 @@
 <template lang="pug">
-q-btn(v-bind="attrs" @click="onClick" flat dense)
+q-btn(v-bind="attrs" @click="onClick" flat dense :tabindex="-1")
   q-icon(name="svguse:/icons.svg#cancel")
 </template>
 
 <script>
-import {defineComponent} from "vue";
+import {defineComponent} from 'vue'
 
 export default defineComponent({
   name: 'cancel-button',

@@ -7,24 +7,40 @@ q-field.no-margin.no-label-float.row(
   borderless
   :label="label")
   template(v-slot:control)
-    .row.full-width.q-mt-md
+    .row.full-width.q-mt-md.no-wrap
       author-type-select.full-height.col-auto(
         ref="authorType"
         v-model="model.nameType"
         :rules="[required($t('error.validation.required'))]"
         @update:model-value="changeType")
-      .col-grow.q-ml-sm
-        base-input.q-pa-none(
-          v-if="isPerson"
+      base-input.q-ml-sm.q-pa-none.col-grow(
+        v-if="isPerson && splitName"
+        autogrow
+        autofocus
+        ref="familyNameRef"
+        v-model="familyName"
+        :rules="[required($t('error.validation.required'))]"
+        :label="`${$t('label.familyName')} *`"
+        @update:model-value="onPersonNameChange")
+      base-input.q-ml-sm.q-pa-none.col-grow(
+        v-if="isPerson && splitName"
+        autogrow
+        ref="givenNameRef"
+        v-model="givenName"
+        :rules="[required($t('error.validation.required'))]"
+        :label="`${$t('label.givenName')} *`"
+        @update:model-value="onPersonNameChange")
+      base-input.q-ml-sm.q-pa-none.col-grow(
+          v-if="isPerson && !splitName"
           autogrow
           autofocus
           ref="fullName"
           v-model="model.fullName"
           :rules="[required($t('error.validation.required'))]"
-          :label="fullNameLabel"
-          @update:model-value="onChange")
+          :label="`${$t('label.name')} ${$t('label.ofAuthor')} *`"
+          @update:model-value="onPersonNameChange")
+      .col-grow.q-ml-sm(v-if="isOrg")
         term-select.q-pa-none(
-          v-else
           autofocus
           ref="organization"
           v-bind="$attrs"
@@ -101,6 +117,7 @@ export default {
       type: String,
       default: ''
     },
+    splitName: Boolean,
     noRoles: {
       type: Boolean,
       default: false
@@ -120,6 +137,10 @@ export default {
     const {error, required, resetValidation} = useValidation()
     const {input} = useInputRefs()
     const authorType = ref(null)
+    const givenNameRef = ref(null)
+    const givenName = ref(deepcopy(props.modelValue.givenName))
+    const familyNameRef = ref(null)
+    const familyName = ref(deepcopy(props.modelValue.familyName))
     const fullName = ref(null)
     const identifiers = ref(null)
     const affiliations = ref(null)
@@ -134,11 +155,13 @@ export default {
     })
 
     const fullNameLabel = computed(() => {
-      if (isPerson.value) {
-        return `${t('label.fullName')} ${t('label.ofAuthor')} *`
-      }
       return `${t('label.name')} ${t('value.authorType.organizational')} *`
     })
+
+    function onPersonNameChange() {
+      model.value.fullName = `${familyName.value || ''}, ${givenName.value || ''}`
+      onChange()
+    }
 
     function onOrgChange(newVal) {
       // TODO: what to actually use here as full name??? Should this be correct?
@@ -171,6 +194,7 @@ export default {
       let afr = true
       let or = true
       let fnr = true
+      let gnr = true
 
       if (!authorType.value) {
         return
@@ -179,7 +203,8 @@ export default {
       const atr = authorType.value.validate()
 
       if (isPerson.value) {
-        fnr = fullName.value.validate()
+        gnr = givenNameRef.value.validate()
+        fnr = familyNameRef.value.validate()
         afr = affiliations.value.validate()
       } else {
         or = organization.value.validate()
@@ -190,6 +215,7 @@ export default {
       }
 
       if (atr !== true ||
+          gnr !== true ||
           fnr !== true ||
           afr !== true ||
           idr !== true ||
@@ -204,6 +230,10 @@ export default {
       input,
       authorType,
       fullName,
+      givenName,
+      givenNameRef,
+      familyName,
+      familyNameRef,
       identifiers,
       organization,
       error,
@@ -215,6 +245,7 @@ export default {
       changeType,
       validate,
       onChange,
+      onPersonNameChange,
       onOrgChange,
       required,
       PERSON_IDENTIFIER_SCHEMES,
