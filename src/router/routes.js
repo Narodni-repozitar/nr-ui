@@ -21,7 +21,6 @@ const routes = [
           }, {
             meta: {
               showCreateRecord: true,
-              communitySelect: true,
               query: {
                 // sort: 'string:alphabetical'
               }
@@ -34,7 +33,6 @@ const routes = [
           }, {
             meta: {
               showCreateRecord: true,
-              communitySelect: true,
               query: {
                 // sort: 'string:alphabetical'
               }

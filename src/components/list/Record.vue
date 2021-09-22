@@ -77,9 +77,11 @@ class ListRecord extends Vue {
   }
 
   sanitizeHtml(value) {
-    Object.keys(value).map(function (key, index) {
-      value[key] = sanitizeHtml(value[key], {allowedTags: []})
-    })
+    if (value) {
+      Object.keys(value).map(function (key, index) {
+        value[key] = sanitizeHtml(value[key], {allowedTags: []})
+      })
+    }
     return value
   }
 }

@@ -1,115 +1,5 @@
 <template lang="pug">
-q-stepper.full-width(
-  flat
-  keep-alive
-  v-model="step"
-  header-nav
-  doneIcon="done"
-  done-color="positive"
-  vertical
-  bordered
-  error-color="negative"
-  inactive-color="dark"
-  color="primary"
-  @before-transition="onStepChange"
-  animated)
-  q-step(
-    icon="info"
-    :done="isDone(steps.BASIC)"
-    :error="hasError(steps.BASIC)"
-    error-icon="info"
-    :name="steps.BASIC"
-    :title="$t('label.forms.basic')")
-    basic-info(
-      :ref="el => stepRefs[steps.BASIC] = el"
-      ref="basicInfo"
-      v-model="formData.basic"
-      @validate="onStepValidate(steps.BASIC, $event)"
-      @next="step = steps.AUTHORS")
-  q-step(
-    icon="groups"
-    error-icon="groups"
-    :done="isDone(steps.AUTHORS)"
-    :error="hasError(steps.AUTHORS)"
-    :name="steps.AUTHORS"
-    :title="$t('label.forms.authors')")
-    authors-contributors(
-      :ref="el => stepRefs[steps.AUTHORS] = el"
-      v-model="formData.authors"
-      @validate="onStepValidate(steps.AUTHORS, $event)"
-      @prev="step = steps.BASIC"
-      @next="step = steps.DESCRIPTION")
-  q-step(
-    icon="analytics"
-    error-icon="analytics"
-    :done="isDone(steps.DESCRIPTION)"
-    :error="hasError(steps.DESCRIPTION)"
-    :name="steps.DESCRIPTION"
-    :title="$t('label.forms.description')")
-    dataset-description(
-      :ref="el => stepRefs[steps.DESCRIPTION] = el"
-      v-model="formData.description"
-      @validate="onStepValidate(steps.DESCRIPTION, $event)"
-      @prev="step = steps.AUTHORS"
-      @next="step = steps.DATES")
-  q-step(
-    icon="date_range"
-    error-icon="date_range"
-    :done="isDone(steps.DATES)"
-    :error="hasError(steps.DATES)"
-    :name="steps.DATES"
-    :title="$t('label.forms.dates')")
-    dates(
-      :ref="el => stepRefs[steps.DATES] = el"
-      v-model="formData.dates"
-      @validate="onStepValidate(steps.DATES, $event)"
-      @prev="step = steps.DESCRIPTION"
-      @next="step = steps.FUNDING")
-  q-step(
-    icon="euro_symbol"
-    error-icon="euro_symbol"
-    :done="isDone(steps.FUNDING)"
-    :error="hasError(steps.FUNDING)"
-    :name="steps.FUNDING"
-    :title="$t('label.forms.funding')")
-    funding-info(
-      :ref="el => stepRefs[steps.FUNDING] = el"
-      v-model="formData.funding"
-      @validate="onStepValidate(steps.FUNDING, $event)"
-      @prev="step = steps.DATES"
-      @next="step = steps.SUBMISSION")
-  q-step(
-    icon="published_with_changes"
-    :done="step > steps.SUBMISSION"
-    :name="steps.SUBMISSION"
-    :title="$t('label.forms.submission')")
-    submission(
-      :errors="errors"
-      :has-errors="hasErrors"
-      :ref="el => stepRefs[steps.SUBMISSION] = el"
-      :data="submissionData"
-      @prev="step = steps.FUNDING"
-      @create="onCreated")
-  q-step(
-    :disable="maxFilled < steps.UPLOAD"
-    icon="cloud_upload"
-    :name="steps.UPLOAD"
-    :title="$t('label.forms.uploadData')")
-    .column.justify-center.items-center
-      .col.text-h2
-        q-icon.flex-center(color="positive" name="check_circle")
-      .col.text-h5 {{ $t('message.submissionSuccess', {pid: created.metadata.InvenioID}) }}
-    q-separator(spaced)
-    .column.justify-center.items-center
-      .col.text-subtitle1 {{ $t('label.forms.uploadData') }}
-      upload-data(
-        :ref="el => stepRefs[steps.UPLOAD] = el"
-        v-if="created"
-        :files="created.links.files")
-    .column.justify-center.items-center
-      .col.text-subtitle1.q-my-md ~ {{ $t('label.or') }} ~
-      .col
-        q-btn(color="primary" :label="$t('action.navigateDetail')" :to="pathFromUrl(created?.links?.self)")
+dataset-form(v-model="formData" mode="create")
 </template>
 
 <script>
@@ -126,6 +16,7 @@ import Submission from 'components/forms/steps/Submission'
 import {useI18n} from 'vue-i18n'
 import {DEFAULT_AUTHOR_ITEM, DEFAULT_MAIN_TITLE, TAXONOMY_TERM_ENGLISH} from 'src/constants'
 import {date} from 'quasar'
+import DatasetForm from "components/forms/DatasetForm";
 
 export const DEFAULT_VALUE = {
   basic: {
@@ -160,6 +51,7 @@ export const steps = Object.freeze({
 export default defineComponent({
   name: 'CreateDatasetForm',
   components: {
+    DatasetForm,
     Submission,
     DatasetDescription,
     AuthorsContributors,

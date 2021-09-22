@@ -1,5 +1,9 @@
 <template lang="pug">
 div.collection-page.q-mt-xl
+  .row.no-padding.no-margin
+    .text-subtitle1 Dostupné komunity
+  .row.q-py-md
+    community-carousel
   .row.items-stretch
     search-header.col-8(:collection="collection")
     selected-facets.col-4(:activeFacets="activeFacets")
@@ -21,8 +25,6 @@ div.collection-page.q-mt-xl
         )
 </template>
 <script>
-import {Options, Vue} from 'vue-class-component'
-
 import CollectionFacets from 'src/components/list/CollectionFacets'
 import RecordList from 'src/components/list/RecordList'
 import SearchHeader from 'src/components/list/SearchHeader'
@@ -30,6 +32,7 @@ import SelectedFacets from 'src/components/list/SelectedFacets'
 import URLPagination from 'src/components/controls/URLPagination'
 import {defineComponent, onMounted, ref} from 'vue'
 import {useRouter} from 'vue-router'
+import CommunityCarousel from 'components/controls/selects/CommunityCarousel'
 
 export default defineComponent({
   name: 'Collection',
@@ -41,7 +44,8 @@ export default defineComponent({
     RecordList,
     SearchHeader,
     SelectedFacets,
-    URLPagination
+    URLPagination,
+    CommunityCarousel
   },
   setup() {
     const fullText = ref(true)

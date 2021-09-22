@@ -13,6 +13,9 @@ q-stepper.full-width(
   color="primary"
   @before-transition="onStepChange"
   animated)
+  //component(
+  //  v-for="s in steps" :key="s.id"
+  //  :is="s.component")
   basic-info-step(
     :done="isDone(steps.BASIC)"
     :error="hasError(steps.BASIC)"

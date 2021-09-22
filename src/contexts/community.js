@@ -25,8 +25,18 @@ export const community = defineContext(() => {
     const routeParams = deepcopy(route.params)
     let routeName = route.name
 
-    if (route.name === 'datasets' ) {
+
+    if (communityId && route.name === 'datasets' ) {
       routeName = 'community-datasets'
+    }
+    if (!communityId && route.name === 'community-datasets') {
+      delete routeParams.communityId
+      return await router.push({
+        name: 'datasets',
+        params: {
+          ...routeParams,
+        }
+      })
     }
 
     return await router.push({
