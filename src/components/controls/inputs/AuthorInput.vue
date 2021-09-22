@@ -14,7 +14,7 @@ q-field.no-margin.no-label-float.row(
         :rules="[required($t('error.validation.required'))]"
         @update:model-value="changeType")
       base-input.q-ml-sm.q-pa-none.col-grow(
-        v-if="isPerson && splitName"
+        v-if="isPerson && splitName && !modelValue.fullName"
         autogrow
         autofocus
         ref="familyNameRef"
@@ -23,7 +23,7 @@ q-field.no-margin.no-label-float.row(
         :label="`${$t('label.familyName')} *`"
         @update:model-value="onPersonNameChange")
       base-input.q-ml-sm.q-pa-none.col-grow(
-        v-if="isPerson && splitName"
+        v-if="isPerson && splitName && !modelValue.fullName"
         autogrow
         ref="givenNameRef"
         v-model="givenName"
@@ -31,7 +31,7 @@ q-field.no-margin.no-label-float.row(
         :label="`${$t('label.givenName')} *`"
         @update:model-value="onPersonNameChange")
       base-input.q-ml-sm.q-pa-none.col-grow(
-          v-if="isPerson && !splitName"
+          v-if="isPerson && (!splitName || modelValue.fullName)"
           autogrow
           autofocus
           ref="fullName"

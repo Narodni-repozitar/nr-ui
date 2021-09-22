@@ -144,12 +144,6 @@ export default defineComponent({
     const progress = ref({})
     const maxFilled = ref(steps.BASIC)
 
-    const submissionData = computed(() => {
-      return reactive({
-        ...Object.values(model.value)
-      })
-    })
-
     watch(step, () => {
       if (step.value > maxFilled.value) {
         maxFilled.value = step.value
@@ -204,6 +198,14 @@ export default defineComponent({
 
     const hasErrors = computed(() => {
       return Object.values(progress.value).some(val => val === false)
+    })
+
+    const submissionData = computed(() => {
+      const res = {}
+      for (const item of Object.values(model.value)) {
+        Object.entries(item).map(([k,v]) => res[k] = v)
+      }
+      return res
     })
 
     const errors = computed(() => {
