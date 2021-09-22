@@ -47,8 +47,8 @@ import ChipsSelect from 'components/controls/selects/ChipsSelect'
 import {useQuasar} from 'quasar'
 import {useI18n} from 'vue-i18n'
 import BaseSelect from 'components/controls/selects/BaseSelect'
-import {useTranslated} from 'src/composables/useTranslated'
 import MultilingualChip from "components/i18n/MultilingualChip";
+import deepcopy from "deepcopy";
 
 export default {
   name: 'MultilingualChips',
@@ -67,9 +67,8 @@ export default {
     }
   },
   setup(props, ctx) {
-    const model = ref([])
-    const {t, locale} = useI18n()
-    const {mt, mtr} = useTranslated(locale)
+    const model = ref(deepcopy(props.modelValue))
+    const {t} = useI18n()
     const $q = useQuasar()
 
     const {error, errorMessage, resetValidation, required} = useValidation()

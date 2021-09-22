@@ -1,90 +1,35 @@
 <template lang="pug">
-q-stepper.full-width(
-  flat
-  keep-alive
-  v-model="step"
-  header-nav
-  doneIcon="done"
-  done-color="positive"
-  vertical
-  bordered
-  color="primary"
-  animated)
-  q-step(
-    icon="info"
-    :name="steps.BASIC"
-    :title="$t('label.forms.datasetBasicInfo')"
-    :done="step > steps.BASIC"
-    done-icon="done"
-    done-color="positive")
-    basic-info(
-      v-model="formData"
-      @next="step = steps.AUTHORS")
-  q-step(
-    icon="tag"
-    :name="steps.AUTHORS"
-    :title="$t('label.forms.identifiers')"
-    :caption="$t('label.forms.identifiersCaption')"
-    :done="step > steps.IDENTIFIERS")
-    authors-contributors(
-      v-model="formData"
-      @prev="step = steps.IDENTIFIERS"
-      @next="step = steps.UPLOAD")
-  q-step(
-    icon="groups"
-    :name="steps.AUTHORS"
-    :title="$t('label.forms.authorsContributors')"
-    :done="step > steps.AUTHORS")
-    authors-contributors(
-      v-model="formData"
-      @prev="step = steps.IDENTIFIERS"
-      @next="step = steps.UPLOAD")
-  q-step(
-    icon="cloud_upload"
-    :name="steps.UPLOAD"
-    :title="$t('label.forms.uploadData')"
-    :done="step > steps.UPLOAD")
-    file-list(:dataset="record")
-    stepper-nav(
-      has-prev
-      @prev="step = steps.AUTHORS"
-      @next="step = steps.SUBMISSION"
-    )
-  q-step(
-    active-icon="published_with_changes"
-    icon="published_with_changes"
-    :error="failed"
-    :name="steps.SUBMISSION"
-    :title="$t('label.forms.saveChanges')"
-    :done="step > steps.SUBMISSION")
-    .text-subtitle1.text-negative(v-if="failed")
-      .block {{ $t('error.saveChangesFail') }}
-        q-icon.q-ml-sm(name="sentiment_very_dissatisfied")
-    stepper-nav(
-      :has-prev="!saved && !failed"
-      :has-retry="!saved && failed"
-      :has-next="false"
-      :has-save="!saved"
-      @submit="save"
-      @prev="step = steps.AUTHORS"
-      @retry="retry")
-    q-btn(v-if="saved" color="primary" :label="$t('action.navigateDetail')" :to="pathFromUrl(saved?.links?.self)")
-    q-inner-loading(:showing="submitting")
-      circular-spinner(:message="$t('message.savingChanges')")
+dataset-form(v-model="formData" mode="edit")
+  //q-step(
+  //  active-icon="published_with_changes"
+  //  icon="published_with_changes"
+  //  :error="failed"
+  //  :name="steps.SUBMISSION"
+  //  :title="$t('label.forms.saveChanges')"
+  //  :done="step > steps.SUBMISSION")
+  //  .text-subtitle1.text-negative(v-if="failed")
+  //    .block {{ $t('error.saveChangesFail') }}
+  //      q-icon.q-ml-sm(name="sentiment_very_dissatisfied")
+  //  stepper-nav(
+  //    :has-prev="!saved && !failed"
+  //    :has-retry="!saved && failed"
+  //    :has-next="false"
+  //    :has-save="!saved"
+  //    @submit="save"
+  //    @prev="step = steps.AUTHORS"
+  //    @retry="retry")
+  //  q-btn(v-if="saved" color="primary" :label="$t('action.navigateDetail')" :to="pathFromUrl(saved?.links?.self)")
+  //  q-inner-loading(:showing="submitting")
+  //    circular-spinner(:message="$t('message.savingChanges')")
 </template>
 
 <script>
 import {defineComponent, ref} from 'vue'
-import UploadData from 'components/forms/steps/UploadData'
-import BasicInfo from 'components/forms/steps/BasicInfo'
-import Identifiers from 'components/forms/steps/Identifiers'
-import AuthorsContributors from 'components/forms/steps/AuthorsContributors'
-import StepperNav from 'components/controls/StepperNav'
-import FileList from 'components/ui/FileList'
 import {axios} from 'src/boot/axios'
-import CircularSpinner from 'components/ui/CircularSpinner'
 import useNotify from 'src/composables/useNotify'
 import {useRouter} from 'vue-router'
+import deepcopy from "deepcopy";
+import DatasetForm from 'components/forms/DatasetForm'
 
 export const steps = Object.freeze({
   BASIC: 1,
@@ -102,12 +47,12 @@ export default defineComponent({
       required: true
     }
   },
-  components: {AuthorsContributors, BasicInfo, UploadData, Identifiers, StepperNav, CircularSpinner, FileList},
+  components: {DatasetForm},
   setup(props) {
     const {notifySuccess, notifyError} = useNotify()
     const router = useRouter()
 
-    let formData = ref(props.record.metadata)
+    let formData = ref(deepcopy(props.record.metadata))
     const step = ref(steps.BASIC)
     const submitting = ref(false)
     const failed = ref(false)
