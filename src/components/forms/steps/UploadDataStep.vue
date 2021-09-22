@@ -13,8 +13,8 @@ q-step(
     .col.text-subtitle1 {{ $t('label.forms.uploadData') }}
     upload-data(
       ref="upload"
-      v-if="created"
-      :files="created.links.files")
+      v-if="record"
+      :files="record.links.files")
   .column.justify-center.items-center
     .col.text-subtitle1.q-my-md ~ {{ $t('label.or') }} ~
     .col
@@ -23,7 +23,8 @@ q-step(
 <script>
 import {defineComponent, ref} from 'vue'
 import {DATASET_FORM_STEPS} from 'src/constants'
-import UploadData from "components/forms/steps/UploadData";
+import UploadData from 'components/forms/steps/UploadData'
+import {pathFromUrl} from 'src/utils'
 
 export default defineComponent({
   name: 'UploadDataStep',
@@ -44,6 +45,7 @@ export default defineComponent({
 
     return {
       upload,
+      pathFromUrl,
       DATASET_FORM_STEPS
     }
   }

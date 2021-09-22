@@ -14,7 +14,7 @@ q-field.no-margin.no-label-float.row(
         :rules="[required($t('error.validation.required'))]"
         @update:model-value="changeType")
       base-input.q-ml-sm.q-pa-none.col-grow(
-        v-if="isPerson && splitName && !modelValue.fullName"
+        v-if="isPerson && splitName"
         autogrow
         autofocus
         ref="familyNameRef"
@@ -23,7 +23,7 @@ q-field.no-margin.no-label-float.row(
         :label="`${$t('label.familyName')} *`"
         @update:model-value="onPersonNameChange")
       base-input.q-ml-sm.q-pa-none.col-grow(
-        v-if="isPerson && splitName && !modelValue.fullName"
+        v-if="isPerson && splitName"
         autogrow
         ref="givenNameRef"
         v-model="givenName"
@@ -31,14 +31,14 @@ q-field.no-margin.no-label-float.row(
         :label="`${$t('label.givenName')} *`"
         @update:model-value="onPersonNameChange")
       base-input.q-ml-sm.q-pa-none.col-grow(
-          v-if="isPerson && (!splitName || modelValue.fullName)"
+          v-if="isPerson && !splitName"
           autogrow
           autofocus
           ref="fullName"
           v-model="model.fullName"
           :rules="[required($t('error.validation.required'))]"
           :label="`${$t('label.name')} ${$t('label.ofAuthor')} *`"
-          @update:model-value="onPersonNameChange")
+          @update:model-value="onChange")
       .col-grow.q-ml-sm(v-if="isOrg")
         term-select.q-pa-none(
           autofocus
@@ -203,8 +203,12 @@ export default {
       const atr = authorType.value.validate()
 
       if (isPerson.value) {
-        gnr = givenNameRef.value.validate()
-        fnr = familyNameRef.value.validate()
+        if (props.splitName) {
+          gnr = givenNameRef.value.validate()
+          fnr = familyNameRef.value.validate()
+        } else {
+          fnr = fullName.value.validate()
+        }
         afr = affiliations.value.validate()
       } else {
         or = organization.value.validate()

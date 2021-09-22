@@ -4,7 +4,7 @@
     v-model="model.creators"
     ref="creators"
     no-roles
-    split-name
+    :split-name="splitName"
     :label="$t('label.authors')"
     :item-label="$t('label.author')"
     :add-item-label="$t('label.ofAuthor')"
@@ -12,7 +12,7 @@
   author-input-list.full-width.no-padding.col(
     v-model="model.contributors"
     ref="contributors"
-    split-name
+    :split-name="splitName"
     :label="$t('label.contributors')"
     :item-label="$t('label.contributor')"
     :add-item-label="$t('label.ofContributor')"
@@ -35,6 +35,7 @@ export default defineComponent({
   components: {AuthorInputList, AuthorInput, StepperNav},
   emits: ['update:modelValue', 'prev', 'next', 'validate'],
   props: {
+    splitName: Boolean,
     modelValue: Object
   },
   setup(props, ctx) {

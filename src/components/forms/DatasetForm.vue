@@ -11,7 +11,6 @@ q-stepper.full-width(
   error-color="negative"
   inactive-color="dark"
   color="primary"
-  @before-transition="onStepChange"
   animated)
   //component(
   //  v-for="s in steps" :key="s.id"
@@ -24,6 +23,7 @@ q-stepper.full-width(
     @validate="onStepValidate"
     @next="step = steps.AUTHORS")
   authors-contributors-step(
+    :split-name="mode === 'create'"
     :done="isDone(steps.AUTHORS)"
     :error="hasError(steps.AUTHORS)"
     :ref="el => stepRefs[steps.AUTHORS] = el"
@@ -77,16 +77,17 @@ import DatasetDescription from 'components/forms/steps/DatasetDescription'
 import FundingInfo from 'components/forms/steps/FundingInfo'
 import Dates from 'components/forms/steps/Dates'
 import Submission from 'components/forms/steps/Submission'
-import {DATASET_FORM_STEPS, DEFAULT_MAIN_TITLE, TAXONOMY_TERM_ENGLISH} from 'src/constants'
+import {DATASET_FORM_STEPS, DEFAULT_AUTHOR_ITEM, DEFAULT_MAIN_TITLE, TAXONOMY_TERM_ENGLISH} from 'src/constants'
 import {date} from 'quasar'
 import deepcopy from 'deepcopy'
 import BasicInfoStep from 'components/forms/steps/BasicInfoStep'
 import AuthorsContributorsStep from 'components/forms/steps/AuthorsContributorsStep'
 import DatasetDescriptionStep from 'components/forms/steps/DatasetDescriptionStep'
-import DatesStep from "components/forms/steps/DatesStep";
-import FundingInfoStep from "components/forms/steps/FundingInfoStep";
-import SubmissionStep from "components/forms/steps/SubmissionStep";
-import UploadDataStep from "components/forms/steps/UploadDataStep";
+import DatesStep from 'components/forms/steps/DatesStep'
+import FundingInfoStep from 'components/forms/steps/FundingInfoStep'
+import SubmissionStep from 'components/forms/steps/SubmissionStep'
+import UploadDataStep from 'components/forms/steps/UploadDataStep'
+import {useI18n} from 'vue-i18n'
 
 export const DEFAULT_VALUE = {
   basic: {
@@ -96,7 +97,7 @@ export const DEFAULT_VALUE = {
     rights: {},
   },
   authors: {
-    creators: [],
+    creators: [DEFAULT_AUTHOR_ITEM],
     contributors: [],
   },
   description: {},
@@ -139,30 +140,35 @@ export default defineComponent({
     modelValue: Object
   },
   setup(props, ctx) {
+    const {t} = useI18n()
     const created = ref(false)
-    const model = ref(props.mode === 'edit' ? initModel() : DEFAULT_VALUE)
+    const model = ref(initModel())
     const steps = reactive(DATASET_FORM_STEPS)
     const step = ref(steps.BASIC)
     const stepRefs = ref({})
     const progress = ref({})
     const maxFilled = ref(steps.BASIC)
 
-    watch(step, () => {
+    watch(step, (newStep, prevStep) => {
+      onStepChange(newStep, prevStep)
       if (step.value > maxFilled.value) {
         maxFilled.value = step.value
       }
     })
 
     function initModel() {
-      const flds = Object.entries(deepcopy(props.modelValue))
+      if (props.mode === 'edit') {
+        const flds = Object.entries(deepcopy(props.modelValue))
 
-      return {
-        basic: Object.fromEntries(flds.filter(([k, v]) => ['titles', 'abstract', 'language', 'rights'].includes(k))),
-        authors: Object.fromEntries(flds.filter(([k, v]) => ['creators', 'contributors'].includes(k))),
-        description: Object.fromEntries(flds.filter(([k, v]) => ['keywords', 'subjectCategories', 'methods', 'technicalInfo', 'notes'].includes(k))),
-        dates: Object.fromEntries(flds.filter(([k, v]) => ['dateAvailable', 'dateCollected', 'dateCreated'].includes(k))),
-        funding: Object.fromEntries(flds.filter(([k, v]) => ['fundingReferences'].includes(k))),
+        return {
+          basic: Object.fromEntries(flds.filter(([k, v]) => ['titles', 'abstract', 'language', 'rights'].includes(k))),
+          authors: Object.fromEntries(flds.filter(([k, v]) => ['creators', 'contributors'].includes(k))),
+          description: Object.fromEntries(flds.filter(([k, v]) => ['keywords', 'subjectCategories', 'methods', 'technicalInfo', 'notes'].includes(k))),
+          dates: Object.fromEntries(flds.filter(([k, v]) => ['dateAvailable', 'dateCollected', 'dateCreated'].includes(k))),
+          funding: Object.fromEntries(flds.filter(([k, v]) => ['fundingReferences'].includes(k))),
+        }
       }
+      return DEFAULT_VALUE
     }
 
     function onStepValidate(validatedStep, result) {
@@ -182,12 +188,12 @@ export default defineComponent({
     }
 
     async function validateStep(step) {
-      if (stepRefs.value[step]) {
+      if (stepRefs.value[step].visited) {
         // User visited the step -> validate step inputs
         await stepRefs.value[step].validate()
       } else {
         // Step was not visited -> error if required, ok otherwise
-        progress.value[step] = !props.requiredSteps.includes(step);
+        progress.value[step] = !props.requiredSteps.includes(step)
       }
     }
 
@@ -238,7 +244,6 @@ export default defineComponent({
       hasErrors,
       errors,
       onCreated,
-      onStepChange,
       onStepValidate
     }
   }

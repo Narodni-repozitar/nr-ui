@@ -7,15 +7,16 @@ q-step(
   :name="DATASET_FORM_STEPS.AUTHORS"
   :title="$t('label.forms.authors')")
   authors-contributors(
-    ref="authors"
+    ref="input"
     v-model="model"
+    :split-name="splitName"
     @update:model-value="onChange"
     @validate="$emit('validate', DATASET_FORM_STEPS.AUTHORS, $event)"
     @next="$emit('next')"
     @prev="$emit('prev')")
 </template>
 <script>
-import {defineComponent, ref} from 'vue'
+import {computed, defineComponent, ref} from 'vue'
 import useModel from 'src/composables/useModel'
 import {DATASET_FORM_STEPS} from 'src/constants'
 import deepcopy from 'deepcopy'
@@ -28,22 +29,28 @@ export default defineComponent({
   props: {
     done: Boolean,
     error: Boolean,
-    modelValue: Object
+    modelValue: Object,
+    splitName: Boolean
   },
   setup(props, ctx) {
-    const authors = ref(null)
+    const input = ref(null)
     const model = ref(deepcopy(props.modelValue))
     const {onChange} = useModel(ctx, model)
 
     function validate() {
-      if (authors.value) {
-        return authors.value.validate()
+      if (input.value) {
+        return input.value.validate()
       }
     }
 
+    const visited = computed(() => {
+      return input.value
+    })
+
     return {
       model,
-      authors,
+      input,
+      visited,
       validate,
       onChange,
       DATASET_FORM_STEPS

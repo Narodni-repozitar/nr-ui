@@ -7,7 +7,8 @@ q-field(
   template(v-slot:control)
     multilingual-input.no-padding.no-margin(autofocus ref="input" :rules="rules" v-model="model.mainTitle.title")
     q-list.full-width.no-padding.q-mt-md(dense v-on:keyup.enter="addItem")
-      q-item.q-pl-md.full-width.no-margin(v-for="(val,idx) in model.alternativeTitles" :key="idx")
+      q-item.q-pl-md.full-width.no-margin(
+        v-for="(val,idx) in model.alternativeTitles" :key="idx")
         q-item-section.no-padding.no-margin
           q-item-label.q-pt-sm.q-pl-sm(caption) {{ $t(`value.titleType.${model.alternativeTitles[idx].titleType}`) }}
           multilingual-input.no-padding.no-margin(dense v-model="model.alternativeTitles[idx].title")
