@@ -220,13 +220,13 @@ export const CONTRIBUTOR_ROLES = [
 export const AFFILIATIONS = ['CESNET', 'VŠCHT', 'NTK', 'AVČR']
 
 export const DATASET_FORM_STEPS = Object.freeze({
-  BASIC: 1,
-  AUTHORS: 2,
-  DESCRIPTION: 3,
-  DATES: 4,
-  FUNDING: 5,
-  SUBMISSION: 6,
-  UPLOAD: 7
+  BASIC: 'basic',
+  AUTHORS: 'authors',
+  DESCRIPTION: 'description',
+  DATES: 'dates',
+  FUNDING: 'funding',
+  SUBMISSION: 'submission',
+  UPLOAD: 'upload'
 })
 
 export default {

@@ -12,19 +12,61 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height(padding)
         span {{ $t(header?.title) }}
         q-icon.q-pl-md(color="primary" size="xs" :name="header?.icon")
     .q-separator(spaced)
-    create-dataset-form.col.q-pr-md
+    dataset-form.col.q-pr-md(v-model="formData" mode="create" :steps="formSteps")
 </template>
 <script>
-import {computed, defineComponent} from 'vue'
+import {computed, defineComponent, ref, shallowRef} from 'vue'
 import {useMeta} from 'quasar'
 import {useI18n} from 'vue-i18n'
-import CreateDatasetForm from 'components/forms/CreateDatasetForm'
+import DatasetForm from 'components/forms/DatasetForm'
+import {DATASET_FORM_STEPS} from 'src/constants'
+import BasicInfoStep from 'components/forms/steps/BasicInfoStep'
+import AuthorsContributorsStep from 'components/forms/steps/AuthorsContributorsStep'
+import DatasetDescriptionStep from 'components/forms/steps/DatasetDescriptionStep'
+import DatesStep from 'components/forms/steps/DatesStep'
+import FundingInfoStep from 'components/forms/steps/FundingInfoStep'
+import SubmissionStep from 'components/forms/steps/SubmissionStep'
+import UploadDataStep from 'components/forms/steps/UploadDataStep'
 
 export default defineComponent({
   name: 'CreateForm',
-  components: {CreateDatasetForm},
-  setup () {
+  components: {DatasetForm},
+  setup() {
     const {t} = useI18n()
+    const formData = ref({})
+    const formSteps = shallowRef([
+      {
+        id: DATASET_FORM_STEPS.BASIC,
+        component: BasicInfoStep
+      },
+      {
+        id: DATASET_FORM_STEPS.AUTHORS,
+        component: AuthorsContributorsStep,
+        props: {
+          splitName: true
+        }
+      },
+      {
+        id: DATASET_FORM_STEPS.DESCRIPTION,
+        component: DatasetDescriptionStep,
+      },
+      {
+        id: DATASET_FORM_STEPS.DATES,
+        component: DatesStep
+      },
+      {
+        id: DATASET_FORM_STEPS.FUNDING,
+        component: FundingInfoStep
+      },
+      {
+        id: DATASET_FORM_STEPS.SUBMISSION,
+        component: SubmissionStep
+      },
+      {
+        id: DATASET_FORM_STEPS.UPLOAD,
+        component: UploadDataStep
+      }
+    ])
 
     const header = computed(() => {
       return {
@@ -34,10 +76,11 @@ export default defineComponent({
     })
 
     useMeta(() => {
-      return {title: header.value? t(header.value.title) : ''}
+      return {title: header.value ? t(header.value.title) : ''}
     })
 
-    return {header}
+
+    return {header, formData, formSteps}
   }
 })
 </script>

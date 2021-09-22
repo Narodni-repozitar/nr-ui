@@ -1,5 +1,6 @@
 <template lang="pug">
 q-stepper.full-width(
+  ref="stepper"
   flat
   keep-alive
   v-model="step"
@@ -12,63 +13,22 @@ q-stepper.full-width(
   inactive-color="dark"
   color="primary"
   animated)
-  //component(
-  //  v-for="s in steps" :key="s.id"
-  //  :is="s.component")
-  basic-info-step(
-    :done="isDone(steps.BASIC)"
-    :error="hasError(steps.BASIC)"
-    :ref="el => stepRefs[steps.BASIC] = el"
-    v-model="model.basic"
+  component(
+    v-for="(s, idx) in steps" :key="s.id"
+    :is="s.component"
+    :done="isDone(s.id)"
+    :error="hasError(s.id)"
+    :ref="el => stepRefs[s.id] = el"
+    v-model="model[s.id.toLowerCase()]"
+    v-bind="stepProps(s)"
     @validate="onStepValidate"
-    @next="step = steps.AUTHORS")
-  authors-contributors-step(
-    :split-name="mode === 'create'"
-    :done="isDone(steps.AUTHORS)"
-    :error="hasError(steps.AUTHORS)"
-    :ref="el => stepRefs[steps.AUTHORS] = el"
-    v-model="model.authors"
-    @validate="onStepValidate"
-    @prev="step = steps.BASIC"
-    @next="step = steps.DESCRIPTION")
-  dataset-description-step(
-    :done="isDone(steps.DESCRIPTION)"
-    :error="hasError(steps.DESCRIPTION)"
-    :ref="el => stepRefs[steps.DESCRIPTION] = el"
-    v-model="model.description"
-    @validate="onStepValidate"
-    @prev="step = steps.AUTHORS"
-    @next="step = steps.DATES")
-  dates-step(
-    :done="isDone(steps.DATES)"
-    :error="hasError(steps.DATES)"
-    :ref="el => stepRefs[steps.DATES] = el"
-    v-model="model.dates"
-    @validate="onStepValidate"
-    @prev="step = steps.DESCRIPTION"
-    @next="step = steps.FUNDING")
-  funding-info-step(
-    :done="isDone(steps.FUNDING)"
-    :error="hasError(steps.FUNDING)"
-    :ref="el => stepRefs[steps.FUNDING] = el"
-    v-model="model.funding"
-    @validate="onStepValidate"
-    @prev="step = steps.DATES"
-    @next="step = steps.SUBMISSION")
-  submission-step(
-    :errors="errors"
-    :has-errors="hasErrors"
-    :submission-data="submissionData"
-    :done="step > steps.SUBMISSION"
-    @prev="step = steps.FUNDING"
+    @prev="stepper.goTo(idx > 0? steps[idx-1].id : s.id)"
+    @next="stepper.goTo(idx === steps.length-1 ? s.id : steps[idx+1].id)"
     @create="onCreated")
-  upload-data-step(
-    :disable="maxFilled < steps.UPLOAD"
-    :record="created")
 </template>
 
 <script>
-import {computed, defineComponent, reactive, ref, watch} from 'vue'
+import {computed, defineComponent, ref, watch} from 'vue'
 import UploadData from 'components/forms/steps/UploadData'
 import BasicInfo from 'components/forms/steps/BasicInfo'
 import AuthorsContributors from 'components/forms/steps/AuthorsContributors'
@@ -137,17 +97,21 @@ export default defineComponent({
       type: Array,
       default: () => [DATASET_FORM_STEPS.BASIC, DATASET_FORM_STEPS.AUTHORS, DATASET_FORM_STEPS.DESCRIPTION]
     },
+    steps: {
+      type: Array,
+      required: true
+    },
     modelValue: Object
   },
   setup(props, ctx) {
     const {t} = useI18n()
+    const stepper = ref(null)
     const created = ref(false)
     const model = ref(initModel())
-    const steps = reactive(DATASET_FORM_STEPS)
-    const step = ref(steps.BASIC)
+    const step = ref(props.steps[0].id)
     const stepRefs = ref({})
     const progress = ref({})
-    const maxFilled = ref(steps.BASIC)
+    const maxFilled = ref(DATASET_FORM_STEPS.BASIC)
 
     watch(step, (newStep, prevStep) => {
       onStepChange(newStep, prevStep)
@@ -155,6 +119,19 @@ export default defineComponent({
         maxFilled.value = step.value
       }
     })
+
+    function stepProps (s) {
+      const props = {...s.props}
+      if (s.id === DATASET_FORM_STEPS.SUBMISSION) {
+        props.errors = errors.value
+        props.hasErrors = hasErrors.value
+        props.submissionData = submissionData.value
+      }
+      if (s.id === DATASET_FORM_STEPS.UPLOAD) {
+        props.disable = !created.value
+      }
+      return props
+    }
 
     function initModel() {
       if (props.mode === 'edit') {
@@ -176,12 +153,12 @@ export default defineComponent({
     }
 
     function onStepChange(newStep, oldStep) {
-      if (newStep !== steps.SUBMISSION && oldStep !== steps.SUBMISSION) {
+      if (newStep !== DATASET_FORM_STEPS.SUBMISSION && oldStep !== DATASET_FORM_STEPS.SUBMISSION) {
         validateStep(oldStep)
       } else {
-        for (const s of Object.values(steps)) {
-          if (s < steps.SUBMISSION) {
-            validateStep(s)
+        for (const s of props.steps) {
+          if (stepRefs.value[s.id].validate) {
+            validateStep(s.id)
           }
         }
       }
@@ -212,7 +189,7 @@ export default defineComponent({
     const submissionData = computed(() => {
       const res = {}
       for (const item of Object.values(model.value)) {
-        Object.entries(item).map(([k,v]) => res[k] = v)
+        Object.entries(item).map(([k, v]) => res[k] = v)
       }
       return res
     })
@@ -220,31 +197,32 @@ export default defineComponent({
     const errors = computed(() => {
       return Object.keys(progress.value)
           .filter(k => progress.value[k] === false)
-          .map(r => Object.keys(steps).find(key => {
-            return steps[key] === parseInt(r)
-          })).map(r => t(`label.forms.${r.toLowerCase()}`))
+          .map(r => t(`label.forms.${r.toLowerCase()}`))
     })
 
     function onCreated(val) {
       created.value = val
-      step.value = steps.UPLOAD
+      progress.value[DATASET_FORM_STEPS.SUBMISSION] = true
+      stepper.value.goTo(DATASET_FORM_STEPS.UPLOAD)
     }
 
     return {
+      stepper,
       model,
       created,
       maxFilled,
       submissionData,
-      steps,
       step,
       stepRefs,
+      stepProps,
       progress,
       isDone,
       hasError,
       hasErrors,
       errors,
       onCreated,
-      onStepValidate
+      onStepValidate,
+      DATASET_FORM_STEPS
     }
   }
 })
