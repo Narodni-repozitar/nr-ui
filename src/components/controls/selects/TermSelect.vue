@@ -134,7 +134,7 @@ export default defineComponent({
       if (props.multiple) {
         return leaf
       }
-      return leaf.length > 1? leaf[0] : undefined
+      return leaf.length >= 1? leaf[0] : undefined
     })
 
     function valueChanged() {
