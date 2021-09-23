@@ -88,6 +88,8 @@
     "revert_approval": "assignment_return"
   },
   "label": {
+    "resourceType": "Typ záznamu",
+    "accessRights": "Dostupnost",
     "chooseCommunity": "Vyberte komunitu",
     "fileNote": "Poznámka k souboru",
     "inCommunity": "v komunitě",
@@ -276,6 +278,10 @@
   },
   "src/i18n": "",
   "value": {
+    "facet": {
+      "editing": "Rozpracováno",
+      "pending-approval": "Čeká na schválení"
+    },
     "unknown": "neznámý",
     "titleType": {
       "subtitle": "Podnázev",
