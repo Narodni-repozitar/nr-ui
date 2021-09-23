@@ -108,6 +108,7 @@
     "methods": "Metodologie",
     "subjectCategories": "Oborové kategorie",
     "resourceType": "Typ zdroje",
+    "relatedItemType": "Typ přidružené položky",
     "institutionName": "Název organizace",
     "nameType": "Typ názvu",
     "fullText": "plný text",
