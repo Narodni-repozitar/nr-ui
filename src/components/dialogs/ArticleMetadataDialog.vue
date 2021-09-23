@@ -16,13 +16,14 @@ q-dialog.q-pa-lg.dialog-window.bg-primary-transparent(
     q-card-section
       q-stepper(v-model="step" flat)
         q-step(name="1" :title="$t('label.importFromDOI')" :done="step > 1")
-          doi-input(v-model="article.doi" ref="doi"
+          doi-input(v-model="article.doi" ref="doi" :dataset="this.dataset"
             @resolve="articleResolved"
+            @exists="onCancelClick"
             @invalid="doiInvalid")
         q-step.full-width(name="2" :title="$t('label.articleMetadata')" :done="step > 2")
           q-input(v-model="article.title_val" label="Title value *" :error="titleError" error-message="Title can't be empty" @input="titleError=false")
 
-
+          q-input(v-model="article.publication_year" type="number" label="Publication year *" :error="yearError" error-message="Publication year is required and must be valid year" @input="yearError=false")
           q-field.no-label-float.row.fit(
             :error="error"
             :error-message="errorMessage"
@@ -40,6 +41,7 @@ q-dialog.q-pa-lg.dialog-window.bg-primary-transparent(
                 :rules="[required($t('error.validation.required'))]"
                 label="Related item type"
                 @update:model-value="onChange")
+
           q-field.no-label-float.row.fit(
             :error="error"
             :error-message="errorMessage"
@@ -56,9 +58,7 @@ q-dialog.q-pa-lg.dialog-window.bg-primary-transparent(
               :rules="[required($t('error.validation.required'))]"
               :label="$t('label.resourceType')"
               @update:model-value="onChange")
-
-          q-input(v-model="article.document_type" label="Document type *" :error="doctypeError" error-message="Document type can't be empty" @input="doctypeError=false")
-          q-input(v-model="article.publication_year" type="number" label="Publication year *" :error="yearError" error-message="Publication year is required and must be valid year" @input="yearError=false")
+          .text.text-italic.q-mb-xl hint: resolved item type: {{ this.article.document_type }}
           .text {{ $t('label.authors') }} *
           q-card-section(v-for='(input,k) in authors_inputs' :key='k' )
             q-input(
@@ -132,11 +132,13 @@ export default {
     'doi-input': DOIInput,
     TermSelect, TermListSelect
   },
+
   setup (props,ctx){
     const dataRelType = ref(deepcopy(props.modelValue))
     const resourceType = ref(deepcopy(props.modelValue))
     const {onChange} = useModel(ctx, dataRelType)
     const {error, required, errorMessage} = useValidation()
+
     return {dataRelType, onChange, error, required, errorMessage, resourceType}
 
   },
@@ -153,12 +155,13 @@ export default {
         doi: '',
         title_val: '',
         document_type: '',
-        publication_year: ''
+        publication_year: '',
       },
       authors_inputs: [{full_name: ''}],
       titleError: false,
       titleLangError: false,
-      doctypeError: false,
+      restypeError: false,
+      itemtypeError: false,
       yearError: false,
       communityId: this.$route.params.communityId
     }
@@ -167,7 +170,6 @@ export default {
   methods: {
 
     validate() {
-      console.log(this.dataset)
       for (var k = 0; k < this.authors_inputs.length; k++) {
         if (this.authors_inputs[k].full_name === '') {
           this.authorError[k] = true
@@ -176,8 +178,11 @@ export default {
       if (this.article.title_val === '') {
         this.titleError = true
       }
-      if (this.article.document_type === '') {
-        this.doctypeError = true
+      if (this.dataRelType === "") {
+        this.itemtypeError = true
+      }
+      if (this.resourceType === "") {
+        this.restypeError = true
       }
       const langRegex = /^([a-z][a-z])$|^([a-z][a-z]-[a-z][a-z])$|^_$/
 
@@ -213,7 +218,6 @@ export default {
     },
 
     articleResolved(article) {
-      console.log('article resolved from DOI', article)
       this.validatingDOI = false
       this.generated_article = article
       this.article.document_type = article.document_type
@@ -253,6 +257,8 @@ export default {
       this.titleError = false
       this.doctypeError = false
       this.yearError = false
+      this.restypeError= false
+      this.itemtypeError= false
       this.$refs.doi.validate()
     },
     back() {
@@ -262,8 +268,9 @@ export default {
     createArticle() {
       this.creatingArticle = true
       this.titleError = false
-      this.doctypeError = false
       this.yearError = false
+      this.restypeError= false
+      this.itemtypeError= false
       for (var k = 0; k < this.authorError.length; k++) {
         this.authorError[k] = false
       }
@@ -275,7 +282,7 @@ export default {
           break
         }
       }
-      if (this.titleError || authorErr || this.doctypeError || this.yearError) { // if errors in validation
+      if (this.titleError || authorErr || this.itemtypeError || this.yearError || this.restypeError) { // if errors in validation
         // TODO(alzpeta): show error to user using Quasar Notify plugin
         this.creatingArticle = false
       } else {
@@ -283,20 +290,18 @@ export default {
           const datasetUrl = this.datasetLinks.self
 
           this.updateArticle() // set changes
-          console.log("jdeme tvorit", this.generated_article)
-          // this.updateDatasetArray(this.generated_article, this.dataset) // set datasets
 
           var relatedItem = {
             itemTitle: this.generated_article.itemTitle,
             itemCreators: this.generated_article.itemCreators,
-            itemURL: this.generated_article.itemURL[0], //todo pridat url
+            itemURL: this.generated_article.itemURL[0],
             itemYear: this.generated_article.itemYear,
-            itemPIDs: [{identifier: this.article.doi, scheme: "DOI"}],
+            itemPIDs: this.generated_article.itemPIDs,
             itemRelationType: this.dataRelType,
             itemResourceType: this.resourceType
           }
           var path = ''
-          console.log(relatedItem)
+
           if(this.dataset.metadata.relatedItems === undefined){
             path = '/relatedItems'
             relatedItem = [relatedItem]
@@ -304,8 +309,8 @@ export default {
           else {
             path = '/relatedItems/-'
           }
+
           axios.patch(
-              //datasetUrl,
               datasetUrl,
             [{
               op: 'add',

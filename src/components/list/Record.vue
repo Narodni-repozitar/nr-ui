@@ -10,7 +10,7 @@ q-item.record.q-py-lg.text-dark(:to="record.links.ui")
       rights-icon.q-my-md.col-auto.self-end.block(v-if="m.rights" :rights="m.rights" size="64px")
   q-item-section
     .title
-      mt(:text="m.titles.filter(t => t.titleType === 'mainTitle')[0].title") TODO ALZP V COM JE PROBLEM?
+      mt(:text="m.titles.filter(t => t.titleType === 'mainTitle')[0].title")
     .text-caption
       record-people(:m="m")
       .row.year-lang.full-height.items-baseline.text-weight-light.text-body2.q-mt-xs

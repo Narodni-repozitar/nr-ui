@@ -214,6 +214,7 @@
     "noActions" : "No Actions Available",
     "saveChangesSuccess": "Changes successfully saved",
     "articleExistsError": "An article record with this DOI already exists in this repository. Would you like to attach the dataset to this article?",
+    "relatedItemExistsError": "An article with this DOI is already associated with this dataset.",
     "authRequired": "This page requires authentication.",
     "copiedToClip": "Copied to clipboard",
     "creatingArticle": "Creating article",

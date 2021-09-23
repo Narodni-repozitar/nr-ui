@@ -92,7 +92,6 @@ import useAuth from 'src/composables/useAuth'
 import {useRouter} from 'vue-router'
 import useCollection from 'src/composables/useCollection'
 import {useQuasar} from 'quasar'
-import NewArticleDialog from 'components/dialogs/NewArticleDialog'
 import ArticleMetadataDialog from "components/dialogs/ArticleMetadataDialog";
 import useFSM from 'src/composables/useFsm'
 

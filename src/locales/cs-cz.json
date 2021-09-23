@@ -215,6 +215,7 @@
     "noActions" : "Žádné dostupné akce",
     "saveChangesSuccess": "Změny uloženy",
     "articleExistsError": "Článek se zadaným DOI je již v repozitáři. Přejete si provázat dataset s tímto článkem?",
+    "relatedItemExistsError": "Článek se zadaným DOI je již přidružený k tomuto datasetu.",
     "authRequired": "Tato stránka vyžaduje autentizaci. Kliknutím na tlačítko níže se přihlásíte.",
     "completeSuccess": "Úspěšně dokončeno",
     "copiedToClip": "Zkopírováno do schránky",
