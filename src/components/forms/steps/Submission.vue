@@ -61,20 +61,22 @@
   stepper-nav(
     :has-prev="!created && !failed"
     :has-retry="!created && failed"
-    :has-submit="!created && !failed && !hasErrors"
+    :has-create="!created && !failed && !hasErrors && mode === 'create'"
+    :has-save="!created && !failed && !hasErrors && mode === 'save'"
     :has-next="false"
-    @submit="submit"
+    @create="createRecord"
+    @save="saveChanges"
     @prev="$emit('prev')"
     @retry="retry")
   q-inner-loading(:showing="submitting")
     circular-spinner(:message="$t('message.submitting')")
   .text-body2.col.q-ml-sm(v-if="!failed")
-    q-icon.q-pr-sm.q-py-sm(size="sm" :color="!hasErrors? 'info': 'negative'" :name="!hasErrors? 'info': 'warning'")
-    span.text-caption(v-if="!hasErrors") {{ $t('message.submissionInfo') }}
-    span.text-caption.text-negative(v-else) {{ $t('message.submissionHasErrors') }}
+    q-icon.q-pr-sm.q-py-sm(v-if="mode === 'create'" size="sm" :color="!hasErrors? 'info': 'negative'" :name="!hasErrors? 'info': 'warning'")
+    span.text-caption(v-if="!hasErrors && mode === 'create'") {{ $t('message.submissionInfo') }}
+    span.text-caption.text-negative(v-else-if="hasErrors") {{ $t('message.submissionHasErrors') }}
 </template>
 <script>
-import {defineComponent, reactive, ref} from 'vue'
+import {computed, defineComponent, reactive, ref} from 'vue'
 import StepperNav from 'components/controls/StepperNav'
 import useNotify from 'src/composables/useNotify'
 import {axios} from 'boot/axios'
@@ -91,8 +93,12 @@ export default defineComponent({
     StepperNav,
     LabelBlock
   },
-  emits: ['create', 'prev', 'retry'],
+  emits: ['create', 'save', 'prev', 'retry'],
   props: {
+    mode: {
+      type: String,  // 'create' | 'save'
+      default: 'create'
+    },
     hasErrors: Boolean,
     errors: {
       type: Array,
@@ -101,7 +107,8 @@ export default defineComponent({
     data: {
       type: Object,
       required: true
-    }
+    },
+    record: Object,
   },
   setup(props, ctx) {
     const submitting = ref(false)
@@ -112,6 +119,10 @@ export default defineComponent({
     const {effectiveCommunity} = useAuth()
     const {notifyError, notifySuccess, submitBugReport} = useNotify()
 
+    const submitUrl = computed(() => {
+      return props.record?.value?.http?.data?.links.self
+    })
+
     function _submissionFail(err) {
       console.log(err)
       failed.value = true
@@ -121,7 +132,7 @@ export default defineComponent({
 
     function _submissionSuccess(response) {
       created.value = response.data
-      notifySuccess('message.submissionSuccess', {pid: created.value.id})
+      notifySuccess(props.mode === 'create'? 'message.submissionSuccess' : 'message.saveChangesSuccess', {pid: created.value.id})
     }
 
     function retry() {
@@ -134,7 +145,34 @@ export default defineComponent({
       retry()
     }
 
-    function submit() {
+    function saveChanges() {
+      submitting.value = true
+
+      let submissionData = deepcopy({
+        ...props.record.value.metadata,
+        ...props.data
+      })
+
+      // TODO: change this upon createRecord implementation in invenio-vue library
+      axios.put(submitUrl.value, JSON.stringify(submissionData), {
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        }
+      }).then(res => {
+        if (res.status === 200) {
+          _submissionSuccess(res)
+          ctx.emit('save', created.value)
+          return
+        }
+        _submissionFail(res)
+      }).catch(err => {
+        _submissionFail(err)
+      }).finally(() => {
+        submitting.value = false
+      })
+    }
+
+    function createRecord() {
       submitting.value = true
 
       // Set internal metadata fields
@@ -168,7 +206,7 @@ export default defineComponent({
       })
     }
 
-    return {created, failed, error, submit, reportError, retry, submitting}
+    return {created, failed, error, createRecord, saveChanges, reportError, retry, submitting}
   }
 })
 </script>

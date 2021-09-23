@@ -13,17 +13,17 @@ q-stepper-navigation
     q-btn.col-auto.q-px-lg(
       padding="md"
       icon="send"
-      v-if="hasSubmit"
+      v-if="hasCreate"
       color="positive"
       :label="$t('label.submit')"
-      @click="$emit('submit')")
+      @click="$emit('create')")
     q-btn.col-auto.q-px-lg(
       padding="md"
       icon="save"
       v-if="hasSave"
       color="positive"
       :label="$t('label.forms.saveChanges')"
-      @click="$emit('submit')")
+      @click="$emit('save')")
 </template>
 
 <script>
@@ -48,12 +48,12 @@ export default defineComponent({
       type: Boolean,
       default: false
     },
-    hasSubmit: {
+    hasCreate: {
       type: Boolean,
       default: false
     }
   },
-  emits: ['prev', 'next', 'submit', 'retry']
+  emits: ['prev', 'next', 'create', 'save', 'retry']
 })
 </script>
 

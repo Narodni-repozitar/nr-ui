@@ -24,30 +24,18 @@ q-stepper.full-width(
     @validate="onStepValidate"
     @prev="stepper.goTo(idx > 0? steps[idx-1].id : s.id)"
     @next="stepper.goTo(idx === steps.length-1 ? s.id : steps[idx+1].id)"
-    @create="onCreated")
+    @create="onCreated"
+    @save="onSaved")
 </template>
 
 <script>
 import {computed, defineComponent, ref, watch} from 'vue'
-import UploadData from 'components/forms/steps/UploadData'
-import BasicInfo from 'components/forms/steps/BasicInfo'
-import AuthorsContributors from 'components/forms/steps/AuthorsContributors'
-import StepperNav from 'components/controls/StepperNav'
-import DatasetDescription from 'components/forms/steps/DatasetDescription'
-import FundingInfo from 'components/forms/steps/FundingInfo'
-import Dates from 'components/forms/steps/Dates'
-import Submission from 'components/forms/steps/Submission'
 import {DATASET_FORM_STEPS, DEFAULT_AUTHOR_ITEM, DEFAULT_MAIN_TITLE, TAXONOMY_TERM_ENGLISH} from 'src/constants'
 import {date} from 'quasar'
 import deepcopy from 'deepcopy'
-import BasicInfoStep from 'components/forms/steps/BasicInfoStep'
-import AuthorsContributorsStep from 'components/forms/steps/AuthorsContributorsStep'
-import DatasetDescriptionStep from 'components/forms/steps/DatasetDescriptionStep'
-import DatesStep from 'components/forms/steps/DatesStep'
-import FundingInfoStep from 'components/forms/steps/FundingInfoStep'
-import SubmissionStep from 'components/forms/steps/SubmissionStep'
-import UploadDataStep from 'components/forms/steps/UploadDataStep'
 import {useI18n} from 'vue-i18n'
+import {pathFromUrl} from "src/utils";
+import {useRouter} from "vue-router";
 
 export const DEFAULT_VALUE = {
   basic: {
@@ -72,23 +60,6 @@ export const DEFAULT_VALUE = {
 export default defineComponent({
   name: 'DatasetForm',
   emits: ['update:modelValue'],
-  components: {
-    UploadDataStep,
-    SubmissionStep,
-    FundingInfoStep,
-    DatesStep,
-    DatasetDescriptionStep,
-    AuthorsContributorsStep,
-    BasicInfoStep,
-    Submission,
-    DatasetDescription,
-    AuthorsContributors,
-    BasicInfo,
-    FundingInfo,
-    Dates,
-    UploadData,
-    StepperNav,
-  },
   props: {
     mode: {
       type: String  // 'edit' | 'create'
@@ -111,24 +82,22 @@ export default defineComponent({
     const step = ref(props.steps[0].id)
     const stepRefs = ref({})
     const progress = ref({})
-    const maxFilled = ref(DATASET_FORM_STEPS.BASIC)
+    const router = useRouter()
 
     watch(step, (newStep, prevStep) => {
       onStepChange(newStep, prevStep)
-      if (step.value > maxFilled.value) {
-        maxFilled.value = step.value
-      }
     })
 
-    function stepProps (s) {
+    function stepProps(s) {
       const props = {...s.props}
       if (s.id === DATASET_FORM_STEPS.SUBMISSION) {
         props.errors = errors.value
         props.hasErrors = hasErrors.value
         props.submissionData = submissionData.value
       }
-      if (s.id === DATASET_FORM_STEPS.UPLOAD) {
+      if (s.useCreated) {
         props.disable = !created.value
+        props.record = created.value
       }
       return props
     }
@@ -206,11 +175,16 @@ export default defineComponent({
       stepper.value.goTo(DATASET_FORM_STEPS.UPLOAD)
     }
 
+    function onSaved(val) {
+      created.value = val
+      progress.value[DATASET_FORM_STEPS.SUBMISSION] = true
+      router.push(pathFromUrl(val.links.self))
+    }
+
     return {
       stepper,
       model,
       created,
-      maxFilled,
       submissionData,
       step,
       stepRefs,
@@ -221,6 +195,7 @@ export default defineComponent({
       hasErrors,
       errors,
       onCreated,
+      onSaved,
       onStepValidate,
       DATASET_FORM_STEPS
     }

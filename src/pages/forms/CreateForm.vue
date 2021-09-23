@@ -64,7 +64,8 @@ export default defineComponent({
       },
       {
         id: DATASET_FORM_STEPS.UPLOAD,
-        component: UploadDataStep
+        component: UploadDataStep,
+        useCreated: true
       }
     ])
 

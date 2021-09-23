@@ -1,16 +1,19 @@
 <template lang="pug">
-.row.q-gutter-lg
-  .col-grow(v-if="files.length")
-    q-table.sticky-name-column(
-      flat
-      :rows="files" row-key="file_id" :columns="fileColumns"
-      :no-data-label="$t('message.noFiles')")
-      template(v-slot:body-cell-download="props")
-        q-td(:props="props")
-          div
-            q-btn(@click="download(props.value)" outline color="primary" :label="$t('label.download')")
-  .col-auto.q-mt-md.q-pt-md(v-if="canUpload")
-    upload-data(:files="dataset.http.data.links.files")
+.column.full-width
+  .col.row.q-gutter-lg
+    .col-grow(v-if="files.length")
+      q-table.sticky-name-column(
+        flat
+        :rows="files" row-key="file_id" :columns="fileColumns"
+        :no-data-label="$t('message.noFiles')")
+        template(v-slot:body-cell-download="props")
+          q-td(:props="props")
+            div
+              q-btn(@click="download(props.value)" outline color="primary" :label="$t('label.download')")
+    .col-auto.q-mt-md.q-pt-md(v-if="canUpload")
+      upload-data(:files="record.value.http.data.links.files")
+  .col.row
+    stepper-nav(has-prev has-next @next="$emit('next')" @prev="$emit('prev')")
 </template>
 
 <script>
@@ -18,13 +21,15 @@ import UploadData from 'components/forms/steps/UploadData'
 import {computed, defineComponent} from 'vue'
 import {useI18n} from 'vue-i18n'
 import {format} from 'quasar'
+import StepperNav from 'components/controls/StepperNav'
 const { humanStorageSize } = format
 
 export default defineComponent({
   name: 'FileList',
-  components: {UploadData},
+  components: {UploadData, StepperNav},
+  emits: ['prev', 'next'],
   props: {
-    dataset: {
+    record: {
       type: Object,
       required: true
     }
@@ -71,16 +76,16 @@ export default defineComponent({
     }
 
     const files = computed(() => {
-      return props.dataset.metadata._files?.filter(f => f.checksum && f.checksum !== '') || []
+      return props.record.value.metadata._files?.filter(f => f.checksum && f.checksum !== '') || []
     })
 
     // TODO: add check of auth/state need provides
     const canUpload = computed(() => {
-      return props.dataset.metadata['oarepo:draft']
+      return props.record.value.metadata['oarepo:draft']
     })
 
     const uploadUrl = computed(() => {
-      return props.dataset.http.data.links.files
+      return props.record.value.http.data.links.files
     })
 
     return {download, files, canUpload, uploadUrl, fileColumns}
