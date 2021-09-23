@@ -54,6 +54,30 @@ export default defineComponent({
     }
 
     function validate () {
+      console.log('xxx')
+      console.log(this.doi)
+      const headers = {
+        'Content-Type': 'application/json'
+      }
+      axios.get(`/resolve-article/${this.doi}`, headers)
+          .then((response) =>
+            {
+              console.log('resp', response)
+              const article = response.data
+              if (article && doi.value !== '') { //todo ALZP article already in metadata
+                doiError.value = false
+                console.log('jej ejej ')
+                ctx.emit('resolve', article)
+                    }
+              else {
+                doiError.value = true
+              }
+            })
+          .catch(err => {
+              console.log(err)
+              doiError.value = true
+              ctx.emit('invalid', doi.value)
+      })
       // TODO(alzpet,mirekys): move `from-doi` action to separate url path independent of articles/datasets
       //
       // axios.post(

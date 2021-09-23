@@ -121,6 +121,8 @@
     "filesFound": "{count} file | {count} files",
     "activeFilters": "Active filters",
     "selectedTerms": "Selected terms",
+    "resourceType": "Resource type",
+    "relatedItemType": "Resource type",
     "startWriting": "Start writing",
     "showTaxonomyTree": "Choose a term",
     "type": "Type",

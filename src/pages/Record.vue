@@ -93,6 +93,7 @@ import {useRouter} from 'vue-router'
 import useCollection from 'src/composables/useCollection'
 import {useQuasar} from 'quasar'
 import NewArticleDialog from 'components/dialogs/NewArticleDialog'
+import ArticleMetadataDialog from "components/dialogs/ArticleMetadataDialog";
 import useFSM from 'src/composables/useFsm'
 
 export default defineComponent({
@@ -144,7 +145,7 @@ export default defineComponent({
       can: () => canEdit.value && isDatasets.value,
       func: () => {
         $q.dialog({
-          component: NewArticleDialog,
+          component: ArticleMetadataDialog,
           // Pass current dataset object to dialog
           componentProps: {
             dataset: props.record.http.data,
