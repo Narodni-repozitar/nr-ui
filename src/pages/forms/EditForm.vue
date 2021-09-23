@@ -25,6 +25,7 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height(padding)
           :steps="formSteps")
       template(#fallback)
         circular-spinner(:message="$t('message.loading')")
+  fullscreen-loading(v-if="!metadata" :message="$t('message.loading')")
 </template>
 <script>
 import {computed, defineComponent, defineAsyncComponent, ref, shallowRef} from 'vue'
@@ -41,10 +42,12 @@ import FundingInfoStep from "components/forms/steps/FundingInfoStep";
 import SubmissionStep from "components/forms/steps/SubmissionStep";
 import UploadDataStep from "components/forms/steps/UploadDataStep";
 import CircularSpinner from "components/ui/CircularSpinner";
+import FullscreenLoading from "components/ui/FullscreenLoading";
 
 export default defineComponent({
   name: 'EditForm',
   components: {
+    FullscreenLoading,
     DatasetForm: defineAsyncComponent(() => import('components/forms/DatasetForm')),
     CircularSpinner},
   setup() {

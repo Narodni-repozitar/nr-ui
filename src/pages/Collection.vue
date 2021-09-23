@@ -21,8 +21,7 @@ div.collection-page.q-mt-xl
     .col-4.row.justify-end
       q-btn(stack icon="svguse:/icons.svg#arrow-up"
         label="Zpět nahoru" color="primary" flat no-caps dense
-        @click="scrollToTop"
-        )
+        @click="scrollToTop")
 </template>
 <script>
 import CollectionFacets from 'src/components/list/CollectionFacets'

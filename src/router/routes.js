@@ -17,6 +17,7 @@ const routes = [
           collection({
             path: 'datasets/all/',
             name: 'datasets',
+            loadingComponent: () => import(/* webpackChunkName: 'collection' */'components/ui/FullscreenLoading'),
             component: () => import(/* webpackChunkName: 'collection' */'../pages/Collection')
           }, {
             meta: {
@@ -29,6 +30,7 @@ const routes = [
           collection({
             path: '/:communityId/datasets/all/',
             name: 'community-datasets',
+            loadingComponent: () => import(/* webpackChunkName: 'collection' */'components/ui/FullscreenLoading'),
             component: () => import(/* webpackChunkName: 'collection' */'../pages/Collection')
           }, {
             meta: {
@@ -63,11 +65,13 @@ const routes = [
           record({
             path: 'raw',
             name: 'raw-record',
+            loadingComponent: () => import(/* webpackChunkName: 'collection' */'components/ui/FullscreenLoading'),
             component: () => import(/* webpackChunkName: 'record' */'../pages/RawRecord')
           }, { meta: {showCreateRecord: true}}),
           record({
             path: '',
             name: 'record',
+            loadingComponent: () => import(/* webpackChunkName: 'collection' */'components/ui/FullscreenLoading'),
             component: () => import(/* webpackChunkName: 'record' */'../pages/Record')
           }, { meta: {showCreateRecord: true}}),
           {
@@ -85,11 +89,13 @@ const routes = [
           record({
             path: 'raw',
             name: 'raw-published-record',
+            loadingComponent: () => import(/* webpackChunkName: 'collection' */'components/ui/FullscreenLoading'),
             component: () => import(/* webpackChunkName: 'record' */'../pages/RawRecord')
           }, { meta: {showCreateRecord: true}}),
           record({
             path: '',
             name: 'published-record',
+            loadingComponent: () => import(/* webpackChunkName: 'collection' */'components/ui/FullscreenLoading'),
             component: () => import(/* webpackChunkName: 'record' */'../pages/Record')
           }, { meta: {showCreateRecord: true}}),
         ]
