@@ -53,7 +53,19 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
           template(v-slot:default="{item}")
             span {{ item }}
       label-block(label="Je součástí" v-if="m.relatedItems?.length")
-        span TODO: implementovat vypis relatedItems
+      separated-list(:list="m.relatedItems" double)
+        template(v-slot:default="{item}")
+          .row
+            span.text-weight-bold.q-px-sm {{ $t('label.title') }}
+            span {{ item.itemTitle }}
+            vertical-separator
+            span.text-weight-bold.q-px-sm {{ $t('label.type') }}
+            simple-term(:term="[item.itemResourceType]")
+            vertical-separator
+            simple-term.q-px-sm(:term="[item.itemRelationType]")
+            vertical-separator
+            span.text-weight-bold.q-px-sm {{ $t('label.authors') }}:
+            span.q-px-sm(v-for="c in item.itemCreators" :key="c.full_name") {{ c.full_name }}
       label-block(label="Projekt" v-if="m.fundingReferences?.length")
         separated-list(:list='m.fundingReferences' double)
           template(v-slot:default="{item}")
@@ -67,11 +79,11 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
       label-block(label="Práva" v-if="m.rights?.length")
         simple-term(:term="m.rights")
   .row.q-my-xl.full-width.justify-between
-    .col-auto.column.items-start
-      q-btn.col-auto(flat color="primary" icon="arrow_back" label="Předchozí záznam")
+    .col-auto.column.items-start.q-mb-xl
+      //q-btn.col-auto(flat color="primary" icon="arrow_back" label="Předchozí záznam")
       q-btn.col-auto(flat color="primary" icon="arrow_back" label="Zpět na výsledky vyhledávání" @click="$router.back()")
     .col-auto.column.items-end.text-left
-      q-btn(flat color="primary" icon-right="arrow_forward" label="Další záznam")
+      //q-btn(flat color="primary" icon-right="arrow_forward" label="Další záznam")
   actions-sidebar(:actions="recordActions")
 </template>
 
@@ -89,8 +101,9 @@ import useAuth from 'src/composables/useAuth'
 import {useRouter} from 'vue-router'
 import useCollection from 'src/composables/useCollection'
 import {useQuasar} from 'quasar'
-import NewArticleDialog from 'components/dialogs/NewArticleDialog'
+import ArticleMetadataDialog from "components/dialogs/ArticleMetadataDialog";
 import useFSM from 'src/composables/useFsm'
+import VerticalSeparator from "components/ui/VerticalSeparator";
 import MultilingualChip from 'components/i18n/MultilingualChip'
 
 export default defineComponent({
@@ -99,6 +112,7 @@ export default defineComponent({
     record: Object
   },
   components: {
+    VerticalSeparator,
     MultilingualChip,
     ActionsSidebar,
     AccessIcon,
@@ -143,7 +157,7 @@ export default defineComponent({
       can: () => canEdit.value && isDatasets.value,
       func: () => {
         $q.dialog({
-          component: NewArticleDialog,
+          component: ArticleMetadataDialog,
           // Pass current dataset object to dialog
           componentProps: {
             dataset: props.record.http.data,

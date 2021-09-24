@@ -73,6 +73,7 @@
     "validationFail": "Prosím opravte chyby a zkuste to znovu"
   },
   "hint": {
+    "resolvedDOIValue": "Hodnota získaná z DOI metadat: {type}",
     "fileNote": "Zadejte popis obsahu nebo poznámky k souboru",
     "localeSwitcher": "Zadejte kód jazyka ve formátu ISO 639-2/B",
     "primaryCommunity": "Vyberte primární komunitu / skupinu do které bude záznam patřit",
@@ -88,6 +89,7 @@
     "revert_approval": "assignment_return"
   },
   "label": {
+    "title": "Název",
     "resourceType": "Typ záznamu",
     "accessRights": "Dostupnost",
     "chooseCommunity": "Vyberte komunitu",
@@ -109,6 +111,9 @@
     "technicalInfo": "Technické informace",
     "methods": "Metodologie",
     "subjectCategories": "Oborové kategorie",
+    "resourceType": "Typ zdroje",
+    "itemRelationType": "Typ vztahu k datasetu",
+    "relatedItemType": "Typ související položky",
     "institutionName": "Název organizace",
     "nameType": "Typ názvu",
     "fullText": "plný text",
@@ -217,6 +222,7 @@
     "noActions" : "Žádné dostupné akce",
     "saveChangesSuccess": "Změny uloženy",
     "articleExistsError": "Článek se zadaným DOI je již v repozitáři. Přejete si provázat dataset s tímto článkem?",
+    "relatedItemExistsError": "Článek se zadaným DOI je již přidružený k tomuto datasetu.",
     "authRequired": "Tato stránka vyžaduje autentizaci. Kliknutím na tlačítko níže se přihlásíte.",
     "completeSuccess": "Úspěšně dokončeno",
     "copiedToClip": "Zkopírováno do schránky",
