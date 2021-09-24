@@ -5,7 +5,7 @@ q-dialog.q-pa-lg.dialog-window.bg-primary-transparent(
   persistent
   transition-show="slide-up"
   transition-hide="slide-down")
-  q-card.q-mt-xl
+  q-card.q-mt-xl(v-on:keyup.enter="next")
     q-bar.bg-secondary
       q-space
       q-btn(dense color="white" flat icon="minimize" @click="maximized = false" :disable="!maximized")
@@ -16,58 +16,61 @@ q-dialog.q-pa-lg.dialog-window.bg-primary-transparent(
     q-card-section
       q-stepper(v-model="step" flat)
         q-step(name="1" :title="$t('label.importFromDOI')" :done="step > 1")
-          doi-input(v-model="article.doi" ref="doi" :dataset="this.dataset"
+          doi-input(v-model="article.doi" ref="doi" :dataset="dataset"
             @resolve="articleResolved"
             @exists="onCancelClick"
             @invalid="doiInvalid")
         q-step.full-width(name="2" :title="$t('label.articleMetadata')" :done="step > 2")
-          q-input(v-model="article.title_val" label="Title value *" :error="titleError" error-message="Title can't be empty" @input="titleError=false")
-
-          q-input(v-model="article.publication_year" type="number" label="Publication year *" :error="yearError" error-message="Publication year is required and must be valid year" @input="yearError=false")
+          q-input(
+            v-model="article.title_val"
+            :label="`${$t('label.title')} *`"
+            :error="titleError"
+            :error-message="$t('error.validation.required')"
+            @input="titleError=false")
+          q-input(
+            v-model="article.publication_year"
+            type="number"
+            :label="`${$t('label.publicationDate')} *`"
+            :error="yearError"
+            :error-message="$t('error.validation.required')"
+            @input="yearError=false")
           q-field.no-label-float.row.fit(
             :error="error"
             :error-message="errorMessage"
             readonly
-            borderless
-            :label="label")
+            borderless)
             template(v-slot:control)
               term-select.col-12.q-px-none.no-outline(
                 autofocus
-                ref="organization"
-                v-bind="$attrs"
+                ref="itemRelationType"
                 v-model="dataRelType"
                 taxonomy="itemRelationType"
                 :elasticsearch="false"
                 :rules="[required($t('error.validation.required'))]"
-                label="Related item type"
+                :label="`${$t('label.itemRelationType')} *`"
                 @update:model-value="onChange")
-
           q-field.no-label-float.row.fit(
             :error="error"
             :error-message="errorMessage"
             readonly
-            borderless
-            :label="label")
+            borderless)
             term-select.col-12.q-px-none.no-outline(
-              autofocus
-              ref="organization"
-              v-bind="$attrs"
+              ref="itemResourceType"
               v-model="resourceType"
               taxonomy="resourceType"
               :elasticsearch="false"
+              :hint="$t('hint.resolvedDOIValue', {type: article.document_type})"
               :rules="[required($t('error.validation.required'))]"
-              :label="$t('label.resourceType')"
+              :label="`${$t('label.relatedItemType')} *`"
               @update:model-value="onChange")
-          .text.text-italic.q-mb-xl hint: resolved item type: {{ this.article.document_type }}
-          .text {{ $t('label.authors') }} *
+          .text.q-mt-md {{ $t('label.authors') }} *
           q-card-section(v-for='(input,k) in authors_inputs' :key='k' )
             q-input(
               type='text'
-              label="Author"
-              :label='String(k + 1)'
+              :label="`${$t('label.author')} ${String(k + 1)}`"
               v-model='input.full_name'
               :error="authorError[k]"
-              error-message="Authors name can't be empty"
+              :error-message="$t('error.validation.required')"
               @input="authorError[k]=false")
           q-btn(:label="$t('action.addAuthor')" flat color="positive" icon="add" @click="addAuthor(k)")
             q-space
@@ -97,6 +100,7 @@ q-dialog.q-pa-lg.dialog-window.bg-primary-transparent(
       q-space
       q-btn.col-auto.q-mb-xl.q-mr-lg(
         color='positive'
+        padding="sm"
         size="lg"
         :disable="creatingArticle"
         :label="$t('label.createArticle')"
@@ -113,243 +117,273 @@ import axios from 'axios'
 import DOIInput from "components/controls/inputs/DOIInput";
 import TermSelect from "components/controls/selects/TermSelect";
 import TermListSelect from "components/controls/selects/TermListSelect";
-import {ref} from "vue";
-import deepcopy from "deepcopy";
+import {defineComponent, ref} from "vue";
 import useModel from "src/composables/useModel";
 import useValidation from "src/composables/useValidation";
+import {useI18n} from "vue-i18n";
+import useNotify from "src/composables/useNotify";
 
-export default {
+export default defineComponent({
+  name: 'ArticleMetadataDialog',
   props: {
     dataset: Object,
-    datasetLinks: Object,
-    modelValue: {
-      type: String,
-      default: () => ''
-    }
+    datasetLinks: Object
   },
-  emits: ['update:modelValue'],
+  emits: ['update:modelValue', 'hide', 'ok'],
   components: {
     'doi-input': DOIInput,
     TermSelect, TermListSelect
   },
 
-  setup (props,ctx){
-    const dataRelType = ref(deepcopy(props.modelValue))
-    const resourceType = ref(deepcopy(props.modelValue))
+  setup(props, ctx) {
+    const {t} = useI18n()
+    const dialog = ref(null)  // nahrada za this.$refs.dialog
+    const doi = ref(null) // nahrada za this.$refs.doi
+    const dataRelType = ref({})
+    const resourceType = ref({})
     const {onChange} = useModel(ctx, dataRelType)
     const {error, required, errorMessage} = useValidation()
+    const {notifySuccess, notifyError} = useNotify()
 
-    return {dataRelType, onChange, error, required, errorMessage, resourceType}
+    const maximized = ref(false)
+    const k = 0
+    const step = ref('1')
+    const validatingDOI = ref(false)
+    const creatingArticle = ref(false)
+    const authorError = ref([false])
+    const generated_article = ref({})
+    const article = ref({
+      doi: '',
+      title_val: '',
+      document_type: '',
+      publication_year: '',
+    })
+    const authors_inputs = ref([{full_name: ''}])
+    const titleError = ref(false)
+    const restypeError = ref(false)
+    const itemtypeError = ref(false)
+    const yearError = ref(false)
 
-  },
-  data() {
-    return {
-      maximized: false,
-      k: 0,
-      step: '1',
-      validatingDOI: false,
-      creatingArticle: false,
-      authorError: [false],
-      generated_article: {},
-      article: {
-        doi: '',
-        title_val: '',
-        document_type: '',
-        publication_year: '',
-      },
-      authors_inputs: [{full_name: ''}],
-      titleError: false,
-      titleLangError: false,
-      restypeError: false,
-      itemtypeError: false,
-      yearError: false,
-      communityId: this.$route.params.communityId
+    function validate() {
+      for (let k = 0; k < authors_inputs.value.length; k++) {
+        if (authors_inputs.value[k].full_name === '') {
+          authorError.value[k] = true
+        }
+      }
+      if (article.value.title_val === '') {
+        titleError.value = true
+      }
+      if (dataRelType.value === "") {
+        itemtypeError.value = true
+      }
+      if (resourceType.value === "") {
+        restypeError.value = true
+      }
+
+      if (article.value.publication_year === '' || isNaN(article.value.publication_year)) {
+        yearError.value = true
+      }
     }
-  },
 
-  methods: {
+    function show() {
+      dialog.value.show()
+    }
 
-    validate() {
-      for (var k = 0; k < this.authors_inputs.length; k++) {
-        if (this.authors_inputs[k].full_name === '') {
-          this.authorError[k] = true
-        }
-      }
-      if (this.article.title_val === '') {
-        this.titleError = true
-      }
-      if (this.dataRelType === "") {
-        this.itemtypeError = true
-      }
-      if (this.resourceType === "") {
-        this.restypeError = true
-      }
-      const langRegex = /^([a-z][a-z])$|^([a-z][a-z]-[a-z][a-z])$|^_$/
+    function hide() {
+      dialog.value.hide()
+    }
 
-      if (this.article.publication_year === '' || isNaN(this.article.publication_year)) {
-        this.yearError = true
-      }
-    },
-    show() {
-      this.$refs.dialog.show()
-    },
+    function onDialogHide() {
+      ctx.emit('hide')
+    }
 
-    hide() {
-      this.$refs.dialog.hide()
-    },
+    function addAuthor() {
+      authors_inputs.value.push({full_name: ''})
+      authorError.value.push(false)
+    }
 
-    onDialogHide() {
-      // required to be emitted
-      // when QDialog emits "hide" event
-      this.$emit('hide')
-    },
+    function removeAuthor(index) {
+      const lastValue = authors_inputs.value.length - (index + 1)
+      authors_inputs.value.splice(lastValue, 1)
 
-    addAuthor() {
-      this.authors_inputs.push({full_name: ''})
-      this.authorError.push(false)
-    },
+      const lastErrorValue = authorError.value.length - (index + 1)
+      authorError.value.splice(lastErrorValue, 1)
+    }
 
-    removeAuthor(index) {
-      const lastValue = this.authors_inputs.length - (index + 1)
-      this.authors_inputs.splice(lastValue, 1)
+    function articleResolved(art) {
+      validatingDOI.value = false
+      generated_article.value = art
+      article.value.document_type = art.document_type
+      article.value.publication_year = art.itemYear
 
-      const lastErrorValue = this.authorError.length - (index + 1)
-      this.authorError.splice(lastErrorValue, 1)
-    },
+      article.value.title_val = art.itemTitle
+      article.value.doi = doi.value.doi.trim()
 
-    articleResolved(article) {
-      this.validatingDOI = false
-      this.generated_article = article
-      this.article.document_type = article.document_type
-      this.article.publication_year = article.itemYear
-
-      this.article.title_val = article.itemTitle
-      this.article.doi = this.$refs.doi.doi
-
-
-      for (let i = 0; i < article.itemCreators.length; i++) {
+      for (let i = 0; i < art.itemCreators.length; i++) {
         if (i === 0) {
-          this.authors_inputs[0].full_name = article.itemCreators[0].full_name
+          authors_inputs.value[0].full_name = art.itemCreators[0].full_name
         } else {
-          this.authors_inputs.push({full_name: article.itemCreators[i].full_name})
-          this.authorError.push(false)
+          authors_inputs.value.push({full_name: art.itemCreators[i].full_name})
+          authorError.value.push(false)
         }
       }
-      this.step = '2'
-      this.maximized = true
-    },
+      step.value = '2'
+      maximized.value = true
+    }
 
-    doiInvalid() {
-      this.validatingDOI = false
-    },
+    function doiInvalid() {
+      validatingDOI.value = false
+    }
 
-    articleCreateFailed(err) {
+    function articleCreateFailed(err) {
       console.log(err)
-      this.$q.notify({
-        message: this.$t('message.errorCreatingArticle'),
-        icon: 'announcement',
-        color: 'negative'
-      })
-    },
+      notifyError(`${t('message.errorCreatingArticle')}: ${err}`)
+    }
 
-    next() {
-      this.validatingDOI = true
-      this.titleError = false
-      this.doctypeError = false
-      this.yearError = false
-      this.restypeError= false
-      this.itemtypeError= false
-      this.$refs.doi.validate()
-    },
-    back() {
-      this.maximized = false
-      this.step = '1'
-    },
-    createArticle() {
-      this.creatingArticle = true
-      this.titleError = false
-      this.yearError = false
-      this.restypeError= false
-      this.itemtypeError= false
-      for (var k = 0; k < this.authorError.length; k++) {
-        this.authorError[k] = false
+    function articleCreateSuccess(art) {
+      notifySuccess(t('message.saveChangesSuccess'))
+    }
+
+    function resetValidation() {
+      titleError.value = false
+      yearError.value = false
+      restypeError.value = false
+      itemtypeError.value = false
+    }
+
+    function next() {
+      validatingDOI.value = true
+      resetValidation()
+      doi.value.validate()
+    }
+
+    function back() {
+      maximized.value = false
+      step.value = '1'
+    }
+
+    function createArticle() {
+      creatingArticle.value = true
+      resetValidation()
+
+      for (let k = 0; k < authorError.value.length; k++) {
+        authorError.value[k] = false
       }
-      this.validate()
+
+      validate()
+
       let authorErr = false
-      for (k = 0; k < this.authorError.length; k++) {
-        if (this.authorError[k] === true) {
+      for (let k = 0; k < authorError.value.length; k++) {
+        if (authorError.value[k] === true) {
           authorErr = true
           break
         }
       }
-      if (this.titleError || authorErr || this.itemtypeError || this.yearError || this.restypeError) { // if errors in validation
+      if (titleError.value || authorErr || itemtypeError.value || yearError.value || restypeError.value) { // if errors in validation
         // TODO(alzpeta): show error to user using Quasar Notify plugin
-        this.creatingArticle = false
+        creatingArticle.value = false
       } else {
+        const datasetUrl = props.datasetLinks.self
 
-          const datasetUrl = this.datasetLinks.self
+        updateArticle() // set changes
 
-          this.updateArticle() // set changes
+        console.log(generated_article.value)
 
-          var relatedItem = {
-            itemTitle: this.generated_article.itemTitle,
-            itemCreators: this.generated_article.itemCreators,
-            itemURL: this.generated_article.itemURL[0],
-            itemYear: this.generated_article.itemYear,
-            itemPIDs: this.generated_article.itemPIDs,
-            itemRelationType: this.dataRelType,
-            itemResourceType: this.resourceType
-          }
-          var path = ''
+        let relatedItem = {
+          itemTitle: generated_article.value.itemTitle,
+          itemCreators: generated_article.value.itemCreators,
+          itemURL:  generated_article.value.itemURL,
+          itemYear: generated_article.value.itemYear,
+          itemPIDs: generated_article.value.itemPIDs,
+          itemRelationType: dataRelType.value,
+          itemResourceType: resourceType.value
+        }
 
-          if(this.dataset.metadata.relatedItems === undefined){
-            path = '/relatedItems'
-            relatedItem = [relatedItem]
-          }
-          else {
-            path = '/relatedItems/-'
-          }
+        let path = ''
+        if (props.dataset.metadata.relatedItems === undefined) {
+          path = '/relatedItems'
+          relatedItem = [relatedItem]
+        } else {
+          path = '/relatedItems/-'
+        }
 
-          axios.patch(
-              datasetUrl,
+        console.log('data ', relatedItem)
+
+        axios.patch(
+            datasetUrl,
             [{
               op: 'add',
               path: path,
               value: relatedItem
             }], {headers: {'Content-Type': 'application/json-patch+json'}})
-            .then(() => {
-              this.creatingArticle = false
-              this.validatingDOI = false
-
+            .then((res) => {
+              articleCreateSuccess(res)
+              hide()
             })
-
-        this.hide()
+            .catch(err => {
+              articleCreateFailed(err)
+            })
+            .finally(() => {
+              creatingArticle.value = false
+              validatingDOI.value = false
+            })
       }
-    },
-    updateArticle() {
+    }
 
-      this.generated_article.itemTitle = this.article.title_val
-      this.generated_article.itemCreators = this.authors_inputs
-      this.generated_article.document_type = this.article.document_type
-      this.generated_article.itemYear = this.article.publication_year
-    },
-    onOKClick() {
-      // on OK, it is REQUIRED to
-      // emit "ok" event (with optional payload)
-      // before hiding the QDialog
-      this.$emit('ok')
-      // or with payload: this.$emit('ok', { ... })
+    function updateArticle() {
+      console.log(article.value)
+      generated_article.value = {
+        ...generated_article.value,
+        itemTitle: article.value.title_val,
+        itemCreators: authors_inputs.value,
+        document_type: article.value.document_type,
+        itemYear: article.value.publication_year
+      }
+    }
 
-      // then hiding dialog
-      this.hide()
-    },
+    function onOKClick() {
+      ctx.emit('ok')
+      hide()
+    }
 
-    onCancelClick() {
-      // we just need to hide dialog
-      this.hide()
+    function onCancelClick() {
+      hide()
+    }
+
+    return {
+      dialog,
+      doi,
+      step,
+      authors_inputs,
+      authorError,
+      titleError,
+      yearError,
+      article,
+      maximized,
+      dataRelType,
+      onChange,
+      error,
+      creatingArticle,
+      validatingDOI,
+      required,
+      errorMessage,
+      resourceType,
+      validate,
+      show,
+      hide,
+      onDialogHide,
+      addAuthor,
+      removeAuthor,
+      articleResolved,
+      doiInvalid,
+      next,
+      back,
+      createArticle,
+      onOKClick,
+      onCancelClick
     }
   }
-}
+})
 </script>
 <style lang="sass">
 //.dialog-window

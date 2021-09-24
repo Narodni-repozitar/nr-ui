@@ -73,6 +73,7 @@
     "validationFail": "Prosím opravte chyby a zkuste to znovu"
   },
   "hint": {
+    "resolvedDOIValue": "Hodnota získaná z DOI metadat: {type}",
     "fileNote": "Zadejte popis obsahu nebo poznámky k souboru",
     "localeSwitcher": "Zadejte kód jazyka ve formátu ISO 639-2/B",
     "primaryCommunity": "Vyberte primární komunitu / skupinu do které bude záznam patřit",
@@ -88,6 +89,7 @@
     "revert_approval": "assignment_return"
   },
   "label": {
+    "title": "Název",
     "chooseCommunity": "Vyberte komunitu",
     "fileNote": "Poznámka k souboru",
     "inCommunity": "v komunitě",
@@ -108,7 +110,8 @@
     "methods": "Metodologie",
     "subjectCategories": "Oborové kategorie",
     "resourceType": "Typ zdroje",
-    "relatedItemType": "Typ přidružené položky",
+    "itemRelationType": "Typ vztahu k datasetu",
+    "relatedItemType": "Typ související položky",
     "institutionName": "Název organizace",
     "nameType": "Typ názvu",
     "fullText": "plný text",
