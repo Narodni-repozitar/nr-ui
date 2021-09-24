@@ -287,8 +287,6 @@ export default defineComponent({
 
         updateArticle() // set changes
 
-        console.log(generated_article.value)
-
         let relatedItem = {
           itemTitle: generated_article.value.itemTitle,
           itemCreators: generated_article.value.itemCreators,
@@ -306,8 +304,6 @@ export default defineComponent({
         } else {
           path = '/relatedItems/-'
         }
-
-        console.log('data ', relatedItem)
 
         axios.patch(
             datasetUrl,
@@ -331,7 +327,6 @@ export default defineComponent({
     }
 
     function updateArticle() {
-      console.log(article.value)
       generated_article.value = {
         ...generated_article.value,
         itemTitle: article.value.title_val,
