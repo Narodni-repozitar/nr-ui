@@ -1,5 +1,5 @@
 <template lang="pug">
-q-item.record.q-py-lg.text-dark(:to="record.links.ui")
+q-item.record.q-py-lg.text-dark(:to="recordLink")
   q-item-section.justify-start-important(avatar)
     .column.full-height
       access-icon.col-auto.self-start.block(:accessRights="m.accessRights" size="64px")
@@ -24,12 +24,8 @@ q-item.record.q-py-lg.text-dark(:to="record.links.ui")
             q-tooltip {{ $t('label.languages') }}
       .type.row.full-height.items-baseline.text-caption.text-weight-medium.text-uppercase.q-mt-xs
         simple-term(:term="m.resourceType" :levels="1")
-    .keywords
-      .row.text-overline.items-baseline.full-height
-        div(v-for="(kw, idx) in m.keywords" :key="idx")
-          vertical-separator(v-if="idx>0")
-          span {{ kw }}
-          q-tooltip {{ $t('label.forms.keywords') }}
+    .keywords.q-mt-sm
+      multilingual-chip.q-mr-sm(:multilingual="kw" v-for="(kw, idx) in m.keywords" :key="idx")
     mt.abstract.q-pr-md(:text="sanitizeHtml(m.abstract)" :shorten="500")
 </template>
 <style lang="sass">
@@ -44,6 +40,8 @@ import RightsIcon from 'components/icons/RightsIcon'
 import RecordPeople from './RecordPeople'
 import {date} from 'quasar'
 import sanitizeHtml from 'sanitize-html'
+import MultilingualChip from 'components/i18n/MultilingualChip'
+import {DATASETS_COLLECTION_CODE, DRAFT_FIELD, PRIMARY_COMMUNITY_FIELD} from 'src/constants'
 
 export default @Options({
   name: 'ListRecord',
@@ -51,6 +49,7 @@ export default @Options({
     record: Object
   },
   components: {
+    MultilingualChip,
     AccessIcon,
     RightsIcon,
     RecordPeople
@@ -61,15 +60,29 @@ class ListRecord extends Vue {
     return this.record?.metadata || {}
   }
 
-  sanitizeHtml (value) {
-    Object.keys(value).map(function(key, index) {
-      value[key] = sanitizeHtml(value[key], {allowedTags: []})
-    })
-    return value
+  get recordLink() {
+    // TODO: fix and use record.links.ui for draft records
+    return {
+      name: this.m[DRAFT_FIELD] ? 'record' : 'published-record',
+      params: {
+        communityId: this.m[PRIMARY_COMMUNITY_FIELD],
+        model: DATASETS_COLLECTION_CODE,
+        recordId: this.m.InvenioID
+      }
+    }
   }
 
   get year() {
-    return this.m.dateAvailable? date.extractDate(this.m.dateAvailable, 'YYYY-MM-DD').getFullYear() : this.$t('value.unknown')
+    return this.m.dateAvailable ? date.extractDate(this.m.dateAvailable, 'YYYY-MM-DD').getFullYear() : this.$t('value.unknown')
+  }
+
+  sanitizeHtml(value) {
+    if (value) {
+      Object.keys(value).map(function (key, index) {
+        value[key] = sanitizeHtml(value[key], {allowedTags: []})
+      })
+    }
+    return value
   }
 }
 </script>

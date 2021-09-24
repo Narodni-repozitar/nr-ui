@@ -3,6 +3,7 @@ q-btn.self-center.q-mt-sm(
   round
   dense
   flat
+  v-bind="$attrs"
   color="negative"
   icon="backspace"
   @click="$emit('remove')")

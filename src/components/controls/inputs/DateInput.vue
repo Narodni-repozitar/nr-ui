@@ -18,7 +18,6 @@ q-field.no-wrap.no-margin.no-label-float.row(
         ref="input"
         outlined
         square
-        autofocus
         color="primary"
         :rules="[edtf0Rule, ...(rules || [])]"
         :label="`${label}${range? '(' + $t('label.to') + ')' : ''}`"
@@ -76,7 +75,7 @@ export default {
         const dates = props.modelValue.split('/')
         return deepcopy({
           from: dates[0],
-          to: dates[1]
+          to: dates[dates.length-1]
         })
       }
       return deepcopy(props.modelValue)
@@ -84,7 +83,7 @@ export default {
 
     const internalFromModel = computed({
       get: () => {
-        if (props.range) {
+        if (props.range && model.value.from !== undefined) {
           return model.value.from
         }
         return model.value
@@ -98,7 +97,7 @@ export default {
 
     const internalToModel = computed({
       get: () => {
-        if (props.range) {
+        if (props.range && model.value.to !== undefined) {
           return model.value.to
         }
         return model.value
@@ -111,14 +110,13 @@ export default {
     })
 
     const externalModel = computed(() => {
-      if (props.range) {
+      if (props.range && model.value.from && model.value.to) {
         return `${model.value.from}/${model.value.to}`
       }
       return model.value
     })
 
     watch(externalModel, () => {
-      console.log('beubu')
       ctx.emit('update:modelValue', externalModel.value)
     })
 

@@ -90,6 +90,8 @@
   },
   "label": {
     "title": "Název",
+    "resourceType": "Typ záznamu",
+    "accessRights": "Dostupnost",
     "chooseCommunity": "Vyberte komunitu",
     "fileNote": "Poznámka k souboru",
     "inCommunity": "v komunitě",
@@ -132,7 +134,7 @@
     "affiliations": "Afilace",
     "articleMetadata": "Metadata článku",
     "author": "Autor",
-    "authorType": "Role",
+    "authorType": "Typ",
     "authors": "Autoři",
     "back": "Zpět",
     "backToCollection": "Zpět na výpis",
@@ -154,11 +156,11 @@
     "filters": "Filtry",
     "forms": {
       "dates": "Datace",
-      "fundingInfo": "Informace o financování",
-      "datasetDescription": "Popis datové sady",
+      "funding": "Informace o financování",
+      "description": "Popis datové sady",
       "additionalTitles": "Další názvy",
-      "authorsContributors": "Tvůrci",
-      "datasetBasicInfo": "Datová sada",
+      "authors": "Tvůrci",
+      "basic": "Datová sada",
       "identifiers": "Identifikátory",
       "identifiersCaption": "Zadejte existující identifikátory spojené s tímto datasetem",
       "keywords": "Klíčová slova",
@@ -214,6 +216,7 @@
     "titles": "Název datové sady"
   },
   "message": {
+    "submissionHasErrors": "Pro pokračování prosím opravte chyby ve formuláři",
     "bugReportSent": "Chybové hlášení bylo zasláno",
     "typeAFewLetters": "Napište více znaků",
     "noActions" : "Žádné dostupné akce",
@@ -230,6 +233,7 @@
     "gdprPrompt": "Kliknutím na \"Souhlasím\", vyjadřujete souhlas s našimi pravidly využití služeb a podmínkami zpracování osobních údajů.",
     "loading": "Načítám",
     "loadingMetadata": "Načítám metadata",
+    "loadingRecords": "Načítám záznamy",
     "loggedOut": "Byli jste odhlášeni",
     "noResults": "Zadanému dotazu neodpovídají žádné výsledky",
     "noArticles": "Žádné články nenalezeny",
@@ -266,6 +270,7 @@
     }
   },
   "section": {
+    "submitRecordErrors": "Následující sekce obsahují chyby",
     "submitRecordMetadata": "Vyplněná metadata",
     "otherDateInfo": "Další časové údaje",
     "articleExistsError": "Nalezen existující článek",
@@ -280,9 +285,13 @@
   },
   "src/i18n": "",
   "value": {
+    "facet": {
+      "editing": "Rozpracováno",
+      "pending-approval": "Čeká na schválení"
+    },
     "unknown": "neznámý",
     "titleType": {
-      "subtitle": "Podtitul",
+      "subtitle": "Podnázev",
       "alternativeTitle": "Alternativní název",
       "other": "Další název"
     },

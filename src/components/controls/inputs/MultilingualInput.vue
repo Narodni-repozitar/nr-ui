@@ -28,7 +28,7 @@ q-field.no-margin.no-label-float.row.full-width.multilingual-input(
           q-btn.q-mt-md.q-mr-xs(v-if="idx === model.length -1" size="sm" color="accent" dense outline icon="add"
             @click="addLangVariant")
             q-tooltip {{ $t('action.addLang') }}
-          q-btn.q-mt-md.q-mr-xs(v-if="model.length > 1" size="sm" dense outline icon="remove" color="dark"
+          q-btn.q-mt-md.q-mr-xs(v-if="model.length > 1" size="sm" dense color="accent" outline icon="remove"
             @click="rmLangVariant(idx)")
             q-tooltip {{ $t('action.rmLang') }}
           q-separator.q-mt-lg(inset vertical)
@@ -64,7 +64,7 @@ export default {
     }
   },
   setup(props, ctx) {
-    const model = ref(Object.keys(props.modelValue).length ? [deepcopy(props.modelValue)]: [])
+    const model = ref([])
     const {setInputRef, inputRefs} = useInputRefs()
     const {addLangVariant, rmLangVariant, showLangDialog} = useMultilingual(model, inputRefs, onChange)
 
@@ -77,6 +77,10 @@ export default {
 
     if (!Object.keys(props.modelValue).length) {
       model.value.push({lang: locale.value, val: ''})
+    } else {
+      for (const [lang, value] of Object.entries(props.modelValue)) {
+        model.value.push({lang: lang, val: value})
+      }
     }
 
     function validate() {

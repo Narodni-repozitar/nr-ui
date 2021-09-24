@@ -1,40 +1,50 @@
 <template lang="pug">
 .column.q-gutter-sm
+  q-card.text-negative(v-if="hasErrors" flat)
+    q-card-section
+      .text-h6.no-padding.no-margin.text-weight-bold.col {{ $t('section.submitRecordErrors') }}
+    q-card-section
+      q-list(dense)
+        q-item(v-for="(item, idx) in errors" :key="idx")
+          q-item-section(avatar)
+            q-icon(name="error")
+          q-item-section {{ item }}
+    q-separator(inset)
   q-card(v-if="!failed" flat square)
     q-card-section
       .text-h6.text-weight-bold.col {{ $t('section.submitRecordMetadata') }}
-    q-card-section
+    q-card-section.q-ml-lg
       label-block(:label="$t('label.titles')")
-        span(v-for="(t, idx) in internalData.titles" :key="idx")
+        span(v-for="(t, idx) in data.titles" :key="idx")
           span.text-weight-bold(v-for="(tt, idx) in Object.keys(t.title)" :key="idx") {{ t.title[tt] }} ({{ tt }}),
-      label-block(:label="$t('label.language')")
-        span.text-weight-bold(v-for="(l, idx) in internalData.language" :key="idx") {{ $mt(l.title) }}
+      label-block(:label="$t('label.language')" v-if="data.language")
+        span.text-weight-bold(v-for="(l, idx) in data.language" :key="idx") {{ $mt(l.title) }},
       label-block(:label="$t('label.abstract')")
-        span.text-weight-bold(v-for="(a, idx) in Object.keys(internalData.abstract)" :key="idx") {{ internalData.abstract[a] }} ({{ a }}),
-      label-block(:label="$t('label.license')" v-if="internalData.rights?.length")
-        span.text-weight-bold {{ $mt(internalData.rights.title) }}
+        span.text-weight-bold(v-for="(a, idx) in data.abstract? Object.keys(data.abstract): []" :key="idx") {{ data.abstract[a] }} ({{ a }}),
+      label-block(:label="$t('label.license')" v-if="Object.keys(data.rights).length")
+        span.text-weight-bold {{ $mt(data.rights.title) }}
       label-block(:label="$t('label.authors')")
-        span.text-weight-bold(v-for="(c, idx) in internalData.creators" :key="idx") {{ c.fullName }} ({{ c.affiliation.map(a => $mt(a.title)) }}),
-      label-block(:label="$t('label.contributors')" v-if="internalData.contributors?.length")
-        span.text-weight-bold(v-for="(c, idx) in internalData.contributors" :key="idx") {{ c.fullName }} ({{ c.affiliation.map(a => $mt(a.title)) }}),
-      label-block(:label="$t('label.forms.keywords')" v-if="internalData.keywords?.length")
-        span.text-weight-bold(v-for="(kw, idx) in internalData.keywords" :key="idx") {{ $mt(kw) }},
-      label-block(:label="$t('label.methods')"  v-if="internalData.methods && Object.keys(internalData.methods).length")
-        span.text-weight-bold {{ $mt(internalData.methods) }}
-      label-block(:label="$t('label.technicalInfo')" v-if="internalData.technicalInfo && Object.keys(internalData.technicalInfo).length")
-        span.text-weight-bold {{ $mt(internalData.technicalInfo) }}
+        span.text-weight-bold(v-for="(c, idx) in data.creators" :key="idx") {{ c.fullName }} ({{ c.affiliation? c.affiliation.map(a => $mt(a.title)): '' }}),
+      label-block(:label="$t('label.contributors')" v-if="data.contributors?.length")
+        span.text-weight-bold(v-for="(c, idx) in data.contributors" :key="idx") {{ c.fullName }} ({{ c.affiliation? c.affiliation.map(a => $mt(a.title)): ' ' }}),
+      label-block(:label="$t('label.forms.keywords')" v-if="data.keywords?.length")
+        span.text-weight-bold(v-for="(kw, idx) in data.keywords" :key="idx") {{ $mt(kw) }},
+      label-block(:label="$t('label.methods')"  v-if="data.methods && Object.keys(data.methods).length")
+        span.text-weight-bold {{ $mt(data.methods) }}
+      label-block(:label="$t('label.technicalInfo')" v-if="data.technicalInfo && Object.keys(data.technicalInfo).length")
+        span.text-weight-bold {{ $mt(data.technicalInfo) }}
       label-block(:label="$t('label.subjectCategories')")
-        span.text-weight-bold(v-for="(s, idx) in internalData.subjectCategories" :key="idx") {{ $mt(s.title) }},
-      label-block(:label="$t('label.notes')" v-if="internalData.notes?.length")
-        span.text-weight-bold {{ internalData.notes }}
+        span.text-weight-bold(v-for="(s, idx) in data.subjectCategories" :key="idx") {{ $mt(s.title) }},
+      label-block(:label="$t('label.notes')" v-if="data.notes?.length")
+        span.text-weight-bold {{ data.notes }}
       label-block(:label="$t('label.dateAvailable')")
-        span.text-weight-bold {{ internalData.dateAvailable }}
-      label-block(:label="$t('label.dateCollected')" v-if="internalData.dateCollected")
-        span.text-weight-bold {{ internalData.dateCollected }}
-      label-block(:label="$t('label.dateCreated')" v-if="internalData.dateCreated")
-        span.text-weight-bold {{ internalData.dateCreated }}
-      label-block(:label="$t('label.funding')" v-if="internalData.fundingReferences?.length")
-        span.text-weight-bold(v-for="(f, idx) in internalData.fundingReferences" :key="idx") {{ f.projectID }} ({{$mt(f.funder.title)}})
+        span.text-weight-bold {{ data.dateAvailable }}
+      label-block(:label="$t('label.dateCollected')" v-if="data.dateCollected")
+        span.text-weight-bold {{ data.dateCollected }}
+      label-block(:label="$t('label.dateCreated')" v-if="data.dateCreated")
+        span.text-weight-bold {{ data.dateCreated }}
+      label-block(:label="$t('label.funding')" v-if="data.fundingReferences?.length")
+        span.text-weight-bold(v-for="(f, idx) in data.fundingReferences" :key="idx") {{ f.projectID }} ({{$mt(f.funder.title)}})
   q-card.col.full-width(v-else flat square)
     q-card-section
       .text-h6.text-negative {{ $t('error.submissionFail') }}: "{{ error.message }}"
@@ -51,27 +61,30 @@
   stepper-nav(
     :has-prev="!created && !failed"
     :has-retry="!created && failed"
-    :has-submit="!created && !failed"
+    :has-create="!created && !failed && !hasErrors && mode === 'create'"
+    :has-save="!created && !failed && !hasErrors && mode === 'save'"
     :has-next="false"
-    @submit="submit"
+    @create="createRecord"
+    @save="saveChanges"
     @prev="$emit('prev')"
     @retry="retry")
   q-inner-loading(:showing="submitting")
     circular-spinner(:message="$t('message.submitting')")
-  .text-body2.col(v-if="!failed")
-    q-icon.q-pr-sm.q-py-sm(size="sm" color="info" name="info")
-    span.text-caption {{ $t('message.submissionInfo') }}
+  .text-body2.col.q-ml-sm(v-if="!failed")
+    q-icon.q-pr-sm.q-py-sm(v-if="mode === 'create'" size="sm" :color="!hasErrors? 'info': 'negative'" :name="!hasErrors? 'info': 'warning'")
+    span.text-caption(v-if="!hasErrors && mode === 'create'") {{ $t('message.submissionInfo') }}
+    span.text-caption.text-negative(v-else-if="hasErrors") {{ $t('message.submissionHasErrors') }}
 </template>
 <script>
-import {defineComponent, ref} from 'vue'
+import {computed, defineComponent, reactive, ref} from 'vue'
 import StepperNav from 'components/controls/StepperNav'
 import useNotify from 'src/composables/useNotify'
 import {axios} from 'boot/axios'
-import deepcopy from 'deepcopy'
 import CircularSpinner from 'components/ui/CircularSpinner'
 import LabelBlock from 'components/record/LabelBlock'
-import {PRIMARY_COMMUNITY_FIELD, TAXONOMY_TERM_DATASET, TAXONOMY_TERM_OPENACCESS} from 'src/constants'
+import {PRIMARY_COMMUNITY_FIELD, TAXONOMY_TERM_DATASET, TAXONOMY_TERM_RESTRICTED} from 'src/constants'
 import useAuth from 'src/composables/useAuth'
+import deepcopy from "deepcopy";
 
 export default defineComponent({
   name: 'Submission',
@@ -80,22 +93,35 @@ export default defineComponent({
     StepperNav,
     LabelBlock
   },
-  emits: ['create', 'prev', 'retry'],
+  emits: ['create', 'save', 'prev', 'retry'],
   props: {
+    mode: {
+      type: String,  // 'create' | 'save'
+      default: 'create'
+    },
+    hasErrors: Boolean,
+    errors: {
+      type: Array,
+      default: () => []
+    },
     data: {
       type: Object,
       required: true
-    }
+    },
+    record: Object,
   },
   setup(props, ctx) {
     const submitting = ref(false)
     const failed = ref(false)
     const error = ref(null)
     const created = ref(false)
-    const internalData = ref(deepcopy(props.data))
 
     const {effectiveCommunity} = useAuth()
     const {notifyError, notifySuccess, submitBugReport} = useNotify()
+
+    const submitUrl = computed(() => {
+      return props.record?.value?.http?.data?.links.self
+    })
 
     function _submissionFail(err) {
       console.log(err)
@@ -106,7 +132,7 @@ export default defineComponent({
 
     function _submissionSuccess(response) {
       created.value = response.data
-      notifySuccess('message.submissionSuccess', {pid: created.value.id})
+      notifySuccess(props.mode === 'create'? 'message.submissionSuccess' : 'message.saveChangesSuccess', {pid: created.value.id})
     }
 
     function retry() {
@@ -119,22 +145,50 @@ export default defineComponent({
       retry()
     }
 
-    function submit() {
+    function saveChanges() {
+      submitting.value = true
+
+      let submissionData = deepcopy({
+        ...props.record.value.metadata,
+        ...props.data
+      })
+
+      // TODO: change this upon createRecord implementation in invenio-vue library
+      axios.put(submitUrl.value, JSON.stringify(submissionData), {
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8'
+        }
+      }).then(res => {
+        if (res.status === 200) {
+          _submissionSuccess(res)
+          ctx.emit('save', created.value)
+          return
+        }
+        _submissionFail(res)
+      }).catch(err => {
+        _submissionFail(err)
+      }).finally(() => {
+        submitting.value = false
+      })
+    }
+
+    function createRecord() {
       submitting.value = true
 
       // Set internal metadata fields
 
       // TODO: properly set primary community on metadata
-      internalData.value[PRIMARY_COMMUNITY_FIELD] = effectiveCommunity.value.id
+      let submissionData = deepcopy(props.data)
+      submissionData[PRIMARY_COMMUNITY_FIELD] = effectiveCommunity.value.id
       // AccessRights - for datasets will always be 'open access'
-      internalData.value['accessRights'] = TAXONOMY_TERM_OPENACCESS
+      submissionData['accessRights'] = TAXONOMY_TERM_RESTRICTED
       // We support datasets ResourceType only
-      internalData.value['resourceType'] = TAXONOMY_TERM_DATASET
+      submissionData['resourceType'] = TAXONOMY_TERM_DATASET
 
-      const submitUrl = `/${internalData.value[PRIMARY_COMMUNITY_FIELD]}/datasets/draft/`
+      const submitUrl = `/${submissionData[PRIMARY_COMMUNITY_FIELD]}/datasets/draft/`
 
       // TODO: change this upon createRecord implementation in invenio-vue library
-      axios.post(submitUrl, JSON.stringify(internalData.value), {
+      axios.post(submitUrl, JSON.stringify(submissionData), {
         headers: {
           'Content-Type': 'application/json; charset=utf-8'
         }
@@ -152,7 +206,7 @@ export default defineComponent({
       })
     }
 
-    return {internalData, created, failed, error, submit, reportError, retry, submitting}
+    return {created, failed, error, createRecord, saveChanges, reportError, retry, submitting}
   }
 })
 </script>

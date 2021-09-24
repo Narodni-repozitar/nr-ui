@@ -8,6 +8,7 @@ const routes = [
       {
         path: '',
         component: () => import(/* webpackChunkName: 'home' */'../pages/Home'),
+        meta: {showCreateRecord: true}
       },
       {
         path: '',
@@ -16,10 +17,11 @@ const routes = [
           collection({
             path: 'datasets/all/',
             name: 'datasets',
+            loadingComponent: () => import(/* webpackChunkName: 'collection' */'components/ui/FullscreenLoading'),
             component: () => import(/* webpackChunkName: 'collection' */'../pages/Collection')
           }, {
             meta: {
-              communitySelect: true,
+              showCreateRecord: true,
               query: {
                 // sort: 'string:alphabetical'
               }
@@ -28,10 +30,11 @@ const routes = [
           collection({
             path: '/:communityId/datasets/all/',
             name: 'community-datasets',
+            loadingComponent: () => import(/* webpackChunkName: 'collection' */'components/ui/FullscreenLoading'),
             component: () => import(/* webpackChunkName: 'collection' */'../pages/Collection')
           }, {
             meta: {
-              communitySelect: true,
+              showCreateRecord: true,
               query: {
                 // sort: 'string:alphabetical'
               }
@@ -61,14 +64,16 @@ const routes = [
         children: [
           record({
             path: 'raw',
-            name: 'record',
+            name: 'raw-record',
+            loadingComponent: () => import(/* webpackChunkName: 'collection' */'components/ui/FullscreenLoading'),
             component: () => import(/* webpackChunkName: 'record' */'../pages/RawRecord')
-          }),
+          }, { meta: {showCreateRecord: true}}),
           record({
             path: '',
             name: 'record',
+            loadingComponent: () => import(/* webpackChunkName: 'collection' */'components/ui/FullscreenLoading'),
             component: () => import(/* webpackChunkName: 'record' */'../pages/Record')
-          }),
+          }, { meta: {showCreateRecord: true}}),
           {
             // EDIT an existing DRAFT record
             path: `edit`,
@@ -83,14 +88,16 @@ const routes = [
         children: [
           record({
             path: 'raw',
-            name: 'published-record',
+            name: 'raw-published-record',
+            loadingComponent: () => import(/* webpackChunkName: 'collection' */'components/ui/FullscreenLoading'),
             component: () => import(/* webpackChunkName: 'record' */'../pages/RawRecord')
-          }),
+          }, { meta: {showCreateRecord: true}}),
           record({
             path: '',
             name: 'published-record',
+            loadingComponent: () => import(/* webpackChunkName: 'collection' */'components/ui/FullscreenLoading'),
             component: () => import(/* webpackChunkName: 'record' */'../pages/Record')
-          })
+          }, { meta: {showCreateRecord: true}}),
         ]
       }
     ]

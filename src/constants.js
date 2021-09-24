@@ -8,6 +8,7 @@ export const loginOptions = {
 
 
 export const PRIMARY_COMMUNITY_FIELD = 'oarepo:primaryCommunity'
+export const DRAFT_FIELD = 'oarepo:draft'
 
 export const DATASETS_COLLECTION_CODE = 'datasets'
 export const DATASETS_DRAFT_COLLECTION_CODE = 'datasets/draft'
@@ -50,6 +51,63 @@ export const TAXONOMY_TERM_DATASET = {
   "title": {
     "cs": "Datov\u00e1 sada",
     "en": "Dataset"
+  }
+}
+
+export const TAXONOMY_TERM_ENGLISH = {
+  "alpha2": "en",
+  "busy_count": 0,
+  "descendants_busy_count": 0,
+  "descendants_count": 0,
+  "level": 1,
+  "links": {
+    "self": "https://127.0.0.1:5000/2.0/taxonomies/languages/eng",
+    "tree": "https://127.0.0.1:5000/2.0/taxonomies/languages/eng?representation:include=dsc"
+  },
+  "slug": "eng",
+  "status": "alive",
+  "title": {
+    "cs": "angličtina",
+    "en": "English"
+  },
+  "data": {
+    "alpha2": "en",
+    "busy_count": 0,
+    "descendants_busy_count": 0,
+    "descendants_count": 0,
+    "level": 1,
+    "links": {
+      "self": "https://127.0.0.1:5000/2.0/taxonomies/languages/eng",
+      "tree": "https://127.0.0.1:5000/2.0/taxonomies/languages/eng?representation:include=dsc"
+    },
+    "slug": "eng",
+    "status": "alive",
+    "title": {
+      "cs": "angličtina",
+      "en": "English"
+    }
+  },
+  "self": "https://127.0.0.1:5000/2.0/taxonomies/languages/eng",
+  "label": "angličtina"
+}
+
+export const TAXONOMY_TERM_RESTRICTED = {
+  "busy_count": 0,
+  "descendants_busy_count": 0,
+  "descendants_count": 0,
+  "level": 1,
+  "links": {
+    "self": "https://127.0.0.1:5000/2.0/taxonomies/accessRights/c-16ec",
+    "tree": "https://127.0.0.1:5000/2.0/taxonomies/accessRights/c-16ec?representation:include=dsc"
+  },
+  "relatedURI": {
+    "coar": "http://purl.org/coar/access_right/c_16ec"
+  },
+  "slug": "c-16ec",
+  "status": "alive",
+  "title": {
+    "cs": "omezen\u00fd p\u0159\u00edstup",
+    "en": "restricted access"
   }
 }
 
@@ -161,10 +219,24 @@ export const CONTRIBUTOR_ROLES = [
 // TODO: migrate to taxonomy terms
 export const AFFILIATIONS = ['CESNET', 'VŠCHT', 'NTK', 'AVČR']
 
+export const DATASET_FORM_STEPS = Object.freeze({
+  BASIC: 'basic',
+  AUTHORS: 'authors',
+  DESCRIPTION: 'description',
+  DATES: 'dates',
+  FUNDING: 'funding',
+  SUBMISSION: 'submission',
+  UPLOAD: 'upload'
+})
+
 export default {
+  DATASET_FORM_STEPS,
+  TAXONOMY_TERM_RESTRICTED,
+  TAXONOMY_TERM_ENGLISH,
   TAXONOMY_TERM_OPENACCESS,
   TAXONOMY_TERM_DATASET,
   PRIMARY_COMMUNITY_FIELD,
+  DRAFT_FIELD,
   DEFAULT_AUTHOR_ITEM,
   DEFAULT_MAIN_TITLE,
   DATASETS_COLLECTION_CODE,
@@ -179,3 +251,4 @@ export default {
   AFFILIATIONS,
   CONTRIBUTOR_ROLES,
 }
+

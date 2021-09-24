@@ -136,13 +136,13 @@ module.exports = configure(function (ctx) {
       components: [
         'QExpansionItem', 'QList', 'QItem', 'QSeparator',
         'QItemSection', 'QBadge', 'QCheckbox', 'QStepper', 'QStep', 'QStepperNavigation',
-        'QInnerLoading',
+        'QInnerLoading', 'QCarousel',
         'QTabs', 'QTab', 'QBtn', 'QChip', 'QTooltip', 'QBtnDropdown', 'QSpinnerDots', 'QCircularProgress', 'QPageSticky'
       ],
       // directives: [],
 
       // Quasar plugins
-      plugins: ['Dialog', 'AddressbarColor', 'Meta', 'BottomSheet', 'Notify']
+      plugins: ['Dialog', 'AddressbarColor', 'Meta', 'BottomSheet', 'Notify', 'Loading']
     },
 
     // animations: 'all', // --- includes all animations

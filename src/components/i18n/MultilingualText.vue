@@ -60,6 +60,7 @@ class MLArray extends Vue {
     const ret = []
     let len = 0
     for (const t of this.t) {
+      if (!t) { continue }
       if (len + t.length > this.shorten) {
         ret.push(t.substring(0, this.shorten - len))
         break

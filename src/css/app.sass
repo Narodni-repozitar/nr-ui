@@ -10,6 +10,24 @@
 .nr
   background-color: $background
 
+  .q-dialog
+    z-index: 9000
+
+  .community-carousel-item
+    border: 1px solid $accent
+
+  .q-editor__toolbar-group:first-child
+    border-left: 2px solid $accent
+    border-bottom: 2px solid $accent
+    margin-right: 2px
+    padding-right: 2px
+    margin-left: 0
+    border-top-left-radius: 3px
+    border-bottom-right-radius: 5px
+
+    .q-btn--dense
+      color: $accent
+
   .community-badge
     top: 100%
     min-height: 2rem
@@ -202,6 +220,9 @@
 
 .inline
   display: inline
+
+.wrap-anywhere
+  word-wrap: anywhere
 
 .bold
   font-weight: 500

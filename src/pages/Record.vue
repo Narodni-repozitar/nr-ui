@@ -14,7 +14,7 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
             v-for="f in m._files"
             :key="f.file_id")
             file-icon(:file="f" size="64px" :title="f.name")
-            p.q-my-sm.text-primary.text-caption {{ f.name }}
+            p.q-my-sm.text-primary.text-caption.wrap-anywhere {{ f.name }}
         label-block.q-mt-lg(label="Trvalý odkaz na tento záznam")
           a.block(:href="record.http.data.links.self" target="_blank") {{ record.http.data.links.self }}
           .text-caption.text-italic TODO: odkaz by mel byt nahrazen DOIckem, pokud existuje
@@ -36,7 +36,7 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
           simple-term.inline(:term="[l]")
           span(v-if="idx < m.language.length-1") ,&nbsp;
       label-block(label="Typ dokumentu")
-        simple-term(:term="m.resourceType")
+        simple-term(:term="[m.resourceType]")
       label-block(label="Identifikátory díla" v-if="m.identifiers?.length")
         separated-list(:list='m.persistentIdentifiers')
           template(v-slot:default="{item}")
@@ -45,10 +45,7 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
               span.identifier-value {{ item.identifier }}
             span.identifier-value(v-else) {{ item.identifier }}
       label-block(label="Klíčová slova")
-        .block.col
-          span(v-for="(kw, idx) in m.keywords" :key="idx")
-            vertical-separator(v-if="idx>0")
-            span {{ kw }}
+        multilingual-chip.q-mr-sm(:multilingual="kw" v-for="(kw, idx) in m.keywords" :key="idx")
       label-block(label="Abstrakt")
         mt-tabs(:text="sanitize(m.abstract) || []")
       label-block(label="Poznámka" v-if="m.notes?.length")
@@ -78,7 +75,7 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
             template(v-if="item.projectName")
               span {{ item.projectName }}
               vertical-separator
-            simple-term(:term="item.funder")
+            simple-term(:term="[item.funder]")
       label-block(label="Práva" v-if="m.rights?.length")
         simple-term(:term="m.rights")
   .row.q-my-xl.full-width.justify-between
@@ -107,6 +104,7 @@ import {useQuasar} from 'quasar'
 import ArticleMetadataDialog from "components/dialogs/ArticleMetadataDialog";
 import useFSM from 'src/composables/useFsm'
 import VerticalSeparator from "components/ui/VerticalSeparator";
+import MultilingualChip from 'components/i18n/MultilingualChip'
 
 export default defineComponent({
   name: 'Record',
@@ -115,6 +113,7 @@ export default defineComponent({
   },
   components: {
     VerticalSeparator,
+    MultilingualChip,
     ActionsSidebar,
     AccessIcon,
     LabelBlock,
@@ -191,9 +190,11 @@ export default defineComponent({
     })
 
     function sanitize(value) {
-      Object.keys(value).map(function (key, index) {
-        value[key] = sanitizeHtml(value[key], {allowedTags: []})
-      })
+      if (value) {
+        Object.keys(value).map(function (key, index) {
+          value[key] = sanitizeHtml(value[key], {allowedTags: []})
+        })
+      }
       return value
     }
 

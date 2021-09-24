@@ -27,6 +27,7 @@ import {defineComponent, ref} from 'vue'
 import ValidateMixin from 'src/mixins/ValidateMixin'
 import TermSelect from 'components/controls/selects/TermSelect'
 import useValidation from "src/composables/useValidation";
+import deepcopy from "deepcopy";
 
 export default defineComponent({
   name: 'LicensesSelect',
@@ -40,13 +41,19 @@ export default defineComponent({
     },
     exclude: Array,
     modelValue: {
-      type: Object,
+      type: [Object, Array],
       default: () => {}
     }
   },
   setup(props, ctx) {
-    const model = ref(props.modelValue)
+    const model = ref({})
     const {error, errorMessage} = useValidation()
+
+    if (Array.isArray(props.modelValue)) {
+      model.value = props.modelValue.filter(t => !t.is_ancestor)[0] || {}
+    } else {
+      model.value = deepcopy(props.modelValue)
+    }
 
     function onChange(event) {
       ctx.emit('update:modelValue', event)

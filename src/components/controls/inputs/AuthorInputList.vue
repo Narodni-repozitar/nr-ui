@@ -18,12 +18,13 @@ q-field.row(
             :label="`${itemLabel} #${idx + 1}`"
             v-model="model[idx]"
             :rules="rules"
+            :split-name="splitName"
             :ref="setInputRef"
             @update:model-value="onChange")
         q-item-section(side)
           q-separator.full-height.q-mr-sm.ti-line-dotted(vertical inset)
-          rm-list-item-btn(:item-label="$t('label.ofAuthor')" @remove="rmItem(idx)")
-    add-list-item-btn(:item-label="$t('label.ofAuthor')" @add="addItem")
+          rm-list-item-btn(:item-label="addItemLabel" @remove="rmItem(idx)")
+    add-list-item-btn(:item-label="addItemLabel" @add="addItem")
 </template>
 
 <script>
@@ -58,6 +59,11 @@ export default {
       type: String,
       default: '',
     },
+    addItemLabel: {
+      type: String,
+      default: ''
+    },
+    splitName: Boolean,
     rules: Array,
     modelValue: {
       type: Array,

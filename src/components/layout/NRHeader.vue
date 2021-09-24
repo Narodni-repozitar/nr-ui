@@ -6,7 +6,7 @@ q-header.bordered-header.bg-color
       product-logo(dense v-if="route.path !== '/'")
     .col-grow
     .row.col-auto.q-gutter-md
-      create-record-btn(v-if="authenticated && currentUserCommunities.length")
+      create-record-btn(v-if="authenticated && currentUserCommunities.length && route.meta.showCreateRecord")
       locale-switcher.self-center.push-right.col-auto.q-mr-sm(hide-hint)
       account-dropdown.float-right.col-auto(dark :authenticated="authenticated")
     .col-lg-2.col-md-1.col-xs-0

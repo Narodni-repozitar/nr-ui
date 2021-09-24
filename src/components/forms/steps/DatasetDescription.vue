@@ -9,12 +9,11 @@
   subject-category-input.col(
     ref="subjectCategories"
     v-model="model.subjectCategories"
-    taxonomy="subjects"
     multiple
     :rules="[required($t('error.validation.required'))]"
     :elasticsearch="false"
     @update:model-value="onChange"
-    :label="$t('label.subjectCategories') + ' *    !!!!TODO: CHANGE TAXONOMY TREE!!!!'")
+    :label="`${$t('label.subjectCategories')} *`")
   //pre.q-pa-md.q-ma-md.bg-dark.text-white.text-code.rounded-borders {{ {subjectCategories:description.subjectCategories} }}
   multilingual-editor.q-ml-none.q-mt-none.col(
     ref="methods"
@@ -34,20 +33,19 @@
     @update:model-value="onChange"
     :label="$t('label.notes')")
   //pre.q-pa-md.q-ma-md.bg-dark.text-white.text-code.rounded-borders {{ {notes:description.notes} }}
-  stepper-nav.q-mt-xl(has-prev @next="onNext" @prev="$emit('prev')")
+  stepper-nav.q-mt-xl(has-prev @next="$emit('next')" @prev="$emit('prev')")
 </template>
 <script>
-import {defineComponent, ref, watch} from 'vue'
+import {defineComponent, ref} from 'vue'
 import useValidation from 'src/composables/useValidation'
-import useNotify from 'src/composables/useNotify'
 import StepperNav from 'components/controls/StepperNav'
 import MultilingualChips from 'components/controls/inputs/MultilingualChips'
 import TermListSelect from 'components/controls/selects/TermListSelect'
 import SubjectCategoryInput from 'components/controls/inputs/SubjectCategoryInput'
 import MultilingualEditor from 'components/controls/inputs/MultilingualEditor'
-import InputList from "components/controls/inputs/InputList";
-import deepcopy from "deepcopy";
-import useModel from "src/composables/useModel";
+import InputList from 'components/controls/inputs/InputList'
+import deepcopy from 'deepcopy'
+import useModel from 'src/composables/useModel'
 
 export default defineComponent({
   name: 'DatasetDescription',
@@ -59,7 +57,7 @@ export default defineComponent({
     TermListSelect,
     SubjectCategoryInput
   },
-  emits: ['update:modelValue', 'next', 'prev'],
+  emits: ['update:modelValue', 'next', 'prev', 'validate'],
   props: {
     modelValue: Object
   },
@@ -68,24 +66,23 @@ export default defineComponent({
 
     const {onChange} = useModel(ctx, model)
     const {required} = useValidation()
-    const {notifyError} = useNotify()
     const keywords = ref(null)
     const subjectCategories = ref(null)
     const methods = ref(null)
     const technicalInfo = ref(null)
     const notes = ref(null)
 
-    const onNext = () => {
+    function validate() {
       const scr = subjectCategories.value.validate()
 
       if (scr !== true) {
-        notifyError('error.validationFail')
+        ctx.emit('validate', false)
       } else {
-        ctx.emit('next')
+        ctx.emit('validate', true)
       }
     }
 
-    return {model, required, keywords, subjectCategories, methods, technicalInfo, notes, onChange, onNext}
+    return {model, required, keywords, subjectCategories, methods, technicalInfo, notes, onChange, validate}
   }
 })
 </script>

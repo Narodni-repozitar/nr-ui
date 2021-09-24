@@ -17,7 +17,7 @@ div.q-pa-md.q-gutter-sm
       ref="tree"
       v-if="dataReady"
       :nodes="data"
-      tick-strategy="leaf"
+      tick-strategy="strict"
       :ticked="selectedValues"
       :default-expand-all="startExpanded"
       node-key="self"

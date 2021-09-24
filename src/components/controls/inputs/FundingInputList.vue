@@ -70,12 +70,10 @@ export default {
     function addItem() {
       resetValidation()
       model.value.push(deepcopy(DEFAULT_FUNDING_ITEM))
-      onChange()
     }
 
     function rmItem() {
       model.value.splice(model.value.length - 1, 1)
-      onChange()
     }
 
     function onFocus() {

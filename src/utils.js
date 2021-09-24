@@ -51,6 +51,10 @@ function termOrArrayChanged (a, b) {
   return arraysDiffer(a, b)
 }
 
+function pathFromUrl(url) {
+  return new URL(url).pathname
+}
+
 export {
-  arraysDiffer, arrayContains, termOrArrayChanged, copyValue
+  arraysDiffer, arrayContains, termOrArrayChanged, copyValue, pathFromUrl
 }
