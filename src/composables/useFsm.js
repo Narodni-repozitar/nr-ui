@@ -5,6 +5,7 @@ import {axios} from 'src/boot/axios'
 import {useRouter} from 'vue-router'
 import useCollection from 'src/composables/useCollection'
 import {useContext} from 'vue-context-composition'
+import useDOIStatus from 'src/composables/useDOIStatus'
 import {community} from 'src/contexts/community'
 
 export default function useFSM(record) {
@@ -12,6 +13,8 @@ export default function useFSM(record) {
   const $q = useQuasar()
   const router = useRouter()
   const {model} = useCollection()
+  const {hasNoDOI} = useDOIStatus(record?.metadata)
+
   const {communityId} = useContext(community)
 
   const changingState = ref(false)
@@ -27,36 +30,73 @@ export default function useFSM(record) {
   })
 
   function makeTransition(transition) {
-    $q.dialog({
-      class: 'bg-primary-dark',
-      dark: true,
-      square: true,
-      title: t('label.actionApprove'),
-      message: `${t('message.doYRlyWnt')} ${transition.actionLabel}?`,
-      cancel: true,
-      persistent: true
-    }).onOk(async () => {
-      const validity = record?.metadata['oarepo:validity']?.valid
-      if (validity !== false || ['request_changes', 'delete_draft'].includes(transition.code)) {
-        _makeTransition(transition, false)
-      } else {
-        $q.dialog({
-          class: 'bg-warning',
-          title: t('label.actionApprove'),
-          message: `${t('message.recordNotValid')}. ${t('message.doYRlyWnt')} ${transition.actionLabel}?`,
-          cancel: true,
-          persistent: true
-        }).onOk(async () => {
-          _makeTransition(transition, true)
+    if (transition.code === 'request_approval' && hasNoDOI.value) {
+      $q.dialog({
+        class: 'bg-primary-dark',
+        dark: true,
+        square: true,
+        title: t('label.actionApprove'),
+        options: {
+          type: 'checkbox',
+          model: [],
+          items: [
+            {label: 'Request DOI', value: true},
+
+          ]
+        },
+        message: `${t('message.doYRlyWnt')} ${transition.actionLabel}?`,
+        cancel: true,
+        persistent: true
+      }).onOk(
+        async (data) => {
+          const validity = record?.metadata['oarepo:validity']?.valid
+          if (validity !== false || ['request_changes', 'delete_draft'].includes(transition.code)) {
+            _makeTransition(transition, false, data[0])
+          } else {
+            $q.dialog({
+              class: 'bg-warning',
+              title: t('label.actionApprove'),
+              message: `${t('message.recordNotValid')}. ${t('message.doYRlyWnt')} ${transition.actionLabel}?`,
+              cancel: true,
+              persistent: true
+            }).onOk(async () => {
+              _makeTransition(transition, true, data[0])
+            })
+          }
         })
-      }
-    })
+    } else {
+      $q.dialog({
+        class: 'bg-primary-dark',
+        dark: true,
+        square: true,
+        title: t('label.actionApprove'),
+        message: `${t('message.doYRlyWnt')} ${transition.actionLabel}?`,
+        cancel: true,
+        persistent: true
+      }).onOk(async () => {
+        const validity = record?.metadata['oarepo:validity']?.valid
+        if (validity !== false || ['request_changes', 'delete_draft'].includes(transition.code)) {
+          _makeTransition(transition, false)
+        } else {
+          $q.dialog({
+            class: 'bg-warning',
+            title: t('label.actionApprove'),
+            message: `${t('message.recordNotValid')}. ${t('message.doYRlyWnt')} ${transition.actionLabel}?`,
+            cancel: true,
+            persistent: true
+          }).onOk(async () => {
+            _makeTransition(transition, true)
+          })
+        }
+      })
+    }
   }
 
-  async function _makeTransition(transition, force) {
+  async function _makeTransition(transition, force, data = null) {
     changingState.value = true
     try {
-      const resp =  await axios.post(transition.url, {force})
+      const resp = await axios.post(transition.url, {force, 'doi_request': data})
+
       if (transition.code === 'approve') {
         console.log(resp)
         await router.replace({

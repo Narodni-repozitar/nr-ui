@@ -2,8 +2,12 @@
 q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
   .q-mt-lg.row
     access-icon(:accessRights="m.accessRights" size="64px")
+
     .title.col
       mt(:text="mainTitle")
+    .col-auto()
+        q-chip.status-chip(v-if="doiRequested")
+          .text-accent.text-overline.text-bold DOI REQUESTED
   .row.q-my-xl
     .col-3.q-pl-md
       .column.full-height.q-pr-lg
@@ -16,8 +20,10 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
             file-icon(:file="f" size="64px" :title="f.name")
             p.q-my-sm.text-primary.text-caption.wrap-anywhere {{ f.name }}
         label-block.q-mt-lg(label="Trvalý odkaz na tento záznam")
-          a.block(:href="record.http.data.links.self" target="_blank") {{ record.http.data.links.self }}
-          .text-caption.text-italic TODO: odkaz by mel byt nahrazen DOIckem, pokud existuje
+          .div(v-if="hasDOI")
+            a.block(:href="doiUrl" target="_blank") {{ doiUrl }}
+          .div(v-if="!hasDOI")
+            a.block(:href="record.http.data.links.self" target="_blank") {{ record.http.data.links.self }}
     .col-9
       label-block(label="Překlad názvu" v-if="Object.keys(mainTitle).length > 1")
         .block.column
@@ -105,6 +111,7 @@ import ArticleMetadataDialog from "components/dialogs/ArticleMetadataDialog";
 import useFSM from 'src/composables/useFsm'
 import VerticalSeparator from "components/ui/VerticalSeparator";
 import MultilingualChip from 'components/i18n/MultilingualChip'
+import useDOIStatus from "src/composables/useDOIStatus";
 
 export default defineComponent({
   name: 'Record',
@@ -127,7 +134,7 @@ export default defineComponent({
     const router = useRouter()
     const {isDatasets} = useCollection()
     const {transitions, makeTransition} = useFSM(props.record)
-
+    const {hasNoDOI, hasDOI, doiRequested, doiUrl} = useDOIStatus(props.record.metadata)
     const m = computed(() => props.record.metadata)
     const year = computed(() => m.value.dateIssued ? m.value.dateIssued.substr(0, 4) : undefined)
 
@@ -139,6 +146,7 @@ export default defineComponent({
     const mainTitle = computed(() => {
       return m.value.titles.filter(t => t.titleType === 'mainTitle')[0].title
     })
+
 
     const EDIT_ACTION = {
       id: 'edit',
@@ -202,7 +210,7 @@ export default defineComponent({
       window.open(`${file.url}?download`, '_blank')
     }
 
-    return {m, year, recordActions, mainTitle, sanitize, download}
+    return {m, year, recordActions, mainTitle, sanitize, download, doiRequested, hasDOI, hasNoDOI, doiUrl}
   }
 })
 </script>
