@@ -49,9 +49,7 @@ export const DEFAULT_VALUE = {
     contributors: [],
   },
   description: {},
-  dates: {
-    dateAvailable: date.formatDate(new Date(), 'YYYY-MM-DD'),
-  },
+  dates: {},
   funding: {
     fundingReferences: [],
   }

@@ -87,6 +87,12 @@ export default defineComponent({
       hide()
     }
 
+    function valueUnselected(value) {
+      selected.value = selected.value.filter(x => {
+        return (x.slug !== value.slug)
+      })
+    }
+
     function onCancelClick() {
       hide()
     }
@@ -100,7 +106,8 @@ export default defineComponent({
       hide,
       onDialogHide,
       onOKClick,
-      onCancelClick
+      onCancelClick,
+      valueUnselected
     }
   }
 })
