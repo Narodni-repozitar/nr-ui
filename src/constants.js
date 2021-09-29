@@ -9,6 +9,7 @@ export const loginOptions = {
 
 export const PRIMARY_COMMUNITY_FIELD = 'oarepo:primaryCommunity'
 export const DRAFT_FIELD = 'oarepo:draft'
+export const STATUS_FIELD = 'oarepo:recordStatus'
 
 export const DATASETS_COLLECTION_CODE = 'datasets'
 export const DATASETS_DRAFT_COLLECTION_CODE = 'datasets/draft'

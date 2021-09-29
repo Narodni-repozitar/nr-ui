@@ -95,7 +95,7 @@ import FileIcon from 'components/icons/FileIcon'
 import LabelBlock from "components/record/LabelBlock"
 import RecordPeople from 'components/list/RecordPeople'
 import sanitizeHtml from 'sanitize-html'
-import {STATE_APPROVED, STATE_PUBLISHED} from 'src/constants'
+import {STATE_APPROVED, STATE_PUBLISHED, STATUS_FIELD} from 'src/constants'
 import {computed, defineComponent} from 'vue'
 import useAuth from 'src/composables/useAuth'
 import {useRouter} from 'vue-router'
@@ -129,11 +129,10 @@ export default defineComponent({
     const {transitions, makeTransition} = useFSM(props.record)
 
     const m = computed(() => props.record.metadata)
-    const year = computed(() => m.value.dateIssued ? m.value.dateIssued.substr(0, 4) : undefined)
 
     const canEdit = computed(() => {
       // TODO: check also if user is record owner or can edit community records
-      return ![STATE_APPROVED, STATE_PUBLISHED].includes(props.record.metadata.state) && authenticated.value
+      return ![STATE_APPROVED, STATE_PUBLISHED].includes(m.value[STATUS_FIELD]) && authenticated.value
     })
 
     const mainTitle = computed(() => {
@@ -202,7 +201,7 @@ export default defineComponent({
       window.open(`${file.url}?download`, '_blank')
     }
 
-    return {m, year, recordActions, mainTitle, sanitize, download}
+    return {m, recordActions, mainTitle, sanitize, download}
   }
 })
 </script>
