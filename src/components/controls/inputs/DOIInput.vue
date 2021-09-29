@@ -48,8 +48,8 @@ export default defineComponent({
       }
       doi.value = doi.value.trim()
 
-      const alreadyAttached = props.dataset.metadata.relatedItems
-          .filter(ri => ri.itemPIDs?.map(pid => pid.identifier).includes(doi.value)).length > 0;
+      const alreadyAttached = props.dataset.metadata.relatedItems?.filter
+        (ri => ri.itemPIDs?.map(pid => pid.identifier).includes(doi.value)).length > 0;
 
       axios.get(`/resolve-article/${doi.value}`, {headers: headers})
           .then((response) => {
