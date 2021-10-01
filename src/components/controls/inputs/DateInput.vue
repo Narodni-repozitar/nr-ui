@@ -83,7 +83,7 @@ export default {
 
     const internalFromModel = computed({
       get: () => {
-        if (props.range && model.value.from !== undefined) {
+        if (props.range && model.value?.from !== undefined && model.value?.from !== null) {
           return model.value.from
         }
         return model.value
@@ -97,7 +97,7 @@ export default {
 
     const internalToModel = computed({
       get: () => {
-        if (props.range && model.value.to !== undefined) {
+        if (props.range && model.value?.to !== undefined && model.value?.to !== null) {
           return model.value.to
         }
         return model.value
@@ -110,7 +110,7 @@ export default {
     })
 
     const externalModel = computed(() => {
-      if (props.range && model.value.from && model.value.to) {
+      if (props.range && model.value?.from && model.value?.to) {
         return `${model.value.from}/${model.value.to}`
       }
       return model.value
