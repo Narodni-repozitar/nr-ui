@@ -26,6 +26,8 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height(padding)
       template(#fallback)
         circular-spinner(:message="$t('message.loading')")
   fullscreen-loading(v-if="!metadata" :message="$t('message.loading')")
+  q-page-sticky(position="top-right" :offset="[18, 18]")
+    q-btn(icon="close"  outline color="accent" :label="$t('action.close')" @click="$router.back()")
 </template>
 <script>
 import {computed, defineComponent, defineAsyncComponent, ref, shallowRef} from 'vue'
@@ -46,6 +48,7 @@ import FullscreenLoading from "components/ui/FullscreenLoading";
 
 export default defineComponent({
   name: 'EditForm',
+  emits: ['save'],
   components: {
     FullscreenLoading,
     DatasetForm: defineAsyncComponent(() => import('components/forms/DatasetForm')),

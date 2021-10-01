@@ -7,13 +7,6 @@ q-input.search-box.full-width(
     q-icon(name="search")
   template(v-slot:append)
     cancel-button(v-if="model" @click="clear" size="md")
-    q-checkbox.z-top.text-overline(
-      size="md"
-      v-model="fullText"
-      @update:model-value="onFullTextToggle"
-      keep-color
-      color="secondary"
-      :label="$t('label.fullText')")
 </template>
 
 <script>
@@ -55,10 +48,10 @@ export default defineComponent({
         query.q = val
       }
     })
-
-    function onFullTextToggle () {
-      ctx.emit('fulltext', fullText)
-    }
+    //
+    // function onFullTextToggle () {
+    //   ctx.emit('fulltext', fullText)
+    // }
 
     function onEnter() {
       if (props.route) {
@@ -84,7 +77,7 @@ export default defineComponent({
       fullText,
       onEnter,
       clear,
-      onFullTextToggle,
+      // onFullTextToggle,
       input
     }
   }

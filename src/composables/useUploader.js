@@ -42,16 +42,16 @@ export default function useUploader(url) {
     }
 
     // eslint-disable-next-line no-unused-vars
-    function prepareUploadPart(file, {key, uploadId, number}) {
+    function prepareUploadParts(file, {key, uploadId, partNumbers}) {
         const filename = encodeURIComponent(file.name)
-        return axios.get(`${url}/${filename}/${uploadId}/${number}/presigned`)
+        return axios.get(`${url}/${filename}/${uploadId}/${partNumbers.join(',')}/presigned`)
             .then((res) => {
                 if (res && res.error) {
                     const error = new Error(res.message)
                     Object.assign(error, res.error)
                     throw error
                 }
-                return {url: res.data.url}
+                return {presignedUrls: {...res.data.presignedUrls}}
             })
     }
 
@@ -110,10 +110,10 @@ export default function useUploader(url) {
         locale: langPack
     }))
     uppy.value.use(AwsS3Multipart, {
-        limit: 4,
+        limit: 10,
         getChunkSize: getChunkSize,
         createMultipartUpload: createMultipartUpload,
-        prepareUploadPart: prepareUploadPart,
+        prepareUploadParts: prepareUploadParts,
         abortMultipartUpload: abortMultipartUpload,
         completeMultipartUpload: completeMultipartUpload,
         listParts: listParts
