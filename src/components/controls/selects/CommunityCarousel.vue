@@ -19,8 +19,8 @@ q-carousel.full-width.rounded-borders.bg-grey-3(
       q-item.community-carousel-item.col-2(
         v-for="c in slide" :key="c.id"
         clickable
-        @click="effectiveCommunity.id !== c.id? setCommunity(c.id) : setCommunity()"
-        :active="c.id === effectiveCommunity.id"
+        @click="currentCommunity?.id !== c.id? setCommunity(c.id) : setCommunity()"
+        :active="c.id === currentCommunity?.id"
         active-class="bg-accent text-white")
         q-item-section.text-subtitle2 {{ c.title }}
         q-item-section.text-caption {{ c.metadata.description }}
@@ -29,7 +29,6 @@ q-carousel.full-width.rounded-borders.bg-grey-3(
 <script>
 import useAuth from 'src/composables/useAuth'
 import {computed, ref} from 'vue'
-import {useI18n} from 'vue-i18n'
 import {useContext} from 'vue-context-composition'
 import {community} from 'src/contexts/community'
 
@@ -42,9 +41,8 @@ export default {
     },
   },
   setup(props) {
-    const {t} = useI18n()
-    const {setCommunity} = useContext(community)
-    const {effectiveCommunity, currentUserCommunities} = useAuth()
+    const {setCommunity, currentCommunity} = useContext(community)
+    const {currentUserCommunities} = useAuth()
 
     const model = ref(0)
 
@@ -62,7 +60,7 @@ export default {
       }, [])
     })
 
-    return {effectiveCommunity, slides, model, setCommunity, community}
+    return {currentCommunity, slides, model, setCommunity}
   }
   }
 </script>
