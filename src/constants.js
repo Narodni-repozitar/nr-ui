@@ -10,6 +10,7 @@ export const loginOptions = {
 export const PRIMARY_COMMUNITY_FIELD = 'oarepo:primaryCommunity'
 export const DRAFT_FIELD = 'oarepo:draft'
 export const STATUS_FIELD = 'oarepo:recordStatus'
+export const OWNER_FIELD = 'oarepo:ownedBy'
 
 export const DATASETS_COLLECTION_CODE = 'datasets'
 export const DATASETS_DRAFT_COLLECTION_CODE = 'datasets/draft'
@@ -238,6 +239,7 @@ export default {
   TAXONOMY_TERM_DATASET,
   PRIMARY_COMMUNITY_FIELD,
   DRAFT_FIELD,
+  OWNER_FIELD,
   DEFAULT_AUTHOR_ITEM,
   DEFAULT_MAIN_TITLE,
   DATASETS_COLLECTION_CODE,

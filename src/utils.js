@@ -55,6 +55,14 @@ function pathFromUrl(url) {
   return new URL(url).pathname
 }
 
+function parseCommunityRole(role) {
+  const {prefix, communityId, roleName}= role.id.split(':')
+  if (prefix !== 'community') {
+    return undefined
+  }
+  return {prefix: prefix, communityId: communityId, roleName: roleName}
+}
+
 export {
-  arraysDiffer, arrayContains, termOrArrayChanged, copyValue, pathFromUrl
+  arraysDiffer, arrayContains, termOrArrayChanged, copyValue, pathFromUrl, parseCommunityRole
 }

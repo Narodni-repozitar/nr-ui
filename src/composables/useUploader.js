@@ -44,7 +44,7 @@ export default function useUploader(url) {
     // eslint-disable-next-line no-unused-vars
     function prepareUploadParts(file, {key, uploadId, partNumbers}) {
         const filename = encodeURIComponent(file.name)
-        return axios.get(`${url}/${filename}/${uploadId}/${partNumbers.join(',')}/presigned`)
+        return axios.get(`${url}/${filename}/${uploadId}/${encodeURIComponent(partNumbers.join(','))}/presigned`)
             .then((res) => {
                 if (res && res.error) {
                     const error = new Error(res.message)

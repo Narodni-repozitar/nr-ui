@@ -95,16 +95,14 @@ import FileIcon from 'components/icons/FileIcon'
 import LabelBlock from "components/record/LabelBlock"
 import RecordPeople from 'components/list/RecordPeople'
 import sanitizeHtml from 'sanitize-html'
-import {STATE_APPROVED, STATE_PUBLISHED, STATUS_FIELD} from 'src/constants'
 import {computed, defineComponent} from 'vue'
-import useAuth from 'src/composables/useAuth'
 import {useRouter} from 'vue-router'
-import useCollection from 'src/composables/useCollection'
 import {useQuasar} from 'quasar'
 import ArticleMetadataDialog from "components/dialogs/ArticleMetadataDialog";
 import useFSM from 'src/composables/useFsm'
 import VerticalSeparator from "components/ui/VerticalSeparator";
 import MultilingualChip from 'components/i18n/MultilingualChip'
+import usePermissions from "src/composables/usePermissions";
 
 export default defineComponent({
   name: 'Record',
@@ -122,18 +120,12 @@ export default defineComponent({
     FileIcon
   },
   setup(props) {
-    const $q = useQuasar()
-    const {authenticated} = useAuth()
-    const router = useRouter()
-    const {isDatasets} = useCollection()
-    const {transitions, makeTransition} = useFSM(props.record)
-
     const m = computed(() => props.record.metadata)
 
-    const canEdit = computed(() => {
-      // TODO: check also if user is record owner or can edit community records
-      return ![STATE_APPROVED, STATE_PUBLISHED].includes(m.value[STATUS_FIELD]) && authenticated.value
-    })
+    const $q = useQuasar()
+    const {canEditRecord, canAttachArticle} = usePermissions(m.value)
+    const router = useRouter()
+    const {transitions, makeTransition} = useFSM(props.record)
 
     const mainTitle = computed(() => {
       return m.value.titles.filter(t => t.titleType === 'mainTitle')[0].title
@@ -146,14 +138,14 @@ export default defineComponent({
       func: () => {
         router.push({name: 'edit-record'})
       },
-      can: () => canEdit.value
+      can: () => canEditRecord.value
     }
 
     const ATTACH_ARTICLE = {
       id: 'attach_article',
       label: 'action.attachArticle',
       icon: 'link',
-      can: () => canEdit.value && isDatasets.value,
+      can: () => canAttachArticle.value,
       func: () => {
         $q.dialog({
           component: ArticleMetadataDialog,
@@ -179,7 +171,7 @@ export default defineComponent({
         transitions.value.forEach(t => {
           res.push({
             id: t.code,
-            can: () => true, // transitions available are already filtered for current record/user
+            can: () => true, // transitions available are already filtered for current record/user by API
             func: () => makeTransition(t),
             ...t
           })
