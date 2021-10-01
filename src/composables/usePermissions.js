@@ -5,11 +5,10 @@ import {STATE_EDITING} from "src/constants";
 
 export default function usePermissions(record) {
   const {isDatasets} = useCollection()
-  const {needEditableState, needOwner, needRole, needState} = useNeeds(record)
+  const {needEditableState, needOwner, needRole, needStates} = useNeeds(record)
 
   const canEditRecord = computed(() => {
-    console.log(needEditableState.value, needOwner.value, canEditCommunityRecords.value)
-    return needEditableState.value && (needOwner.value && needState(STATE_EDITING)) // TODO: || canEditCommunityRecords.value)
+    return needEditableState.value && (needOwner.value && (needStates([STATE_EDITING, undefined]))) // TODO: || canEditCommunityRecords.value)
   })
 
   const canEditCommunityRecords = computed(() => {

@@ -6,11 +6,15 @@ export default function useNeeds(record) {
   const {authenticated, currentUser, currentUserRoles} = useAuth()
 
   const needEditableState = computed(() => {
-    return [STATE_EDITING, STATE_PENDING_APPROVAL, undefined].includes(record[STATUS_FIELD])
+    return needStates([STATE_EDITING, STATE_PENDING_APPROVAL, undefined])
   })
 
   function needState(state) {
     return record[STATUS_FIELD] === state
+  }
+
+  function needStates(states) {
+    return states.includes(record[STATUS_FIELD])
   }
 
   const needOwner = computed(() => {
@@ -26,5 +30,5 @@ export default function useNeeds(record) {
     // }).length
   }
 
-  return {needEditableState, needOwner, needRole, needState}
+  return {needEditableState, needOwner, needRole, needStates, needState}
 }

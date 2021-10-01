@@ -18,6 +18,8 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
         label-block.q-mt-lg(label="Trvalý odkaz na tento záznam")
           a.block(:href="record.http.data.links.self" target="_blank") {{ record.http.data.links.self }}
           .text-caption.text-italic TODO: odkaz by mel byt nahrazen DOIckem, pokud existuje
+        label-block.block.q-mt-lg(label="Stav záznamu")
+          p {{ !m[STATUS_FIELD]? 'draft': m[STATUS_FIELD] }}
     .col-9
       label-block(label="Překlad názvu" v-if="Object.keys(mainTitle).length > 1")
         .block.column
@@ -103,6 +105,7 @@ import useFSM from 'src/composables/useFsm'
 import VerticalSeparator from "components/ui/VerticalSeparator";
 import MultilingualChip from 'components/i18n/MultilingualChip'
 import usePermissions from "src/composables/usePermissions";
+import {STATUS_FIELD} from "src/constants";
 
 export default defineComponent({
   name: 'Record',
@@ -193,7 +196,7 @@ export default defineComponent({
       window.open(`${file.url}?download`, '_blank')
     }
 
-    return {m, recordActions, mainTitle, sanitize, download}
+    return {m, recordActions, mainTitle, sanitize, download, STATUS_FIELD}
   }
 })
 </script>
