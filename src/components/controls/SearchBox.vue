@@ -1,23 +1,20 @@
 <template lang="pug">
-q-input.full-width(
-  color="primary" outlined square :dense='dense' v-model="model"
-  debounce="500" @keyup.enter='onEnter' ref="input"
-  autofocus placeholder="Hledat ...")
-
+q-input.search-box.full-width(
+  color="primary" outlined square :dense='dense' bg-color="transparent-grey" v-model="model"
+  debounce="500" @change="onEnter" @keyup.enter="onEnter" ref="input"
+  autofocus :placeholder="`${$t('action.search')}…`")
   template(v-slot:prepend)
     q-icon(name="search")
-
   template(v-slot:append)
     cancel-button(v-if="model" @click="clear" size="md")
-
 </template>
 
 <script>
 import {defineComponent, ref, watch} from "vue";
 import {useQuery} from "@oarepo/vue-query-synchronizer";
 import deepcopy from "deepcopy";
-import CancelButton from './CancelButton.vue'
-import {useRouter} from "vue-router";
+import CancelButton from 'components/controls/buttons/CancelButton'
+import {useRouter} from 'vue-router'
 
 export default defineComponent({
   name: 'SearchBox',
@@ -32,12 +29,13 @@ export default defineComponent({
   components: {
     CancelButton
   },
-  emits: ['update:modelValue'],
+  emits: ['update:modelValue', 'fulltext'],
   setup(props, ctx) {
     const query = useQuery()
     const model = ref(props.modelValue || query.q)
     const input = ref()
     const router = useRouter()
+    const fullText = ref(true)
 
     watch(() => props.modelValue, () => {
       if (props.modelValue !== model.value) {
@@ -50,6 +48,10 @@ export default defineComponent({
         query.q = val
       }
     })
+    //
+    // function onFullTextToggle () {
+    //   ctx.emit('fulltext', fullText)
+    // }
 
     function onEnter() {
       if (props.route) {
@@ -72,10 +74,16 @@ export default defineComponent({
 
     return {
       model,
+      fullText,
       onEnter,
       clear,
+      // onFullTextToggle,
       input
     }
   }
 })
 </script>
+<style lang="sass">
+.nr .q-field--outlined .q-field__control::before
+  background-color: $transparent-grey
+</style>

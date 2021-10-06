@@ -19,7 +19,7 @@
 
 <script>
 import {computed, defineComponent, ref, watch} from "vue";
-import CancelButton from 'src/components/controls/CancelButton.vue'
+import CancelButton from 'src/components/controls/buttons/CancelButton.vue'
 
 export default defineComponent({
   name: 'SelectedFacets',

@@ -18,11 +18,11 @@ function certs() {
     return {
       key: fs.readFileSync(`${homedir}/.ssh/dev/server-key.pem`),
       cert: fs.readFileSync(`${homedir}/.ssh/dev/server.pem`),
-      ca: fs.readFileSync(`${homedir}/.ssh/dev/ca.pem`),
+      cacert: fs.readFileSync(`${homedir}/.ssh/dev/ca.pem`),
     }
   } catch {
     console.warn('Using auto-generated certificates')
-    return {}
+    return false
   }
 }
 
@@ -41,8 +41,10 @@ module.exports = configure(function (ctx) {
     boot: [
       'i18n',
       'axios',
+      'login',
       'invenio',
-      'common-components'
+      'addressbar-color',
+      'common-components',
     ],
 
     // https://v2.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
@@ -98,19 +100,19 @@ module.exports = configure(function (ctx) {
 
     // Full list of options: https://v2.quasar.dev/quasar-cli/quasar-conf-js#Property%3A-devServer
     devServer: {
-      ...certs(),
-      https: true,
-      port: 8080,
+      https: certs() || true,
+      port: 5000,
       open: false, // opens browser window automatically
       proxy: {
         '/': {
-          target: 'https://127.0.0.1:5000/',
+          target: 'https://127.0.0.1:8080/',
           changeOrigin: false,
           secure: false,
           debug: true,
           bypass: function (req, res, proxyOptions) {
             if (req.headers.accept.indexOf('html') !== -1 &&
               !req.path.startsWith('/oauth') &&
+              !req.path.startsWith('/2.0') &&
               !req.path.startsWith('/api/oauth')) { // TODO: check query here
               console.log('Skipping proxy for browser request.', req.path)
               return '/index.html'
@@ -132,14 +134,15 @@ module.exports = configure(function (ctx) {
       // you can manually specify Quasar components/directives to be available everywhere:
       //
       components: [
-        'QExpansionItem', 'QList', 'QItem',
-        'QItemSection', 'QBadge', 'QCheckbox',
-        'QTabs', 'QTab', 'QBtn', 'QChip', 'QTooltip'
+        'QExpansionItem', 'QList', 'QItem', 'QSeparator',
+        'QItemSection', 'QBadge', 'QCheckbox', 'QStepper', 'QStep', 'QStepperNavigation',
+        'QInnerLoading', 'QCarousel',
+        'QTabs', 'QTab', 'QBtn', 'QChip', 'QTooltip', 'QBtnDropdown', 'QSpinnerDots', 'QCircularProgress', 'QPageSticky'
       ],
       // directives: [],
 
       // Quasar plugins
-      plugins: ['Dialog']
+      plugins: ['Dialog', 'AddressbarColor', 'Meta', 'BottomSheet', 'Notify', 'Loading']
     },
 
     // animations: 'all', // --- includes all animations

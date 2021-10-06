@@ -1,9 +1,10 @@
-import VueQuerySynchronizer from "@oarepo/vue-query-synchronizer";
+import VueQuerySynchronizer from '@oarepo/vue-query-synchronizer'
 import InvenioApi from '@oarepo/invenio-vue'
 import QuasarESFacets from '@oarepo/quasar-es-facets'
+import {boot} from 'quasar/wrappers'
 
 
-export default ({app, router}) => {
+export default boot(({app, router}) => {
   app
     .use(VueQuerySynchronizer, {
       router,
@@ -11,4 +12,4 @@ export default ({app, router}) => {
     })
     .use(InvenioApi)
     .use(QuasarESFacets)
-}
+})

@@ -1,5 +1,9 @@
 <template lang="pug">
-div.collection-page
+div.collection-page.q-mt-xl
+  .row.no-padding.no-margin
+    .text-subtitle1 Dostupné komunity
+  .row.q-py-md
+    community-carousel
   .row.items-stretch
     search-header.col-8(:collection="collection")
     selected-facets.col-4(:activeFacets="activeFacets")
@@ -11,26 +15,25 @@ div.collection-page
   .row
     .col-8
       q-separator(color="secondary")
-  .row.q-py-lg.q-pl-lg
+  .row.q-py-lg.q-pl-md
     .col-8
-      URLPagination.q-mt-md(:pages="collection.pages")
+      URLPagination(:pages="collection.pages")
     .col-4.row.justify-end
       q-btn(stack icon="svguse:/icons.svg#arrow-up"
         label="Zpět nahoru" color="primary" flat no-caps dense
-        @click="scrollToTop"
-        )
+        @click="scrollToTop")
 </template>
-
 <script>
-import {Options, Vue} from 'vue-class-component'
+import CollectionFacets from 'src/components/list/CollectionFacets'
+import RecordList from 'src/components/list/RecordList'
+import SearchHeader from 'src/components/list/SearchHeader'
+import SelectedFacets from 'src/components/list/SelectedFacets'
+import URLPagination from 'src/components/controls/URLPagination'
+import {defineComponent, onMounted, ref} from 'vue'
+import {useRouter} from 'vue-router'
+import CommunityCarousel from 'components/controls/selects/CommunityCarousel'
 
-import CollectionFacets from 'src/components/list/CollectionFacets';
-import RecordList from 'src/components/list/RecordList';
-import SearchHeader from 'src/components/list/SearchHeader';
-import SelectedFacets from 'src/components/list/SelectedFacets';
-import URLPagination from 'src/components/controls/URLPagination';
-
-export default @Options({
+export default defineComponent({
   name: 'Collection',
   props: {
     collection: Object
@@ -40,32 +43,37 @@ export default @Options({
     RecordList,
     SearchHeader,
     SelectedFacets,
-    URLPagination
+    URLPagination,
+    CommunityCarousel
+  },
+  setup() {
+    const fullText = ref(true)
+    const searchField = ref('')
+    const drawer = ref(null)
+    const activeFacets = ref(null)
+
+    const router = useRouter()
+
+    function search() {
+      router.push({
+        path: '/all',
+        query: {q: searchField.value}
+      })
+    }
+
+    function scrollToTop() {
+      window.scrollTo(0, 0);
+    }
+
+    onMounted(() => {
+      setTimeout(() => {
+        drawer.value = '#facets-drawer'
+      })
+    })
+
+    return {fullText, searchField, drawer, activeFacets, search, scrollToTop}
   }
 })
-class Collection extends Vue {
-  fullText = true
-  searchField = ''
-  drawer = null
-  activeFacets = null
-
-  search() {
-    this.$router.push({
-      path: '/all',
-      query: {q: this.searchField}
-    })
-  }
-
-  scrollToTop() {
-    window.scrollTo(0,0);
-  }
-
-  mounted() {
-    setTimeout(() => {
-      this.drawer = '#facets-drawer'
-    })
-  }
-}
 </script>
 
 <style scoped lang="sass">

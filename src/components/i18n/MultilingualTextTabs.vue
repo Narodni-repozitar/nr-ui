@@ -6,7 +6,7 @@ q-tabs.bold.inline.multilingual-text-tabs(v-model='selectedTab' align="left"
   )
     .row
       q-separator(v-if='idx>0' vertical color="secondary" size="2px")
-      span.q-px-md {{ tab.language }}
+      span.q-px-md.text-lowercase {{ $t(`value.lang.${tab.language}`) }}
 q-tab-panels.bg-transparent.multilingual-text-tab-content(v-model="selectedTab" animated)
   q-tab-panel(v-for='(tab, idx) in langTexts'
     :key='tab.language' :name='tab.language')

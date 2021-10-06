@@ -3,12 +3,75 @@
     .q-checkbox__bg
       background-color: rgb(35, 210, 110, 0.5)
 
+
+.transparent-grey
+  background-color: $transparent-grey
+
 .nr
   background-color: $background
 
+  .q-dialog
+    z-index: 9000
+
+  .community-carousel-item
+    border: 1px solid $accent
+
+  .q-editor__toolbar-group:first-child
+    border-left: 2px solid $accent
+    border-bottom: 2px solid $accent
+    margin-right: 2px
+    padding-right: 2px
+    margin-left: 0
+    border-top-left-radius: 3px
+    border-bottom-right-radius: 5px
+
+    .q-btn--dense
+      color: $accent
+
+  .community-badge
+    top: 100%
+    min-height: 2rem
+    width: max-content
+
+  .q-editor
+    border: 1px solid rgb(35, 210, 110)
+
+  .q-tree__node--disabled
+    text-decoration: line-through
+    text-decoration-color: $negative
+
+  .q-tree__node--selected .q-tree__node-header-content
+    color: $primary
+    font-weight: bold
+
+  .q-field--error
+    border-right: 3px solid $negative
+    border-radius: 6px
+    padding-right: 1rem
+
+  .q-field--highlighted
+    .q-field__inner
+      background-color: lighten($primary, 50%)
+
   .q-field--outlined .q-field__control:before
     border-color: $secondary
-    background-color: $control-background-color
+    //background-color: $control-background-color
+
+  .q-field .no-label-float--float
+    &--float .q-field__label
+      transform: unset !important
+
+  .q-field--dense.q-field--float .q-field__label
+    transform: translateY(-30%) scale(0.75) !important
+
+  .q-field--with-bottom
+    padding-bottom: 10px
+
+  .q-field--auto-height.q-field--dense.q-field--labeled .q-field__control-container
+    padding-bottom: 7px
+
+  .q-field__bottom
+    padding-top: 5px
 
   .darker
     color: $darker
@@ -33,8 +96,12 @@
     margin: 0px 5px 0px 1px
 
   .nr-header
+    min-height: 97px
     font-size: 120%
     margin-bottom: 10px
+
+  .nr-footer
+    border-top: 15px solid rgba(0, 0, 0, 0.05)
 
   .min-window-height
     min-height: calc(100vh - 40px)
@@ -54,6 +121,10 @@
 
   .search-header
     font-size: 16px
+
+  .q-card--bordered
+    border-color: $secondary
+    border-width: 1px
 
   .paginator
     font-size: $paginator-font-size
@@ -150,6 +221,9 @@
 .inline
   display: inline
 
+.wrap-anywhere
+  word-wrap: anywhere
+
 .bold
   font-weight: 500
 
@@ -159,3 +233,12 @@ a
 
 a:visited
   color: $primary
+
+.bg-primary-dark
+  background-color: darken($primary, 13%)
+
+.bg-primary-transparent
+  background-color: rgb($primary, 0.8)
+
+.bg-primary-dark-transparent
+  background-color: rgb(darken($primary, 13%), 0.8)

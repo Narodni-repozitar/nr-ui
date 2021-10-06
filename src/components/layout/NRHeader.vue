@@ -1,19 +1,37 @@
 <template lang="pug">
-q-header.row.bordered-header.bg-color
-  .col-lg-2.col-md-1.col-xs-0
-  .col
-    .row.justify-between
-      .q-mx-md.q-my-xs
-        router-link(to="/")
-          img(src='../../assets/logo_nr.png').nr-logo
-      .q-mx-md.q-my-xs
-        h4.text-h4.text-secondary.q-mb-none.q.pb-none ENGLISH
-  .col-lg-2.col-md-1.col-xs-0
+q-header.bordered-header.bg-color
+  q-toolbar.nr-header.row.justify-between.items-center
+    .col-lg-2.col-md-1.col-xs-0
+    router-link.col-auto(to="/")
+      product-logo(dense v-if="route.path !== '/'")
+    .col-grow
+    .row.col-auto.q-gutter-md
+      create-record-btn(v-if="authenticated && currentUserCommunities.length && route.meta.showCreateRecord")
+      locale-switcher.self-center.push-right.col-auto.q-mr-sm(hide-hint)
+      account-dropdown.float-right.col-auto(dark :authenticated="authenticated")
+    .col-lg-2.col-md-1.col-xs-0
+  community-select.absolute-bottom.absolute-center(v-if="authenticated && route.meta.communitySelect")
 </template>
 <script>
-export default {
-  name: 'NRHeader'
-}
+import {defineComponent} from 'vue'
+import {useRoute} from 'vue-router'
+import useAuth from 'src/composables/useAuth'
+import AccountDropdown from 'components/account/AccountDropdown'
+import LocaleSwitcher from 'components/i18n/LocaleSwitcher'
+import ProductLogo from 'components/ui/ProductLogo'
+import CreateRecordBtn from 'components/controls/buttons/CreateRecordBtn'
+import CommunitySelect from 'components/controls/selects/CommunitySelect'
+
+export default defineComponent({
+  name: 'NRHeader',
+  components: {CommunitySelect, ProductLogo, LocaleSwitcher, AccountDropdown, CreateRecordBtn},
+  setup () {
+    const { authenticated, currentUserCommunities, effectiveCommunity } = useAuth()
+    const route = useRoute()
+
+    return { authenticated, currentUserCommunities, effectiveCommunity, route }
+  }
+})
 </script>
 
 <style scoped lang="sass">
