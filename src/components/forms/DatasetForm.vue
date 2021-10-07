@@ -30,8 +30,7 @@ q-stepper.full-width(
 
 <script>
 import {computed, defineComponent, ref, watch} from 'vue'
-import {DATASET_FORM_STEPS, DEFAULT_AUTHOR_ITEM, DEFAULT_MAIN_TITLE, TAXONOMY_TERM_ENGLISH} from 'src/constants'
-import {date} from 'quasar'
+import {DATASET_FORM_STEPS, DEFAULT_AUTHOR_ITEM, DEFAULT_MAIN_TITLE} from 'src/constants'
 import deepcopy from 'deepcopy'
 import {useI18n} from 'vue-i18n'
 import {pathFromUrl} from "src/utils";
@@ -41,7 +40,7 @@ export const DEFAULT_VALUE = {
   basic: {
     titles: [DEFAULT_MAIN_TITLE],
     abstract: {},
-    language: [TAXONOMY_TERM_ENGLISH],
+    language: [],
     rights: {},
   },
   authors: {

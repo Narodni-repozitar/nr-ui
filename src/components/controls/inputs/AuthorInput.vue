@@ -31,14 +31,14 @@ q-field.no-margin.no-label-float.row(
         :label="`${$t('label.givenName')} *`"
         @update:model-value="onPersonNameChange")
       base-input.q-ml-sm.q-pa-none.col-grow(
-          v-if="isPerson && !splitName"
-          autogrow
-          autofocus
-          ref="fullName"
-          v-model="model.fullName"
-          :rules="[required($t('error.validation.required'))]"
-          :label="`${$t('label.name')} ${$t('label.ofAuthor')} *`"
-          @update:model-value="onChange")
+        v-if="isPerson && !splitName"
+        autogrow
+        autofocus
+        ref="fullName"
+        v-model="model.fullName"
+        :rules="[required($t('error.validation.required'))]"
+        :label="`${$t('label.name')} ${$t('label.ofAuthor')} *`"
+        @update:model-value="onChange")
       .col-grow.q-ml-sm(v-if="isOrg")
         term-select.q-pa-none(
           autofocus
