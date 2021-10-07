@@ -83,7 +83,12 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
   .row.q-my-xl.full-width.justify-between
     .col-auto.column.items-start.q-mb-xl
       //q-btn.col-auto(flat color="primary" icon="arrow_back" label="Předchozí záznam")
-      q-btn.col-auto(flat color="primary" icon="arrow_back" label="Zpět na výsledky vyhledávání" @click="$router.back()")
+      q-btn.col-auto(
+        flat
+        color="primary"
+        icon="arrow_back"
+        :label="$t('label.backToCollection')"
+        @click="navigateToCollection()")
     .col-auto.column.items-end.text-left
       //q-btn(flat color="primary" icon-right="arrow_forward" label="Další záznam")
   actions-sidebar(:actions="recordActions")
@@ -105,7 +110,7 @@ import useFSM from 'src/composables/useFsm'
 import VerticalSeparator from "components/ui/VerticalSeparator";
 import MultilingualChip from 'components/i18n/MultilingualChip'
 import usePermissions from "src/composables/usePermissions";
-import {STATUS_FIELD} from "src/constants";
+import {PRIMARY_COMMUNITY_FIELD, STATUS_FIELD} from "src/constants";
 
 export default defineComponent({
   name: 'Record',
@@ -183,6 +188,16 @@ export default defineComponent({
       return res.filter(act => act.can() === true)
     })
 
+    function navigateToCollection () {
+      const route = {
+        name: 'community-datasets',
+        params: {
+          communityId: m.value[PRIMARY_COMMUNITY_FIELD]
+        }
+      }
+      return router.push(route)
+    }
+
     function sanitize(value) {
       if (value) {
         Object.keys(value).map(function (key, index) {
@@ -196,7 +211,7 @@ export default defineComponent({
       window.open(`${file.url}?download`, '_blank')
     }
 
-    return {m, recordActions, mainTitle, sanitize, download, STATUS_FIELD}
+    return {m, recordActions, mainTitle, sanitize, download, STATUS_FIELD, navigateToCollection}
   }
 })
 </script>
