@@ -19,7 +19,7 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
           a.block(:href="record.http.data.links.self" target="_blank") {{ record.http.data.links.self }}
           .text-caption.text-italic TODO: odkaz by mel byt nahrazen DOIckem, pokud existuje
         label-block.block.q-mt-lg(label="Stav záznamu")
-          p {{ !m[STATUS_FIELD]? 'draft': m[STATUS_FIELD] }}
+          p {{ !m[STATUS_FIELD]? $t('value.facet.editing'): $t(`value.facet.${m[STATUS_FIELD]}`) }}
     .col-9
       label-block(label="Překlad názvu" v-if="Object.keys(mainTitle).length > 1")
         .block.column

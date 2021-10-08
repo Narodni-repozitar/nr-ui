@@ -279,6 +279,13 @@
   },
   "src/i18n": "",
   "value": {
+    "facet": {
+      "undefined": "Draft",
+      "editing": "Draft",
+      "pending-approval": "Waiting for approval",
+      "approved": "Approved",
+      "published": "Published"
+    },
     "unknown": "unknown",
     "titleType": {
       "subtitle": "Subtitle",
