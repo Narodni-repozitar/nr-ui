@@ -86,7 +86,7 @@ export default defineComponent({
       return value
     }
 
-    return {m, recordLink, year, sanitize}
+    return {m, recordLink, year, sanitize, STATUS_FIELD}
   }
 })
 </script>
