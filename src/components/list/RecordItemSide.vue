@@ -1,11 +1,11 @@
 <template lang="pug">
-q-item-section.justify-start.items-center(avatar)
-  access-icon.col-auto.self-start.block(:accessRights="m.accessRights" size="64px")
-  .col-auto.text-center.items-center.justify-center.column(v-if="m._files && m._files.length")
+q-item-section.justify-start-important.items-center(avatar)
+  access-icon.col-auto.self-start.block(:accessRights="accessRights" size="64px")
+  .col-auto.text-center.items-center.justify-center.column(v-if="files && files.length")
     q-icon.col-auto(color="primary" name="attachment" size="lg")
-    span {{ m._files.length }} x
+    span {{ files.length }} x
     q-tooltip {{ $t('label.filesCount') }}
-  rights-icon.q-my-md.col-auto.self-end.block(v-if="m.rights" :rights="m.rights" size="64px")
+  rights-icon.q-my-md.col-auto.self-end.block(v-if="rights" :rights="rights" size="64px")
 </template>
 <style lang="sass">
 </style>
@@ -23,7 +23,12 @@ import {useI18n} from "vue-i18n";
 export default defineComponent({
   name: 'RecordItemSide',
   props: {
-    record: Object
+    accessRights: {
+      type: Array,
+      required: true
+    },
+    rights: Array,
+    files: Array
   },
   components: {
     MultilingualChip,

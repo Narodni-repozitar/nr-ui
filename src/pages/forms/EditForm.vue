@@ -18,6 +18,7 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height(padding)
     suspense
       template(#default)
         dataset-form.col.q-pr-md(
+          ref="form"
           v-if="metadata"
           v-model="metadata"
           mode="edit"
@@ -27,7 +28,9 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height(padding)
         circular-spinner(:message="$t('message.loading')")
   fullscreen-loading(v-if="!metadata" :message="$t('message.loading')")
   q-page-sticky(position="top-right" :offset="[18, 18]")
-    q-btn(icon="close"  outline color="accent" :label="$t('action.close')" @click="$router.back()")
+    .column.q-gutter-sm
+      q-btn.col-auto(icon="save" outline color="positive" :label="$t('label.forms.saveChanges')" @click="saveChanges")
+      q-btn.col-auto(icon="close"  outline color="accent" :label="$t('action.close')" @click="$router.back()")
 </template>
 <script>
 import {computed, defineComponent, defineAsyncComponent, ref, shallowRef} from 'vue'
@@ -48,21 +51,19 @@ import FullscreenLoading from "components/ui/FullscreenLoading";
 
 export default defineComponent({
   name: 'EditForm',
-  emits: ['save'],
   components: {
     FullscreenLoading,
     DatasetForm: defineAsyncComponent(() => import('components/forms/DatasetForm')),
     CircularSpinner},
   setup() {
+    const form = ref(null)
     const {t} = useI18n()
     const route = useRoute()
     const record = ref(null)
     const recordApi = route.path.substring(0, route.path.indexOf('/edit'))
     const {metadata} = useInvenioRecord(recordApi, {loadInitial: true})
     record.value = useInvenioRecord(recordApi, {loadInitial: true})
-    const submitUrl = computed(() => {
-      return record.value?.http?.data?.links.self
-    })
+
     const formSteps = shallowRef([
       {
         id: DATASET_FORM_STEPS.BASIC,
@@ -109,11 +110,15 @@ export default defineComponent({
       }
     })
 
+    function saveChanges() {
+      form.value.saveChanges()
+    }
+
     useMeta(() => {
       return {title: header.value ? `${header.value.title} ${metadata.value ? metadata.value.InvenioID : ''}` : ''}
     })
 
-    return {header, record, metadata, formSteps}
+    return {header, form, record, metadata, formSteps, saveChanges}
   }
 })
 </script>

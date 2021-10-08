@@ -22,8 +22,10 @@ q-carousel.full-width.rounded-borders.bg-grey-3(
         @click="currentCommunity?.id !== c.id? setCommunity(c.id) : setCommunity()"
         :active="c.id === currentCommunity?.id"
         active-class="bg-accent text-white")
-        q-item-section.text-subtitle2 {{ c.title }}
-        q-item-section.text-caption {{ c.metadata.description }}
+        q-item-section.justify-between.items-start
+          .col-auto.row.text-subtitle1.text-weight-bold {{ c.title }}
+          q-separator.full-width(inset spaced)
+          .col-auto.text-caption.text-justify {{ c.metadata.description }}
 </template>
 
 <script>
