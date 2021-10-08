@@ -87,7 +87,7 @@ export default function useRecord(record) {
   })
 
   const recordStatus = computed(() => {
-    return !m[STATUS_FIELD] ? t('value.facet.editing') : t(`value.facet.${m[STATUS_FIELD]}`)
+    return !m.value[STATUS_FIELD] ? t('value.facet.editing') : t(`value.facet.${m.value[STATUS_FIELD]}`)
   })
 
   const publicationYear = computed(() => {
