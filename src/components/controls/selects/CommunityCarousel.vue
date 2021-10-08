@@ -24,7 +24,7 @@ q-carousel.full-width.rounded-borders.bg-grey-3(
         active-class="bg-accent text-white")
         q-item-section.justify-between.items-start
           .col-auto.row.text-subtitle1.text-weight-bold {{ c.title }}
-          q-separator.full-width(inset spaced)
+          q-separator.q-my-xs.full-width(inset)
           .col-auto.text-caption.text-justify {{ c.metadata.description }}
 </template>
 
