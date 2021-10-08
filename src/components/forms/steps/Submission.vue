@@ -69,7 +69,7 @@
     @prev="$emit('prev')"
     @retry="retry")
   q-inner-loading(:showing="submitting")
-    circular-spinner(:message="$t('message.submitting')")
+    circular-spinner(:message="$t(mode === 'create'? 'message.submitting': 'message.savingChanges')")
   .text-body2.col.q-ml-sm(v-if="!failed")
     q-icon.q-pr-sm.q-py-sm(v-if="mode === 'create'" size="sm" :color="!hasErrors? 'info': 'negative'" :name="!hasErrors? 'info': 'warning'")
     span.text-caption(v-if="!hasErrors && mode === 'create'") {{ $t('message.submissionInfo') }}

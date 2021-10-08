@@ -178,6 +178,10 @@ export default defineComponent({
       router.push(pathFromUrl(val.links.self))
     }
 
+    function saveChanges() {
+      step.value = DATASET_FORM_STEPS.SUBMISSION
+    }
+
     return {
       stepper,
       model,
@@ -194,6 +198,7 @@ export default defineComponent({
       onCreated,
       onSaved,
       onStepValidate,
+      saveChanges,
       DATASET_FORM_STEPS
     }
   }

@@ -1,15 +1,24 @@
 <template lang="pug">
-q-tabs.bold.inline.multilingual-text-tabs(v-model='selectedTab' align="left"
-  active-color="secondary" no-caps indicator-color="transparent")
-  q-tab.q-px-none(v-for='(tab, idx) in langTexts'
-    :key='tab.language' :name='tab.language'
-  )
-    .row
+q-tabs.bold.inline.multilingual-text-tabs.items-baseline(
+  v-model='selectedTab'
+  align="left"
+  active-color="secondary"
+  no-caps
+  dense
+  outside-arrows
+  indicator-color="transparent")
+  q-tab.q-px-none(
+    v-for='(tab, idx) in langTexts'
+    :key='tab.language'
+    :name='tab.language')
+    .row.no-padding
       q-separator(v-if='idx>0' vertical color="secondary" size="2px")
       span.q-px-md.text-lowercase {{ $t(`value.lang.${tab.language}`) }}
 q-tab-panels.bg-transparent.multilingual-text-tab-content(v-model="selectedTab" animated)
-  q-tab-panel(v-for='(tab, idx) in langTexts'
-    :key='tab.language' :name='tab.language')
+  q-tab-panel(
+    v-for='(tab, idx) in langTexts'
+    :key='tab.language'
+    :name='tab.language')
     div(v-for="a in tab.texts")
       span {{ a }}
 </template>

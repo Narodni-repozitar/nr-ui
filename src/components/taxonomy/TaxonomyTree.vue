@@ -7,6 +7,8 @@ div.q-pa-md.q-gutter-sm
     q-input.col-grow.q-ml-lg.print-hide(
       v-model="filter"
       autofocus
+      debounce="500"
+      @change="search"
       dense
       @keyup.enter="search()")
       template(v-slot:append)

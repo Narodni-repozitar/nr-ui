@@ -1,7 +1,7 @@
 <template lang="pug">
 q-input.search-box.full-width(
   color="primary" outlined square :dense='dense' bg-color="transparent-grey" v-model="model"
-  debounce="500" @change="onEnter" @keyup.enter="onEnter" ref="input"
+  debounce="500" @input="onEnter" @keyup.enter="onEnter" ref="input"
   autofocus :placeholder="`${$t('action.search')}…`")
   template(v-slot:prepend)
     q-icon(name="search")

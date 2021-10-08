@@ -1,3 +1,5 @@
+import sanitizeHtml from "sanitize-html";
+
 function arraysDiffer (a, b) {
   if (a.length !== b.length) {
     return true
@@ -63,6 +65,15 @@ function parseCommunityRole(role) {
   return {prefix: prefix, communityId: communityId, roleName: roleName}
 }
 
+function sanitize (value) {
+  if (value) {
+    Object.keys(value).map(function (key, index) {
+      value[key] = sanitizeHtml(value[key], {allowedTags: []})
+    })
+  }
+  return value
+}
+
 export {
-  arraysDiffer, arrayContains, termOrArrayChanged, copyValue, pathFromUrl, parseCommunityRole
+  arraysDiffer, arrayContains, termOrArrayChanged, copyValue, pathFromUrl, parseCommunityRole, sanitize
 }
