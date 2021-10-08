@@ -286,8 +286,11 @@
   "src/i18n": "",
   "value": {
     "facet": {
-      "editing": "Rozpracováno",
-      "pending-approval": "Čeká na schválení"
+      "undefined": "Draft",
+      "editing": "Draft",
+      "pending-approval": "Čeká na schválení",
+      "approved": "Schválený",
+      "published": "Veřejný"
     },
     "unknown": "neznámý",
     "titleType": {

@@ -1,5 +1,6 @@
 <template lang="pug">
 q-item.record.q-py-lg.text-dark(:to="recordLink")
+  q-badge.q-ma-sm.q-px-sm(rounded floating) {{ !m[STATUS_FIELD]? $t('value.facet.editing'): $t(`value.facet.${m[STATUS_FIELD]}`) }}
   q-item-section.justify-start-important(avatar)
     .column.full-height
       access-icon.col-auto.self-start.block(:accessRights="m.accessRights" size="64px")
@@ -26,7 +27,7 @@ q-item.record.q-py-lg.text-dark(:to="recordLink")
         simple-term(:term="m.resourceType" :levels="1")
     .keywords.q-mt-sm
       multilingual-chip.q-mr-sm(:multilingual="kw" v-for="(kw, idx) in m.keywords" :key="idx")
-    mt.abstract.q-pr-md(:text="sanitizeHtml(m.abstract)" :shorten="500")
+    mt.abstract.q-pr-md(:text="sanitize(m.abstract)" :shorten="500")
 </template>
 <style lang="sass">
 .collection-item
@@ -34,16 +35,17 @@ q-item.record.q-py-lg.text-dark(:to="recordLink")
   min-height: 100px
 </style>
 <script>
-import {Options, Vue} from 'vue-class-component'
 import AccessIcon from 'components/icons/AccessIcon'
 import RightsIcon from 'components/icons/RightsIcon'
 import RecordPeople from './RecordPeople'
 import {date} from 'quasar'
 import sanitizeHtml from 'sanitize-html'
 import MultilingualChip from 'components/i18n/MultilingualChip'
-import {DATASETS_COLLECTION_CODE, DRAFT_FIELD, PRIMARY_COMMUNITY_FIELD} from 'src/constants'
+import {DATASETS_COLLECTION_CODE, DRAFT_FIELD, PRIMARY_COMMUNITY_FIELD, STATUS_FIELD} from 'src/constants'
+import {computed, defineComponent} from "vue";
+import {useI18n} from "vue-i18n";
 
-export default @Options({
+export default defineComponent({
   name: 'ListRecord',
   props: {
     record: Object
@@ -53,36 +55,38 @@ export default @Options({
     AccessIcon,
     RightsIcon,
     RecordPeople
+  },
+  setup (props) {
+    const {t} = useI18n()
+    const m = computed(() => {
+      return props.record?.metadata || {}
+    })
+
+    const recordLink = computed(() => {
+      return {
+        name: m.value[DRAFT_FIELD] ? 'record' : 'published-record',
+        params: {
+          communityId: m.value[PRIMARY_COMMUNITY_FIELD],
+          model: DATASETS_COLLECTION_CODE,
+          recordId: m.value.InvenioID
+        }
+      }
+    })
+
+    const year = computed(() => {
+      return m.value.dateAvailable ? date.extractDate(m.value.dateAvailable, 'YYYY-MM-DD').getFullYear() : t('value.unknown')
+    })
+
+    function sanitize (value) {
+      if (value) {
+        Object.keys(value).map(function (key, index) {
+          value[key] = sanitizeHtml(value[key], {allowedTags: []})
+        })
+      }
+      return value
+    }
+
+    return {m, recordLink, year, sanitize}
   }
 })
-class ListRecord extends Vue {
-  get m() {
-    return this.record?.metadata || {}
-  }
-
-  get recordLink() {
-    // TODO: fix and use record.links.ui for draft records
-    return {
-      name: this.m[DRAFT_FIELD] ? 'record' : 'published-record',
-      params: {
-        communityId: this.m[PRIMARY_COMMUNITY_FIELD],
-        model: DATASETS_COLLECTION_CODE,
-        recordId: this.m.InvenioID
-      }
-    }
-  }
-
-  get year() {
-    return this.m.dateAvailable ? date.extractDate(this.m.dateAvailable, 'YYYY-MM-DD').getFullYear() : this.$t('value.unknown')
-  }
-
-  sanitizeHtml(value) {
-    if (value) {
-      Object.keys(value).map(function (key, index) {
-        value[key] = sanitizeHtml(value[key], {allowedTags: []})
-      })
-    }
-    return value
-  }
-}
 </script>
