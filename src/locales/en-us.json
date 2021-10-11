@@ -286,6 +286,14 @@
       "approved": "Approved",
       "published": "Published"
     },
+    "sort": {
+      "alphabetical": "alphabetical",
+      "byName":  "by name",
+      "byRelevance": "by relevance",
+      "byDateAvailable": "by date of publication",
+      "descending":  "descending",
+      "ascending": "ascending"
+    },
     "unknown": "unknown",
     "titleType": {
       "subtitle": "Subtitle",

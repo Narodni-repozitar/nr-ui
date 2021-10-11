@@ -131,7 +131,7 @@
     "actions": "Akce",
     "addFiles": "Nahrát přílohy",
     "addIdentifier": "Přidat identifikátor",
-    "affiliations": "Afilace",
+    "affiliations": "Afiliace",
     "articleMetadata": "Metadata článku",
     "author": "Autor",
     "authorType": "Typ",
@@ -291,6 +291,14 @@
       "pending-approval": "Čeká na schválení",
       "approved": "Schválený",
       "published": "Veřejný"
+    },
+    "sort": {
+      "alphabetical": "abecedně",
+      "byName":  "dle názvu",
+      "byRelevance": "dle relevance",
+      "byDateAvailable": "dle data zveřejnění",
+      "descending":  "sestupně",
+      "ascending": "vzestupně"
     },
     "unknown": "neznámý",
     "titleType": {
