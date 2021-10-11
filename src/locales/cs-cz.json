@@ -77,7 +77,8 @@
     "fileNote": "Zadejte popis obsahu nebo poznámky k souboru",
     "localeSwitcher": "Zadejte kód jazyka ve formátu ISO 639-2/B",
     "primaryCommunity": "Vyberte primární komunitu / skupinu do které bude záznam patřit",
-    "publicationDate": "Pokud byl váš upload již publikován jinde, použijte datum prvního zveřejnění. Formát: RRRR-MM-DD, RRRR-MM nebo RRRR. "
+    "publicationDate": "Pokud byl váš upload již publikován jinde, použijte datum prvního zveřejnění. Formát: RRRR-MM-DD, RRRR-MM nebo RRRR. ",
+    "DOIExample": "Zadejte hodnotu DOI. Příklad: 10.5281/zenodo.5547272"
   },
   "icon": {
     "approve": "verified",
@@ -91,6 +92,7 @@
   "label": {
     "title": "Název",
     "resourceType": "Typ záznamu",
+    "articleURL": "URL článku",
     "accessRights": "Dostupnost",
     "chooseCommunity": "Vyberte komunitu",
     "fileNote": "Poznámka k souboru",
@@ -137,7 +139,7 @@
     "authorType": "Typ",
     "authors": "Autoři",
     "back": "Zpět",
-    "backToCollection": "Zpět na výsledky vyhledávání",
+    "backToCollection": "Zpět na výpis",
     "chooseLocale": "Vyberte prosím jazyk",
     "community": "Komunita",
     "contact": "Kontaktujte nás",
@@ -286,11 +288,8 @@
   "src/i18n": "",
   "value": {
     "facet": {
-      "undefined": "Draft",
-      "editing": "Draft",
-      "pending-approval": "Čeká na schválení",
-      "approved": "Schválený",
-      "published": "Veřejný"
+      "editing": "Rozpracováno",
+      "pending-approval": "Čeká na schválení"
     },
     "unknown": "neznámý",
     "titleType": {
@@ -315,35 +314,27 @@
       "ISNI": "ISNI"
     },
     "lang": {
-      "cs": "čeština",
-      "cs-cz": "čeština",
-      "en": "angličtina",
-      "en-us": "angličtina",
-      "sk": "slovenština",
-      "de": "němčina",
-      "fr": "francouzština",
-      "ru": "ruština",
-      "es": "španělština",
-      "nl": "nizozemština",
-      "it": "italština",
-      "pl": "polština",
-      "no": "norština",
-      "uk": "ukrajinština",
-      "pt": "portugalština",
-      "da": "dánština",
-      "bg": "bulharština",
-      "el": "řečtina",
-      "hu": "maďarština",
-      "lt": "litevština",
-      "sr": "srbština",
-      "hr": "chorvatština",
-      "sv": "švédština",
-      "ro": "rumunština",
-      "sl": "slovinština",
-      "be": "běloruština",
-      "la": "latina",
-      "cu": "staroslověnština",
-      "sg": "sango"
+      "cs": "Česky",
+      "cs-cz": "Česky",
+      "en": "Anglicky",
+      "en-us": "Anglicky",
+      "sk": "Slovak",
+      "de": "German",
+      "fr": "French",
+      "ru": "Russian",
+      "es": "Spanish",
+      "nl": "Dutch",
+      "it": "Italian",
+      "no": "Norwegian",
+      "pl": "Polish",
+      "da": "Danish",
+      "el": "Greek",
+      "hu": "Hungarian",
+      "lt": "Lithuanian",
+      "pt": "Portuguese",
+      "bg": "Bulgarian",
+      "ro": "Romanian",
+      "sv": "Swedish"
     }
   }
 }

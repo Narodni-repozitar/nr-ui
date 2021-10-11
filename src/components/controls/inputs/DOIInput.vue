@@ -2,6 +2,7 @@
 q-input(v-model="doi"
   autofocus
   :label="$t('label.enterArticleDOI')"
+  :hint="$t('hint.DOIExample')"
   :error="doiError"
   :error-message="$t('message.resolveDOIError')"
   @input="doiError=false")
@@ -12,7 +13,6 @@ import {defineComponent, ref, watch} from 'vue'
 import {useQuasar} from 'quasar'
 import {useI18n} from 'vue-i18n'
 import {axios} from 'src/boot/axios'
-
 export default defineComponent({
   emits: ['exists', 'resolve', 'invalid'],
   props: {
@@ -49,7 +49,7 @@ export default defineComponent({
       doi.value = doi.value.trim()
 
       const alreadyAttached = props.dataset.metadata.relatedItems?.filter
-        (ri => ri.itemPIDs?.map(pid => pid.identifier).includes(doi.value)).length > 0;
+      (ri => ri.itemPIDs?.map(pid => pid.identifier).includes(doi.value)).length > 0;
 
       axios.get(`/resolve-article/${doi.value}`, {headers: headers})
           .then((response) => {
@@ -75,3 +75,4 @@ export default defineComponent({
   }
 })
 </script>
+
