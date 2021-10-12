@@ -297,6 +297,7 @@
       "byName":  "dle názvu",
       "byRelevance": "dle relevance",
       "byDateAvailable": "dle data zveřejnění",
+      "byRecordStatus": "dle stavu záznamu",
       "descending":  "sestupně",
       "ascending": "vzestupně"
     },

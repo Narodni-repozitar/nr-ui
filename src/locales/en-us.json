@@ -291,6 +291,7 @@
       "byName":  "by name",
       "byRelevance": "by relevance",
       "byDateAvailable": "by date of publication",
+      "byRecordStatus": "by record status",
       "descending":  "descending",
       "ascending": "ascending"
     },
