@@ -21,9 +21,11 @@ import {Options, Vue} from 'vue-class-component'
 import SearchBox from 'src/components/controls/SearchBox'
 import URLPagination from 'src/components/controls/URLPagination'
 import BaseSelect from "components/controls/selects/BaseSelect";
+import {computed, defineComponent, ref} from "vue";
+import {useI18n} from "vue-i18n";
 
 
-export default @Options({
+export default defineComponent({
   name: 'SearchHeader',
   components: {
     SearchBox,
@@ -32,21 +34,42 @@ export default @Options({
   },
   props: {
     collection: Object
+  },
+  setup() {
+    const {t} = useI18n()
+
+    const orderingOptions = computed(() => {
+      return [
+        {
+          label: `${t('value.sort.alphabetical')} - ${t('value.sort.byName')} (${t('value.sort.descending')})`,
+          value: '-by_titles'
+        },
+        {
+          label: `${t('value.sort.alphabetical')} - ${t('value.sort.byName')} (${t('value.sort.ascending')})`,
+          value: 'by_titles'
+        },
+        {
+          label: `${t('value.sort.byRelevance')}`,
+          value: 'by_relevance'
+        },
+        {
+          label: `${t('value.sort.byDateAvailable')} (${t('value.sort.ascending')})`,
+          value: 'by_available'
+        },
+        {
+          label: `${t('value.sort.byDateAvailable')} (${t('value.sort.descending')})`,
+          value: '-by_available'
+        },
+        {
+          label: `${t('value.sort.byRecordStatus')}`,
+          value: 'by_record_status_asc'
+        },
+      ]
+    })
+
+    const pageSizeOptions = ref([10, 20, 50, 100, 500])
+
+    return {orderingOptions, pageSizeOptions}
   }
 })
-class SearchHeader extends Vue {
-
-  get orderingOptions() {
-    return [
-      {
-        label: 'Abecední dle názvu',
-        value: 'alphabetical'
-      },
-    ]
-  }
-
-  get pageSizeOptions() {
-    return [10, 20, 50, 100, 500]
-  }
-}
 </script>
