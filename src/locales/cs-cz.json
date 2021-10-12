@@ -312,8 +312,8 @@
       "published": "publikováno"
     },
     "authorType": {
-      "organizational": "organizace",
-      "personal": "osoba"
+      "Organizational": "organizace",
+      "Personal": "osoba"
     },
     "idScheme": {
       "orcid" : "ORCID",

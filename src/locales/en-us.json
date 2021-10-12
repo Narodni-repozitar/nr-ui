@@ -132,7 +132,7 @@
     "affiliations": "Affiliations",
     "articleMetadata": "Article metadata",
     "author": "Author",
-    "authorType": "Contributor Type",
+    "authorType": "Type",
     "authors": "Authors",
     "back": "Back",
     "ofAuthor": "author",
@@ -302,8 +302,8 @@
       "other": "Other name"
     },
     "authorType": {
-      "organizational": "Organization",
-      "personal": "Person"
+      "Organizational": "Organization",
+      "Personal": "Person"
     },
     "idScheme": {
       "orcid" : "ORCID",

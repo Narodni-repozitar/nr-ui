@@ -155,7 +155,7 @@ export default {
     })
 
     const fullNameLabel = computed(() => {
-      return `${t('label.name')} ${t('value.authorType.organizational')} *`
+      return `${t('label.name')} ${t('value.authorType.Organizational')} *`
     })
 
     function onPersonNameChange() {
