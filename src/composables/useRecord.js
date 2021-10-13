@@ -38,8 +38,8 @@ export default function useRecord(record) {
         component: ArticleMetadataDialog,
         // Pass current dataset object to dialog
         componentProps: {
-          dataset: props.record.http.data,
-          datasetLinks: props.record.http.data.links
+          dataset: record?.http?.data,
+          datasetLinks: record?.http?.data?.links
         }
       }).onOk(async () => {
       }).onCancel(() => {
