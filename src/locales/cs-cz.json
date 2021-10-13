@@ -21,6 +21,7 @@
     "altLogin": "Přejít na alternativní přihlášení",
     "approve": "schválit záznam",
     "attachArticle": "Připojit článek",
+    "removeArticles": "Odebrat články",
     "choose": "Vyberte",
     "close": "Zavřít",
     "decline": "Nesouhlasím",
@@ -78,7 +79,8 @@
     "localeSwitcher": "Zadejte kód jazyka ve formátu ISO 639-2/B",
     "primaryCommunity": "Vyberte primární komunitu / skupinu do které bude záznam patřit",
     "publicationDate": "Pokud byl váš upload již publikován jinde, použijte datum prvního zveřejnění. Formát: RRRR-MM-DD, RRRR-MM nebo RRRR. ",
-    "DOIExample": "Zadejte hodnotu DOI. Příklad: 10.5281/zenodo.5547272"
+    "DOIExample": "Zadejte hodnotu DOI. Příklad: 10.5281/zenodo.5547272",
+    "removeArticles": "Vyberte články, které chcete odebrat"
   },
   "icon": {
     "approve": "verified",
@@ -131,9 +133,10 @@
     "abstract": "Abstrakt",
     "actionApprove": "Odsouhlasení akce",
     "actions": "Akce",
+    "toRemoveArticles" : "odebrat zvolené články",
     "addFiles": "Nahrát přílohy",
     "addIdentifier": "Přidat identifikátor",
-    "affiliations": "Afiliace",
+    "affiliations": "Afilace",
     "articleMetadata": "Metadata článku",
     "author": "Autor",
     "authorType": "Typ",
@@ -291,15 +294,6 @@
       "editing": "Rozpracováno",
       "pending-approval": "Čeká na schválení"
     },
-    "sort": {
-      "alphabetical": "abecedně",
-      "byName":  "dle názvu",
-      "byRelevance": "dle relevance",
-      "byDateAvailable": "dle data zveřejnění",
-      "byRecordStatus": "dle stavu záznamu",
-      "descending":  "sestupně",
-      "ascending": "vzestupně"
-    },
     "unknown": "neznámý",
     "titleType": {
       "subtitle": "Podnázev",
@@ -311,8 +305,8 @@
       "published": "publikováno"
     },
     "authorType": {
-      "Organizational": "organizace",
-      "Personal": "osoba"
+      "organizational": "organizace",
+      "personal": "osoba"
     },
     "idScheme": {
       "orcid" : "ORCID",

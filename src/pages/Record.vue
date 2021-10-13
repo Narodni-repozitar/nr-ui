@@ -1,25 +1,29 @@
 <template lang="pug">
 q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
   .q-mt-lg.row
-    access-icon(:accessRights="accessRights" size="64px")
+    access-icon(:accessRights="m.accessRights" size="64px")
+
     .title.col
       mt(:text="mainTitle")
+    .col-auto()
+      q-chip.status-chip(v-if="doiRequested")
+        .text-accent.text-overline.text-bold DOI REQUESTED
   .row.q-my-xl
     .col-3.q-pl-md
       .column.full-height.q-pr-lg
-        rights-icon.q-mb-md.col-auto.self-start.block(v-if="rights" :rights="rights" size="128px")
+        rights-icon.q-mb-md.col-auto.self-start.block(v-if="m.rights" :rights="m.rights" size="128px")
         label-block.column.full-width.q-mt-lg(label="Soubory")
           .col-auto.text-left.self-start.column.q-mt-lg.cursor-pointer(
             @click="download(f)"
-            v-for="f in files"
+            v-for="f in m._files"
             :key="f.file_id")
             file-icon(:file="f" size="64px" :title="f.name")
             p.q-my-sm.text-primary.text-caption.wrap-anywhere {{ f.name }}
         label-block.q-mt-lg(label="Trvalý odkaz na tento záznam")
-          a.block(:href="selfLink" target="_blank") {{ selfLink }}
-          .text-caption.text-italic TODO: odkaz by mel byt nahrazen DOIckem, pokud existuje
-        label-block.block.q-mt-lg(label="Stav záznamu")
-          p {{ recordStatus }}
+          .div(v-if="hasDOI")
+            a.block(:href="doiUrl" target="_blank") {{ doiUrl }}
+          .div(v-if="!hasDOI")
+            a.block(:href="record.http.data.links.self" target="_blank") {{ record.http.data.links.self }}
     .col-9
       label-block(label="Překlad názvu" v-if="Object.keys(mainTitle).length > 1")
         .block.column
@@ -38,7 +42,7 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
           simple-term.inline(:term="[l]")
           span(v-if="idx < m.language.length-1") ,&nbsp;
       label-block(label="Typ dokumentu")
-        simple-term(:term="m.resourceType")
+        simple-term(:term="[m.resourceType]")
       label-block(label="Identifikátory díla" v-if="m.identifiers?.length")
         separated-list(:list='m.persistentIdentifiers')
           template(v-slot:default="{item}")
@@ -76,17 +80,14 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
               span {{ item.projectName }}
               vertical-separator
             simple-term(:term="[item.funder]")
-      label-block(label="Práva" v-if="rights?.length")
-        simple-term(:levels="1" :term="rights")
+      label-block(label="Práva" v-if="m.rights?.length")
+        simple-term(:term="m.rights")
   .row.q-my-xl.full-width.justify-between
     .col-auto.column.items-start.q-mb-xl
-      q-btn.col-auto(
-        flat
-        color="primary"
-        icon="arrow_back"
-        :label="$t('label.backToCollection')"
-        @click="navigateToCollection()")
+      //q-btn.col-auto(flat color="primary" icon="arrow_back" label="Předchozí záznam")
+      q-btn.col-auto(flat color="primary" icon="arrow_back" label="Zpět na výsledky vyhledávání" @click="$router.back()")
     .col-auto.column.items-end.text-left
+      //q-btn(flat color="primary" icon-right="arrow_forward" label="Další záznam")
   actions-sidebar(:actions="recordActions")
 </template>
 
@@ -97,13 +98,19 @@ import RightsIcon from "components/icons/RightsIcon"
 import FileIcon from 'components/icons/FileIcon'
 import LabelBlock from "components/record/LabelBlock"
 import RecordPeople from 'components/list/RecordPeople'
-import {defineComponent} from 'vue'
+import sanitizeHtml from 'sanitize-html'
+import {STATE_APPROVED, STATE_PUBLISHED} from 'src/constants'
+import {computed, defineComponent} from 'vue'
+import useAuth from 'src/composables/useAuth'
 import {useRouter} from 'vue-router'
+import useCollection from 'src/composables/useCollection'
+import {useQuasar} from 'quasar'
+import ArticleMetadataDialog from "components/dialogs/ArticleMetadataDialog";
+import useFSM from 'src/composables/useFsm'
 import VerticalSeparator from "components/ui/VerticalSeparator";
 import MultilingualChip from 'components/i18n/MultilingualChip'
-import {PRIMARY_COMMUNITY_FIELD} from "src/constants";
-import useRecord from "src/composables/useRecord";
-import {sanitize} from "src/utils";
+import useDOIStatus from "src/composables/useDOIStatus";
+import RemoveArticleDialog from "components/dialogs/RemoveArticleDialog";
 
 export default defineComponent({
   name: 'Record',
@@ -121,36 +128,108 @@ export default defineComponent({
     FileIcon
   },
   setup(props) {
-    const {m, mainTitle, recordStatus, selfLink, recordActions, rights, accessRights, files} = useRecord(props.record)
+    const $q = useQuasar()
+    const {authenticated} = useAuth()
     const router = useRouter()
+    const {isDatasets} = useCollection()
+    const {transitions, makeTransition} = useFSM(props.record)
+    const {hasNoDOI, hasDOI, doiRequested, doiUrl} = useDOIStatus(props.record.metadata)
+    const m = computed(() => props.record.metadata)
+    const year = computed(() => m.value.dateIssued ? m.value.dateIssued.substr(0, 4) : undefined)
 
-    function navigateToCollection() {
-      const route = {
-        name: 'community-datasets',
-        params: {
-          communityId: m.value[PRIMARY_COMMUNITY_FIELD]
-        }
+    const canEdit = computed(() => {
+      // TODO: check also if user is record owner or can edit community records
+      return ![STATE_APPROVED, STATE_PUBLISHED].includes(props.record.metadata.state) && authenticated.value
+    })
+
+    const mainTitle = computed(() => {
+      return m.value.titles.filter(t => t.titleType === 'mainTitle')[0].title
+    })
+
+
+    const EDIT_ACTION = {
+      id: 'edit',
+      label: 'action.edit',
+      icon: 'edit',
+      func: () => {
+        router.push({name: 'edit-record'})
+      },
+      can: () => canEdit.value
+    }
+
+    const ATTACH_ARTICLE = {
+      id: 'attach_article',
+      label: 'action.attachArticle',
+      icon: 'link',
+      can: () => canEdit.value && isDatasets.value,
+      func: () => {
+        $q.dialog({
+          component: ArticleMetadataDialog,
+          // Pass current dataset object to dialog
+          componentProps: {
+            dataset: props.record.http.data,
+            datasetLinks: props.record.http.data.links
+          }
+        }).onOk(async () => {
+        }).onCancel(() => {
+        }).onDismiss(() => {
+        })
       }
-      return router.push(route)
+    }
+
+    const REMOVE_ARTICLE = {
+      id: 'remove_article',
+      label: 'action.removeArticles',
+      icon: 'remove',
+      can: () => canEdit.value && isDatasets.value && m.value.relatedItems?.length > 0,
+      func: () => {
+        $q.dialog({
+          component: RemoveArticleDialog,
+          // Pass current dataset object to dialog
+          componentProps: {
+            dataset: props.record.http.data,
+            datasetLinks: props.record.http.data.links
+          }
+        }).onOk(async () => {
+        }).onCancel(() => {
+        }).onDismiss(() => {
+        })
+      }
+    }
+    const recordActions = computed(() => {
+      const res = [
+        EDIT_ACTION,
+        ATTACH_ARTICLE,
+        REMOVE_ARTICLE
+      ]
+
+      if (transitions.value.length) {
+        transitions.value.forEach(t => {
+          res.push({
+            id: t.code,
+            can: () => true, // transitions available are already filtered for current record/user
+            func: () => makeTransition(t),
+            ...t
+          })
+        })
+      }
+      return res.filter(act => act.can() === true)
+    })
+
+    function sanitize(value) {
+      if (value) {
+        Object.keys(value).map(function (key, index) {
+          value[key] = sanitizeHtml(value[key], {allowedTags: []})
+        })
+      }
+      return value
     }
 
     function download(file) {
       window.open(`${file.url}?download`, '_blank')
     }
 
-    return {
-      m,
-      recordActions,
-      mainTitle,
-      recordStatus,
-      selfLink,
-      rights,
-      accessRights,
-      files,
-      sanitize,
-      download,
-      navigateToCollection
-    }
+    return {m, year, recordActions, mainTitle, sanitize, download, doiRequested, hasDOI, hasNoDOI, doiUrl}
   }
 })
 </script>

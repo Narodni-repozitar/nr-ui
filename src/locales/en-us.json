@@ -22,6 +22,7 @@
     "altLogin": "Try alternative Log In",
     "approve": "approve record",
     "attachArticle": "Attach Article",
+    "removeArticles": "Remove articles",
     "choose": "Choose",
     "close": "Close",
     "decline": "Decline",
@@ -79,7 +80,8 @@
     "localeSwitcher": "Language code in ISO 639-2 format",
     "primaryCommunity": "Choose a primary community / group to which the record will belong to",
     "publicationDate": "In case your upload was already published elsewhere, please use the date of the first publication. Format: YYYY-MM-DD, YYYY-MM, or YYYY.",
-    "DOIExample": "Enter value of DOI. Example: 10.5281/zenodo.5547272"
+    "DOIExample": "Enter value of DOI. Example: 10.5281/zenodo.5547272",
+    "removeArticles": "Select articles that you would like to remove"
   },
   "icon": {
     "approve": "verified",
@@ -134,9 +136,10 @@
     "affiliations": "Affiliations",
     "articleMetadata": "Article metadata",
     "author": "Author",
-    "authorType": "Type",
+    "authorType": "Contributor Type",
     "authors": "Authors",
     "back": "Back",
+    "toRemoveArticles" : "remove selected articles",
     "ofAuthor": "author",
     "ofContributor": "of contributor",
     "fullName": "Celé jméno",
@@ -281,22 +284,6 @@
   },
   "src/i18n": "",
   "value": {
-    "facet": {
-      "undefined": "Draft",
-      "editing": "Draft",
-      "pending-approval": "Waiting for approval",
-      "approved": "Approved",
-      "published": "Published"
-    },
-    "sort": {
-      "alphabetical": "alphabetical",
-      "byName":  "by name",
-      "byRelevance": "by relevance",
-      "byDateAvailable": "by date of publication",
-      "byRecordStatus": "by record status",
-      "descending":  "descending",
-      "ascending": "ascending"
-    },
     "unknown": "unknown",
     "titleType": {
       "subtitle": "Subtitle",
@@ -304,8 +291,8 @@
       "other": "Other name"
     },
     "authorType": {
-      "Organizational": "Organization",
-      "Personal": "Person"
+      "organizational": "Organization",
+      "personal": "Person"
     },
     "idScheme": {
       "orcid" : "ORCID",
