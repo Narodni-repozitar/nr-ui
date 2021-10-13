@@ -1,5 +1,5 @@
 <template lang="pug">
-q-page.q-mt-lg.q-mx-lg-xl.full-height(padding)
+q-page.q-mt-lg.q-mx-lg-xl.full-height(padding :key="$route.path")
   .column.justify-center.items-center
     .col.row.q-pb-md
       .text-h3.gt-md
@@ -12,7 +12,7 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height(padding)
         span {{ $t(header?.title) }}
         q-icon.q-pl-md(color="primary" size="xs" :name="header?.icon")
     .q-separator(spaced)
-    dataset-form.col.q-pr-md(v-model="formData" mode="create" :steps="formSteps")
+    dataset-form.col.q-pr-md(:key="$route.path" v-model="formData" mode="create" :steps="formSteps")
 </template>
 <script>
 import {computed, defineComponent, ref, shallowRef} from 'vue'

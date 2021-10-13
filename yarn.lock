@@ -1113,10 +1113,10 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@oarepo/invenio-vue@^1.0.0-a9":
-  version "1.0.0-a9"
-  resolved "https://registry.yarnpkg.com/@oarepo/invenio-vue/-/invenio-vue-1.0.0-a9.tgz#eec1481fd89096ca96a3c32e89214ca61de6de97"
-  integrity sha512-9YOMA0zrwD7hE3u5IMY3AyzoU6NmBSzNEX5FgtMSGBufgjK06suLrF3+LXOkLZmsxa4pZ7Q3TKyu8+1U0NBAmg==
+"@oarepo/invenio-vue@^1.0.0-a10":
+  version "1.0.0-a10"
+  resolved "https://registry.yarnpkg.com/@oarepo/invenio-vue/-/invenio-vue-1.0.0-a10.tgz#e7775f233b9b3fd110c778e8ea3679440c082f48"
+  integrity sha512-ZW7wLm3mZZ/R5tm3bQOoTFcf7saqRLx3ti83lWyXSPEfGbKPDAUqj1lwpbHNTvop7e5oGbgYqVekxWgdu1amvg==
   dependencies:
     "@oarepo/vue-query-synchronizer" "^3.0.0-a4"
     axios "^0.21.1"
