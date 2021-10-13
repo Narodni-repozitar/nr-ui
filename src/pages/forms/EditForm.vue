@@ -1,32 +1,33 @@
 <template lang="pug">
-q-page.q-mt-lg.q-mx-lg-xl.full-height(padding)
+q-page.q-mt-lg.q-mx-lg-xl.full-height(padding :key="$route.path")
   .column.justify-center.items-center
     .col.row.q-pb-md
       .text-h3.gt-md.self-baseline.text-center
         p {{ header?.title }}
         p
-          p.text-bold {{metadata? metadata.InvenioID : ''}}
+          p.text-bold {{record?.metadata? record.metadata.InvenioID : ''}}
       .text-h4.lt-lg.gt-sm.q-mt-none.q-mb-lg.self-baseline.text-center
         p {{ header?.title }}
         p
-          p.text-bold {{metadata? metadata.InvenioID : ''}}
+          p.text-bold {{record?.metadata? record.metadata.InvenioID : ''}}
       .text-h6.lt-md.q-mt-none.q-mb-md.self-baseline
         p {{ header?.title }}
         p
-          p.text-bold {{metadata? metadata.InvenioID : ''}}
+          p.text-bold {{record?.metadata? record.metadata.InvenioID : ''}}
     q-separator(spaced)
     suspense
       template(#default)
         dataset-form.col.q-pr-md(
           ref="form"
-          v-if="metadata"
-          v-model="metadata"
+          :key="$route.path"
+          v-if="record?.metadata"
+          v-model="record.metadata"
           mode="edit"
           :required-steps="[]",
           :steps="formSteps")
       template(#fallback)
         circular-spinner(:message="$t('message.loading')")
-  fullscreen-loading(v-if="!metadata" :message="$t('message.loading')")
+  fullscreen-loading(v-if="!record?.metadata" :message="$t('message.loading')")
   q-page-sticky(position="top-right" :offset="[18, 18]")
     .column.q-gutter-sm
       q-btn.col-auto(icon="save" outline color="positive" :label="$t('label.forms.saveChanges')" @click="saveChanges")
@@ -61,7 +62,7 @@ export default defineComponent({
     const route = useRoute()
     const record = ref(null)
     const recordApi = route.path.substring(0, route.path.indexOf('/edit'))
-    const {metadata} = useInvenioRecord(recordApi, {loadInitial: true})
+    // const {metadata} = useInvenioRecord(recordApi, {loadInitial: true})
     record.value = useInvenioRecord(recordApi, {loadInitial: true})
 
     const formSteps = shallowRef([
@@ -115,10 +116,10 @@ export default defineComponent({
     }
 
     useMeta(() => {
-      return {title: header.value ? `${header.value.title} ${metadata.value ? metadata.value.InvenioID : ''}` : ''}
+      return {title: header.value ? `${header.value.title} ${record.value?.metadata?.value ? record.value?.metadata?.value.InvenioID : ''}` : ''}
     })
 
-    return {header, form, record, metadata, formSteps, saveChanges}
+    return {header, form, record, formSteps, saveChanges}
   }
 })
 </script>
