@@ -82,7 +82,13 @@ import useNotify from 'src/composables/useNotify'
 import {axios} from 'boot/axios'
 import CircularSpinner from 'components/ui/CircularSpinner'
 import LabelBlock from 'components/record/LabelBlock'
-import {PRIMARY_COMMUNITY_FIELD, TAXONOMY_TERM_DATASET, TAXONOMY_TERM_RESTRICTED} from 'src/constants'
+import {
+  PRIMARY_COMMUNITY_FIELD,
+  STATE_EDITING,
+  STATUS_FIELD,
+  TAXONOMY_TERM_DATASET,
+  TAXONOMY_TERM_RESTRICTED
+} from 'src/constants'
 import useAuth from 'src/composables/useAuth'
 import deepcopy from "deepcopy";
 
@@ -184,6 +190,8 @@ export default defineComponent({
       submissionData['accessRights'] = TAXONOMY_TERM_RESTRICTED
       // We support datasets ResourceType only
       submissionData['resourceType'] = TAXONOMY_TERM_DATASET
+      // Set initial record status
+      submissionData[STATUS_FIELD] = STATE_EDITING
 
       const submitUrl = `/${submissionData[PRIMARY_COMMUNITY_FIELD]}/datasets/draft/`
 

@@ -19,6 +19,9 @@ export default function useFacets(collection) {
           keepColor: true
         }
       },
+      extendedFacetsButton: {
+        component: 'div' // Disable More Filters button
+      },
       listBucketLabel: {
         component: 'div',
         useChildren: true,

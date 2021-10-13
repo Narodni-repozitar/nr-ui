@@ -134,7 +134,7 @@
     "affiliations": "Affiliations",
     "articleMetadata": "Article metadata",
     "author": "Author",
-    "authorType": "Contributor Type",
+    "authorType": "Type",
     "authors": "Authors",
     "back": "Back",
     "ofAuthor": "author",
@@ -281,6 +281,22 @@
   },
   "src/i18n": "",
   "value": {
+    "facet": {
+      "undefined": "Draft",
+      "editing": "Draft",
+      "pending-approval": "Waiting for approval",
+      "approved": "Approved",
+      "published": "Published"
+    },
+    "sort": {
+      "alphabetical": "alphabetical",
+      "byName":  "by name",
+      "byRelevance": "by relevance",
+      "byDateAvailable": "by date of publication",
+      "byRecordStatus": "by record status",
+      "descending":  "descending",
+      "ascending": "ascending"
+    },
     "unknown": "unknown",
     "titleType": {
       "subtitle": "Subtitle",
@@ -288,8 +304,8 @@
       "other": "Other name"
     },
     "authorType": {
-      "organizational": "Organization",
-      "personal": "Person"
+      "Organizational": "Organization",
+      "Personal": "Person"
     },
     "idScheme": {
       "orcid" : "ORCID",

@@ -24,8 +24,8 @@ export const STATE_PUBLISHED = 'published'
 export const STATE_PENDING_APPROVAL = 'pending-approval'
 
 export const AUTHOR_TYPES = Object.freeze({
-  PERSON: 'personal',
-  ORGANIZATION: 'organizational',
+  PERSON: 'Personal',
+  ORGANIZATION: 'Organizational',
 })
 
 export const TAXONOMY_TERM_DATASET = {
