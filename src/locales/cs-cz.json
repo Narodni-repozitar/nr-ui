@@ -133,7 +133,7 @@
     "actions": "Akce",
     "addFiles": "Nahrát přílohy",
     "addIdentifier": "Přidat identifikátor",
-    "affiliations": "Afilace",
+    "affiliations": "Afiliace",
     "articleMetadata": "Metadata článku",
     "author": "Autor",
     "authorType": "Typ",
@@ -291,6 +291,15 @@
       "editing": "Rozpracováno",
       "pending-approval": "Čeká na schválení"
     },
+    "sort": {
+      "alphabetical": "abecedně",
+      "byName":  "dle názvu",
+      "byRelevance": "dle relevance",
+      "byDateAvailable": "dle data zveřejnění",
+      "byRecordStatus": "dle stavu záznamu",
+      "descending":  "sestupně",
+      "ascending": "vzestupně"
+    },
     "unknown": "neznámý",
     "titleType": {
       "subtitle": "Podnázev",
@@ -302,8 +311,8 @@
       "published": "publikováno"
     },
     "authorType": {
-      "organizational": "organizace",
-      "personal": "osoba"
+      "Organizational": "organizace",
+      "Personal": "osoba"
     },
     "idScheme": {
       "orcid" : "ORCID",

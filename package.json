@@ -1,6 +1,6 @@
 {
   "name": "nr-ui-quasar2",
-  "version": "2.0.0a16",
+  "version": "2.0.0a20",
   "description": "Czech national repository UI app",
   "productName": "Czech national repository",
   "author": "Daniel Kopecký <kopecky.d@gmail.com>",
@@ -12,7 +12,7 @@
     "build": "quasar build"
   },
   "dependencies": {
-    "@oarepo/invenio-vue": "^1.0.0-a9",
+    "@oarepo/invenio-vue": "^1.0.0-a10",
     "@oarepo/quasar-es-facets": "^1.0.0-a21",
     "@oarepo/vue-popup-login": "^3.0.0-a5",
     "@oarepo/vue-query-synchronizer": "^3.0.0-a4",
