@@ -194,7 +194,8 @@ export default defineComponent({
         itemURL:  generated_article.value.itemURL,
         itemYear: generated_article.value.itemYear,
         itemPIDs: generated_article.value.itemPIDs,
-        itemResourceType: generated_article.value.itemResourceType
+        itemResourceType: generated_article.value.itemResourceType,
+        itemRelationType: generated_article.value.itemRelationType
       }
 
       let path = ''
