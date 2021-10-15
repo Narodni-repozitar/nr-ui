@@ -78,7 +78,8 @@
     "fileNote": "Briefly describe what the file contains",
     "localeSwitcher": "Language code in ISO 639-2 format",
     "primaryCommunity": "Choose a primary community / group to which the record will belong to",
-    "publicationDate": "In case your upload was already published elsewhere, please use the date of the first publication. Format: YYYY-MM-DD, YYYY-MM, or YYYY."
+    "publicationDate": "In case your upload was already published elsewhere, please use the date of the first publication. Format: YYYY-MM-DD, YYYY-MM, or YYYY.",
+    "DOIExample": "Enter value of DOI. Example: 10.5281/zenodo.5547272"
   },
   "icon": {
     "approve": "verified",
@@ -93,6 +94,7 @@
     "chooseCommunity": "Choose community",
     "fileNote": "File Description",
     "inCommunity": "in community",
+    "articleURL": "Article URL",
     "from": "from",
     "to": "to",
     "dateValidTo": "Dataset validity date",

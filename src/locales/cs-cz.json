@@ -77,7 +77,8 @@
     "fileNote": "Zadejte popis obsahu nebo poznámky k souboru",
     "localeSwitcher": "Zadejte kód jazyka ve formátu ISO 639-2/B",
     "primaryCommunity": "Vyberte primární komunitu / skupinu do které bude záznam patřit",
-    "publicationDate": "Pokud byl váš upload již publikován jinde, použijte datum prvního zveřejnění. Formát: RRRR-MM-DD, RRRR-MM nebo RRRR. "
+    "publicationDate": "Pokud byl váš upload již publikován jinde, použijte datum prvního zveřejnění. Formát: RRRR-MM-DD, RRRR-MM nebo RRRR. ",
+    "DOIExample": "Zadejte hodnotu DOI. Příklad: 10.5281/zenodo.5547272"
   },
   "icon": {
     "approve": "verified",
@@ -112,6 +113,7 @@
     "methods": "Metodologie",
     "subjectCategories": "Oborové kategorie",
     "resourceType": "Typ zdroje",
+    "articleURL": "URL článku",
     "itemRelationType": "Typ vztahu k datasetu",
     "relatedItemType": "Typ související položky",
     "institutionName": "Název organizace",
