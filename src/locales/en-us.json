@@ -22,6 +22,7 @@
     "altLogin": "Try alternative Log In",
     "approve": "approve record",
     "attachArticle": "Attach Article",
+    "removeArticles": "Remove articles",
     "choose": "Choose",
     "close": "Close",
     "decline": "Decline",
@@ -78,7 +79,9 @@
     "fileNote": "Briefly describe what the file contains",
     "localeSwitcher": "Language code in ISO 639-2 format",
     "primaryCommunity": "Choose a primary community / group to which the record will belong to",
-    "publicationDate": "In case your upload was already published elsewhere, please use the date of the first publication. Format: YYYY-MM-DD, YYYY-MM, or YYYY."
+    "publicationDate": "In case your upload was already published elsewhere, please use the date of the first publication. Format: YYYY-MM-DD, YYYY-MM, or YYYY.",
+    "removeArticles": "Select articles that you would like to remove"
+
   },
   "icon": {
     "approve": "verified",
@@ -108,6 +111,7 @@
     "notes": "Notes",
     "technicalInfo": "Technical Info",
     "methods": "Methods",
+    "toRemoveArticles" : "remove selected articles",
     "subjectCategories": "Subject Categories",
     "institutionName": "Organization Name",
     "abstract": "Abstract",
