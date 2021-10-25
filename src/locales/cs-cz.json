@@ -89,6 +89,7 @@
     "revert_approval": "assignment_return"
   },
   "label": {
+    "authRequired": "Vyžadováno přihlášení",
     "title": "Název",
     "resourceType": "Typ záznamu",
     "accessRights": "Dostupnost",
@@ -216,6 +217,7 @@
     "titles": "Název datové sady"
   },
   "message": {
+    "loginInProgress": "Probíhá přihlašování",
     "submissionHasErrors": "Pro pokračování prosím opravte chyby ve formuláři",
     "bugReportSent": "Chybové hlášení bylo zasláno",
     "typeAFewLetters": "Napište více znaků",

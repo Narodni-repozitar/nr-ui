@@ -1,9 +1,11 @@
 import {boot} from 'quasar/wrappers'
 import axios from 'axios'
-import {BottomSheet} from "quasar";
+import {Dialog, useQuasar} from "quasar";
 import {usePopupLogin} from "@oarepo/vue-popup-login";
 import {loginOptions} from "src/constants";
 import createAuthRefreshInterceptor from "axios-auth-refresh";
+import {i18n} from "boot/i18n";
+import AuthRequiredDialog from "components/dialogs/AuthRequiredDialog";
 const {login} = usePopupLogin(loginOptions)
 
 export default boot(async ({app}) => {
@@ -14,19 +16,20 @@ export default boot(async ({app}) => {
 
   // Function that will be called to refresh authorization
   const refreshAuthLogic = failedRequest => {
-    console.log('refreshAuth')
-    BottomSheet.create({
-      persistent: true,
-      message: 'Authentication required. Click on the button below to log in.',
-      actions: [{
-        label: 'Log in',
-        icon: 'vpn_key',
-        id: 'log in'
-      }]
-    }).onOk(async () => {
+    const showPopupLogin = async () => {
       const loginOutcome = await login()
       console.log(loginOutcome)
+    }
+
+    const dialog = Dialog.create({
+      component: AuthRequiredDialog,
+      persistent: true,
+    }).onOk(() => {
+      console.log('OK')
       return Promise.resolve()
+    }).onCancel(() => {
+      console.log('Cancel')
+      return Promise.reject()
     })
   }
 
