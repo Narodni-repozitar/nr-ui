@@ -80,6 +80,7 @@
     "primaryCommunity": "Vyberte primární komunitu / skupinu do které bude záznam patřit",
     "publicationDate": "Pokud byl váš upload již publikován jinde, použijte datum prvního zveřejnění. Formát: RRRR-MM-DD, RRRR-MM nebo RRRR. ",
     "removeArticles": "Vyberte články, které chcete odebrat"
+    "DOIExample": "Zadejte hodnotu DOI. Příklad: 10.5281/zenodo.5547272"
   },
   "icon": {
     "approve": "verified",
@@ -91,6 +92,7 @@
     "revert_approval": "assignment_return"
   },
   "label": {
+    "authRequired": "Vyžadováno přihlášení",
     "title": "Název",
     "resourceType": "Typ záznamu",
     "accessRights": "Dostupnost",
@@ -115,6 +117,7 @@
     "methods": "Metodologie",
     "subjectCategories": "Oborové kategorie",
     "resourceType": "Typ zdroje",
+    "articleURL": "URL článku",
     "itemRelationType": "Typ vztahu k datasetu",
     "relatedItemType": "Typ související položky",
     "institutionName": "Název organizace",
@@ -219,6 +222,7 @@
     "titles": "Název datové sady"
   },
   "message": {
+    "loginInProgress": "Probíhá přihlašování",
     "submissionHasErrors": "Pro pokračování prosím opravte chyby ve formuláři",
     "bugReportSent": "Chybové hlášení bylo zasláno",
     "typeAFewLetters": "Napište více znaků",
