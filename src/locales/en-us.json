@@ -91,6 +91,7 @@
     "revert_approval": "assignment_return"
   },
   "label": {
+    "authRequired": "Authentication required",
     "chooseCommunity": "Choose community",
     "fileNote": "File Description",
     "inCommunity": "in community",
@@ -210,6 +211,7 @@
     "titles": "Dataset Title"
   },
   "message": {
+    "loginInProgress": "Log in in progress",
     "bugReportSent": "Chybové hlášení bylo zasláno",
     "typeAFewLetters": "Start typing",
     "noActions" : "No Actions Available",
