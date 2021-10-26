@@ -79,7 +79,7 @@
     "localeSwitcher": "Zadejte kód jazyka ve formátu ISO 639-2/B",
     "primaryCommunity": "Vyberte primární komunitu / skupinu do které bude záznam patřit",
     "publicationDate": "Pokud byl váš upload již publikován jinde, použijte datum prvního zveřejnění. Formát: RRRR-MM-DD, RRRR-MM nebo RRRR. ",
-    "removeArticles": "Vyberte články, které chcete odebrat"
+    "removeArticles": "Vyberte články, které chcete odebrat",
     "DOIExample": "Zadejte hodnotu DOI. Příklad: 10.5281/zenodo.5547272"
   },
   "icon": {
