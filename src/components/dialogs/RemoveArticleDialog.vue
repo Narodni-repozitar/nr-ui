@@ -78,7 +78,6 @@ export default defineComponent({
     }
     function onOKClick() {
       confirm()
-
     }
 
     function onCancelClick() {
@@ -96,6 +95,7 @@ export default defineComponent({
       }).onOk(() => {
         delItems()
         hide()
+        ctx.emit('ok')
       }).onCancel(() => {
         onCancelClick()
       })

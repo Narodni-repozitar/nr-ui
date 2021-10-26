@@ -43,6 +43,7 @@ export default function useRecord(record) {
           datasetLinks: record?.http?.data?.links
         }
       }).onOk(async () => {
+        // TODO: reload record page
       }).onCancel(() => {
       }).onDismiss(() => {
       })
@@ -63,6 +64,7 @@ export default function useRecord(record) {
           datasetLinks: record?.http?.data?.links
         }
       }).onOk(async () => {
+        // TODO: reload record page
       }).onCancel(() => {
       }).onDismiss(() => {
       })
