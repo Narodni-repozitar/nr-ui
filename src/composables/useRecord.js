@@ -115,7 +115,7 @@ export default function useRecord(record) {
   })
 
   const publicationYear = computed(() => {
-    return m.value.dateAvailable ? date.extractDate(m.value.dateAvailable, 'YYYY-MM-DD').getFullYear() : false
+    return m.value.dateAvailable ? m.value.dateAvailable.slice(0, 4) : false
   })
 
   const accessRights = computed(() => {
