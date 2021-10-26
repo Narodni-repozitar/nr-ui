@@ -21,6 +21,7 @@
     "altLogin": "Přejít na alternativní přihlášení",
     "approve": "schválit záznam",
     "attachArticle": "Připojit článek",
+    "removeArticles": "Odebrat články",
     "choose": "Vyberte",
     "close": "Zavřít",
     "decline": "Nesouhlasím",
@@ -78,6 +79,7 @@
     "localeSwitcher": "Zadejte kód jazyka ve formátu ISO 639-2/B",
     "primaryCommunity": "Vyberte primární komunitu / skupinu do které bude záznam patřit",
     "publicationDate": "Pokud byl váš upload již publikován jinde, použijte datum prvního zveřejnění. Formát: RRRR-MM-DD, RRRR-MM nebo RRRR. ",
+    "removeArticles": "Vyberte články, které chcete odebrat"
     "DOIExample": "Zadejte hodnotu DOI. Příklad: 10.5281/zenodo.5547272"
   },
   "icon": {
@@ -96,6 +98,7 @@
     "accessRights": "Dostupnost",
     "chooseCommunity": "Vyberte komunitu",
     "fileNote": "Poznámka k souboru",
+    "toRemoveArticles" : "odebrat zvolené články",
     "inCommunity": "v komunitě",
     "from": "od",
     "to": "do",

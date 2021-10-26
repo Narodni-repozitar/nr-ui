@@ -6,6 +6,7 @@ import usePermissions from "src/composables/usePermissions";
 import ArticleMetadataDialog from "components/dialogs/ArticleMetadataDialog";
 import useFSM from "src/composables/useFsm";
 import {useRouter} from "vue-router";
+import RemoveArticleDialog from "components/dialogs/RemoveArticleDialog";
 
 export default function useRecord(record) {
   const m = computed(() => {
@@ -42,6 +43,28 @@ export default function useRecord(record) {
           datasetLinks: record?.http?.data?.links
         }
       }).onOk(async () => {
+        // TODO: reload record page
+      }).onCancel(() => {
+      }).onDismiss(() => {
+      })
+    }
+  }
+
+  const REMOVE_ARTICLE = {
+    id: 'remove_article',
+    label: 'action.removeArticles',
+    icon: 'remove',
+    can: () => canAttachArticle.value && record?.metadata.relatedItems?.length > 0, //todo zmenit can
+    func: () => {
+      $q.dialog({
+        component: RemoveArticleDialog,
+        // Pass current dataset object to dialog
+        componentProps: {
+          dataset: record?.http?.data,
+          datasetLinks: record?.http?.data?.links
+        }
+      }).onOk(async () => {
+        // TODO: reload record page
       }).onCancel(() => {
       }).onDismiss(() => {
       })
@@ -51,7 +74,8 @@ export default function useRecord(record) {
   const recordActions = computed(() => {
     const res = [
       EDIT_ACTION,
-      ATTACH_ARTICLE
+      ATTACH_ARTICLE,
+      REMOVE_ARTICLE
     ]
 
     if (transitions.value.length) {
