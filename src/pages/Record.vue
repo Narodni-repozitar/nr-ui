@@ -61,13 +61,8 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
             span.text-weight-bold.q-px-sm {{ $t('label.title') }}
             span {{ item.itemTitle }}
             vertical-separator
-            span.text-weight-bold.q-px-sm {{ $t('label.type') }}
-            simple-term(:term="[item.itemResourceType]")
-            vertical-separator
-            simple-term.q-px-sm(:term="[item.itemRelationType]")
-            vertical-separator
             span.text-weight-bold.q-px-sm {{ $t('label.authors') }}:
-            span.q-px-sm(v-for="c in item.itemCreators" :key="c.full_name") {{ c.full_name }}
+            span.q-px-sm(v-for="c in item.itemCreators" :key="c.fullName") {{ c.fullName }}
       label-block(label="Projekt" v-if="m.fundingReferences?.length")
         separated-list(:list='m.fundingReferences' double)
           template(v-slot:default="{item}")
