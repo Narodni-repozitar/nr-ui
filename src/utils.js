@@ -74,6 +74,12 @@ function sanitize (value) {
   return value
 }
 
+function removeEmpty(obj) {
+  return Object.fromEntries(
+    Object.entries(obj).filter(([_, v]) => (v != null) && (v !== ''))
+  )
+}
+
 export {
-  arraysDiffer, arrayContains, termOrArrayChanged, copyValue, pathFromUrl, parseCommunityRole, sanitize
+  arraysDiffer, arrayContains, termOrArrayChanged, copyValue, pathFromUrl, parseCommunityRole, sanitize, removeEmpty
 }
