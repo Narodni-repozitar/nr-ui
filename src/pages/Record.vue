@@ -8,53 +8,53 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
     .col-3.q-pl-md
       .column.full-height.q-pr-lg
         rights-icon.q-mb-md.col-auto.self-start.block(v-if="rights" :rights="rights" size="128px")
-        label-block.column.full-width.q-mt-lg(label="Soubory")
+        label-block.column.full-width.q-mt-lg(:label="$t('section.files')")
           .col-auto.text-left.self-start.column.q-mt-lg.cursor-pointer(
             @click="download(f)"
             v-for="f in files"
             :key="f.file_id")
             file-icon(:file="f" size="64px" :title="f.name")
             p.q-my-sm.text-primary.text-caption.wrap-anywhere {{ f.name }}
-        label-block.q-mt-lg(label="Trvalý odkaz na tento záznam")
+        label-block.q-mt-lg(:label="$t('label.recordLink')")
           a.block(:href="selfLink" target="_blank") {{ selfLink }}
           .text-caption.text-italic TODO: odkaz by mel byt nahrazen DOIckem, pokud existuje
-        label-block.block.q-mt-lg(label="Stav záznamu")
+        label-block.block.q-mt-lg(:label="$t('label.state')")
           p {{ recordStatus }}
     .col-9
-      label-block(label="Překlad názvu" v-if="Object.keys(mainTitle).length > 1")
+      label-block(:label="$t('label.titleTranslation')" v-if="Object.keys(mainTitle).length > 1")
         .block.column
           mt-languages(:text="mainTitle" exclude-current-language)
-      label-block(label="Osoby")
+      label-block(:label="$t('label.persons')")
         record-people.text-primary.text-weight-medium(:m="m")
-      label-block(label="Datum")
+      label-block(:label="$t('label.date')")
         div.year-lang
           .row(v-for="(d, idx) in m.dates" :key="idx")
             vertical-separator(v-if="idx > 0")
             span {{ d.date }} ({{ $t(`value.dateType.${d.type}`) }})
           .row(v-if="m.dateAvailable")
             span {{ m.dateAvailable }} ({{ $t(`value.dateType.published`) }})
-      label-block(label="Jazyk")
+      label-block(:label="$t('label.language')")
         div(v-for="(l, idx) in m.language" :key="l.links.self")
           simple-term.inline(:term="[l]")
           span(v-if="idx < m.language.length-1") ,&nbsp;
       label-block(label="Typ dokumentu")
         simple-term(:term="m.resourceType")
-      label-block(label="Identifikátory díla" v-if="m.identifiers?.length")
+      label-block(:label="$t('label.recordIdentifiers')" v-if="m.identifiers?.length")
         separated-list(:list='m.persistentIdentifiers')
           template(v-slot:default="{item}")
             span.identifier-type {{ item.scheme }}
             a(:href="`https://doi.org/${item.identifier}`" v-if="item.scheme.toLowerCase() === 'doi'")
               span.identifier-value {{ item.identifier }}
             span.identifier-value(v-else) {{ item.identifier }}
-      label-block(label="Klíčová slova")
+      label-block(:label="$t('label.forms.keywords')")
         multilingual-chip.q-mr-sm(:multilingual="kw" v-for="(kw, idx) in m.keywords" :key="idx")
-      label-block(label="Abstrakt")
+      label-block(:label="$t('label.abstract')")
         mt-tabs(:text="sanitize(m.abstract) || []")
-      label-block(label="Poznámka" v-if="m.notes?.length")
+      label-block(:label="$t('label.notes')" v-if="m.notes?.length")
         separated-list(:list='m.notes')
           template(v-slot:default="{item}")
             span {{ item }}
-      label-block(label="Je součástí" v-if="m.relatedItems?.length")
+      label-block(:label="$t('label.isPartOf')" v-if="m.relatedItems?.length")
       separated-list(:list="m.relatedItems" double)
         template(v-slot:default="{item}")
           .row
@@ -63,7 +63,7 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
             vertical-separator
             span.text-weight-bold.q-px-sm {{ $t('label.authors') }}:
             span.q-px-sm(v-for="c in item.itemCreators" :key="c.fullName") {{ c.fullName }}
-      label-block(label="Projekt" v-if="m.fundingReferences?.length")
+      label-block(:label="$t('label.project')" v-if="m.fundingReferences?.length")
         separated-list(:list='m.fundingReferences' double)
           template(v-slot:default="{item}")
             template(v-if="item.projectID")
@@ -73,7 +73,7 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
               span {{ item.projectName }}
               vertical-separator
             simple-term(:term="[item.funder]")
-      label-block(label="Práva" v-if="rights?.length")
+      label-block(:label="$t('label.rights')" v-if="rights?.length")
         simple-term(:levels="1" :term="rights")
   .row.q-my-xl.full-width.justify-between
     .col-auto.column.items-start.q-mb-xl

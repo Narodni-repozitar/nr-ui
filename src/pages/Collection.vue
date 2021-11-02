@@ -1,7 +1,7 @@
 <template lang="pug">
 div.collection-page.q-mt-xl
   .row.no-padding.no-margin
-    .text-subtitle1 Dostupné komunity
+    .text-subtitle1 {{ $t('label.availableCommunities') }}
   .row.q-py-md
     community-carousel
   .row.items-stretch
@@ -20,7 +20,7 @@ div.collection-page.q-mt-xl
       URLPagination(:pages="collection.pages")
     .col-4.row.justify-end
       q-btn(stack icon="svguse:/icons.svg#arrow-up"
-        label="Zpět nahoru" color="primary" flat no-caps dense
+        :label="$t('action.scrollToTop')" color="primary" flat no-caps dense
         @click="scrollToTop")
 </template>
 <script>

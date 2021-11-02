@@ -79,7 +79,7 @@ q-field.no-margin.no-label-float.row(
         v-model="model.authorityIdentifiers"
         ref="identifiers"
         :schemes="PERSON_IDENTIFIER_SCHEMES"
-        :label="$t('label.identifiers')"
+        :label="$t('label.forms.identifiers')"
         :item-label="$t('label.identifier')"
         @update:model-value="onChange")
 </template>

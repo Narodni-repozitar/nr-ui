@@ -31,7 +31,7 @@ q-footer.nr-footer.bg-grey-7.text-white(bordered).text-body1
       //  .text-weight-light.text-body2
       //    .q-pa-xs Archiv akcí
       .col.q-pa-sm.text-center
-        .q-pa-xs.text-weight-bold Kontakt
+        .q-pa-xs.text-weight-bold {{ $t('label.contact') }}
         .text-weight-light.text-body2
           a.q-pa-xs.text-white(href="mailto:support@narodni-repozitar.cz") support@narodni-repozitar.cz
     .col-lg-2.col-md-1.col-xs-0
