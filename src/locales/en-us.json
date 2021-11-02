@@ -50,6 +50,7 @@
     "sort": "Order",
     "submitDataset": "Submit dataset record",
     "upload": "Upload",
+    "downloadJson": "View record metadata",
     "uploadArticle": "Upload new article",
     "uploadDataset": "Upload new dataset",
     "add": "Add",
