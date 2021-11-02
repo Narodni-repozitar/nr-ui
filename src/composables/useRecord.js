@@ -70,12 +70,23 @@ export default function useRecord(record) {
       })
     }
   }
+  const DOWNLOAD_ACTION = {
+    id: 'download',
+    label: 'action.downloadJson',
+    icon: 'download',
+    func: () => {
+      var link = selfLink.value + '?download'
+      window.open(link, '_blank')
+    },
+    can: () => true
+  }
 
   const recordActions = computed(() => {
     const res = [
       EDIT_ACTION,
       ATTACH_ARTICLE,
-      REMOVE_ARTICLE
+      REMOVE_ARTICLE,
+      DOWNLOAD_ACTION
     ]
 
     if (transitions.value.length) {
