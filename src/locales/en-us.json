@@ -142,7 +142,7 @@
     "authors": "Authors",
     "back": "Back",
     "ofAuthor": "author",
-    "ofContributor": "of contributor",
+    "ofContributor": "contributor",
     "fullName": "Celé jméno",
     "backToCollection": "Back to collection",
     "community": "Community",
@@ -259,7 +259,7 @@
       "articleList": "Articles",
       "articleUpload": "Upload article",
       "datasetDetail": "Dataset",
-      "datasetEdit": "Edit Dataset",
+      "datasetEdit": "Edit Record",
       "datasetItem": "Dataset",
       "datasetList": "Datasets",
       "datasetUpload": "New dataset"
