@@ -37,8 +37,6 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
         div(v-for="(l, idx) in m.language" :key="l.links.self")
           simple-term.inline(:term="[l]")
           span(v-if="idx < m.language.length-1") ,&nbsp;
-      label-block(label="Typ dokumentu")
-        simple-term(:term="m.resourceType")
       label-block(label="Identifikátory díla" v-if="m.identifiers?.length")
         separated-list(:list='m.persistentIdentifiers')
           template(v-slot:default="{item}")
