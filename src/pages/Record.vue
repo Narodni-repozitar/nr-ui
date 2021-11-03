@@ -33,6 +33,10 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
             span {{ d.date }} ({{ $t(`value.dateType.${d.type}`) }})
           .row(v-if="m.dateAvailable")
             span {{ m.dateAvailable }} ({{ $t(`value.dateType.published`) }})
+      label-block(:label="$t('label.dateCreated')" v-if="m.dateCreated")
+        span {{ m.dateCreated }}
+      label-block(:label="$t('label.dateCollected')" v-if="m.dateCollected")
+        span {{ m.dateCollected }}
       label-block(label="Jazyk")
         div(v-for="(l, idx) in m.language" :key="l.links.self")
           simple-term.inline(:term="[l]")
@@ -50,6 +54,10 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
         multilingual-chip.q-mr-sm(:multilingual="kw" v-for="(kw, idx) in m.keywords" :key="idx")
       label-block(label="Abstrakt")
         mt-tabs(:text="sanitize(m.abstract) || []")
+      label-block(:label="$t('label.methods')" v-if="m.methods")
+        mt-tabs(:text="sanitize(m.methods) || []")
+      label-block(:label="$t('label.technicalInfo')" v-if="m.technicalInfo")
+        mt-tabs(:text="sanitize(m.technicalInfo) || []")
       label-block(label="Poznámka" v-if="m.notes?.length")
         separated-list(:list='m.notes')
           template(v-slot:default="{item}")
@@ -75,6 +83,10 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
             simple-term(:term="[item.funder]")
       label-block(label="Práva" v-if="rights?.length")
         simple-term(:levels="1" :term="rights")
+      label-block(:label="$t('label.subjectCategories')" v-if="m.subjectCategories?.length")
+        separated-list(:list='m.subjectCategories' double)
+          template(v-slot:default="{item}")
+            simple-term( :term="[item]")
   .row.q-my-xl.full-width.justify-between
     .col-auto.column.items-start.q-mb-xl
       q-btn.col-auto(
