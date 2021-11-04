@@ -61,7 +61,7 @@ export default defineComponent({
     const {t} = useI18n()
     const route = useRoute()
     const record = ref(null)
-    const recordApi = route.path.substring(0, route.path.indexOf('/edit'))
+    const recordApi = route.path.substring(0, route.path.indexOf('/edit')) + `?nocache=${Math.random()}`
     // const {metadata} = useInvenioRecord(recordApi, {loadInitial: true})
     record.value = useInvenioRecord(recordApi, {loadInitial: true})
 

@@ -23,6 +23,7 @@
     "altLogin": "Try alternative Log In",
     "approve": "approve record",
     "attachArticle": "Attach Article",
+    "removeArticles": "Remove articles",
     "choose": "Choose",
     "close": "Close",
     "decline": "Decline",
@@ -50,6 +51,7 @@
     "sort": "Order",
     "submitDataset": "Submit dataset record",
     "upload": "Upload",
+    "downloadJson": "View record metadata",
     "uploadArticle": "Upload new article",
     "uploadDataset": "Upload new dataset",
     "add": "Add",
@@ -79,7 +81,9 @@
     "fileNote": "Briefly describe what the file contains",
     "localeSwitcher": "Language code in ISO 639-2 format",
     "primaryCommunity": "Choose a primary community / group to which the record will belong to",
-    "publicationDate": "In case your upload was already published elsewhere, please use the date of the first publication. Format: YYYY-MM-DD, YYYY-MM, or YYYY."
+    "publicationDate": "In case your upload was already published elsewhere, please use the date of the first publication. Format: YYYY-MM-DD, YYYY-MM, or YYYY.",
+    "removeArticles": "Select articles that you would like to remove",
+    "DOIExample": "Enter value of DOI. Example: 10.5281/zenodo.5547272"
   },
   "icon": {
     "approve": "verified",
@@ -91,9 +95,11 @@
     "revert_approval": "assignment_return"
   },
   "label": {
+    "authRequired": "Authentication required",
     "chooseCommunity": "Choose community",
     "fileNote": "File Description",
     "inCommunity": "in community",
+    "articleURL": "Article URL",
     "from": "from",
     "to": "to",
     "dateValidTo": "Dataset validity date",
@@ -112,6 +118,7 @@
     "choosePublisher": "Choose publisher",
     "technicalInfo": "Technical Info",
     "methods": "Methods",
+    "toRemoveArticles" : "remove selected articles",
     "subjectCategories": "Subject Categories",
     "institutionName": "Organization Name",
     "abstract": "Abstract",
@@ -212,6 +219,7 @@
     "titles": "Dataset Title"
   },
   "message": {
+    "loginInProgress": "Log in in progress",
     "bugReportSent": "Chybové hlášení bylo zasláno",
     "typeAFewLetters": "Start typing",
     "noActions" : "No Actions Available",

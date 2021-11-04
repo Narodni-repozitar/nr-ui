@@ -56,14 +56,6 @@ export default defineComponent({
         sortable: true
       },
       {
-        name: 'type',
-        required: true,
-        label: t('label.type'),
-        align: 'left',
-        field: row => row.mime_type,
-        sortable: true
-      },
-      {
         name: 'download',
         align: 'left',
         field: row => row.url,

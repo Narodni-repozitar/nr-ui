@@ -6,6 +6,7 @@ import usePermissions from "src/composables/usePermissions";
 import ArticleMetadataDialog from "components/dialogs/ArticleMetadataDialog";
 import useFSM from "src/composables/useFsm";
 import {useRouter} from "vue-router";
+import RemoveArticleDialog from "components/dialogs/RemoveArticleDialog";
 
 export default function useRecord(record) {
   const m = computed(() => {
@@ -42,16 +43,50 @@ export default function useRecord(record) {
           datasetLinks: record?.http?.data?.links
         }
       }).onOk(async () => {
+        // TODO: reload record page
       }).onCancel(() => {
       }).onDismiss(() => {
       })
     }
   }
 
+  const REMOVE_ARTICLE = {
+    id: 'remove_article',
+    label: 'action.removeArticles',
+    icon: 'remove',
+    can: () => canAttachArticle.value && record?.metadata.relatedItems?.length > 0, //todo zmenit can
+    func: () => {
+      $q.dialog({
+        component: RemoveArticleDialog,
+        // Pass current dataset object to dialog
+        componentProps: {
+          dataset: record?.http?.data,
+          datasetLinks: record?.http?.data?.links
+        }
+      }).onOk(async () => {
+        // TODO: reload record page
+      }).onCancel(() => {
+      }).onDismiss(() => {
+      })
+    }
+  }
+  const DOWNLOAD_ACTION = {
+    id: 'download',
+    label: 'action.downloadJson',
+    icon: 'download',
+    func: () => {
+      var link = selfLink.value + '?download'
+      window.open(link, '_blank')
+    },
+    can: () => true
+  }
+
   const recordActions = computed(() => {
     const res = [
       EDIT_ACTION,
-      ATTACH_ARTICLE
+      ATTACH_ARTICLE,
+      REMOVE_ARTICLE,
+      DOWNLOAD_ACTION
     ]
 
     if (transitions.value.length) {
@@ -91,7 +126,7 @@ export default function useRecord(record) {
   })
 
   const publicationYear = computed(() => {
-    return m.value.dateAvailable ? date.extractDate(m.value.dateAvailable, 'YYYY-MM-DD').getFullYear() : false
+    return m.value.dateAvailable ? m.value.dateAvailable.slice(0, 4) : false
   })
 
   const accessRights = computed(() => {
