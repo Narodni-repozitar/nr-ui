@@ -23,6 +23,8 @@
         span.text-weight-bold(v-for="(a, idx) in data.abstract? Object.keys(data.abstract): []" :key="idx") {{ data.abstract[a] }} ({{ a }}),
       label-block(:label="$t('label.license')" v-if="Object.keys(data.rights).length")
         span.text-weight-bold {{ $mt(data.rights.title) }}
+      label-block(:label="$t('label.publishers')" v-if="data.publisher.length")
+        span.text-weight-bold {{ data.publisher.map(p => $mt(p.title)) }}
       label-block(:label="$t('label.authors')")
         span.text-weight-bold(v-for="(c, idx) in data.creators" :key="idx") {{ c.fullName }} ({{ c.affiliation? c.affiliation.map(a => $mt(a.title)): '' }}),
       label-block(:label="$t('label.contributors')" v-if="data.contributors?.length")

@@ -26,6 +26,7 @@ import {defineComponent, onMounted, ref} from 'vue'
 import ValidateMixin from 'src/mixins/ValidateMixin'
 import TermSelect from 'components/controls/selects/TermSelect'
 import useValidation from 'src/composables/useValidation'
+import useModel from "src/composables/useModel";
 
 export default defineComponent({
   name: 'PublishersSelect',
@@ -45,15 +46,12 @@ export default defineComponent({
   setup(props, ctx) {
     const input = ref(null)
     const model = ref(props.modelValue)
-    const {error, errorMessage, resetValidation, required} = useValidation()
+    const {error, errorMessage} = useValidation()
+    const {onChange} = useModel(ctx, model)
 
     onMounted(() => {
       input.value.resetValidation()
     })
-
-    function onChange(event) {
-      ctx.emit('update:modelValue', event)
-    }
 
     return {input, model, onChange, error, errorMessage}
   }

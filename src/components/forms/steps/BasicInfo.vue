@@ -94,7 +94,6 @@ export default defineComponent({
       const pur = publishers.value.validate()
       const lnr = languages.value.validate()
 
-
       if (tr !== true ||
           abr !== true ||
           lnr !== true ||
