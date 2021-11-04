@@ -28,9 +28,6 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
         record-people.text-primary.text-weight-medium(:m="m")
       label-block(label="Datum")
         div.year-lang
-          .row(v-for="(d, idx) in m.dates" :key="idx")
-            vertical-separator(v-if="idx > 0")
-            span {{ d.date }} ({{ $t(`value.dateType.${d.type}`) }})
           .row(v-if="m.dateAvailable")
             span {{ m.dateAvailable }} ({{ $t(`value.dateType.published`) }})
       label-block(label="Jazyk")
