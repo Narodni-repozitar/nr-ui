@@ -24,9 +24,9 @@ q-btn-dropdown(
           .col-auto.q-pt-md
             .row.justify-start
               q-badge.col-.q-ma-xs(color="primary" v-for="role in currentUserRoles" :key="role.id")
-                span {{ role.label.split('-')[0] }}
+                span {{ role.label? role.label?.split('-')[0] : role.id }}
                 q-icon(name="arrow_right")
-                span {{ $t(translateRoleLabel(role.label)) }}
+                span {{ role.label? $t(translateRoleLabel(role.label)) : role.id }}
       .row.no-wrap.q-pa-sm.justify-center.bg-grey-3
         q-list.col-grow(color="grey")
           q-item.full-width(
