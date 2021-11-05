@@ -21,10 +21,10 @@ class AccessIcon extends Vue {
   get accessIcon() {
     const slug = this.right?.links.self.split('/').pop()
     return {
-      'c-abf2': 'img:/icons/locks/open.png',
-      'c-f1cf': 'img:/icons/locks/partial_time.png',
-      'c-16ec': 'img:/icons/locks/partial_institution.png',
-      'c-14cb': 'img:/icons/locks/partial_person.png' // TODO: je to tohle ?
+      'c-abf2': 'img:/icons/locks/zamky_open_access.png',
+      'c-f1cf': 'img:/icons/locks/zamky_Partialy_closed_access_hodiny.png',
+      'c-16ec': 'img:/icons/locks/zamky_Partialy_closed_access_persona.png',
+      'c-14cb': 'img:/icons/locks/zamky_Partialy_closed_access.png' // TODO: ikona pro metadata-only
     }[slug]
   }
   get title() {
