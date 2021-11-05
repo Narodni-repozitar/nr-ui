@@ -39,7 +39,6 @@ export default function useFSM(record) {
         },
       }).onOk(
         async (data) => {
-
           const validity = record?.metadata['oarepo:validity']?.valid
           if (validity !== false || ['request_changes', 'delete_draft'].includes(transition.code)) {
             _makeTransition(transition, false, data)

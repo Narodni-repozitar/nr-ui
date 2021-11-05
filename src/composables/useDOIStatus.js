@@ -3,24 +3,17 @@ import {computed} from 'vue'
 
 export default function useDOIStatus(metadata) {
   const doiStatus = computed(() => {
-    if(metadata['oarepo:doirequest'] !== undefined){
-      return 'doi_requested'
+    if (doi.value !== null) {
+      return 'doi_registered'
     }
-    for(var identifier in metadata['persistentIdentifiers']) {
-      var status = metadata['persistentIdentifiers'][identifier]['status'];
-      var scheme = metadata['persistentIdentifiers'][identifier]['scheme'];
-      if(status === 'registered' && scheme.toUpperCase() === 'DOI') {
-        return 'doi_registered'
-      }
+    if (metadata['oarepo:doirequest'] !== undefined){
+      return 'doi_requested'
     }
     return 'no_doi'
   })
 
   const hasDOI = computed(() => {
-    if(doiStatus.value === 'doi_registered'){
-      return true
-    }
-    return false
+    return doiStatus.value === 'doi_registered';
   })
 
   const doiRequested = computed(() => {
@@ -32,16 +25,13 @@ export default function useDOIStatus(metadata) {
   })
 
   const hasNoDOI = computed(() => {
-    if(doiStatus.value === 'no_doi'){
-      return true
-    }
-    return false
+    return doiStatus.value === 'no_doi';
   })
 
-  const doi= computed(() => {
-    for(var identifier in metadata['persistentIdentifiers']) {
-      var status = metadata['persistentIdentifiers'][identifier]['status'];
-      var scheme = metadata['persistentIdentifiers'][identifier]['scheme'];
+  const doi = computed(() => {
+    for(let identifier in metadata['persistentIdentifiers']) {
+      const status = metadata['persistentIdentifiers'][identifier]['status'];
+      const scheme = metadata['persistentIdentifiers'][identifier]['scheme'];
       if (status === 'registered' && scheme.toUpperCase() === 'DOI') {
         return metadata['persistentIdentifiers'][identifier]['identifier']
       }
