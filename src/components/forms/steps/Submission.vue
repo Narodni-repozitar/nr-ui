@@ -93,6 +93,7 @@ import {
 } from 'src/constants'
 import useAuth from 'src/composables/useAuth'
 import deepcopy from "deepcopy";
+import {removeEmpty} from "src/utils";
 
 export default defineComponent({
   name: 'Submission',
@@ -161,6 +162,8 @@ export default defineComponent({
         ...props.data
       })
 
+      submissionData = removeEmpty(submissionData)
+
       // TODO: change this upon createRecord implementation in invenio-vue library
       axios.put(submitUrl.value, JSON.stringify(submissionData), {
         headers: {
@@ -194,6 +197,8 @@ export default defineComponent({
       submissionData['resourceType'] = TAXONOMY_TERM_DATASET
       // Set initial record status
       submissionData[STATUS_FIELD] = STATE_EDITING
+
+      submissionData = removeEmpty(submissionData)
 
       const submitUrl = `/${submissionData[PRIMARY_COMMUNITY_FIELD]}/datasets/draft/`
 
