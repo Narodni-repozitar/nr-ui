@@ -275,7 +275,7 @@
       "articleList": "Články",
       "articleUpload": "Nový článek",
       "datasetDetail": "Dataset",
-      "datasetEdit": "Editace datasetu",
+      "datasetEdit": "Editace záznamu",
       "datasetItem": "Dataset",
       "datasetList": "Datasety",
       "datasetUpload": "Nová datová sada"
@@ -298,8 +298,8 @@
   "src/i18n": "",
   "value": {
     "facet": {
-      "undefined": "Draft",
-      "editing": "Draft",
+      "undefined": "Rozpracováno",
+      "editing": "Rozpracováno",
       "pending-approval": "Čeká na schválení",
       "approved": "Schválený",
       "published": "Veřejný"
