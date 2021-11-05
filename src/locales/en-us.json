@@ -105,7 +105,7 @@
     "date": "Date",
     "title": "Title",
     "dateValidTo": "Dataset validity date",
-    "dateCreated": "Dataset creationo date",
+    "dateCreated": "Dataset creation date",
     "dateCollected": "Data collection date",
     "dateAvailable": "Date Available",
     "funder": "Project Funder",
@@ -327,6 +327,10 @@
       "subtitle": "Subtitle",
       "alternativeTitle": "Alternative name",
       "other": "Other name"
+    },
+    "dateType": {
+      "created": "created",
+      "published": "published"
     },
     "authorType": {
       "Organizational": "Organization",
