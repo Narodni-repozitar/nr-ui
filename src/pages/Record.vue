@@ -4,6 +4,9 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
     access-icon(:accessRights="accessRights" size="64px")
     .title.col
       mt(:text="mainTitle")
+    .col-auto()
+      q-chip.status-chip(v-if="doiRequested")
+        .text-accent.text-overline.text-bold {{$t('label.doiRequested')}}
   .row.q-my-xl
     .col-3.q-pl-md
       .column.full-height.q-pr-lg
@@ -16,8 +19,10 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
             file-icon(:file="f" size="64px" :title="f.name")
             p.q-my-sm.text-primary.text-caption.wrap-anywhere {{ f.name }}
         label-block.q-mt-lg(label="Trvalý odkaz na tento záznam")
-          a.block(:href="selfLink" target="_blank") {{ selfLink }}
-          .text-caption.text-italic TODO: odkaz by mel byt nahrazen DOIckem, pokud existuje
+          div(v-if="hasDOI")
+            a.block(:href="doiUrl" target="_blank") {{ doiUrl }}
+          .div(v-if="!hasDOI")
+            a.block(:href="record.http.data.links.self" target="_blank") {{ record.http.data.links.self }}
         label-block.block.q-mt-lg(label="Stav záznamu")
           p {{ recordStatus }}
     .col-9
@@ -98,6 +103,7 @@ import MultilingualChip from 'components/i18n/MultilingualChip'
 import {PRIMARY_COMMUNITY_FIELD} from "src/constants";
 import useRecord from "src/composables/useRecord";
 import {sanitize} from "src/utils";
+import useDOIStatus from "src/composables/useDOIStatus";
 
 export default defineComponent({
   name: 'Record',
@@ -117,7 +123,7 @@ export default defineComponent({
   setup(props) {
     const {m, mainTitle, recordStatus, selfLink, recordActions, rights, accessRights, files} = useRecord(props.record)
     const router = useRouter()
-
+    const {hasNoDOI, hasDOI, doiRequested, doiUrl} = useDOIStatus(props.record.metadata)
     function navigateToCollection() {
       const route = {
         name: 'community-datasets',
@@ -143,7 +149,11 @@ export default defineComponent({
       files,
       sanitize,
       download,
-      navigateToCollection
+      navigateToCollection,
+      doiRequested,
+      hasDOI,
+      hasNoDOI,
+      doiUrl
     }
   }
 })
