@@ -23,6 +23,8 @@
         span.text-weight-bold(v-for="(a, idx) in data.abstract? Object.keys(data.abstract): []" :key="idx") {{ data.abstract[a] }} ({{ a }}),
       label-block(:label="$t('label.license')" v-if="Object.keys(data.rights).length")
         span.text-weight-bold {{ $mt(data.rights.title) }}
+      label-block(:label="$t('label.publishers')" v-if="data.publisher.length")
+        span.text-weight-bold {{ data.publisher.map(p => $mt(p.title)) }}
       label-block(:label="$t('label.authors')")
         span.text-weight-bold(v-for="(c, idx) in data.creators" :key="idx") {{ c.fullName }} ({{ c.affiliation? c.affiliation.map(a => $mt(a.title)): '' }}),
       label-block(:label="$t('label.contributors')" v-if="data.contributors?.length")
@@ -91,6 +93,7 @@ import {
 } from 'src/constants'
 import useAuth from 'src/composables/useAuth'
 import deepcopy from "deepcopy";
+import {removeEmpty} from "src/utils";
 
 export default defineComponent({
   name: 'Submission',
@@ -159,6 +162,8 @@ export default defineComponent({
         ...props.data
       })
 
+      submissionData = removeEmpty(submissionData)
+
       // TODO: change this upon createRecord implementation in invenio-vue library
       axios.put(submitUrl.value, JSON.stringify(submissionData), {
         headers: {
@@ -192,6 +197,8 @@ export default defineComponent({
       submissionData['resourceType'] = TAXONOMY_TERM_DATASET
       // Set initial record status
       submissionData[STATUS_FIELD] = STATE_EDITING
+
+      submissionData = removeEmpty(submissionData)
 
       const submitUrl = `/${submissionData[PRIMARY_COMMUNITY_FIELD]}/datasets/draft/`
 
