@@ -23,7 +23,7 @@ import Submission from "components/forms/steps/Submission";
 export default defineComponent({
   name: 'SubmissionStep',
   components: {Submission},
-  emits: ['update:modelValue', 'create', 'prev', 'save'],
+  emits: ['create', 'prev', 'save'],
   props: {
     mode: {
       type: String,  // 'create' | 'save'
@@ -40,8 +40,6 @@ export default defineComponent({
   },
   setup(props, ctx) {
     const submission = ref(null)
-
-
 
     return {
       submission,

@@ -28,6 +28,12 @@
     v-model="model.rights"
     @update:model-value="onChange"
     :label="$t('label.license')")
+  publishers-select.col(
+    ref="publishers"
+    v-model="model.publisher"
+    :label="$t('label.publishers') + ' *'"
+    @update:model-value="onChange"
+    :rules="[required($t('error.validation.required'))]")
   //pre.q-pa-md.q-ma-md.bg-dark.text-white.text-code.rounded-borders {{ {rights:basicInfo.rights} }}
   stepper-nav.q-mt-xl(has-prev=false @next="$emit('next')")
 </template>
@@ -48,6 +54,7 @@ import MultilingualInputList from 'components/controls/inputs/MultilingualInputL
 import TitleInputList from 'components/controls/inputs/TitleInputList'
 import deepcopy from 'deepcopy'
 import useModel from 'src/composables/useModel'
+import PublishersSelect from "components/controls/selects/PublishersSelect";
 
 export default defineComponent({
   name: 'BasicInfo',
@@ -63,7 +70,8 @@ export default defineComponent({
     MultilingualInput,
     MultilingualEditor,
     MultilingualEditorList,
-    MultilingualInputList
+    MultilingualInputList,
+    PublishersSelect
   },
   emits: ['update:modelValue', 'next', 'validate'],
   props: {
@@ -76,25 +84,27 @@ export default defineComponent({
     const languages = ref(null)
     const keywords = ref(null)
     const model = ref(deepcopy(props.modelValue))
-
+    const publishers = ref(null)
     const {required} = useValidation()
     const {onChange} = useModel(ctx, model)
 
     function validate() {
       const tr = mainTitle.value.validate()
       const abr = abstract.value.validate()
+      const pur = publishers.value.validate()
       const lnr = languages.value.validate()
 
       if (tr !== true ||
           abr !== true ||
-          lnr !== true) {
+          lnr !== true ||
+          pur !== true) {
         ctx.emit('validate', false)
       } else {
         ctx.emit('validate', true)
       }
     }
 
-    return {model, required, primaryCommunity, mainTitle, abstract, languages, keywords, validate, onChange}
+    return {model, required, primaryCommunity, mainTitle, abstract, languages, keywords, validate, onChange, publishers}
   }
 })
 </script>

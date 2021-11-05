@@ -9,6 +9,7 @@
     "copyPermalink": "Kopírovat perzistentní odkaz do schránky",
     "share": "Sdílet",
     "ok": "OK",
+    "requestDOI": "Zažádat o DOI",
     "browse": "procházet",
     "search": "Hledat",
     "cancel": "Zrušit",
@@ -45,6 +46,7 @@
     "revert_approval": "vrátit ke schválení",
     "rmItem": "Odebrat položku",
     "rmLang": "Odebrat jazykovou variantu",
+    "downloadJson": "Zobrazit metadata záznamu",
     "scrollToTop": "Zpět nahoru",
     "sort": "Seřadit výsledky",
     "submitDataset": "Nahrát dataset",
@@ -100,6 +102,7 @@
     "fileNote": "Poznámka k souboru",
     "toRemoveArticles" : "odebrat zvolené články",
     "inCommunity": "v komunitě",
+    "publishers": "Vydavatelé",
     "from": "od",
     "to": "do",
     "date": "Datum",
@@ -120,7 +123,9 @@
     "methods": "Metodologie",
     "persons": "Osoby",
     "titleTranslation": "Překlad názvu",
+    "doiRequested": "ZAŽÁDÁNO O DOI",
     "subjectCategories": "Oborové kategorie",
+    "choosePublisher": "Vyberte vydatavele",
     "resourceType": "Typ zdroje",
     "articleURL": "URL článku",
     "itemRelationType": "Typ vztahu k datasetu",
@@ -283,7 +288,7 @@
       "articleList": "Články",
       "articleUpload": "Nový článek",
       "datasetDetail": "Dataset",
-      "datasetEdit": "Editace datasetu",
+      "datasetEdit": "Editace záznamu",
       "datasetItem": "Dataset",
       "datasetList": "Datasety",
       "datasetUpload": "Nová datová sada"
@@ -307,8 +312,8 @@
   "src/i18n": "",
   "value": {
     "facet": {
-      "undefined": "Draft",
-      "editing": "Draft",
+      "undefined": "Rozpracováno",
+      "editing": "Rozpracováno",
       "pending-approval": "Čeká na schválení",
       "approved": "Schválený",
       "published": "Veřejný"

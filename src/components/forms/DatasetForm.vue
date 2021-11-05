@@ -42,6 +42,7 @@ export const DEFAULT_VALUE = {
     abstract: {},
     language: [],
     rights: {},
+    publisher: []
   },
   authors: {
     creators: [DEFAULT_AUTHOR_ITEM],
@@ -104,7 +105,7 @@ export default defineComponent({
         const flds = Object.entries(deepcopy(props.modelValue))
 
         return {
-          basic: Object.fromEntries(flds.filter(([k, v]) => ['titles', 'abstract', 'language', 'rights'].includes(k))),
+          basic: Object.fromEntries(flds.filter(([k, v]) => ['titles', 'abstract', 'language', 'rights', 'publisher'].includes(k))),
           authors: Object.fromEntries(flds.filter(([k, v]) => ['creators', 'contributors'].includes(k))),
           description: Object.fromEntries(flds.filter(([k, v]) => ['keywords', 'subjectCategories', 'methods', 'technicalInfo', 'notes'].includes(k))),
           dates: Object.fromEntries(flds.filter(([k, v]) => ['dateAvailable', 'dateCollected', 'dateCreated'].includes(k))),
