@@ -102,8 +102,16 @@ export default function useRecord(record) {
     return res.filter(act => act.can() === true)
   })
 
+  function getTitles(titleType) {
+    return m.value.titles.filter(t => t.titleType === titleType).map(t => t.title)
+  }
+
   const mainTitle = computed(() => {
-    return m.value.titles.filter(t => t.titleType === 'mainTitle')[0].title
+    return getTitles('mainTitle')[0]
+  })
+
+  const subtitles = computed(() => {
+    return getTitles('subtitle')
   })
 
   const detailRoute = computed(() => {
@@ -141,5 +149,5 @@ export default function useRecord(record) {
     return m.value._files
   })
 
-  return {m, mainTitle, detailRoute, selfLink, recordStatus, recordActions, publicationYear, accessRights, rights, files}
+  return {m, mainTitle, subtitles, detailRoute, selfLink, recordStatus, recordActions, publicationYear, accessRights, rights, files}
 }

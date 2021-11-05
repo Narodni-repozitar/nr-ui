@@ -20,38 +20,48 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
             p.q-my-sm.text-primary.text-caption.wrap-anywhere {{ f.name }}
         label-block.q-mt-lg(:label="$t('label.recordLink')")
           div(v-if="hasDOI")
-            a.block(:href="doiUrl" target="_blank") {{ doiUrl }}
+            a.block.record-link(:href="doiUrl" target="_blank") {{ doiUrl }}
           div(v-else)
-            a.block(:href="record.http.data.links.self" target="_blank") {{ record.http.data.links.self }}
+            a.block.record-link(:href="record.http.data.links.self" target="_blank") {{ record.http.data.links.self }}
         label-block.block.q-mt-lg(:label="$t('label.state')")
           p {{ recordStatus }}
     .col-9
       label-block(:label="$t('label.titleTranslation')" v-if="Object.keys(mainTitle).length > 1")
         .block.column
           mt-languages(:text="mainTitle" exclude-current-language)
+      label-block(:label="$t('value.titleType.subtitle')" v-if="subtitles.length")
+        .block.column(v-for="(sub, idx) in subtitles" :key="idx")
+          mt-languages(:text="sub")
       label-block(:label="$t('label.persons')")
         record-people.text-primary.text-weight-medium(:m="m")
       label-block(:label="$t('label.date')")
         div.year-lang
           .row(v-if="m.dateAvailable")
             span {{ m.dateAvailable }} ({{ $t(`value.dateType.published`) }})
+      label-block(:label="$t('label.dateCreated')" v-if="m.dateCreated")
+        span {{ m.dateCreated }}
+      label-block(:label="$t('label.dateCollected')" v-if="m.dateCollected")
+        span {{ m.dateCollected }}
       label-block(:label="$t('label.language')")
         div(v-for="(l, idx) in m.language" :key="l.links.self")
           simple-term.inline(:term="[l]")
           span(v-if="idx < m.language.length-1") ,&nbsp;
-      label-block(:label="$t('label.resourceType')")
-        simple-term(:term="m.resourceType")
-      label-block(:label="$t('label.recordIdentifiers')" v-if="m.identifiers?.length")
+      label-block(:label="$t('label.publisher')")
+        div(v-for="(l, idx) in m.publisher" :key="l.links.self")
+          simple-term.inline(:term="[l]")
+          span(v-if="idx < m.publisher.length-1") ,&nbsp;
+      label-block(:label="$t('label.recordIdentifiers')" v-if="m.persistentIdentifiers?.length")
         separated-list(:list='m.persistentIdentifiers')
           template(v-slot:default="{item}")
-            span.identifier-type {{ item.scheme }}
-            a(:href="`https://doi.org/${item.identifier}`" v-if="item.scheme.toLowerCase() === 'doi'")
-              span.identifier-value {{ item.identifier }}
-            span.identifier-value(v-else) {{ item.identifier }}
+            identifier-chip(:identifier="item")
       label-block(:label="$t('label.forms.keywords')")
         multilingual-chip.q-mr-sm(:multilingual="kw" v-for="(kw, idx) in m.keywords" :key="idx")
       label-block(:label="$t('label.abstract')")
         mt-tabs(:text="sanitize(m.abstract) || []")
+      label-block(:label="$t('label.methods')" v-if="m.methods")
+        mt-tabs(:text="sanitize(m.methods) || []")
+      label-block(:label="$t('label.technicalInfo')" v-if="m.technicalInfo")
+        mt-tabs(:text="sanitize(m.technicalInfo) || []")
       label-block(:label="$t('label.notes')" v-if="m.notes?.length")
         separated-list(:list='m.notes')
           template(v-slot:default="{item}")
@@ -70,13 +80,23 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
           template(v-slot:default="{item}")
             template(v-if="item.projectID")
               span.text-primary {{ item.projectID }}
+                q-tooltip {{ $t('label.fundingProjectID') }}
               vertical-separator
             template(v-if="item.projectName")
               span {{ item.projectName }}
+                q-tooltip {{ $t('label.fundingProjectName') }}
               vertical-separator
-            simple-term(:term="[item.funder]")
+            template(v-if="item.fundingProgram")
+              span {{ item.fundingProgram }}
+                q-tooltip {{ $t('label.fundingProgram') }}
+              vertical-separator
+            simple-term(:term="item.funder")
       label-block(:label="$t('label.rights')" v-if="rights?.length")
         simple-term(:levels="1" :term="rights")
+      label-block(:label="$t('label.subjectCategories')" v-if="m.subjectCategories?.length")
+        separated-list(:list='m.subjectCategories' double)
+          template(v-slot:default="{item}")
+            simple-term( :term="[item]")
   .row.q-my-xl.full-width.justify-between
     .col-auto.column.items-start.q-mb-xl
       q-btn.col-auto(
@@ -104,6 +124,7 @@ import {PRIMARY_COMMUNITY_FIELD} from "src/constants";
 import useRecord from "src/composables/useRecord";
 import {sanitize} from "src/utils";
 import useDOIStatus from "src/composables/useDOIStatus";
+import IdentifierChip from "components/ui/IdentifierChip";
 
 export default defineComponent({
   name: 'Record',
@@ -111,6 +132,7 @@ export default defineComponent({
     record: Object
   },
   components: {
+    IdentifierChip,
     VerticalSeparator,
     MultilingualChip,
     ActionsSidebar,
@@ -121,9 +143,20 @@ export default defineComponent({
     FileIcon
   },
   setup(props) {
-    const {m, mainTitle, recordStatus, selfLink, recordActions, rights, accessRights, files} = useRecord(props.record)
+    const {
+      m,
+      mainTitle,
+      subtitles,
+      recordStatus,
+      selfLink,
+      recordActions,
+      rights,
+      accessRights,
+      files
+    } = useRecord(props.record)
     const router = useRouter()
     const {hasNoDOI, hasDOI, doiRequested, doiUrl} = useDOIStatus(props.record.metadata)
+
     function navigateToCollection() {
       const route = {
         name: 'community-datasets',
@@ -142,6 +175,7 @@ export default defineComponent({
       m,
       recordActions,
       mainTitle,
+      subtitles,
       recordStatus,
       selfLink,
       rights,

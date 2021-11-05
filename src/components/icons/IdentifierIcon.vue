@@ -1,19 +1,17 @@
 <template lang="pug">
-q-icon.q-pa-xs.q-mb-xs(
-  @click="copyIdentifier"
-  :name="identifierIcon"
-  color="accent"
-  v-if="identifierIcon && !identifierIcon.startsWith('data:')"
-  :title="`${identifier.scheme}: ${identifier.identifier}`")
-  q-tooltip {{ identifier.scheme}}: {{ identifier.identifier }}
-q-img.q-pa-xs.q-mb-xs(
-  v-else
-  fit="cover"
-  ratio="1"
-  width="24px"
-  :src="identifierIcon"
-  :alt="`${identifier.scheme}: ${identifier.identifier}`")
-  q-tooltip {{ identifier.scheme}}: {{ identifier.identifier }}
+span(@click.prevent="showIdentifier")
+  q-icon.cursor-pointer.q-pa-xs.q-mb-xs(
+    :name="identifierIcon"
+    color="accent"
+    v-if="identifierIcon && !identifierIcon.startsWith('data:')"
+    :title="`${identifier.scheme}: ${identifier.identifier}`")
+  q-img.cursor-pointer.q-pa-xs.q-mb-xs(
+    v-else
+    fit="cover"
+    ratio="1"
+    width="24px"
+    :src="identifierIcon"
+    :alt="`${identifier.scheme}: ${identifier.identifier}`")
 </template>
 
 <script>
@@ -39,8 +37,16 @@ class IdentifierIcon extends Vue {
     return idmap[schema] || idmap['other']
   }
 
-  copyIdentifier() {
-    // TODO: implement copy 2 clipboard on click
+  showIdentifier() {
+    if (this.identifier.scheme.toLowerCase() === 'orcid') {
+      let idUrl = ''
+
+      if (!this.identifier.identifier.startsWith('https://')) {
+        idUrl = `https://orcid.org/${encodeURIComponent(this.identifier.identifier)}`
+      }
+
+      window.open(idUrl, '_blank')
+    }
   }
 }
 </script>
