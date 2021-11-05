@@ -14,13 +14,6 @@ q-chip(
     v-if="identifier.scheme.toLowerCase() === 'doi'")
     span.identifier-value {{ identifier.identifier }}
   span.identifier-value(v-else) {{ identifier.identifier }}
-  //q-avatar(color="accent" text-color="white" :icon="icon") {{ multilingualData.lang }}
-  //  q-tooltip {{ $t(`value.lang.${multilingualData.lang}`) }}
-  //span.text-dark.q-px-sm {{ multilingualData.label }}
-  //  q-tooltip(v-if="multilingualData.other.length")
-  //    .full-width(v-for="([l, v]) in multilingualData.other")
-  //      .span.text-weight-bold {{ $t(`value.lang.${l}`) }}
-  //      .span {{ v }}
 </template>
 
 <script>
