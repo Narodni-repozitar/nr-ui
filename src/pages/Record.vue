@@ -25,6 +25,9 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
             a.block.record-link(:href="record.http.data.links.self" target="_blank") {{ record.http.data.links.self }}
         label-block.block.q-mt-lg(:label="$t('label.state')")
           p {{ recordStatus }}
+        label-block(v-if="!m['oarepo:validity']?.valid").block.q-mt-lg(:label="$t('label.oarepo:validityErrors')")
+          ul(v-for="(err, idx) in m['oarepo:validity']['errors']['marshmallow']" :key="idx")
+           li {{err.field}} : {{err.message}}
     .col-9
       label-block(:label="$t('label.titleTranslation')" v-if="Object.keys(mainTitle).length > 1")
         .block.column
@@ -125,6 +128,7 @@ import useRecord from "src/composables/useRecord";
 import {sanitize} from "src/utils";
 import useDOIStatus from "src/composables/useDOIStatus";
 import IdentifierChip from "components/ui/IdentifierChip";
+import {computed} from "@vue/reactivity";
 
 export default defineComponent({
   name: 'Record',
@@ -155,7 +159,8 @@ export default defineComponent({
       files
     } = useRecord(props.record)
     const router = useRouter()
-    const {hasNoDOI, hasDOI, doiRequested, doiUrl} = useDOIStatus(props.record.metadata)
+    const metadata = computed(() => props.record.metadata || {})
+    const {hasNoDOI, hasDOI, doiRequested, doiUrl} = useDOIStatus(metadata)
 
     function navigateToCollection() {
       const route = {

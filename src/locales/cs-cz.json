@@ -124,6 +124,7 @@
     "persons": "Osoby",
     "titleTranslation": "Překlad názvu",
     "doiRequested": "ZAŽÁDÁNO O DOI",
+    "oarepo:validityErrors": "Chyby v záznamu",
     "subjectCategories": "Oborové kategorie",
     "choosePublisher": "Vyberte vydatavele",
     "articleURL": "URL článku",

@@ -118,6 +118,7 @@
     "notes": "Notes",
     "rights": "Rights",
     "doiRequested": "DOI REQUESTED",
+    "oarepo:validityErrors": "Errors in record",
     "choosePublisher": "Choose publisher",
     "technicalInfo": "Technical Info",
     "methods": "Methods",

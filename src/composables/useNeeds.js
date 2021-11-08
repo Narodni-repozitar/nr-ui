@@ -9,16 +9,12 @@ export default function useNeeds(record) {
     return needStates([STATE_EDITING, STATE_PENDING_APPROVAL, undefined])
   })
 
-  function needState(state) {
-    return record[STATUS_FIELD] === state
-  }
-
   function needStates(states) {
-    return states.includes(record[STATUS_FIELD])
+    return states.includes(record.value[STATUS_FIELD])
   }
 
   const needOwner = computed(() => {
-    return authenticated.value && record[OWNER_FIELD] === currentUser.value.id
+    return authenticated.value && record.value[OWNER_FIELD] === currentUser.value.id
   })
 
   function needRole(role) {
@@ -30,5 +26,5 @@ export default function useNeeds(record) {
     // }).length
   }
 
-  return {needEditableState, needOwner, needRole, needStates, needState}
+  return {needEditableState, needOwner, needRole, needStates}
 }
