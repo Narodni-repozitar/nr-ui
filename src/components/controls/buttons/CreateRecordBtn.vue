@@ -53,7 +53,7 @@ export default defineComponent({
           name: routeName,
           params: {...routeParams}
         },
-        label: `${label} ${t('label.inCommunity' )} ${communityId? communityId.toUpperCase() : ''}`
+        label: `${label} ${t('label.inCommunity' ).toLowerCase()} ${communityId? communityId.toUpperCase() : ''}`
       }
     }
 

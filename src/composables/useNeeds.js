@@ -11,15 +11,15 @@ export default function useNeeds(record) {
   })
 
   function needState(state) {
-    return record[STATUS_FIELD] === state
+    return record.value[STATUS_FIELD] === state
   }
 
   function needStates(states) {
-    return states.includes(record[STATUS_FIELD])
+    return states.includes(record.value[STATUS_FIELD])
   }
 
   const needOwner = computed(() => {
-    return authenticated.value && record[OWNER_FIELD] === currentUser.value.id
+    return authenticated.value && record.value[OWNER_FIELD] === currentUser.value.id
   })
 
   function needCommunityRole(cid, role) {

@@ -42,7 +42,6 @@ export const DEFAULT_VALUE = {
     titles: [DEFAULT_MAIN_TITLE],
     abstract: {},
     language: [],
-    rights: {},
     publisher: []
   },
   authors: {

@@ -15,7 +15,8 @@ export default function useFSM(record) {
   const router = useRouter()
   const {model} = useCollection()
   const {communityId} = useContext(community)
-  const {hasNoDOI} = useDOIStatus(record?.metadata)
+  const metadata = computed(() => record.metadata || {})
+  const {hasNoDOI} = useDOIStatus(metadata)
   const changingState = ref(false)
 
   const transitions = computed(() => {
@@ -56,36 +57,37 @@ export default function useFSM(record) {
         })
     } else {
       $q.dialog({
-      class: 'bg-primary-dark',
-      dark: true,
-      square: true,
-      title: t('label.actionApprove'),
-      message: `${t('message.doYRlyWnt')} ${transition.actionLabel}?`,
-      cancel: true,
-      persistent: true
-     }).onOk(async () => {
-    const validity = record?.metadata['oarepo:validity']?.valid
-    if (validity !== false || ['request_changes', 'delete_draft'].includes(transition.code)) {
-      _makeTransition(transition, false)
-    } else {
-      $q.dialog({
-        class: 'bg-warning',
+        class: 'bg-primary-dark',
+        dark: true,
+        square: true,
         title: t('label.actionApprove'),
-        message: `${t('message.recordNotValid')}. ${t('message.doYRlyWnt')} ${transition.actionLabel}?`,
+        message: `${t('message.doYRlyWnt')} ${transition.actionLabel}?`,
         cancel: true,
         persistent: true
       }).onOk(async () => {
-        _makeTransition(transition, true)
+
+        const validity = record?.metadata['oarepo:validity']?.valid
+        if (validity !== false || ['request_changes', 'delete_draft'].includes(transition.code)) {
+          _makeTransition(transition, false)
+        } else {
+          $q.dialog({
+            class: 'bg-warning',
+            title: t('label.actionApprove'),
+            message: `${t('message.recordNotValid')}. ${t('message.doYRlyWnt')} ${transition.actionLabel}?`,
+            cancel: true,
+            persistent: true
+          }).onOk(async () => {
+            _makeTransition(transition, true)
+          })
+        }
       })
     }
-  })
-}
-}
+  }
 
   async function _makeTransition(transition, force, data = null) {
     changingState.value = true
     try {
-      const resp =  await axios.post(transition.url, {force, data})
+      const resp = await axios.post(transition.url, {force, data})
       if (transition.code === 'approve') {
         console.log(resp)
         await router.replace({

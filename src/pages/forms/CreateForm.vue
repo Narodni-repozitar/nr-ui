@@ -15,7 +15,7 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height(v-if="canCreate" padding :key="$route.path
     dataset-form.col.q-pr-md(:key="$route.path" mode="create" :steps="formSteps")
 </template>
 <script>
-import {computed, defineComponent, onMounted, ref, shallowRef} from 'vue'
+import {computed, defineComponent, onMounted, shallowRef} from 'vue'
 import {useMeta} from 'quasar'
 import {useI18n} from 'vue-i18n'
 import DatasetForm from 'components/forms/DatasetForm'
@@ -37,7 +37,7 @@ export default defineComponent({
   setup() {
     const {t} = useI18n()
     const {canCreateRecord} = usePermissions()
-    const {effectiveCommunity} = useAuth()
+    const {effectiveCommunity, checkLogin} = useAuth()
     const {showNoAccessPopup} = usePopupLogin()
 
     const formSteps = shallowRef([
@@ -83,10 +83,12 @@ export default defineComponent({
     })
 
     const canCreate = computed(() => {
+      console.log(effectiveCommunity.value.id, canCreateRecord(effectiveCommunity.value.id))
       return canCreateRecord(effectiveCommunity.value.id)
     })
 
-    onMounted(() => {
+    onMounted(async () => {
+      await checkLogin()
       if (!canCreate.value) {
         showNoAccessPopup()
       }
