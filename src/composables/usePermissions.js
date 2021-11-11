@@ -5,7 +5,11 @@ import {STATE_EDITING} from "src/constants";
 
 export default function usePermissions(record) {
   const {isDatasets} = useCollection()
-  const {needEditableState, needOwner, needRole, needStates} = useNeeds(record)
+  const {needEditableState, needOwner, needRole, needStates, needCommunityRole} = useNeeds(record)
+
+  const canCreateRecord = (communityId) => {
+    return needCommunityRole(communityId, 'member')
+  }
 
   const canEditRecord = computed(() => {
     return needEditableState.value && (needOwner.value && (needStates([STATE_EDITING, undefined]))) // TODO: || canEditCommunityRecords.value)
@@ -19,5 +23,5 @@ export default function usePermissions(record) {
     return canEditRecord.value && isDatasets.value
   })
 
-  return {canEditRecord, canAttachArticle}
+  return {canEditRecord, canAttachArticle, canCreateRecord}
 }
