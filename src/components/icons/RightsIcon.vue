@@ -1,12 +1,18 @@
 <template lang="pug">
-q-img(:src="rightsIcon" v-if="rights.length && rightsIcon" :width="size" :title="title")
+q-img(:src="rightsIcon" v-if="right && rightsIcon" :width="size" :title="title")
+label-block.column.full-width.q-mt-lg(:style="{maxWidth: size}" :label="$t('label.license')" v-else-if="right")
+  div {{ right.slug.toUpperCase() }}
 </template>
 
 <script>
 import {Options, Vue} from 'vue-class-component'
+import LabelBlock from "components/record/LabelBlock"
 
 export default @Options({
   name: 'RightsIcon',
+  components: {
+    LabelBlock
+  },
   props: {
     size: {
       type: String
@@ -19,11 +25,13 @@ export default @Options({
 })
 class RightsIcon extends Vue {
   get right() {
-    return this.rights.filter(x => !x.is_ancestor)[0]
+    const rights = this.rights.filter(x => !x.is_ancestor)
+    if (rights.length > 0) {
+      return rights[0]
+    }
   }
   get rightsIcon() {
     const slug = this.right?.links.self.split('/').pop()
-
     if (slug && slug.endsWith('by')) {
       return require('src/assets/licenses/by.png')
     } else if (slug.endsWith('by-nc')) {
@@ -37,9 +45,6 @@ class RightsIcon extends Vue {
     } else if (slug.endsWith('by-sa')) {
       return require('src/assets/licenses/by-sa.png')
     }
-  }
-  get title() {
-    return this.right?.title[this.$i18n.locale]
   }
 }
 </script>

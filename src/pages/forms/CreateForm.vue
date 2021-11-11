@@ -1,5 +1,5 @@
 <template lang="pug">
-q-page.q-mt-lg.q-mx-lg-xl.full-height(padding :key="$route.path")
+q-page.q-mt-lg.q-mx-lg-xl.full-height(v-if="canCreate" padding :key="$route.path")
   .column.justify-center.items-center
     .col.row.q-pb-md
       .text-h3.gt-md
@@ -12,10 +12,10 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height(padding :key="$route.path")
         span {{ $t(header?.title) }}
         q-icon.q-pl-md(color="primary" size="xs" :name="header?.icon")
     .q-separator(spaced)
-    dataset-form.col.q-pr-md(:key="$route.path" v-model="formData" mode="create" :steps="formSteps")
+    dataset-form.col.q-pr-md(:key="$route.path" mode="create" :steps="formSteps")
 </template>
 <script>
-import {computed, defineComponent, ref, shallowRef} from 'vue'
+import {computed, defineComponent, onMounted, ref, shallowRef} from 'vue'
 import {useMeta} from 'quasar'
 import {useI18n} from 'vue-i18n'
 import DatasetForm from 'components/forms/DatasetForm'
@@ -27,13 +27,19 @@ import DatesStep from 'components/forms/steps/DatesStep'
 import FundingInfoStep from 'components/forms/steps/FundingInfoStep'
 import SubmissionStep from 'components/forms/steps/SubmissionStep'
 import UploadDataStep from 'components/forms/steps/UploadDataStep'
+import usePermissions from "src/composables/usePermissions";
+import useAuth from "src/composables/useAuth";
+import {usePopupLogin} from "@oarepo/vue-popup-login";
 
 export default defineComponent({
   name: 'CreateForm',
   components: {DatasetForm},
   setup() {
     const {t} = useI18n()
-    const formData = ref({})
+    const {canCreateRecord} = usePermissions()
+    const {effectiveCommunity} = useAuth()
+    const {showNoAccessPopup} = usePopupLogin()
+
     const formSteps = shallowRef([
       {
         id: DATASET_FORM_STEPS.BASIC,
@@ -76,12 +82,22 @@ export default defineComponent({
       }
     })
 
+    const canCreate = computed(() => {
+      return canCreateRecord(effectiveCommunity.value.id)
+    })
+
+    onMounted(() => {
+      if (!canCreate.value) {
+        showNoAccessPopup()
+      }
+    })
+
     useMeta(() => {
       return {title: header.value ? t(header.value.title) : ''}
     })
 
 
-    return {header, formData, formSteps}
+    return {header, canCreateRecord, formSteps, canCreate}
   }
 })
 </script>

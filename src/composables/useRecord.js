@@ -142,6 +142,12 @@ export default function useRecord(record) {
   })
 
   const rights = computed(() => {
+    if (!Array.isArray(m.value.rights)) {
+      if (m.value.rights && Object.keys(m.value.rights).length) {
+        return [m.value.rights]
+      }
+      return []
+    }
     return m.value.rights
   })
 
