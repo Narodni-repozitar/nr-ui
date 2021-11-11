@@ -100,10 +100,10 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
         separated-list(:list='m.subjectCategories' double)
           template(v-slot:default="{item}")
             simple-term( :term="[item]")
-      label-block.text-negative(v-if="!m['oarepo:validity']?.valid").block.q-mt-lg(:label="$t('label.oarepo:validityErrors')")
-        ul(v-for="(err, idx) in m['oarepo:validity'].errors?.marshmallow" :key="idx")
+      label-block.text-negative.block.q-mt-lg(v-if="m['oarepo:draft'] && !m['oarepo:validity']?.valid" :label="$t('label.oarepo:validityErrors')")
+        ul(v-for="(err, idx) in m['oarepo:validity']?.errors?.marshmallow" :key="idx")
           li {{err.field}} : {{err.message}}
-        ul(v-for="(err, idx) in m['oarepo:validity'].errors?.jsonschema" :key="idx")
+        ul(v-for="(err, idx) in m['oarepo:validity']?.errors?.jsonschema" :key="idx")
           li {{err.field}} : {{err.message}}
   .row.q-my-xl.full-width.justify-between
     .col-auto.column.items-start.q-mb-xl
