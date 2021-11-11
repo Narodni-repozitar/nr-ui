@@ -17,7 +17,7 @@ export default function useRecord(record) {
   const router = useRouter()
   const {t} = useI18n()
   const {transitions, makeTransition} = useFSM(record)
-  const {canEditRecord, canAttachArticle} = usePermissions(m.value)
+  const {canEditRecord, canAttachArticle} = usePermissions(m)
 
   const EDIT_ACTION = {
     id: 'edit',
@@ -43,7 +43,7 @@ export default function useRecord(record) {
           datasetLinks: record?.http?.data?.links
         }
       }).onOk(async () => {
-        // TODO: reload record page
+        await record.http.reload({keepPrevious: false})
       }).onCancel(() => {
       }).onDismiss(() => {
       })
@@ -54,7 +54,7 @@ export default function useRecord(record) {
     id: 'remove_article',
     label: 'action.removeArticles',
     icon: 'remove',
-    can: () => canAttachArticle.value && record?.metadata.relatedItems?.length > 0, //todo zmenit can
+    can: () => canAttachArticle.value && m.value.relatedItems?.length > 0,
     func: () => {
       $q.dialog({
         component: RemoveArticleDialog,
@@ -64,7 +64,7 @@ export default function useRecord(record) {
           datasetLinks: record?.http?.data?.links
         }
       }).onOk(async () => {
-        // TODO: reload record page
+        await record.http.reload({keepPrevious: false})
       }).onCancel(() => {
       }).onDismiss(() => {
       })
@@ -142,6 +142,12 @@ export default function useRecord(record) {
   })
 
   const rights = computed(() => {
+    if (!Array.isArray(m.value.rights)) {
+      if (m.value.rights && Object.keys(m.value.rights).length) {
+        return [m.value.rights]
+      }
+      return []
+    }
     return m.value.rights
   })
 

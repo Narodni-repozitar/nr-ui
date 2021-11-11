@@ -21,7 +21,7 @@
         span.text-weight-bold(v-for="(l, idx) in data.language" :key="idx") {{ $mt(l.title) }},
       label-block(:label="$t('label.abstract')")
         span.text-weight-bold(v-for="(a, idx) in data.abstract? Object.keys(data.abstract): []" :key="idx") {{ data.abstract[a] }} ({{ a }}),
-      label-block(:label="$t('label.license')" v-if="Object.keys(data.rights).length")
+      label-block(:label="$t('label.license')" v-if="data.rights && Object.keys(data.rights).length")
         span.text-weight-bold {{ $mt(data.rights.title) }}
       label-block(:label="$t('label.publishers')" v-if="data.publisher.length")
         span.text-weight-bold {{ data.publisher.map(p => $mt(p.title)) }}

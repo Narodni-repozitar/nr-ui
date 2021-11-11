@@ -3,6 +3,7 @@ q-stepper.full-width(
   ref="stepper"
   flat
   keep-alive
+  :key="$route.fullPath"
   v-model="step"
   header-nav
   doneIcon="done"
@@ -29,7 +30,7 @@ q-stepper.full-width(
 </template>
 
 <script>
-import {computed, defineComponent, ref, watch} from 'vue'
+import {computed, defineComponent, onMounted, ref, watch} from 'vue'
 import {DATASET_FORM_STEPS, DEFAULT_AUTHOR_ITEM, DEFAULT_MAIN_TITLE} from 'src/constants'
 import deepcopy from 'deepcopy'
 import {useI18n} from 'vue-i18n'
@@ -41,7 +42,6 @@ export const DEFAULT_VALUE = {
     titles: [DEFAULT_MAIN_TITLE],
     abstract: {},
     language: [],
-    rights: {},
     publisher: []
   },
   authors: {
@@ -86,6 +86,10 @@ export default defineComponent({
       onStepChange(newStep, prevStep)
     })
 
+    onMounted(() => {
+      model.value = initModel()
+    })
+
     function stepProps(s) {
       const props = {...s.props}
       if (s.id === DATASET_FORM_STEPS.SUBMISSION) {
@@ -112,7 +116,7 @@ export default defineComponent({
           funding: Object.fromEntries(flds.filter(([k, v]) => ['fundingReferences'].includes(k))),
         }
       }
-      return DEFAULT_VALUE
+      return deepcopy(DEFAULT_VALUE)
     }
 
     function onStepValidate(validatedStep, result) {

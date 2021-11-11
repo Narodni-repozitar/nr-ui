@@ -6,7 +6,7 @@ export default function useDOIStatus(metadata) {
     if (doi.value !== null) {
       return 'doi_registered'
     }
-    if (metadata['oarepo:doirequest'] !== undefined){
+    if (metadata.value['oarepo:doirequest'] !== undefined){
       return 'doi_requested'
     }
     return 'no_doi'
@@ -29,11 +29,11 @@ export default function useDOIStatus(metadata) {
   })
 
   const doi = computed(() => {
-    for(let identifier in metadata['persistentIdentifiers']) {
-      const status = metadata['persistentIdentifiers'][identifier]['status'];
-      const scheme = metadata['persistentIdentifiers'][identifier]['scheme'];
+    for(let identifier in metadata.value['persistentIdentifiers']) {
+      const status = metadata.value['persistentIdentifiers'][identifier]['status'];
+      const scheme = metadata.value['persistentIdentifiers'][identifier]['scheme'];
       if (status === 'registered' && scheme.toUpperCase() === 'DOI') {
-        return metadata['persistentIdentifiers'][identifier]['identifier']
+        return metadata.value['persistentIdentifiers'][identifier]['identifier']
       }
     }
     return null

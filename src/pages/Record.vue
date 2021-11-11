@@ -11,7 +11,7 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
     .col-3.q-pl-md
       .column.full-height.q-pr-lg
         rights-icon.q-mb-md.col-auto.self-start.block(v-if="rights" :rights="rights" size="128px")
-        label-block.column.full-width.q-mt-lg(:label="$t('section.files')")
+        label-block.column.full-width.q-mt-lg(:label="$t('section.files')" v-if="files?.length")
           .col-auto.text-left.self-start.column.q-mt-lg.cursor-pointer(
             @click="download(f)"
             v-for="f in files"
@@ -25,6 +25,9 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
             a.block.record-link(:href="record.http.data.links.self" target="_blank") {{ record.http.data.links.self }}
         label-block.block.q-mt-lg(:label="$t('label.state')")
           p {{ recordStatus }}
+        label-block.block.q-mt-lg(:label="$t('label.inCommunity')")
+          div
+            a(:href="$router.resolve(communityLink).href") {{ communityName }}
     .col-9
       label-block(:label="$t('label.titleTranslation')" v-if="Object.keys(mainTitle).length > 1")
         .block.column
@@ -97,6 +100,11 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
         separated-list(:list='m.subjectCategories' double)
           template(v-slot:default="{item}")
             simple-term( :term="[item]")
+      label-block.text-negative.block.q-mt-lg(v-if="m['oarepo:draft'] && !m['oarepo:validity']?.valid" :label="$t('label.oarepo:validityErrors')")
+        ul(v-for="(err, idx) in m['oarepo:validity']?.errors?.marshmallow" :key="idx")
+          li {{err.field}} : {{err.message}}
+        ul(v-for="(err, idx) in m['oarepo:validity']?.errors?.jsonschema" :key="idx")
+          li {{err.field}} : {{err.message}}
   .row.q-my-xl.full-width.justify-between
     .col-auto.column.items-start.q-mb-xl
       q-btn.col-auto(
@@ -116,7 +124,7 @@ import RightsIcon from "components/icons/RightsIcon"
 import FileIcon from 'components/icons/FileIcon'
 import LabelBlock from "components/record/LabelBlock"
 import RecordPeople from 'components/list/RecordPeople'
-import {defineComponent} from 'vue'
+import {computed, defineComponent} from 'vue'
 import {useRouter} from 'vue-router'
 import VerticalSeparator from "components/ui/VerticalSeparator";
 import MultilingualChip from 'components/i18n/MultilingualChip'
@@ -125,6 +133,8 @@ import useRecord from "src/composables/useRecord";
 import {sanitize} from "src/utils";
 import useDOIStatus from "src/composables/useDOIStatus";
 import IdentifierChip from "components/ui/IdentifierChip";
+import {useContext} from "vue-context-composition";
+import {community} from "src/contexts/community";
 
 export default defineComponent({
   name: 'Record',
@@ -155,21 +165,31 @@ export default defineComponent({
       files
     } = useRecord(props.record)
     const router = useRouter()
-    const {hasNoDOI, hasDOI, doiRequested, doiUrl} = useDOIStatus(props.record.metadata)
+    const metadata = computed(() => props.record.metadata || {})
+    const {hasNoDOI, hasDOI, doiRequested, doiUrl} = useDOIStatus(metadata)
+    const {getCommunity} = useContext(community)
 
     function navigateToCollection() {
-      const route = {
+      return router.push(communityLink.value)
+    }
+
+
+    function download(file) {
+      window.open(`${file.url}?download`, '_blank')
+    }
+
+    const communityLink = computed(() => {
+      return {
         name: 'community-datasets',
         params: {
           communityId: m.value[PRIMARY_COMMUNITY_FIELD]
         }
       }
-      return router.push(route)
-    }
+    })
 
-    function download(file) {
-      window.open(`${file.url}?download`, '_blank')
-    }
+    const communityName = computed(() => {
+      return getCommunity(m.value[PRIMARY_COMMUNITY_FIELD]).title
+    })
 
     return {
       m,
@@ -187,7 +207,10 @@ export default defineComponent({
       doiRequested,
       hasDOI,
       hasNoDOI,
-      doiUrl
+      doiUrl,
+      communityLink,
+      communityName,
+      PRIMARY_COMMUNITY_FIELD
     }
   }
 })
