@@ -119,7 +119,7 @@ import RightsIcon from "components/icons/RightsIcon"
 import FileIcon from 'components/icons/FileIcon'
 import LabelBlock from "components/record/LabelBlock"
 import RecordPeople from 'components/list/RecordPeople'
-import {defineComponent} from 'vue'
+import {computed, defineComponent} from 'vue'
 import {useRouter} from 'vue-router'
 import VerticalSeparator from "components/ui/VerticalSeparator";
 import MultilingualChip from 'components/i18n/MultilingualChip'
@@ -128,7 +128,6 @@ import useRecord from "src/composables/useRecord";
 import {sanitize} from "src/utils";
 import useDOIStatus from "src/composables/useDOIStatus";
 import IdentifierChip from "components/ui/IdentifierChip";
-import {computed} from "@vue/reactivity";
 
 export default defineComponent({
   name: 'Record',
