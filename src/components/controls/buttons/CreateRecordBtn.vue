@@ -1,16 +1,16 @@
 <template lang="pug">
 q-btn.col-auto(
   v-bind="$attrs"
-  v-if="effectiveCommunity && canCreateRecord(effectiveCommunity.id) || eligibleCommunities.length === 1"
+  v-if="effectiveCommunity && canCreateRecord(effectiveCommunity.id) || communitiesMember.length === 1"
   stretch
   flat
   color="dark"
   icon="cloud_upload"
-  :to="communityRoute(effectiveCommunity.id || eligibleCommunities[0].id).to"
+  :to="communityRoute(effectiveCommunity.id || communitiesMember[0].id).to"
   :label="$t('action.upload')")
-  q-tooltip {{ communityRoute(effectiveCommunity.id || eligibleCommunities[0].id).label }}
+  q-tooltip {{ communityRoute(effectiveCommunity.id || communitiesMember[0].id).label }}
 q-btn-dropdown(
-  v-else-if="eligibleCommunities.length"
+  v-else-if="communitiesMember.length"
   color="dark"
   :content-style="{zIndex: 8000}"
   stretch
@@ -18,7 +18,7 @@ q-btn-dropdown(
   icon="cloud_upload"
   :label="$t('action.upload')")
   q-list(separator padding)
-    q-item.q-px-md(v-for="c in eligibleCommunities" :key="c.id" clickable :to="communityRoute(c.id).to")
+    q-item.q-px-md(v-for="c in communitiesMember" :key="c.id" clickable :to="communityRoute(c.id).to")
       q-item-section(avatar)
         q-avatar(icon="groups" color="primary" size="md" text-color="white")
       q-item-section
@@ -37,12 +37,8 @@ export default defineComponent({
   name: 'CreateRecordBtn',
   setup() {
     const {t} = useI18n()
-    const {currentUserCommunities, effectiveCommunity} = useAuth()
-    const {canCreateRecord} = usePermissions()
-
-    const eligibleCommunities = computed(() => {
-      return currentUserCommunities.value.filter(c => canCreateRecord(c.id))
-    })
+    const {effectiveCommunity} = useAuth()
+    const {canCreateRecord, communitiesMember} = usePermissions()
 
     function communityRoute(communityId) {
       const routeName = 'create'
@@ -61,7 +57,7 @@ export default defineComponent({
       }
     }
 
-    return {communityRoute, effectiveCommunity, eligibleCommunities, canCreateRecord}
+    return {communityRoute, effectiveCommunity, communitiesMember, canCreateRecord}
   }
 })
 </script>
