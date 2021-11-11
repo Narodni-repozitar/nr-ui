@@ -57,7 +57,7 @@ export const community = defineContext(() => {
   })
 
   function getCommunity(communityId) {
-    return communities.value?.find(c => c.id = communityId)
+    return communities.value?.find(c => c.id === communityId)
   }
 
   return {
