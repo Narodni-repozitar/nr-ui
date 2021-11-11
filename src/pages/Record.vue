@@ -70,14 +70,14 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
           template(v-slot:default="{item}")
             span {{ item }}
       label-block(:label="$t('label.isPartOf')" v-if="m.relatedItems?.length")
-      separated-list(:list="m.relatedItems" double)
-        template(v-slot:default="{item}")
-          .row
-            span.text-weight-bold.q-px-sm {{ $t('label.title') }}
-            span {{ item.itemTitle }}
-            vertical-separator
-            span.text-weight-bold.q-px-sm {{ $t('label.authors') }}:
-            span.q-px-sm(v-for="c in item.itemCreators" :key="c.fullName") {{ c.fullName }}
+        separated-list(:list="m.relatedItems" double)
+          template(v-slot:default="{item}")
+            .row
+              span.text-weight-bold.q-px-sm {{ $t('label.title') }}
+              span {{ item.itemTitle }}
+              vertical-separator
+              span.text-weight-bold.q-px-sm {{ $t('label.authors') }}:
+              span.q-px-sm(v-for="c in item.itemCreators" :key="c.fullName") {{ c.fullName }}
       label-block(:label="$t('label.project')" v-if="m.fundingReferences?.length")
         separated-list(:list='m.fundingReferences' double)
           template(v-slot:default="{item}")

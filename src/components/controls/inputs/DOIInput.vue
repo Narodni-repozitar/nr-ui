@@ -51,7 +51,6 @@ export default defineComponent({
       }).onOk(() => {
         doiError.value = false
         ctx.emit('exists', {})
-
       })
     }
 
