@@ -12,7 +12,7 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height(padding :key="$route.path")
         span {{ $t(header?.title) }}
         q-icon.q-pl-md(color="primary" size="xs" :name="header?.icon")
     .q-separator(spaced)
-    dataset-form.col.q-pr-md(:key="$route.path" v-model="formData" mode="create" :steps="formSteps")
+    dataset-form.col.q-pr-md(:key="$route.path" mode="create" :steps="formSteps")
 </template>
 <script>
 import {computed, defineComponent, ref, shallowRef} from 'vue'
@@ -33,7 +33,6 @@ export default defineComponent({
   components: {DatasetForm},
   setup() {
     const {t} = useI18n()
-    const formData = ref({})
     const formSteps = shallowRef([
       {
         id: DATASET_FORM_STEPS.BASIC,
@@ -81,7 +80,7 @@ export default defineComponent({
     })
 
 
-    return {header, formData, formSteps}
+    return {header, formSteps}
   }
 })
 </script>
