@@ -137,7 +137,8 @@ export const DEFAULT_AUTHOR_ITEM = {
   fullName: '',
   nameType: AUTHOR_TYPES.PERSON,
   authorityIdentifiers: [],
-  affiliation: []
+  affiliation: [],
+  organization: []
 }
 
 export const DEFAULT_ORGANIZATION_ITEM = {

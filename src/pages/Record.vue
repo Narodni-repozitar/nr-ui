@@ -1,5 +1,14 @@
 <template lang="pug">
 q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
+  .row.q-my-sm.full-width.justify-between
+    .col-auto.column.items-start.q-mb-sm
+      q-btn.col-auto(
+        flat
+        color="primary"
+        icon="arrow_back"
+        :label="$t('label.backToCollection')"
+        @click="navigateToCollection()")
+  .col-auto.column.items-end.text-left
   .q-mt-lg.row
     access-icon(:accessRights="accessRights" size="64px")
     .title.col
@@ -18,6 +27,7 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
             :key="f.file_id")
             file-icon(:file="f" size="64px" :title="f.name")
             p.q-my-sm.text-primary.text-caption.wrap-anywhere {{ f.name }}
+            p.text-caption.wrap-anywhere {{ f.fileNote }}
         label-block.q-mt-lg(:label="$t('label.recordLink')")
           div(v-if="hasDOI")
             a.block.record-link(:href="doiUrl" target="_blank") {{ doiUrl }}
@@ -34,7 +44,7 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
           mt-languages(:text="sub")
       label-block(:label="$t('label.persons')")
         record-people.text-primary.text-weight-medium(:m="m")
-      label-block(:label="$t('label.date')")
+      label-block(:label="$t('label.dateAvailable')" v-if="m.dateAvailable")
         div.year-lang
           .row(v-if="m.dateAvailable")
             span {{ m.dateAvailable }} ({{ $t(`value.dateType.published`) }})
@@ -56,6 +66,10 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
             identifier-chip(:identifier="item")
       label-block(:label="$t('label.forms.keywords')")
         multilingual-chip.q-mr-sm(:multilingual="kw" v-for="(kw, idx) in m.keywords" :key="idx")
+      label-block(:label="$t('label.subjectCategories')" v-if="m.subjectCategories?.length")
+        separated-list(:list='m.subjectCategories' double)
+          template(v-slot:default="{item}")
+            simple-term( :term="[item]")
       label-block(:label="$t('label.abstract')")
         mt-tabs(:text="sanitize(m.abstract) || []")
       label-block(:label="$t('label.methods')" v-if="m.methods")
@@ -66,7 +80,7 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
         separated-list(:list='m.notes')
           template(v-slot:default="{item}")
             span {{ item }}
-      label-block(:label="$t('label.isPartOf')" v-if="m.relatedItems?.length")
+      label-block(:label="$t('label.relITemLabel')" v-if="m.relatedItems?.length")
       separated-list(:list="m.relatedItems" double)
         template(v-slot:default="{item}")
           .row
@@ -74,7 +88,13 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
             span {{ item.itemTitle }}
             vertical-separator
             span.text-weight-bold.q-px-sm {{ $t('label.authors') }}:
-            span.q-px-sm(v-for="c in item.itemCreators" :key="c.fullName") {{ c.fullName }}
+            span.q-px-sm(v-for="c in item.itemCreators" :key="c.fullName") {{ c.fullName }};
+            vertical-separator
+            span.text-weight-bold.q-px-sm {{ $t('label.yearAvailable') }}:
+            span {{ item.itemYear }}
+            vertical-separator
+            span.text-weight-bold.q-px-sm DOI:
+            a.record-link(:href="item.itemURL" target="_blank") {{ item.itemPIDs[0].identifier }}
       label-block(:label="$t('label.project')" v-if="m.fundingReferences?.length")
         separated-list(:list='m.fundingReferences' double)
           template(v-slot:default="{item}")
@@ -93,10 +113,6 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
             simple-term(:term="item.funder")
       label-block(:label="$t('label.rights')" v-if="rights?.length")
         simple-term(:levels="1" :term="rights")
-      label-block(:label="$t('label.subjectCategories')" v-if="m.subjectCategories?.length")
-        separated-list(:list='m.subjectCategories' double)
-          template(v-slot:default="{item}")
-            simple-term( :term="[item]")
   .row.q-my-xl.full-width.justify-between
     .col-auto.column.items-start.q-mb-xl
       q-btn.col-auto(

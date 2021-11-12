@@ -205,7 +205,6 @@ export default defineComponent({
       } else {
         path = '/relatedItems/-'
       }
-      console.log('data', relatedItem)
       axios.patch(
           datasetUrl,
           [{
