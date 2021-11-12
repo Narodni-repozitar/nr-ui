@@ -214,6 +214,7 @@ export default defineComponent({
           }], {headers: {'Content-Type': 'application/json-patch+json'}})
           .then((res) => {
             articleCreateSuccess(res)
+            ctx.emit('ok')
             hide()
           })
           .catch(err => {
@@ -223,11 +224,6 @@ export default defineComponent({
             creatingArticle.value = false
             validatingDOI.value = false
           })
-    }
-
-    function onOKClick() {
-      ctx.emit('ok')
-      hide()
     }
 
     function onCancelClick() {
@@ -257,7 +253,6 @@ export default defineComponent({
       next,
       back,
       createArticle,
-      onOKClick,
       onCancelClick,
     }
   }

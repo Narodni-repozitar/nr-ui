@@ -7,6 +7,7 @@ const routes = [
     children: [
       {
         path: '',
+        name: 'home',
         component: () => import(/* webpackChunkName: 'home' */'../pages/Home'),
         meta: {showCreateRecord: true}
       },
@@ -101,6 +102,10 @@ const routes = [
         ]
       }
     ]
+  },
+  {
+    path: '/logout',
+    redirect: { name: 'home' }
   },
   // Always leave this as last one,
   // but you can also remove it

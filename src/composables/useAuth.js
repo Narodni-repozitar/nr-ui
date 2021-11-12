@@ -7,7 +7,7 @@ import {community} from 'src/contexts/community'
 
 
 export default function useAuth() {
-  const {state, login, logout} = usePopupLogin(loginOptions)
+  const {state, login, logout, check} = usePopupLogin(loginOptions)
   const {communities, currentCommunity} = useContext(community)
   const {showGdprPrompt} = useGDPR()
 
@@ -82,6 +82,10 @@ export default function useAuth() {
       })
   }
 
+  async function checkLogin() {
+    return await check()
+  }
+
   function doLogout() {
     // TODO: update when https://github.com/oarepo/vue-popup-login/issues/170 resolved
     // redirect to route {name: 'logged-out'}
@@ -100,6 +104,7 @@ export default function useAuth() {
     effectiveCommunity,
     hasRole,
     doLogin,
-    doLogout
+    doLogout,
+    checkLogin
   }
 }

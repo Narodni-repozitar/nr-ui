@@ -56,9 +56,14 @@ export const community = defineContext(() => {
     return communities.value?.find((c) => c.id === communityId.value)
   })
 
+  function getCommunity(communityId) {
+    return communities.value?.find(c => c.id === communityId)
+  }
+
   return {
     loadCommunities,
     setCommunity,
+    getCommunity,
     communities: readonly(communities),
     communityId: readonly(communityId),
     currentCommunity: readonly(currentCommunity),

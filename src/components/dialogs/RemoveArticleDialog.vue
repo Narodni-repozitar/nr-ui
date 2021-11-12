@@ -92,8 +92,8 @@ export default defineComponent({
         cancel: true,
         persistent: false,
         contentStyle: {zIndex: 8000}
-      }).onOk(() => {
-        delItems()
+      }).onOk(async() => {
+        await delItems()
         hide()
         ctx.emit('ok')
       }).onCancel(() => {

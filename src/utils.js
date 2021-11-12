@@ -58,7 +58,7 @@ function pathFromUrl(url) {
 }
 
 function parseCommunityRole(role) {
-  const {prefix, communityId, roleName}= role.id.split(':')
+  const [prefix, communityId, roleName] = role.id.split(':')
   if (prefix !== 'community') {
     return undefined
   }

@@ -42,6 +42,18 @@ export default defineComponent({
       })
     }
 
+    function notArticle(datatype) {
+      $q.dialog({
+        title: t('label.notAnArticle'),
+        message: `${t('message.recordHasType')} "${datatype}". ${t('message.insertArticleDoi')}`,
+        persistent: false,
+        contentStyle: {zIndex: 8000}
+      }).onOk(() => {
+        doiError.value = false
+        ctx.emit('exists', {})
+      })
+    }
+
     function validate() {
       const headers = {
         'Content-Type': 'application/json'
@@ -54,6 +66,15 @@ export default defineComponent({
       axios.get(`/resolve-article/${doi.value}`, {headers: headers})
           .then((response) => {
             const article = response.data
+            if (response.data.document_type.toUpperCase() !== 'article-journal'.toUpperCase() &&
+                response.data.document_type.toUpperCase() !== 'article_journal'.toUpperCase() &&
+                response.data.document_type.toUpperCase() !== 'journal-article'.toUpperCase() &&
+                response.data.document_type.toUpperCase() !== 'journal_article'.toUpperCase() &&
+                response.data.document_type.toUpperCase() !== 'article'.toUpperCase()
+            ){
+              notArticle(response.data.document_type)
+              return
+            }
             if (alreadyAttached) {
               alreadyExists()
               return
