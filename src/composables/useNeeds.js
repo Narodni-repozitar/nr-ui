@@ -25,10 +25,13 @@ export default function useNeeds(record) {
   function needCommunityRole(cid, role) {
     if (currentUserRoles.value.length) {
       return currentUserRoles.value.filter(rol => {
-        const {communityId, roleName} = parseCommunityRole(rol)
-        return communityId === cid &&
-          roleName === role
-      }).length
+        const parsed = parseCommunityRole(rol)
+        if (parsed) {
+          const {communityId, roleName} = parsed
+          return communityId === cid &&
+            roleName === role
+        }
+      }).length;
     }
     return false
   }

@@ -9,7 +9,7 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
         :label="$t('label.backToCollection')"
         @click="navigateToCollection()")
   .col-auto.column.items-end.text-left
-  .q-mt-lg.row
+  .row.q-mt-lg
     access-icon(:accessRights="accessRights" size="64px")
     .title.col
       mt(:text="mainTitle")
@@ -19,15 +19,19 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
   .row.q-my-xl
     .col-3.q-pl-md
       .column.full-height.q-pr-lg
-        rights-icon.q-mb-md.col-auto.self-start.block(v-if="rights" :rights="rights" size="128px")
-        label-block.column.full-width.q-mt-lg(:label="$t('section.files')" v-if="files?.length")
-          .col-auto.text-left.self-start.column.q-mt-lg.cursor-pointer(
+        rights-icon.q-mb-lg.col-auto.self-start.block(v-if="rights.length" :rights="rights" size="128px")
+        label-block.column.full-width(:label="$t('section.files')" v-if="files?.length")
+          q-item.q-px-none(
+            clickable v-ripple
             @click="download(f)"
             v-for="f in files"
             :key="f.file_id")
-            file-icon(:file="f" size="64px" :title="f.name")
-            p.q-my-sm.text-primary.text-caption.wrap-anywhere {{ f.name }}
-            p.text-caption.wrap-anywhere {{ f.fileNote }}
+            q-item-section.q-px-none(avatar top side)
+              file-icon(:file="f" size="64px" :title="f.name")
+              access-icon.absolute-top-right.q-pt-sm(:accessRights="accessRights" size="32px")
+            q-item-section
+              q-item-label.q-mr-xl.text-primary.wrap-anywhere {{ f.name }}
+              q-item-label.q-pt-xs(caption) {{ f.fileNote }}
         label-block.q-mt-lg(:label="$t('label.recordLink')")
           div(v-if="hasDOI")
             a.block.record-link(:href="doiUrl" target="_blank") {{ doiUrl }}
@@ -50,7 +54,7 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
       label-block(:label="$t('label.dateAvailable')" v-if="m.dateAvailable")
         div.year-lang
           .row(v-if="m.dateAvailable")
-            span {{ m.dateAvailable }} ({{ $t(`value.dateType.published`) }})
+            span {{ m.dateAvailable }}
       label-block(:label="$t('label.dateCreated')" v-if="m.dateCreated")
         span {{ m.dateCreated }}
       label-block(:label="$t('label.dateCollected')" v-if="m.dateCollected")
@@ -67,7 +71,7 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
         separated-list(:list='m.persistentIdentifiers')
           template(v-slot:default="{item}")
             identifier-chip(:identifier="item")
-      label-block(:label="$t('label.forms.keywords')")
+      label-block(:label="$t('label.forms.keywords')" v-if="m.keywords?.length")
         multilingual-chip.q-mr-sm(:multilingual="kw" v-for="(kw, idx) in m.keywords" :key="idx")
       label-block(:label="$t('label.subjectCategories')" v-if="m.subjectCategories?.length")
         separated-list(:list='m.subjectCategories' double)
