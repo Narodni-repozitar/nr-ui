@@ -159,7 +159,7 @@ export default function useFacets(collection) {
         ...Object.entries(facetSelection.selected()).reduce(
           (p, s) => {
             if (!(excludedFromQuery && excludedFromQuery.includes(s[0]))) {
-              p[transformFacet([0])] = [...s[1]].map(x => x.toString())
+              p[transformFacet(s[0])] = [...s[1]].map(x => x.toString())
             }
             return p
           }, {}),

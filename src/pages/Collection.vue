@@ -6,7 +6,7 @@ div.collection-page.q-mt-xl
     community-carousel
   .row.items-stretch
     search-header.col-8(:collection="collection")
-    selected-facets.col-4(:activeFacets="activeFacets")
+    //selected-facets.col-4(:activeFacets="activeFacets")
   a(name="top")
   .row.items-stretch
     record-list.col-8.record-list(:collection="collection")

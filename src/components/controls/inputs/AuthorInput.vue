@@ -145,13 +145,14 @@ export default {
     const identifiers = ref(null)
     const affiliations = ref(null)
     const organization = ref(null)
+    const nameType = ref(AUTHOR_TYPES.PERSON)
 
     const isPerson = computed(() => {
-      return model.value.nameType === AUTHOR_TYPES.PERSON
+      return nameType.value === AUTHOR_TYPES.PERSON
     })
 
     const isOrg = computed(() => {
-      return model.value.nameType === AUTHOR_TYPES.ORGANIZATION
+      return nameType.value === AUTHOR_TYPES.ORGANIZATION
     })
 
     const fullNameLabel = computed(() => {
@@ -164,21 +165,21 @@ export default {
     }
 
     function onOrgChange(newVal) {
-      // TODO: what to actually use here as full name??? Should this be correct?
+      console.log('oc ', newVal)
       if (model.value && newVal) {
         model.value = newVal
         // Keep the settings neccessary for orgs
-        model.value.fullName = deepcopy(mt(model.value.title))
-        model.value.nameType = AUTHOR_TYPES.ORGANIZATION
+        model.value.fullName = deepcopy(model.value.fullName)
+        nameType.value = AUTHOR_TYPES.ORGANIZATION
       } else {
-        model.value = deepcopy(DEFAULT_ORGANIZATION_ITEM)
+        model.value = deepcopy({})
       }
       onChange()
     }
 
     function changeType() {
       if (isOrg.value) {
-        model.value = deepcopy(DEFAULT_ORGANIZATION_ITEM)
+        model.value = deepcopy({})
         if (!props.noRoles) {
           model.value.role = []
         }

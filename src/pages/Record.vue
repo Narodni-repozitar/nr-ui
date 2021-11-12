@@ -16,8 +16,8 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
     .col-auto()
       q-chip.status-chip(v-if="doiRequested")
         .text-accent.text-overline.text-bold {{$t('label.doiRequested')}}
-  .row.q-my-xl
-    .col-3.q-pl-md
+  .row.q-my-xl.q-gutter-sm.no-wrap
+    .col-3.q-pl-md.q-py-md.rounded-borders.bg-grey-3
       .column.full-height.q-pr-lg
         rights-icon.q-mb-lg.col-auto.self-start.block(v-if="rights.length" :rights="rights" size="128px")
         label-block.column.full-width(:label="$t('section.files')" v-if="files?.length")
@@ -42,7 +42,7 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
         label-block.block.q-mt-lg(:label="$t('label.inCommunity')")
           div
             a(:href="$router.resolve(communityLink).href") {{ communityName }}
-    .col-9
+    .col-9.q-pl-sm
       label-block(:label="$t('label.titleTranslation')" v-if="Object.keys(mainTitle).length > 1")
         .block.column
           mt-languages(:text="mainTitle" exclude-current-language)
@@ -70,7 +70,7 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
       label-block(:label="$t('label.recordIdentifiers')" v-if="m.persistentIdentifiers?.length")
         separated-list(:list='m.persistentIdentifiers')
           template(v-slot:default="{item}")
-            identifier-chip(:identifier="item")
+            identifier-chip.self-center(:identifier="item")
       label-block(:label="$t('label.forms.keywords')" v-if="m.keywords?.length")
         multilingual-chip.q-mr-sm(:multilingual="kw" v-for="(kw, idx) in m.keywords" :key="idx")
       label-block(:label="$t('label.subjectCategories')" v-if="m.subjectCategories?.length")
