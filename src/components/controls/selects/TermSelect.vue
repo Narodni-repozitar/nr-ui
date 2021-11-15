@@ -57,6 +57,7 @@ import {useQuasar} from 'quasar'
 import TermInputDialog from 'components/dialogs/TermInputDialog'
 import TermChip from 'components/taxonomy/TermChip'
 import ValidateMixin from 'src/mixins/ValidateMixin'
+import deepcopy from "deepcopy";
 
 const DEFAULT = {}
 
@@ -153,14 +154,30 @@ export default defineComponent({
       }
     })
 
+    function dropChildren (data) {
+      if (Array.isArray(data)) {
+        data = data.map(v => {
+          delete v['children']
+          return v
+        })
+      } else {
+        delete data['children']
+      }
+      return data
+    }
+
     watch(model, async () => {
       if (!emptyModel.value && input.value) {
         input.value.validate(model.value)
       }
+
+      let res = deepcopy(model.value)
+      res = dropChildren(res)
+
       if (props.elasticsearch) {
-        ctx.emit('update:modelValue', await convertToElasticsearch(model))
+        ctx.emit('update:modelValue', await convertToElasticsearch(res))
       } else {
-        ctx.emit('update:modelValue', model.value)
+        ctx.emit('update:modelValue', res)
       }
     })
 
@@ -233,13 +250,13 @@ export default defineComponent({
     })
 
     function convertToElasticsearch(model) {
-      if (!model.value) {
+      if (!model) {
         return []
       }
       if (!props.multiple) {
-        model.value = [model.value]
+        model = [model]
       }
-      return [...Object.values(model.value)]
+      return [...Object.values(model)]
     }
 
     return {

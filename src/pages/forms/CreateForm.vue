@@ -83,7 +83,6 @@ export default defineComponent({
     })
 
     const canCreate = computed(() => {
-      console.log(effectiveCommunity.value.id, canCreateRecord(effectiveCommunity.value.id))
       return canCreateRecord(effectiveCommunity.value.id)
     })
 

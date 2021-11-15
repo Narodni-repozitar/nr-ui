@@ -10,7 +10,7 @@ q-field.no-margin.no-label-float.row(
     .row.full-width.q-mt-md.no-wrap
       author-type-select.full-height.col-auto(
         ref="authorType"
-        v-model="model.nameType"
+        v-model="nameType"
         :rules="[required($t('error.validation.required'))]"
         @update:model-value="changeType")
       base-input.q-ml-sm.q-pa-none.col-grow(
@@ -145,7 +145,7 @@ export default {
     const identifiers = ref(null)
     const affiliations = ref(null)
     const organization = ref(null)
-    const nameType = ref(AUTHOR_TYPES.PERSON)
+    const nameType = ref(props.modelValue.nameType? props.modelValue.nameType : AUTHOR_TYPES.PERSON)
 
     const isPerson = computed(() => {
       return nameType.value === AUTHOR_TYPES.PERSON
@@ -165,11 +165,11 @@ export default {
     }
 
     function onOrgChange(newVal) {
-      console.log('oc ', newVal)
       if (model.value && newVal) {
         model.value = newVal
         // Keep the settings neccessary for orgs
         model.value.fullName = deepcopy(model.value.fullName)
+        model.value.nameType = AUTHOR_TYPES.ORGANIZATION
         nameType.value = AUTHOR_TYPES.ORGANIZATION
       } else {
         model.value = deepcopy({})
@@ -245,6 +245,7 @@ export default {
       model,
       affiliations,
       fullNameLabel,
+      nameType,
       isPerson,
       isOrg,
       changeType,
