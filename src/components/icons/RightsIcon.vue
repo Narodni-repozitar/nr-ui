@@ -1,8 +1,8 @@
 <template lang="pug">
-label-block.q-mt-none.q-mb-sm.full-width(:style="{maxWidth: size}" :label="$t('label.license')" )
-  q-img(:src="rightsIcon" v-if="right && rightsIcon" :width="size" :title="title")
+label-block.q-mt-none.q-mb-sm.full-width(v-if="right" :style="{maxWidth: size}" :label="$t('label.license')" )
+  q-img(:src="rightsIcon" v-if="rightsIcon" :width="size" :title="right.title")
     q-tooltip {{ $mt(right.title) }}
-  div(v-else-if="right") {{ right.slug.toUpperCase() }}
+  div(v-else) {{ right.slug.toUpperCase() }}
 </template>
 
 <script>

@@ -178,7 +178,12 @@ export default function useFacets(collection) {
         cols[k] = deepmerge(cols[k], definitions.value[k])
       }
     }
-    return cols
+    return Object.keys(cols).sort().reduce(
+      (obj, key) => {
+        obj[key] = cols[key];
+        return obj;
+      },
+      {})
   })
 
   function transformFacet(f) {

@@ -6,8 +6,8 @@
         :definition="facetDefinitions"
         :options="facetOptions"
         :facetLoader="facetLoader"
-        @facetSelected="facetSelected"
-        :drawer='!!drawer' :teleport="drawer")
+        @facetSelected="facetSelected")
+        //:drawer='!!drawer'  :teleport="drawer")
 </template>
 <script>
 import {defineComponent, ref} from "vue";
