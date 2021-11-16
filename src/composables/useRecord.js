@@ -1,6 +1,6 @@
 import {computed} from "vue";
 import {DATASETS_COLLECTION_CODE, DRAFT_FIELD, PRIMARY_COMMUNITY_FIELD, STATUS_FIELD} from "src/constants";
-import {date, useQuasar} from "quasar";
+import {useQuasar} from "quasar";
 import {useI18n} from "vue-i18n";
 import usePermissions from "src/composables/usePermissions";
 import ArticleMetadataDialog from "components/dialogs/ArticleMetadataDialog";
@@ -18,6 +18,10 @@ export default function useRecord(record) {
   const {t} = useI18n()
   const {transitions, makeTransition} = useFSM(record)
   const {canEditRecord, canAttachArticle} = usePermissions(m)
+
+  async function reloadRecord () {
+    await record.http.reload({keepPrevious: false})
+  }
 
   const EDIT_ACTION = {
     id: 'edit',
@@ -129,6 +133,10 @@ export default function useRecord(record) {
     return record.http.data.links.self
   })
 
+  const filesLink = computed(() => {
+    return record.http.data.links.files
+  })
+
   const recordStatus = computed(() => {
     return !m.value[STATUS_FIELD] ? t('value.facet.editing') : t(`value.facet.${m.value[STATUS_FIELD]}`)
   })
@@ -155,5 +163,19 @@ export default function useRecord(record) {
     return m.value._files
   })
 
-  return {m, mainTitle, subtitles, detailRoute, selfLink, recordStatus, recordActions, publicationYear, accessRights, rights, files}
+  return {
+    m,
+    mainTitle,
+    subtitles,
+    detailRoute,
+    selfLink,
+    filesLink,
+    recordStatus,
+    recordActions,
+    publicationYear,
+    accessRights,
+    rights,
+    files,
+    reloadRecord
+  }
 }

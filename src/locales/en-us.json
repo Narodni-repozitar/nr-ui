@@ -183,6 +183,7 @@
     "familyName": "Family Name",
     "filters": "Filters",
     "forms": {
+      "manageUploadedData": "Manage or Upload Data",
       "dates": "Dates",
       "funding": "Funding Info",
       "description": "Dataset description",
