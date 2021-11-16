@@ -50,7 +50,7 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
         .block.column(v-for="(sub, idx) in subtitles" :key="idx")
           mt-languages(:text="sub")
       label-block(:label="$t('label.persons')")
-        record-people.text-primary.text-weight-medium(:m="m")
+        record-people.text-primary.text-weight-medium(:m="m" @filter-creator="filterByCreator")
       label-block(:label="$t('label.dateAvailable')" v-if="m.dateAvailable")
         div.year-lang
           .row(v-if="m.dateAvailable")
@@ -65,7 +65,7 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
           span(v-if="idx < m.language.length-1") ,&nbsp;
       label-block(:label="$t('label.publisher')")
         div(v-for="(l, idx) in m.publisher" :key="l.links.self")
-          simple-term.inline(:term="[l]")
+          simple-term.cursor-pointer.text-primary.inline(:term="[l]" @click="filterByAffiliation(l)")
           span(v-if="idx < m.publisher.length-1") ,&nbsp;
       label-block(:label="$t('label.recordIdentifiers')" v-if="m.persistentIdentifiers?.length")
         separated-list(:list='m.persistentIdentifiers')
@@ -76,7 +76,7 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
       label-block(:label="$t('label.subjectCategories')" v-if="m.subjectCategories?.length")
         separated-list(:list='m.subjectCategories' double)
           template(v-slot:default="{item}")
-            simple-term( :term="[item]")
+            simple-term.text-primary.cursor-pointer( :term="[item]" @click="filterBySubject(item)")
       label-block(:label="$t('label.abstract')")
         mt-tabs(:text="sanitize(m.abstract) || []")
       label-block(:label="$t('label.methods')" v-if="m.methods")
@@ -155,6 +155,8 @@ import useDOIStatus from "src/composables/useDOIStatus";
 import IdentifierChip from "components/ui/IdentifierChip";
 import {useContext} from "vue-context-composition";
 import {community} from "src/contexts/community";
+import {useTranslated} from "src/composables/useTranslated";
+import {useI18n} from "vue-i18n";
 
 export default defineComponent({
   name: 'Record',
@@ -188,6 +190,8 @@ export default defineComponent({
     const metadata = computed(() => props.record.metadata || {})
     const {hasNoDOI, hasDOI, doiRequested, doiUrl} = useDOIStatus(metadata)
     const {getCommunity} = useContext(community)
+    const {locale} = useI18n()
+    const {mt} = useTranslated(locale)
 
     function navigateToCollection() {
       return router.push(communityLink.value)
@@ -210,6 +214,33 @@ export default defineComponent({
       return getCommunity(m.value[PRIMARY_COMMUNITY_FIELD]).title
     })
 
+    function filterByCreator(creator) {
+      router.push({
+        ...communityLink.value,
+        query: {
+          creators: creator.fullName
+        }
+      })
+    }
+
+    function filterByAffiliation(affiliation) {
+      router.push({
+        ...communityLink.value,
+        query: {
+          affiliation: mt(affiliation.title)
+        }
+      })
+    }
+
+    function filterBySubject(subject) {
+      router.push({
+        ...communityLink.value,
+        query: {
+          subjectCategories: mt(subject.title)
+        }
+      })
+    }
+
     return {
       m,
       recordActions,
@@ -229,7 +260,10 @@ export default defineComponent({
       doiUrl,
       communityLink,
       communityName,
-      PRIMARY_COMMUNITY_FIELD
+      PRIMARY_COMMUNITY_FIELD,
+      filterByCreator,
+      filterByAffiliation,
+      filterBySubject
     }
   }
 })
