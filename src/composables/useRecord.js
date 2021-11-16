@@ -20,7 +20,9 @@ export default function useRecord(record) {
   const {canEditRecord, canAttachArticle} = usePermissions(m)
 
   async function reloadRecord () {
-    await record.http.reload({keepPrevious: false})
+    if (record.http) {
+      await record.http.reload({keepPrevious: false})
+    }
   }
 
   const EDIT_ACTION = {

@@ -63,11 +63,11 @@ export default defineComponent({
     })
 
     const recordID = computed(() => {
-      return record?.metadata?.InvenioID || record.value.http.data.metadata.InvenioID
+      return record.value?.metadata?.InvenioID || record.value?.http.data.metadata.InvenioID
     })
 
     const recordLinks = computed(() => {
-      return record?.links || record.value.http.data.links
+      return record.value?.links || record.value?.http.data.links
     })
 
     function validate () {
