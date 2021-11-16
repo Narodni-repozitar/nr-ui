@@ -91,13 +91,14 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
         separated-list(:list="m.relatedItems" double)
           template(v-slot:default="{item}")
             .row
-              span.text-weight-bold.q-px-sm {{ $t('label.title') }}
+              span.text-weight-bold.q-px-sm {{ $t('label.title') }}:
               span {{ item.itemTitle }}
               vertical-separator
               span.text-weight-bold.q-px-sm {{ $t('label.authors') }}:
-              span.q-px-sm(v-for="c in item.itemCreators" :key="c.fullName") {{ c.fullName }};
+              span.q-px-xs(v-for="(c, idx) in item.itemCreators" :key="c.fullName") {{ c.fullName }}
+                span(v-if="idx < item.itemCreators.length -1") ;
               vertical-separator
-              span.text-weight-bold.q-px-sm {{ $t('label.yearAvailable') }}:
+              span.text-weight-bold.q-px-sm {{ $t('label.year') }}:
               span {{ item.itemYear }}
               vertical-separator
               span.text-weight-bold.q-px-sm DOI:
@@ -106,7 +107,7 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
         separated-list(:list='m.fundingReferences' double)
           template(v-slot:default="{item}")
             template(v-if="item.projectID")
-              span.text-primary {{ item.projectID }}
+              span {{ item.projectID }}
                 q-tooltip {{ $t('label.fundingProjectID') }}
               vertical-separator
             template(v-if="item.projectName")
