@@ -1,13 +1,13 @@
 <template lang="pug">
 div.row.authors.full-height.items-baseline
-  .creator(v-for="(creator, idx) in m.creators")
+  .creator(v-for="(creator, idx) in creators")
     vertical-separator(v-if="idx>0")
     a(href="/" target="_blank") {{ creator.fullName }}
     identifier-icon(v-for="id in creator.authorityIdentifiers" :key="id.identifier" :identifier="id")
     q-tooltip {{ $t('label.author') }}
-  template(v-if="m.contributors && m.contributors.length")
+  template(v-if="contributors && contributors.length")
     double-separator
-  separated-list(:list='m.contributors' item-class="contributor inline")
+  separated-list(:list='contributors' item-class="contributor inline")
     template(v-slot:default="{item}")
       a(href="/" target="_blank") {{ item.fullName }}
         q-tooltip {{ $t('label.contributor') }}
@@ -26,14 +26,25 @@ div.row.authors.full-height.items-baseline
 <script>
 import {Options, Vue} from 'vue-class-component'
 import IdentifierIcon from 'components/icons/IdentifierIcon'
+import {computed, defineComponent} from "vue";
+import {getTaxonomyLeaf} from "src/utils";
 
-export default @Options({
+export default defineComponent({
   name: 'RecordPeople',
   props: {
     m: Object
   },
-  components: {IdentifierIcon}
+  components: {IdentifierIcon},
+  setup (props) {
+    const creators = computed(() => {
+      return props.m?.creators?.map(c => getTaxonomyLeaf(c))
+    })
+
+    const contributors = computed(() => {
+      return props.m?.contributors?.map(c => getTaxonomyLeaf(c))
+    })
+
+    return {creators, contributors}
+  }
 })
-class RecordList extends Vue {
-}
 </script>

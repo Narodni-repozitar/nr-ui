@@ -125,6 +125,7 @@ export default defineComponent({
         return []
       }
       if (Array.isArray(modelValue.value)) {
+        console.log('modelval', modelValue.value)
         return modelValue.value
       }
       return [modelValue.value]
