@@ -108,6 +108,7 @@
     "dateCreated": "Dataset creation date",
     "dateCollected": "Data collection date",
     "dateAvailable": "Date available",
+    "year": "year",
     "yearAvailable": "Year available",
     "relITemLabel": "Link to/from other sources",
     "funder": "Project Funder",

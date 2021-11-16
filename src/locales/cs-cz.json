@@ -110,6 +110,7 @@
     "dateValidTo": "Datum platnosti datové sady",
     "dateCreated": "Datum vytvoření datové sady",
     "dateAvailable": "Datum zveřejnění",
+    "year": "Rok",
     "yearAvailable": "Rok zveřejnění",
     "relITemLabel": "Vazby na/z dalších zdrojů",
     "dateCollected": "Datum sběru dat",
