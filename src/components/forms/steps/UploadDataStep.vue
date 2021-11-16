@@ -4,21 +4,18 @@ q-step(
   :done="done"
   icon="cloud_upload"
   :name="DATASET_FORM_STEPS.UPLOAD"
-  :title="$t('label.forms.uploadData')")
+  :title="$t(useFileList? 'label.forms.manageUploadedData' : 'label.forms.uploadData')")
   .column.justify-center.items-center(v-if="!useFileList")
     .col.text-h2
       q-icon.flex-center(color="positive" name="check_circle")
     .col.text-h5 {{ $t('message.submissionSuccess', {pid: recordID}) }}
-  .column.justify-center.items-center.q-mb-md(v-else)
-    .col.text-h2
-      q-icon.flex-center(color="positive" name="file_upload")
-    .col.text-h5 {{ $t('label.forms.uploadData') }}
-  q-separator(spaced)
+  q-separator(spaced v-if="!useFileList")
   .column.justify-center.items-center
     .col.text-subtitle1(v-if="!useFileList") {{ $t('label.forms.uploadData') }}
     upload-data(
       ref="upload"
       v-if="record && !useFileList"
+      @done="reloadRecord"
       :files="recordLinks.files")
     file-list(
       ref="upload"
@@ -32,11 +29,12 @@ q-step(
       q-btn(color="primary" :label="$t('action.navigateDetail')" :to="pathFromUrl(recordLinks.self)")
 </template>
 <script>
-import {computed, defineComponent, ref} from 'vue'
+import {computed, defineComponent, ref, toRefs} from 'vue'
 import {DATASET_FORM_STEPS} from 'src/constants'
 import UploadData from 'components/forms/steps/UploadData'
 import {pathFromUrl} from 'src/utils'
 import FileList from 'components/ui/FileList'
+import useRecord from "src/composables/useRecord";
 
 export default defineComponent({
   name: 'UploadDataStep',
@@ -57,17 +55,19 @@ export default defineComponent({
   },
   setup(props, ctx) {
     const upload = ref(null)
+    const { record } = toRefs(props)
+    const {reloadRecord} = useRecord(record.value) // TODO: this is not reactive, rewrite useRecord for reactivity
 
     const visited = computed(() => {
       return upload.value
     })
 
     const recordID = computed(() => {
-      return props.record?.metadata?.InvenioID || props.record.value.http.data.metadata.InvenioID
+      return record.value?.metadata?.InvenioID || record.value?.http.data.metadata.InvenioID
     })
 
     const recordLinks = computed(() => {
-      return props.record?.links || props.record.value.http.data.links
+      return record.value?.links || record.value?.http.data.links
     })
 
     function validate () {
@@ -81,6 +81,7 @@ export default defineComponent({
       recordLinks,
       validate,
       pathFromUrl,
+      reloadRecord,
       DATASET_FORM_STEPS
     }
   }

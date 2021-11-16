@@ -182,6 +182,7 @@
     "files": "Soubory",
     "filters": "Filtry",
     "forms": {
+      "manageUploadedData": "Spravovat nebo nahrát data",
       "dates": "Datace",
       "funding": "Informace o financování",
       "description": "Popis datové sady",

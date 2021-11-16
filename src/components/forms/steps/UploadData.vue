@@ -11,17 +11,22 @@ import {useI18n} from 'vue-i18n'
 export default defineComponent({
   name: 'UploadData',
   components: {Dashboard},
+  emits: ['done'],
   props: {
     files: {
       type: String,
       required: true
     }
   },
-  setup (props) {
+  setup (props, ctx) {
     const {t} = useI18n()
     const {uppy} = useUploader(props.files)
 
     const dashboardProps = ref({
+      doneButtonHandler: () => {
+        uppy.value.reset()
+        ctx.emit('done')
+      },
       metaFields: [{
         id: 'fileNote', name: t('label.fileNote'), placeholder: t('hint.fileNote')
       }]

@@ -4,25 +4,40 @@
     .col-grow(v-if="files.length")
       q-table.sticky-name-column(
         flat
+        :loading="locked"
+        :class="[locked? 'disabled': '']"
+        :title="$t('section.files')"
         :rows="files" row-key="file_id" :columns="fileColumns"
         :no-data-label="$t('message.noFiles')")
+        template(v-slot:loading)
+          q-inner-loading(showing color="primary")
         template(v-slot:body-cell-download="props")
           q-td(:props="props")
             div
-              q-btn(@click="download(props.value)" outline color="primary" :label="$t('label.download')")
+              q-btn(
+                :class="[locked? 'disabled': '']"
+                @click="download(props.value)" outline color="primary" :label="$t('label.download')")
+        template(v-slot:body-cell-delete="props")
+          q-td(:props="props")
+            div
+              q-icon.cursor-pointer( @click="remove(props.row)" size="sm" name="delete" color="negative" )
+                q-tooltip {{ $t('action.remove') }}
     .col-auto.q-mt-md.q-pt-md(v-if="canUpload")
-      upload-data(:files="record.value.http.data.links.files")
+      upload-data(@done="reloadRecord" :files="record.value.http.data.links.files")
   .col.row
     stepper-nav(has-prev has-next @next="$emit('next')" @prev="$emit('prev')")
 </template>
 
 <script>
 import UploadData from 'components/forms/steps/UploadData'
-import {computed, defineComponent} from 'vue'
+import {computed, defineComponent, ref, toRefs} from 'vue'
 import {useI18n} from 'vue-i18n'
 import {format} from 'quasar'
 import StepperNav from 'components/controls/StepperNav'
-const { humanStorageSize } = format
+import axios from "axios";
+import useRecord from "src/composables/useRecord";
+
+const {humanStorageSize} = format
 
 export default defineComponent({
   name: 'FileList',
@@ -36,6 +51,9 @@ export default defineComponent({
   },
   setup(props) {
     const {t} = useI18n()
+    const {record} = toRefs(props)
+    const {filesLink, reloadRecord} = useRecord(record.value)  // TODO: this is not reactive, rewrite useRecord for reactivity
+    const locked = ref(false)
 
     const fileColumns = [
       {
@@ -60,27 +78,53 @@ export default defineComponent({
         align: 'left',
         field: row => row.url,
         required: true
+      },
+      {
+        name: 'delete',
+        align: 'left',
+        field: row => row.url,
+        required: true
       }
     ]
 
     function download(url) {
+      if (locked.value) {
+        return
+      }
       window.open(`${url}?download`, '_blank')
     }
 
     const files = computed(() => {
-      return props.record.value.metadata._files?.filter(f => f.checksum && f.checksum !== '') || []
+      return record.value.metadata._files?.filter(f => f.checksum && f.checksum !== '') || []
     })
 
     // TODO: add check of auth/state need provides
     const canUpload = computed(() => {
-      return props.record.value.metadata['oarepo:draft']
+      return record.value.metadata['oarepo:draft']
     })
 
     const uploadUrl = computed(() => {
-      return props.record.value.http.data.links.files
+      return record.value.http.data.links.files
     })
 
-    return {download, files, canUpload, uploadUrl, fileColumns}
+    function remove(file) {
+      if (locked.value) {
+        return
+      }
+      locked.value = true
+
+      axios.delete(`${filesLink.value}/${file.key}`,
+          {headers: {'Content-Type': 'application/json-patch+json'}}
+      ).then(res => {
+        reloadRecord()
+      }).catch(err => {
+        console.error(`Could not delete file ${file}: ${err}`)
+      }).finally(() => {
+        locked.value = false
+      })
+    }
+
+    return {download, remove, reloadRecord, locked, files, canUpload, uploadUrl, fileColumns}
   }
 })
 </script>
