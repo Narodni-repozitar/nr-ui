@@ -78,12 +78,20 @@
     "validationFail": "Please correct the errors and try again"
   },
   "hint": {
+    "subjects": "Select the subject field(s) to which the dataset belongs. You can start writing and select an autocompleted value.",
+    "keywords": "Click on the + symbol, enter the keyword (KW). Click the + symbol next to the language to open a field to write the same KW in another language. Save. You can then click the + to open the field for another KW.",
+    "licenseWarn": "Warning: Make sure the dataset can be published under the selected license!",
+    "license": "If a Creative Commons license is associated with the dataset, select the appropriate license option from the menu. We recommend choosing the latest versions, namely 3.0 Czech and 4.0 International.",
+    "abstract": "Detailed description of the methodology and technical information should be specified in the \"Dataset Description\" section",
     "fileNote": "Briefly describe what the file contains",
     "localeSwitcher": "Language code in ISO 639-2 format",
     "primaryCommunity": "Choose a primary community / group to which the record will belong to",
-    "publicationDate": "In case your upload was already published elsewhere, please use the date of the first publication. Format: YYYY-MM-DD, YYYY-MM, or YYYY.",
+    "publicationDate": "If the dataset has been published elsewhere, use the date of first publication. You can also specify a future publication date (for embargo). If you do not enter a date, the system will automatically fill the date when the record is published. Format: YYYY-MM-DD, YYYYY-MM or YYYYY.",
     "removeArticles": "Select articles that you would like to remove",
-    "DOIExample": "Enter value of DOI. Example: 10.5281/zenodo.5547272"
+    "dateCollected": "Write down the time period in which the data collection took place/took place. If it is not a range, fill in the same date in both parts. You can also pick dates from the calendar.",
+    "dateCreated": "Write the time/date range in which the dataset was created. If it is not a range, fill in the same date in both parts. You can also select dates from the calendar.",
+    "DOIExample": "Enter value of DOI. Example: 10.5281/zenodo.5547272",
+    "upload": "When uploading, you can add a note/description to the file by clicking on the pencil symbol next to the file name (the description can be used to distinguish e.g. language version, file format information...)."
   },
   "icon": {
     "approve": "verified",

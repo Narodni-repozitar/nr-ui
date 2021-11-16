@@ -1,5 +1,7 @@
 <template lang="pug">
-dashboard(:uppy="uppy" :props="dashboardProps")
+dashboard.col(:uppy="uppy" :props="dashboardProps")
+.q-field__bottom.col.q-my-md
+  .q-field__messages {{ $t('hint.upload') }}
 </template>
 
 <script>

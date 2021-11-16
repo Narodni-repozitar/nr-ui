@@ -7,15 +7,17 @@
     @update:model-value="onChange"
     :label="$t('label.dateAvailable')"
     :hint="$t('hint.publicationDate')")
-  date-input.col.q-pt-lg(
+  date-input.col.q-pt-xl(
     ref="dateCollected"
     range
+    :hint="$t('hint.dateCollected')"
     v-model="model.dateCollected"
     @update:model-value="onChange"
     :label="$t('label.dateCollected')")
-  date-input.col(
+  date-input.col.q-pt-lg(
     ref="dateCreated"
     range
+    :hint="$t('hint.dateCreated')"
     v-model="model.dateCreated"
     @update:model-value="onChange"
     :label="$t('label.dateCreated')")

@@ -2,11 +2,12 @@
 .column.q-gutter-sm
   multilingual-chips.q-my-none.q-py-none.col(
     ref="keywords"
+    :hint="$t('hint.keywords')"
     v-model="model.keywords"
     :label="$t('label.forms.keywords')"
     @update:model-value="onChange")
   //pre.q-pa-md.q-ma-md.bg-dark.text-white.text-code.rounded-borders {{ {keywords:description.keywords} }}
-  subject-category-input.col(
+  subject-category-input.q-pt-md.col(
     ref="subjectCategories"
     v-model="model.subjectCategories"
     multiple
