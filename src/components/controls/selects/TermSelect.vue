@@ -125,7 +125,6 @@ export default defineComponent({
         return []
       }
       if (Array.isArray(modelValue.value)) {
-        console.log('modelval', modelValue.value)
         return modelValue.value
       }
       return [modelValue.value]
@@ -156,7 +155,7 @@ export default defineComponent({
     })
 
     function dropChildren (data) {
-      if (Array.isArray(data)) {
+      if (data && Array.isArray(data)) {
         data = data.map(v => {
           delete v['children']
           return v

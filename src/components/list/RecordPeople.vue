@@ -12,11 +12,11 @@ div.row.authors.full-height.items-baseline
       a(href="/" target="_blank") {{ item.fullName }}
         q-tooltip {{ $t('label.contributor') }}
       identifier-icon(v-for="id in item.authorityIdentifiers" :key="id.identifier" :identifier="id")
-      span.role.text-black &nbsp;(
+      span.role.text-black(v-if="item.role") &nbsp;(
       div(v-for="(r, idx) in item.role" :key="r.links.self")
         simple-term.role.inline.text-black(:term="[r]")
         span(v-if="idx < item.role.length-1") ,&nbsp;
-      span.role.text-black )
+      span.role.text-black(v-if="item.role" ) )
 </template>
 <style lang="sass">
 .collection-item
