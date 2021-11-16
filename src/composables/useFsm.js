@@ -114,7 +114,7 @@ export default function useFSM(record) {
       }
       if (transition.code === 'delete_draft') {
         // TODO: navigate to something more specifics
-        await router.replace({name: 'all'})
+        await router.replace({name: 'datasets'})
         $q.notify({
           message: t('message.draftDeleted'),
           color: 'accent',

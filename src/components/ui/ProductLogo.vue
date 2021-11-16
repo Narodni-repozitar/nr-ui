@@ -7,6 +7,7 @@ img(
 
 <script>
 import {computed, defineComponent} from 'vue'
+import {useI18n} from "vue-i18n";
 
 export default defineComponent({
   name: 'ProductLogo',
@@ -14,9 +15,16 @@ export default defineComponent({
     dense: Boolean,
   },
   setup (props) {
+    const {locale} = useI18n()
     const logoAsset = computed(()  => {
       if (props.dense) {
-        return require('src/assets/logo_nr.png')
+        if(locale.value === 'en'){
+          return require('src/assets/repo_logo_eng_rgb_per.png')
+        }
+        return require('src/assets/repo_logo_cz_rgb1.png')
+      }
+      if(locale.value === 'en'){
+        return require('src/assets/repo_logo_eng_rgb_resized.png')
       }
       return require('src/assets/nr-logo-63pxH_V03@2x.png')
     })

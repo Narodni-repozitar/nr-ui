@@ -10,7 +10,7 @@ q-field.no-margin.no-label-float.row(
     .row.full-width.q-mt-md.no-wrap
       author-type-select.full-height.col-auto(
         ref="authorType"
-        v-model="model.nameType"
+        v-model="nameType"
         :rules="[required($t('error.validation.required'))]"
         @update:model-value="changeType")
       base-input.q-ml-sm.q-pa-none.col-grow(
@@ -85,19 +85,13 @@ q-field.no-margin.no-label-float.row(
 </template>
 
 <script>
-import {computed, ref} from 'vue'
+import {computed, ref, toRefs} from 'vue'
 import ValidateMixin from '/src/mixins/ValidateMixin'
 import useValidation from '/src/composables/useValidation'
 import useInputRefs from '/src/composables/useInputRefs'
 import AuthorTypeSelect from 'components/controls/selects/AuthorTypeSelect'
 import IdentifierInputList from 'components/controls/inputs/IdentifierInputList'
-import {
-  AFFILIATIONS,
-  AUTHOR_TYPES,
-  DEFAULT_AUTHOR_ITEM,
-  DEFAULT_ORGANIZATION_ITEM,
-  PERSON_IDENTIFIER_SCHEMES
-} from '/src/constants'
+import {AFFILIATIONS, AUTHOR_TYPES, DEFAULT_AUTHOR_ITEM, PERSON_IDENTIFIER_SCHEMES} from '/src/constants'
 import TermSelect from 'components/controls/selects/TermSelect'
 import ChipsSelect from 'components/controls/selects/ChipsSelect'
 import BaseInput from 'components/controls/inputs/BaseInput'
@@ -106,6 +100,7 @@ import TermListSelect from 'components/controls/selects/TermListSelect'
 import deepcopy from 'deepcopy'
 import {useTranslated} from 'src/composables/useTranslated'
 import useModel from 'src/composables/useModel'
+import {getTaxonomyLeaf} from "src/utils";
 
 export default {
   name: 'AuthorInput',
@@ -130,7 +125,10 @@ export default {
     }
   },
   setup(props, ctx) {
-    const model = ref(deepcopy(props.modelValue))
+    const {modelValue} = toRefs(props)
+    const leafValue = ref(getTaxonomyLeaf(modelValue.value))
+
+    const model = ref(deepcopy(leafValue.value))
     const {t, locale} = useI18n()
     const {onChange} = useModel(ctx, model)
     const {mt} = useTranslated(locale)
@@ -138,20 +136,22 @@ export default {
     const {input} = useInputRefs()
     const authorType = ref(null)
     const givenNameRef = ref(null)
-    const givenName = ref(deepcopy(props.modelValue.givenName))
+    const givenName = ref(deepcopy(leafValue.value.givenName))
     const familyNameRef = ref(null)
-    const familyName = ref(deepcopy(props.modelValue.familyName))
+    const familyName = ref(deepcopy(getTaxonomyLeaf(modelValue).familyName))
     const fullName = ref(null)
     const identifiers = ref(null)
     const affiliations = ref(null)
     const organization = ref(null)
+    const nameType = ref(leafValue.value.nameType ? leafValue.value.nameType : AUTHOR_TYPES.PERSON)
+
 
     const isPerson = computed(() => {
-      return model.value.nameType === AUTHOR_TYPES.PERSON
+      return nameType.value === AUTHOR_TYPES.PERSON
     })
 
     const isOrg = computed(() => {
-      return model.value.nameType === AUTHOR_TYPES.ORGANIZATION
+      return nameType.value === AUTHOR_TYPES.ORGANIZATION
     })
 
     const fullNameLabel = computed(() => {
@@ -164,23 +164,23 @@ export default {
     }
 
     function onOrgChange(newVal) {
-      // TODO: what to actually use here as full name??? Should this be correct?
       if (model.value && newVal) {
         model.value = newVal
         // Keep the settings neccessary for orgs
-        model.value.fullName = deepcopy(mt(model.value.title))
+        model.value.fullName = deepcopy(model.value.fullName)
         model.value.nameType = AUTHOR_TYPES.ORGANIZATION
+        nameType.value = AUTHOR_TYPES.ORGANIZATION
       } else {
-        model.value = deepcopy(DEFAULT_ORGANIZATION_ITEM)
+        model.value = deepcopy({})
       }
       onChange()
     }
 
     function changeType() {
       if (isOrg.value) {
-        model.value = deepcopy(DEFAULT_ORGANIZATION_ITEM)
+        model.value = deepcopy({})
         if (!props.noRoles) {
-          model.value.role = []
+          // model.value.role = []
         }
       } else {
         model.value = deepcopy(DEFAULT_AUTHOR_ITEM)
@@ -244,6 +244,7 @@ export default {
       model,
       affiliations,
       fullNameLabel,
+      nameType,
       isPerson,
       isOrg,
       changeType,

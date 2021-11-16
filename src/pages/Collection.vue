@@ -1,12 +1,12 @@
 <template lang="pug">
 div.collection-page.q-mt-xl
-  .row.no-padding.no-margin
+  .row.no-padding.no-margin(v-if="communities>0")
     .text-subtitle1 {{ $t('label.availableCommunities') }}
-  .row.q-py-md
+  .row.q-py-md(v-if="communities>0")
     community-carousel
   .row.items-stretch
     search-header.col-8(:collection="collection")
-    selected-facets.col-4(:activeFacets="activeFacets")
+    //selected-facets.col-4(:activeFacets="activeFacets")
   a(name="top")
   .row.items-stretch
     record-list.col-8.record-list(:collection="collection")
@@ -33,6 +33,9 @@ import {defineComponent, onMounted, ref} from 'vue'
 import {useRouter} from 'vue-router'
 import CommunityCarousel from 'components/controls/selects/CommunityCarousel'
 
+import {community} from "src/contexts/community";
+import useAuth from "src/composables/useAuth";
+
 export default defineComponent({
   name: 'Collection',
   props: {
@@ -47,6 +50,8 @@ export default defineComponent({
     CommunityCarousel
   },
   setup() {
+    const {currentUserCommunities} = useAuth()
+    const communities = ref(currentUserCommunities.value.length)
     const fullText = ref(true)
     const searchField = ref('')
     const drawer = ref(null)
@@ -71,7 +76,7 @@ export default defineComponent({
       })
     })
 
-    return {fullText, searchField, drawer, activeFacets, search, scrollToTop}
+    return {fullText, searchField, drawer, activeFacets, search, scrollToTop, communities}
   }
 })
 </script>

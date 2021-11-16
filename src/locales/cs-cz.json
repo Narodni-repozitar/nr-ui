@@ -110,6 +110,8 @@
     "dateValidTo": "Datum platnosti datové sady",
     "dateCreated": "Datum vytvoření datové sady",
     "dateAvailable": "Datum zveřejnění",
+    "yearAvailable": "Rok zveřejnění",
+    "relITemLabel": "Vazby na/z dalších zdrojů",
     "dateCollected": "Datum sběru dat",
     "funder": "Poskytovatel projektu",
     "funding": "Financování",

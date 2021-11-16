@@ -1,6 +1,6 @@
 import sanitizeHtml from "sanitize-html";
 
-function arraysDiffer (a, b) {
+function arraysDiffer(a, b) {
   if (a.length !== b.length) {
     return true
   }
@@ -15,29 +15,29 @@ function arraysDiffer (a, b) {
 }
 
 
-function arrayContains (arr, x) {
+function arrayContains(arr, x) {
   for (let i = 0; i < arr.length; ++i) {
     if (arr[i].slug === x.slug) return true
   }
   return false
 }
 
-function empty (x) {
+function empty(x) {
   return x === null || x === undefined
 }
 
 
-function copyValue (a) {
+function copyValue(a) {
   if (a === null || a === undefined) {
     return a
   }
   if (Array.isArray(a)) {
     return a.map(x => copyValue(x))
   }
-  return { ...a }
+  return {...a}
 }
 
-function termOrArrayChanged (a, b) {
+function termOrArrayChanged(a, b) {
   if (empty(a) && empty(b)) {
     return false
   }
@@ -65,7 +65,7 @@ function parseCommunityRole(role) {
   return {prefix: prefix, communityId: communityId, roleName: roleName}
 }
 
-function sanitize (value) {
+function sanitize(value) {
   if (value) {
     Object.keys(value).map(function (key, index) {
       value[key] = sanitizeHtml(value[key], {allowedTags: []})
@@ -80,6 +80,24 @@ function removeEmpty(obj) {
   )
 }
 
+function getTaxonomyLeaf(taxonomy) {
+  if (Array.isArray(taxonomy)) {
+    const leaf = taxonomy.filter(x => x.is_ancestor !== true)
+    if (leaf.length) {
+      return leaf[0]
+    }
+  }
+  return taxonomy
+}
+
 export {
-  arraysDiffer, arrayContains, termOrArrayChanged, copyValue, pathFromUrl, parseCommunityRole, sanitize, removeEmpty
+  arraysDiffer,
+  arrayContains,
+  termOrArrayChanged,
+  copyValue,
+  pathFromUrl,
+  parseCommunityRole,
+  sanitize,
+  removeEmpty,
+  getTaxonomyLeaf
 }
