@@ -9,6 +9,7 @@ q-field.no-margin.no-label-float.row.full-width(
     .row.full-width.no-padding.no-margin
       term-list-select.q-mt-none.no-padding.no-margin(
         ref="input"
+        :hint="$t('hint.subjects')"
         v-bind="$attrs"
         v-model="model"
         taxonomy="subjectCategories"

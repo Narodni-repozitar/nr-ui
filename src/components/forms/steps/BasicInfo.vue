@@ -18,6 +18,7 @@
   multilingual-editor.col(
     ref="abstract"
     v-model="model.abstract"
+    :hint="$t('hint.abstract')"
     :rules="[required($t('error.validation.required'))]"
     @update:model-value="onChange"
     :label="$t('label.abstract') + ' *'")
@@ -26,8 +27,10 @@
     ref="rights"
     :exclude="['copyright']"
     v-model="model.rights"
+    :hint="$t('hint.license')"
     @update:model-value="onChange"
     :label="$t('label.license')")
+  .text-negative.text-caption.text-weight-medium {{ $t('hint.licenseWarn') }}
   publishers-select.col(
     ref="publishers"
     v-model="model.publisher"

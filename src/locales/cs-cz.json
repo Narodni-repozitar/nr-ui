@@ -76,13 +76,21 @@
     "validationFail": "Prosím opravte chyby a zkuste to znovu"
   },
   "hint": {
+    "subjects": "Vyberte obor/y, do kterého/kterých datová sada spadá. Můžete začít zapisovat a vybrat hodnotu z našeptavače.",
+    "keywords": "Klikněte na symbol +, zapište klíčové slovo (KW). Symbolem + u jazyka můžete otevřít pole pro zápis stejného KW v jiném jazyce. Uložte. Následně můžete kliknutím na + otevřít pole pro další KW.",
+    "licenseWarn": "Upozornění: Ujistěte se o tom, že datová sada může být pod licencí zveřejněna!",
+    "license": "Pokud se k datové sadě váže licence Creative Commons, vyberte příslušnou variantu licence z nabídky. Doporučujeme výběr nejnovějších verzí a to 3.0 Česko a 4.0 International.",
+    "abstract": "Prostor pro detailní popis metodologie a technických informací naleznete v části „Popis datové sady“",
     "resolvedDOIValue": "Hodnota získaná z DOI metadat: {type}",
     "fileNote": "Zadejte popis obsahu nebo poznámky k souboru",
     "localeSwitcher": "Zadejte kód jazyka ve formátu ISO 639-2/B",
     "primaryCommunity": "Vyberte primární komunitu / skupinu do které bude záznam patřit",
-    "publicationDate": "Pokud byl váš upload již publikován jinde, použijte datum prvního zveřejnění. Formát: RRRR-MM-DD, RRRR-MM nebo RRRR. ",
+    "publicationDate": "Pokud byla datová sada již publikována jinde, použijte datum prvního zveřejnění. Můžete zadat rovněž datum budoucího zveřejnění (časové embargo). Pokud datum nevyplníte, systém automaticky doplní datum při vypublikování (zveřejnění) záznamu. Formát: RRRR-MM-DD, RRRR-MM nebo RRRR.",
     "removeArticles": "Vyberte články, které chcete odebrat",
-    "DOIExample": "Zadejte hodnotu DOI. Příklad: 10.5281/zenodo.5547272"
+    "dateCollected": "Zapište časové rozmezí, ve kterém proběhl/probíhal sběr dat. V případě, že se nejedná o rozsah, vyplňte stejné datum do obou částí. Data můžete vybrat i z kalendáře.",
+    "dateCreated": "Zapište časový údaj/rozmezí, ve kterém datová sada vznikla. V případě, že se nejedná o rozsah, vyplňte stejné datum do obou částí. Data můžete vybrat i z kalendáře.",
+    "DOIExample": "Zadejte hodnotu DOI. Příklad: 10.5281/zenodo.5547272",
+    "upload": "Při nahrávání můžete přidat poznámku/popisek k souboru kliknutím na symbol tužky vedle názvu souboru (popiskem lze odlišit např. jazykovou verzi, informaci k formátu souboru…)."
   },
   "icon": {
     "approve": "verified",
