@@ -8,7 +8,8 @@ q-chip(
   text-color="dark"
   class="q-ma-none")
   q-avatar(text-color="white" color="primary")
-    span.q-px-sm.text-bold {{ identifier.scheme }}
+    span.q-px-sm.text-bold(v-if="identifier.scheme.toLowerCase() === 'doi'") {{ identifier.scheme.toUpperCase() }}
+    span.q-px-sm.text-bold(v-if="identifier.scheme.toLowerCase() !== 'doi'") {{ identifier.scheme }}
   a(:href="`https://doi.org/${identifier.identifier}`"
     target="_blank"
     v-if="identifier.scheme.toLowerCase() === 'doi'")

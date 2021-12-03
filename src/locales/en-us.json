@@ -147,7 +147,7 @@
     "state": "Record status",
     "persons": "Persons",
     "titleTranslation": "Title translation",
-    "recordIdentifiers": "Document identifiers",
+    "recordIdentifiers": "Object identifiers",
     "isPartOf": "Is part of",
     "filesCount": "Attachments",
     "filesFound": "{count} file | {count} files",

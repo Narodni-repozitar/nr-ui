@@ -32,11 +32,10 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
             q-item-section
               q-item-label.q-mr-xl.text-primary.wrap-anywhere {{ f.name }}
               q-item-label.q-pt-xs(caption) {{ f.fileNote }}
-        label-block.q-mt-lg(:label="$t('label.recordLink')")
-          div(v-if="hasDOI")
-            a.block.record-link(:href="doiUrl" target="_blank") {{ doiUrl }}
-          div(v-else)
-            a.block.record-link(:href="record.http.data.links.self" target="_blank") {{ record.http.data.links.self }}
+        label-block(:label="$t('label.recordIdentifiers')" v-if="m.persistentIdentifiers?.length")
+        separated-list(:list='m.persistentIdentifiers')
+          template(v-slot:default="{item}")
+            identifier-chip.self-center(:identifier="item")
         label-block.block.q-mt-lg(:label="$t('label.state')")
           p {{ recordStatus }}
         label-block.block.q-mt-lg(:label="$t('label.inCommunity')")
@@ -67,10 +66,6 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
         div(v-for="(l, idx) in m.publisher" :key="l.links.self")
           simple-term.cursor-pointer.text-primary.inline(:term="[l]" @click="filterByAffiliation(l)")
           span(v-if="idx < m.publisher.length-1") ,&nbsp;
-      label-block(:label="$t('label.recordIdentifiers')" v-if="m.persistentIdentifiers?.length")
-        separated-list(:list='m.persistentIdentifiers')
-          template(v-slot:default="{item}")
-            identifier-chip.self-center(:identifier="item")
       label-block(:label="$t('label.forms.keywords')" v-if="m.keywords?.length")
         multilingual-chip.q-mr-sm(:multilingual="kw" v-for="(kw, idx) in m.keywords" :key="idx")
       label-block(:label="$t('label.subjectCategories')" v-if="m.subjectCategories?.length")
