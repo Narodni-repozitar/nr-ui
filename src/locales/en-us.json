@@ -147,7 +147,7 @@
     "state": "Record status",
     "persons": "Persons",
     "titleTranslation": "Title translation",
-    "recordIdentifiers": "Document identifiers",
+    "recordIdentifiers": "Object identifier",
     "isPartOf": "Is part of",
     "filesCount": "Attachments",
     "filesFound": "{count} file | {count} files",
@@ -279,7 +279,7 @@
     "recordNotValid": "Record is not valid",
     "resolveDOIError": "DOI could not be resolved",
     "savingChanges": "Saving Changes",
-    "submissionInfo": "A new DRAFT record will be created with an unique persistent identifier.",
+    "submissionInfo": "A new DRAFT record will be created.",
     "submissionSuccess": "Successfully submitted a new record with ID {pid}",
     "submitting": "Submitting record"
   },

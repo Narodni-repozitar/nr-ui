@@ -1,6 +1,6 @@
 {
   "name": "nr-ui-quasar2",
-  "version": "2.0.0a42",
+  "version": "2.0.0a43",
   "description": "Czech national repository UI app",
   "productName": "Czech national repository",
   "author": "Daniel Kopecký <kopecky.d@gmail.com>",
@@ -27,13 +27,14 @@
     "core-js": "^3.6.5",
     "deepcopy": "^2.1.0",
     "quasar": "^2.0.1",
+    "vue-loader": "^16.8.3",
     "sanitize-html": "^2.4.0",
     "vue-class-component": "^8.0.0-rc.1",
     "vue-context-composition": "^0.2.3",
     "vue-i18n": "^9.0.0"
   },
   "devDependencies": {
-    "@quasar/app": "^3.0.1",
+    "@quasar/app": "^3.0.4",
     "babel-eslint": "^10.0.1",
     "eslint": "^7.14.0",
     "eslint-config-prettier": "^8.1.0",
