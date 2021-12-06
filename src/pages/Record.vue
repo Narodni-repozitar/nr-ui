@@ -35,7 +35,7 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
         label-block(:label="$t('label.recordIdentifiers')" v-if="m.persistentIdentifiers?.length")
         separated-list(:list='m.persistentIdentifiers')
           template(v-slot:default="{item}")
-            identifier-chip.self-center(:identifier="item")
+            identifier-chip.col-auto.self-start(:identifier="item")
         label-block.block.q-mt-lg(:label="$t('label.state')")
           p {{ recordStatus }}
         label-block.block.q-mt-lg(:label="$t('label.inCommunity')")

@@ -24,11 +24,11 @@
       label-block(:label="$t('label.license')" v-if="data.rights && Object.keys(data.rights).length")
         span.text-weight-bold {{ $mt(data.rights.title) }}
       label-block(:label="$t('label.publishers')" v-if="data.publisher.length")
-        span.text-weight-bold {{ data.publisher.map(p => $mt(p.title)) }}
+        span.text-weight-bold {{ data.publisher.map(p => $mt(p.title)).join(', ') }}
       label-block(:label="$t('label.authors')")
-        span.text-weight-bold(v-for="(c, idx) in data.creators" :key="idx") {{ c.fullName }} ({{ c.affiliation? c.affiliation.map(a => $mt(a.title)): '' }}),
+        span.text-weight-bold(v-for="(c, idx) in data.creators" :key="idx") {{ c.fullName }} ({{ c.affiliation? c.affiliation.map(a => $mt(a.title)).join(', ') : '' }}),
       label-block(:label="$t('label.contributors')" v-if="data.contributors?.length")
-        span.text-weight-bold(v-for="(c, idx) in data.contributors" :key="idx") {{ c.fullName }} ({{ c.affiliation? c.affiliation.map(a => $mt(a.title)): ' ' }}),
+        span.text-weight-bold(v-for="(c, idx) in data.contributors" :key="idx") {{ c.fullName }} ({{ c.affiliation? c.affiliation.map(a => $mt(a.title)).join(', ') : ' ' }}),
       label-block(:label="$t('label.forms.keywords')" v-if="data.keywords?.length")
         span.text-weight-bold(v-for="(kw, idx) in data.keywords" :key="idx") {{ $mt(kw) }},
       label-block(:label="$t('label.methods')"  v-if="data.methods && Object.keys(data.methods).length")

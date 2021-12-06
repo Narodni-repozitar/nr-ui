@@ -220,7 +220,7 @@
     "license": "Licence",
     "localeSwitcher": "Jazyk",
     "ofAuthor": "autora",
-    "recordIdentifiers": "Identifikátory objektu",
+    "recordIdentifiers": "Identifikátor objektu",
     "ofContributor": "přispěvatele",
     "fullName": "Celé jméno",
     "name": "Název",
@@ -287,7 +287,7 @@
     "recordNotValid": "V záznamu jsou chyby",
     "resolveDOIError": "K zadanému DOI se nepodařilo získat metadata článku",
     "savingChanges": "Ukládám změny",
-    "submissionInfo": "Pokračováním dojde k vytvoření draftového záznamu s přiděleným unikátním perzistentním identifikátorem.",
+    "submissionInfo": "Pokračováním dojde k vytvoření draftového záznamu.",
     "submissionSuccess": "Záznam s ID {pid} úspěšně vytvořen",
     "submitting": "Vytvářím záznam"
   },
