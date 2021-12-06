@@ -20,6 +20,8 @@ q-select(
   lazy-rules="ondemand"
   :hint="hint"
   :rules="rules"
+  :clearable="!multiple"
+  @clear="clear"
   :placeholder="emptyModel ? translatedPlaceholder: ''"
   @update:model-value="clearText"
   @keydown="onKeyDown"
@@ -160,7 +162,7 @@ export default defineComponent({
           delete v['children']
           return v
         })
-      } else {
+      } else if (data?.children) {
         delete data['children']
       }
       return data
