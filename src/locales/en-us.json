@@ -263,7 +263,7 @@
     "recordHasType": "Resolved record has type",
     "draftDeleted": "Draft record was deleted",
     "errorCreatingArticle": "There was an error when creating the article",
-    "gdprPrompt": "By clicking on \"Accept\", you give your consent with our Terms of Service and Privacy Policy for this service.",
+    "gdprPrompt": "By clicking on \"Accept\", you confirm that you have been informed of the terms of service and of the information about the processing of personal data.",
     "loading": "Loading",
     "loadingMetadata": "Loading metadata",
     "loggedOut": "You have been logged out",
