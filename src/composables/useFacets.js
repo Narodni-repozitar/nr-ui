@@ -1,4 +1,4 @@
-import {computed, ref} from 'vue'
+import {computed, defineComponent, h, ref} from 'vue'
 import deepmerge from 'deepmerge'
 import {useI18n} from "vue-i18n";
 import FacetContainer from "components/facets/FacetContainer";
@@ -7,6 +7,8 @@ import DrawerBucket from "components/facets/DrawerBucket";
 
 export default function useFacets(collection) {
   const {t} = useI18n()
+
+  const noop = defineComponent({render: () => h('span')})
 
   const defaults = ref({
     components: {
@@ -19,8 +21,11 @@ export default function useFacets(collection) {
           keepColor: true
         }
       },
+      listBucketsSelectMore: {
+        component: noop
+      },
       extendedFacetsButton: {
-        component: 'div' // Disable More Filters button
+        component: noop,
       },
       listBucketLabel: {
         component: 'div',
