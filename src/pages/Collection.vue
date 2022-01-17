@@ -1,8 +1,8 @@
 <template lang="pug">
 div.collection-page.q-mt-xl
-  .row.no-padding.no-margin(v-if="communities>0")
+  .row.no-padding.no-margin(v-if="currentUserCommunities.length>0")
     .text-subtitle1 {{ $t('label.availableCommunities') }}
-  .row.q-py-md(v-if="communities>0")
+  .row.q-py-md(v-if="currentUserCommunities.length>0")
     community-carousel
   .row.items-stretch
     search-header.col-8(:collection="collection")
@@ -51,7 +51,6 @@ export default defineComponent({
   },
   setup() {
     const {currentUserCommunities} = useAuth()
-    const communities = ref(currentUserCommunities.value.length)
     const fullText = ref(true)
     const searchField = ref('')
     const drawer = ref(null)
@@ -76,7 +75,7 @@ export default defineComponent({
       })
     })
 
-    return {fullText, searchField, drawer, activeFacets, search, scrollToTop, communities}
+    return {fullText, searchField, drawer, activeFacets, search, scrollToTop, currentUserCommunities}
   }
 })
 </script>
