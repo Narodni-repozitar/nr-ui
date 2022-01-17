@@ -15,7 +15,7 @@
     "@oarepo/invenio-vue": "^1.0.0-a10",
     "@oarepo/quasar-es-facets": "^1.0.0-a21",
     "@oarepo/vue-popup-login": "^3.0.0-a7",
-    "@oarepo/vue-query-synchronizer": "^3.0.0-a4",
+    "@oarepo/vue-query-synchronizer": "^3.0.0-a11",
     "@quasar/extras": "^1.0.0",
     "@uppy/aws-s3-multipart": "^2.0.3",
     "@uppy/core": "^2.0.3",

@@ -1131,6 +1131,11 @@
   resolved "https://registry.yarnpkg.com/@oarepo/vue-popup-login/-/vue-popup-login-3.0.0-a7.tgz#3ab64490462b113dd96d0aeba56d3955112bb4a6"
   integrity sha512-FwY9hJrViodz6/BFQqahNtTWzm2Le0xoEAT62dYa57cGFsZKc6XX5a7NQTqnXsadBXUKVyyanfhrgSIyZD1Pow==
 
+"@oarepo/vue-query-synchronizer@^3.0.0-a11":
+  version "3.0.0-a11"
+  resolved "https://registry.yarnpkg.com/@oarepo/vue-query-synchronizer/-/vue-query-synchronizer-3.0.0-a11.tgz#5d112a0f83b10a79ab77007ebbebafed1c56ec56"
+  integrity sha512-aIcNActR0oY8fdwc0yR3bTkNXjszuvVEoxu8mHngipN7l0xkxV51C4ZdbAOz10Gyl9dgrEio2G2nlCo6veBU1w==
+
 "@oarepo/vue-query-synchronizer@^3.0.0-a4":
   version "3.0.0-a5"
   resolved "https://registry.yarnpkg.com/@oarepo/vue-query-synchronizer/-/vue-query-synchronizer-3.0.0-a5.tgz#db55c7f63b4de0cabdf204eba10377983d9cc3f8"
