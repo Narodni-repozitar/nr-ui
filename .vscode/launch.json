@@ -1,0 +1,41 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "firefox",
+      "request": "launch",
+      "reAttach": true,
+      "name": "Launch Firefox against localhost",
+      "url": "https://127.0.0.1:5000",
+      "webRoot": "${workspaceFolder}/src",
+      "pathMappings": [
+        {
+          "url": "webpack://nr-ui-quasar2/src",
+          "path": "${workspaceFolder}/src"
+        },
+        {
+          "url": "webpack://nr-ui-quasar2/src",
+          "path": "${workspaceFolder}/src"
+        },
+        {
+          "url": "webpack:///src",
+          "path": "${webRoot}"
+        }
+      ]
+    },
+    {
+      "type": "chrome",
+      "request": "launch",
+      "name": "Launch Chrome against localhost",
+      "url": "https://127.0.0.1:5000",
+      "webRoot": "${workspaceFolder}/src",
+      "breakOnLoad": true,
+      "sourceMapPathOverrides": {
+        "webpack:///./src/*": "${webRoot}/*"
+      }
+    }
+  ]
+}

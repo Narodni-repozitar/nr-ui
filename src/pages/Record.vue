@@ -15,7 +15,7 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
       mt(:text="mainTitle")
     .col-auto()
       q-chip.status-chip(v-if="doiRequested")
-        .text-accent.text-overline.text-bold {{$t('label.doiRequested')}}
+        .text-accent.text-overline.text-bold {{ $t('label.doiRequested') }}
   .row.q-my-xl.q-gutter-sm.no-wrap
     .col-3.q-pl-md.q-py-md.rounded-borders.bg-grey-3
       .column.full-height.q-pr-lg
@@ -34,7 +34,7 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
               q-item-label.q-pt-xs(caption) {{ f.fileNote }}
         label-block(:label="$t('label.recordIdentifiers')" v-if="m.persistentIdentifiers?.length")
         separated-list(:list='m.persistentIdentifiers')
-          template(v-slot:default="{item}")
+          template(v-slot:default="{ item }")
             identifier-chip.col-auto.self-start(:identifier="item")
         label-block.block.q-mt-lg(:label="$t('label.state')")
           p {{ recordStatus }}
@@ -61,16 +61,16 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
       label-block(:label="$t('label.language')")
         div(v-for="(l, idx) in m.language" :key="l.links.self")
           simple-term.inline(:term="[l]")
-          span(v-if="idx < m.language.length-1") ,&nbsp;
+          span(v-if="idx < m.language.length - 1") ,&nbsp;
       label-block(:label="$t('label.publisher')")
         div(v-for="(l, idx) in m.publisher" :key="l.links.self")
           simple-term.cursor-pointer.text-primary.inline(:term="[l]" @click="filterByAffiliation(l)")
-          span(v-if="idx < m.publisher.length-1") ,&nbsp;
+          span(v-if="idx < m.publisher.length - 1") ,&nbsp;
       label-block(:label="$t('label.forms.keywords')" v-if="m.keywords?.length")
         multilingual-chip.q-mr-sm(:multilingual="kw" v-for="(kw, idx) in m.keywords" :key="idx")
       label-block(:label="$t('label.subjectCategories')" v-if="m.subjectCategories?.length")
         separated-list(:list='m.subjectCategories' double)
-          template(v-slot:default="{item}")
+          template(v-slot:default="{ item }")
             simple-term.text-primary.cursor-pointer( :term="[item]" @click="filterBySubject(item)")
       label-block(:label="$t('label.abstract')")
         mt-tabs(:text="sanitize(m.abstract) || []")
@@ -80,18 +80,18 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
         mt-tabs(:text="sanitize(m.technicalInfo) || []")
       label-block(:label="$t('label.notes')" v-if="m.notes?.length")
         separated-list(:list='m.notes')
-          template(v-slot:default="{item}")
+          template(v-slot:default="{ item }")
             span {{ item }}
       label-block(:label="$t('label.relITemLabel')" v-if="m.relatedItems?.length")
         separated-list(:list="m.relatedItems" double)
-          template(v-slot:default="{item}")
+          template(v-slot:default="{ item }")
             .row
               span.text-weight-bold.q-px-sm {{ $t('label.title') }}:
               span {{ item.itemTitle }}
               vertical-separator
               span.text-weight-bold.q-px-sm {{ $t('label.authors') }}:
               span.q-px-xs(v-for="(c, idx) in item.itemCreators" :key="c.fullName") {{ c.fullName }}
-                span(v-if="idx < item.itemCreators.length -1") ;
+                span(v-if="idx < item.itemCreators.length - 1") ;
               vertical-separator
               span.text-weight-bold.q-px-sm {{ $t('label.year') }}:
               span {{ item.itemYear }}
@@ -100,7 +100,7 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
               a.record-link(:href="item.itemURL" target="_blank") {{ item.itemPIDs[0].identifier }}
       label-block(:label="$t('label.project')" v-if="m.fundingReferences?.length")
         separated-list(:list='m.fundingReferences' double)
-          template(v-slot:default="{item}")
+          template(v-slot:default="{ item }")
             template(v-if="item.projectID")
               span {{ item.projectID }}
                 q-tooltip {{ $t('label.fundingProjectID') }}
@@ -118,9 +118,9 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
         simple-term(:levels="1" :term="rights")
       label-block.text-negative.block.q-mt-lg(v-if="m['oarepo:draft'] && !m['oarepo:validity']?.valid" :label="$t('label.oarepo:validityErrors')")
         ul(v-for="(err, idx) in m['oarepo:validity']?.errors?.marshmallow" :key="idx")
-          li {{err.field}} : {{err.message}}
+          li {{ err.field }} : {{ err.message }}
         ul(v-for="(err, idx) in m['oarepo:validity']?.errors?.jsonschema" :key="idx")
-          li {{err.field}} : {{err.message}}
+          li {{ err.field }} : {{ err.message }}
   .row.q-my-xl.full-width.justify-between
     .col-auto.column.items-start.q-mb-xl
       q-btn.col-auto(
@@ -140,19 +140,19 @@ import RightsIcon from "components/icons/RightsIcon"
 import FileIcon from 'components/icons/FileIcon'
 import LabelBlock from "components/record/LabelBlock"
 import RecordPeople from 'components/list/RecordPeople'
-import {computed, defineComponent} from 'vue'
-import {useRouter} from 'vue-router'
+import { computed, defineComponent } from 'vue'
+import { useRouter } from 'vue-router'
 import VerticalSeparator from "components/ui/VerticalSeparator";
 import MultilingualChip from 'components/i18n/MultilingualChip'
-import {PRIMARY_COMMUNITY_FIELD} from "src/constants";
+import { PRIMARY_COMMUNITY_FIELD } from "src/constants";
 import useRecord from "src/composables/useRecord";
-import {sanitize} from "src/utils";
+import { sanitize } from "src/utils";
 import useDOIStatus from "src/composables/useDOIStatus";
 import IdentifierChip from "components/ui/IdentifierChip";
-import {useContext} from "vue-context-composition";
-import {community} from "src/contexts/community";
-import {useTranslated} from "src/composables/useTranslated";
-import {useI18n} from "vue-i18n";
+import { useContext } from "vue-context-composition";
+import { community } from "src/contexts/community";
+import { useTranslated } from "src/composables/useTranslated";
+import { useI18n } from "vue-i18n";
 
 export default defineComponent({
   name: 'Record',
@@ -170,7 +170,7 @@ export default defineComponent({
     RecordPeople,
     FileIcon
   },
-  setup(props) {
+  setup (props) {
     const {
       m,
       mainTitle,
@@ -184,16 +184,16 @@ export default defineComponent({
     } = useRecord(props.record)
     const router = useRouter()
     const metadata = computed(() => props.record.metadata || {})
-    const {hasNoDOI, hasDOI, doiRequested, doiUrl} = useDOIStatus(metadata)
-    const {getCommunity} = useContext(community)
-    const {locale} = useI18n()
-    const {mt} = useTranslated(locale)
+    const { hasNoDOI, hasDOI, doiRequested, doiUrl } = useDOIStatus(metadata)
+    const { getCommunity } = useContext(community)
+    const { locale } = useI18n()
+    const { mt } = useTranslated(locale)
 
-    function navigateToCollection() {
+    function navigateToCollection () {
       return router.push(communityLink.value)
     }
 
-    function download(file) {
+    function download (file) {
       window.open(`${file.url}?download`, '_blank')
     }
 
@@ -210,7 +210,7 @@ export default defineComponent({
       return getCommunity(m.value[PRIMARY_COMMUNITY_FIELD]).title
     })
 
-    function filterByCreator(creator) {
+    function filterByCreator (creator) {
       router.push({
         ...communityLink.value,
         query: {
@@ -219,7 +219,7 @@ export default defineComponent({
       })
     }
 
-    function filterByAffiliation(affiliation) {
+    function filterByAffiliation (affiliation) {
       router.push({
         ...communityLink.value,
         query: {
@@ -228,7 +228,7 @@ export default defineComponent({
       })
     }
 
-    function filterBySubject(subject) {
+    function filterBySubject (subject) {
       router.push({
         ...communityLink.value,
         query: {
