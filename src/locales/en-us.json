@@ -134,7 +134,7 @@
     "choosePublisher": "Choose publisher",
     "technicalInfo": "Technical Info",
     "methods": "Methods",
-    "toRemoveArticles" : "remove selected articles",
+    "toRemoveArticles": "remove selected articles",
     "subjectCategories": "Subject Categories",
     "institutionName": "Organization Name",
     "abstract": "Abstract",
@@ -251,7 +251,7 @@
     "bugReportSent": "Bug report has been sent",
     "submissionHasErrors": "Please correct the form errors before continuing",
     "typeAFewLetters": "Start typing",
-    "noActions" : "No Actions Available",
+    "noActions": "No Actions Available",
     "saveChangesSuccess": "Changes successfully saved",
     "articleExistsError": "An article record with this DOI already exists in this repository. Would you like to attach the dataset to this article?",
     "relatedItemExistsError": "An article with this DOI is already associated with this dataset.",
@@ -281,7 +281,8 @@
     "savingChanges": "Saving Changes",
     "submissionInfo": "A new DRAFT record will be created.",
     "submissionSuccess": "Successfully submitted a new record with ID {pid}",
-    "submitting": "Submitting record"
+    "submitting": "Submitting record",
+    "loadingRecords": "Loading data"
   },
   "nav": {
     "admin": "Administration",
@@ -331,11 +332,11 @@
     },
     "sort": {
       "alphabetical": "alphabetical",
-      "byName":  "by name",
+      "byName": "by name",
       "byRelevance": "by relevance",
       "byDateAvailable": "by date of publication",
       "byRecordStatus": "by record status",
-      "descending":  "descending",
+      "descending": "descending",
       "ascending": "ascending"
     },
     "unknown": "unknown",
@@ -353,7 +354,7 @@
       "Personal": "Person"
     },
     "idScheme": {
-      "orcid" : "ORCID",
+      "orcid": "ORCID",
       "scopusID": "Scopus AuthorID",
       "researcherID": "ResearcherID (Web of Science)",
       "czenasAutID": "Czech National Authority",
