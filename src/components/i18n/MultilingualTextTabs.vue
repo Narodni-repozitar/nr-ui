@@ -12,8 +12,8 @@ q-tabs.bold.inline.multilingual-text-tabs.items-baseline(
     :key='tab.language'
     :name='tab.language')
     .row.no-padding
-      q-separator(v-if='idx>0' vertical color="secondary" size="2px")
-      span.q-px-md.text-lowercase {{ $t(`value.lang.${tab.language}`) }}
+      q-separator(v-if='idx > 0' vertical color="secondary" size="2px")
+      span.q-px-md {{ $t(`value.lang.${tab.language}`) }}
 q-tab-panels.bg-transparent.multilingual-text-tab-content(v-model="selectedTab" animated)
   q-tab-panel(
     v-for='(tab, idx) in langTexts'
@@ -23,7 +23,7 @@ q-tab-panels.bg-transparent.multilingual-text-tab-content(v-model="selectedTab" 
       span {{ a }}
 </template>
 <script>
-import {Options, Vue} from 'vue-class-component'
+import { Options, Vue } from 'vue-class-component'
 
 export default @Options({
   name: 'mt-languages',
@@ -34,7 +34,7 @@ export default @Options({
 class MultilingualTextLanguages extends Vue {
   selectedTab = null
 
-  get langTexts() {
+  get langTexts () {
     if (!this.text) {
       return []
     }
@@ -55,7 +55,7 @@ class MultilingualTextLanguages extends Vue {
     })
   }
 
-  mounted() {
+  mounted () {
     const locale = this.$i18n.locale
     if (this.langTexts.find(x => x.language === locale)) {
       this.selectedTab = locale
