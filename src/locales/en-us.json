@@ -244,7 +244,8 @@
       "alphabetical": "Alphabetical"
     },
     "submit": "Submit",
-    "titles": "Dataset Title"
+    "titles": "Dataset Title",
+    "personName": "Name"
   },
   "message": {
     "loginInProgress": "Log in in progress",

@@ -250,7 +250,8 @@
       "alphabetical": "Abecedně"
     },
     "submit": "Vytvořit záznam",
-    "titles": "Název datové sady"
+    "titles": "Název datové sady",
+    "personName": "Jméno"
   },
   "message": {
     "loginInProgress": "Probíhá přihlašování",
