@@ -1,201 +1,210 @@
-import {computed, defineComponent, h, ref} from 'vue'
-import deepmerge from 'deepmerge'
-import {useI18n} from "vue-i18n";
+import { computed, defineComponent, h, ref } from "vue";
+import deepmerge from "deepmerge";
+import { useI18n } from "vue-i18n";
 import FacetContainer from "components/facets/FacetContainer";
 import DrawerBucket from "components/facets/DrawerBucket";
 
-
 export default function useFacets(collection) {
-  const {t} = useI18n()
+  const { t } = useI18n();
 
-  const noop = defineComponent({render: () => h('span')})
+  const noop = defineComponent({ render: () => h("span") });
 
   const defaults = ref({
     components: {
       bucketsContainer: {
-        component: FacetContainer
+        component: FacetContainer,
       },
       listBucketCheckbox: {
         attrs: {
-          color: 'secondary',
-          keepColor: true
-        }
+          color: "secondary",
+          keepColor: true,
+        },
       },
       listBucketsSelectMore: {
-        component: noop
+        component: noop,
       },
       extendedFacetsButton: {
         component: noop,
       },
       listBucketLabel: {
-        component: 'div',
+        component: "div",
         useChildren: true,
         html: true,
-        translator: ({bucket, facet}) => {
-          return bucketLabel(bucket, facet)
-        }
+        translator: ({ bucket, facet }) => {
+          return bucketLabel(bucket, facet);
+        },
       },
       listBucketValue: {
         component: null,
       },
       drawer: {
-        component: 'facets-drawer',
+        component: "facets-drawer",
         attrs: {},
-        style: {'border-bottom': null},
-        class: []
+        style: { "border-bottom": null },
+        class: [],
       },
       drawerBucket: {
-        component: DrawerBucket
+        component: DrawerBucket,
       },
-    }
-  })
+    },
+  });
 
   const types = ref({
     nested: {
       components: {
         facet: {
-          component: 'nested-facet'
-        }
-      }
-    }
-  })
+          component: "nested-facet",
+        },
+      },
+    },
+  });
 
   const definitions = ref({
-    'oarepo:recordStatus': {
+    "oarepo:recordStatus": {
       options: {
-        translate: true
+        translate: true,
       },
-      label: t('label.state')
+      label: t("label.state"),
     },
     language: {
-      type: 'nested',
+      type: "nested",
       aggs: {
         inner_facet: {
-          label: t('label.language')
-        }
-      }
+          label: t("label.language"),
+        },
+      },
     },
     keywords: {
-      label: t('label.forms.keywords')
+      label: t("label.forms.keywords"),
     },
     creators: {
-      label: t('label.authors'),
+      label: t("label.authors"),
       aggs: {
         terms: {
-          field: 'creators.fullName',
-        }
-      }
+          field: "creators.fullName",
+        },
+      },
     },
     affiliation: {
-      type: 'nested',
+      type: "nested",
       aggs: {
         inner_facet: {
-          label: t('label.affiliations'),
+          label: t("label.affiliations"),
           terms: {
-            field: 'creators.affiliation.title.cs.raw',
-          }
-        }
-      }
+            field: "creators.affiliation.title.cs.raw",
+          },
+        },
+      },
     },
     contributors: {
-      type: 'nested',
+      type: "nested",
       aggs: {
         inner_facet: {
-          label: "contributors"
-        }
-      }
+          label: "contributors",
+        },
+      },
     },
     rights: {
-      type: 'nested',
+      type: "nested",
       aggs: {
         inner_facet: {
-          label: t('label.license')
-        }
-      }
+          label: t("label.license"),
+        },
+      },
     },
     accessRights: {
-      type: 'nested',
+      type: "nested",
       aggs: {
         inner_facet: {
-          label: t('label.accessRights')
-        }
-      }
+          label: t("label.accessRights"),
+        },
+      },
     },
     resourceType: {
-      type: 'nested',
+      type: "nested",
       aggs: {
         inner_facet: {
-          label: t('label.resourceType')
-        }
-      }
+          label: t("label.resourceType"),
+        },
+      },
     },
     subjectCategories: {
-      type: 'nested',
+      type: "nested",
       aggs: {
         inner_facet: {
-          label: t('label.subjectCategories')
-        }
-      }
+          label: t("label.subjectCategories"),
+        },
+      },
     },
     dateCreated: {
-      label: t('label.dateCreated')
-    }
-  })
+      label: t("label.dateCreated"),
+    },
+  });
 
-  function bucketLabel (bucket, facet) {
+  function bucketLabel(bucket, facet) {
     if (isTranslated(facet)) {
-      return  `${t('value.facet.' + (bucket.key_as_string || bucket.key))}      (${bucket.doc_count})`
+      return `${t(
+        "value.facet." + (bucket.key_as_string || bucket.key)
+      )}      (${bucket.doc_count})`;
     }
-    return `${bucket.key_as_string || bucket.key}      (${bucket.doc_count})`
+    return `${bucket.key_as_string || bucket.key}      (${bucket.doc_count})`;
   }
 
   function isTranslated(facet) {
-    return facet.definition.options?.translate
+    return facet.definition.options?.translate;
   }
 
-  async function facetLoader(facetSelection, activeFacets, excludedFromQuery /*, extras = {}*/) {
-    const fetchedFacets = new Set([...Object.keys(facetSelection.selected()), ...Object.keys(activeFacets)])
+  async function facetLoader(
+    facetSelection,
+    activeFacets,
+    excludedFromQuery /*, extras = {}*/
+  ) {
+    const fetchedFacets = new Set([
+      ...Object.keys(facetSelection.selected()),
+      ...Object.keys(activeFacets),
+    ]);
     if (!fetchedFacets.size) {
-      return {}
+      return {};
     }
     const facets = await collection.httpFacets.load({
       query: {
-        facets: [...Array.from(fetchedFacets.values()).map(transformFacet)].join(','),
-        ...Object.entries(facetSelection.selected()).reduce(
-          (p, s) => {
-            if (!(excludedFromQuery && excludedFromQuery.includes(s[0]))) {
-              p[transformFacet(s[0])] = [...s[1]].map(x => x.toString())
-            }
-            return p
-          }, {}),
-        size: 1
+        facets: [
+          ...Array.from(fetchedFacets.values()).map(transformFacet),
+        ].join(","),
+        ...Object.entries(facetSelection.selected()).reduce((p, s) => {
+          if (!(excludedFromQuery && excludedFromQuery.includes(s[0]))) {
+            p[transformFacet(s[0])] = [...s[1]].map((x) => x.toString());
+          }
+          return p;
+        }, {}),
+        size: 1,
       },
-      returnPromise: true
-    })
-    return facets.aggregations
+      returnPromise: true,
+    });
+    return facets.aggregations;
   }
 
   const facetDefinitions = computed(() => {
-    const cols = collection.facetDefinitions
+    const cols = collection.facetDefinitions;
     // eslint-disable-next-line no-unused-vars
     for (const [k, val] of Object.entries(cols)) {
       if (definitions.value[k]) {
-        cols[k] = deepmerge(cols[k], definitions.value[k])
+        cols[k] = deepmerge(cols[k], definitions.value[k]);
       }
     }
-    return Object.keys(cols).sort().reduce(
-      (obj, key) => {
+    return Object.keys(cols)
+      .sort()
+      .reduce((obj, key) => {
         obj[key] = cols[key];
         return obj;
-      },
-      {})
-  })
+      }, {});
+  });
 
   function transformFacet(f) {
     if (f.split) {
-      return f.split('.')[0]
+      return f.split(".")[0];
     } else {
-      return f
+      return f;
     }
   }
 
@@ -205,6 +214,6 @@ export default function useFacets(collection) {
     definitions,
     facetDefinitions,
     facetLoader,
-    transformFacet
-  }
+    transformFacet,
+  };
 }
