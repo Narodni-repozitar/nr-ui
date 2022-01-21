@@ -12,11 +12,11 @@ div.row.authors.full-height.items-baseline
       a.cursor-pointer(@click="$emit('filter-contributor', item)" target="_blank") {{ item.fullName }}
         q-tooltip {{ $t('label.contributor') }}
       identifier-icon(v-for="id in item.authorityIdentifiers" :key="id.identifier" :identifier="id")
-      span.role.text-black(v-if="item.role") &nbsp;(
-      div(v-for="(r, idx) in item.role" :key="r.links.self")
-        simple-term.role.inline.text-black(:term="[r]")
+      span.role.text-black.text-caption(v-if="item.role") &nbsp;(
+      span.text-black.text-caption(v-for="(r, idx) in item.role" :key="r.links.self")
+        simple-term.role.inline(:term="[r]")
         span(v-if="idx < item.role.length - 1") ,&nbsp;
-      span.role.text-black(v-if="item.role" ) )
+        span.role(v-if="item.role" ) )
 </template>
 <style lang="sass">
 .collection-item
