@@ -14,27 +14,27 @@ q-step(
     @next="$emit('next')")
 </template>
 <script>
-import {computed, defineComponent, ref} from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import useModel from 'src/composables/useModel'
-import {DATASET_FORM_STEPS} from 'src/constants'
+import { DATASET_FORM_STEPS } from 'src/constants'
 import deepcopy from 'deepcopy'
 import BasicInfo from 'components/forms/steps/BasicInfo'
 
 export default defineComponent({
   name: 'BasicInfoStep',
-  components: {BasicInfo},
+  components: { BasicInfo },
   emits: ['update:modelValue', 'next', 'validate'],
   props: {
     done: Boolean,
     error: Boolean,
     modelValue: Object
   },
-  setup(props, ctx) {
+  setup (props, ctx) {
     const input = ref(null)
     const model = ref(deepcopy(props.modelValue))
-    const {onChange} = useModel(ctx, model)
+    const { onChange } = useModel(ctx, model)
 
-    function validate() {
+    function validate () {
       if (input.value) {
         return input.value.validate()
       }

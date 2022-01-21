@@ -49,7 +49,10 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
         .block.column(v-for="(sub, idx) in subtitles" :key="idx")
           mt-languages(:text="sub")
       label-block(:label="$t('label.persons')")
-        record-people.text-primary.text-weight-medium(:m="m" @filter-creator="filterByCreator")
+        record-people.text-primary.text-weight-medium(
+          :m="m"
+          @filter-contributor="filterByContributor"
+          @filter-creator="filterByCreator")
       label-block(:label="$t('label.dateAvailable')" v-if="m.dateAvailable")
         div.year-lang
           .row(v-if="m.dateAvailable")
@@ -219,6 +222,15 @@ export default defineComponent({
       })
     }
 
+    function filterByContributor (contributor) {
+      router.push({
+        ...communityLink.value,
+        query: {
+          contributors: contributor.fullName
+        }
+      })
+    }
+
     function filterByAffiliation (affiliation) {
       router.push({
         ...communityLink.value,
@@ -258,6 +270,7 @@ export default defineComponent({
       communityName,
       PRIMARY_COMMUNITY_FIELD,
       filterByCreator,
+      filterByContributor,
       filterByAffiliation,
       filterBySubject
     }

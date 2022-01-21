@@ -6,10 +6,10 @@ q-expansion-item.facet-container(
     q-item-section.facet-name
       span {{ label }}
   template(v-slot="slotData")
-    slot(v-bind="slotData")
+    slot(v-bind="slotData || {}")
 </template>
 <script>
-import {Options, Vue} from 'vue-class-component'
+import { Options, Vue } from 'vue-class-component'
 
 
 export default @Options({

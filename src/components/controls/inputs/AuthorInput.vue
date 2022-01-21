@@ -37,7 +37,7 @@ q-field.no-margin.no-label-float.row(
         ref="fullName"
         v-model="model.fullName"
         :rules="[required($t('error.validation.required'))]"
-        :label="`${$t('label.name')} ${$t('label.ofAuthor')} *`"
+        :label="`${$t('label.personName')} *`"
         @update:model-value="onChange")
       .col-grow.q-ml-sm(v-if="isOrg")
         term-select.q-pa-none(
@@ -85,28 +85,28 @@ q-field.no-margin.no-label-float.row(
 </template>
 
 <script>
-import {computed, ref, toRefs} from 'vue'
+import { computed, ref, toRefs } from 'vue'
 import ValidateMixin from '/src/mixins/ValidateMixin'
 import useValidation from '/src/composables/useValidation'
 import useInputRefs from '/src/composables/useInputRefs'
 import AuthorTypeSelect from 'components/controls/selects/AuthorTypeSelect'
 import IdentifierInputList from 'components/controls/inputs/IdentifierInputList'
-import {AFFILIATIONS, AUTHOR_TYPES, DEFAULT_AUTHOR_ITEM, PERSON_IDENTIFIER_SCHEMES} from '/src/constants'
+import { AFFILIATIONS, AUTHOR_TYPES, DEFAULT_AUTHOR_ITEM, PERSON_IDENTIFIER_SCHEMES } from '/src/constants'
 import TermSelect from 'components/controls/selects/TermSelect'
 import ChipsSelect from 'components/controls/selects/ChipsSelect'
 import BaseInput from 'components/controls/inputs/BaseInput'
-import {useI18n} from 'vue-i18n'
+import { useI18n } from 'vue-i18n'
 import TermListSelect from 'components/controls/selects/TermListSelect'
 import deepcopy from 'deepcopy'
-import {useTranslated} from 'src/composables/useTranslated'
+import { useTranslated } from 'src/composables/useTranslated'
 import useModel from 'src/composables/useModel'
-import {getTaxonomyLeaf} from "src/utils";
+import { getTaxonomyLeaf } from "src/utils";
 
 export default {
   name: 'AuthorInput',
   emits: ['update:modelValue'],
   mixins: [ValidateMixin],
-  components: {IdentifierInputList, AuthorTypeSelect, TermSelect, TermListSelect, ChipsSelect, BaseInput},
+  components: { IdentifierInputList, AuthorTypeSelect, TermSelect, TermListSelect, ChipsSelect, BaseInput },
   props: {
     label: {
       type: String,
@@ -124,16 +124,16 @@ export default {
       }
     }
   },
-  setup(props, ctx) {
-    const {modelValue} = toRefs(props)
+  setup (props, ctx) {
+    const { modelValue } = toRefs(props)
     const leafValue = ref(getTaxonomyLeaf(modelValue.value))
 
     const model = ref(deepcopy(leafValue.value))
-    const {t, locale} = useI18n()
-    const {onChange} = useModel(ctx, model)
-    const {mt} = useTranslated(locale)
-    const {error, required, resetValidation} = useValidation()
-    const {input} = useInputRefs()
+    const { t, locale } = useI18n()
+    const { onChange } = useModel(ctx, model)
+    const { mt } = useTranslated(locale)
+    const { error, required, resetValidation } = useValidation()
+    const { input } = useInputRefs()
     const authorType = ref(null)
     const givenNameRef = ref(null)
     const givenName = ref(deepcopy(leafValue.value.givenName))
@@ -158,12 +158,12 @@ export default {
       return `${t('label.name')} ${t('value.authorType.Organizational')} *`
     })
 
-    function onPersonNameChange() {
+    function onPersonNameChange () {
       model.value.fullName = `${familyName.value || ''}, ${givenName.value || ''}`
       onChange()
     }
 
-    function onOrgChange(newVal) {
+    function onOrgChange (newVal) {
       if (model.value && newVal) {
         model.value = newVal
         // Keep the settings neccessary for orgs
@@ -176,7 +176,7 @@ export default {
       onChange()
     }
 
-    function changeType() {
+    function changeType () {
       if (isOrg.value) {
         model.value = deepcopy({})
         if (!props.noRoles) {
@@ -188,7 +188,7 @@ export default {
       onChange()
     }
 
-    function validate() {
+    function validate () {
       resetValidation()
       let idr = true
       let afr = true
@@ -219,11 +219,11 @@ export default {
       }
 
       if (atr !== true ||
-          gnr !== true ||
-          fnr !== true ||
-          afr !== true ||
-          idr !== true ||
-          or !== true
+        gnr !== true ||
+        fnr !== true ||
+        afr !== true ||
+        idr !== true ||
+        or !== true
       ) {
         error.value = true
       }
@@ -262,5 +262,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

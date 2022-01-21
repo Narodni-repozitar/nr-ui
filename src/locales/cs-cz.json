@@ -108,7 +108,7 @@
     "accessRights": "Dostupnost",
     "chooseCommunity": "Vyberte komunitu",
     "fileNote": "Poznámka k souboru",
-    "toRemoveArticles" : "odebrat zvolené články",
+    "toRemoveArticles": "odebrat zvolené články",
     "inCommunity": "V komunitě",
     "publishers": "Vydavatelé",
     "from": "od",
@@ -122,7 +122,7 @@
     "yearAvailable": "Rok zveřejnění",
     "relITemLabel": "Vazby na/z dalších zdrojů",
     "dateCollected": "Datum sběru dat",
-    "funder": "Poskytovatel projektu",
+    "funder": "Poskytovatel",
     "funding": "Financování",
     "fundingProjectID": "Kód projektu",
     "fundingProjectName": "Název projektu",
@@ -147,7 +147,7 @@
     "browseRecords": "procházet všechny záznamy",
     "state": "Stav záznamu",
     "filesCount": "Počet souborů",
-    "filesFound": "žádné soubory | {count} 📎 | {count} \uD83D\uDCCE",
+    "filesFound": "žádné soubory | {count} 📎 | {count} 📎",
     "activeFilters": "Aktivní filtry",
     "notAnArticle": "Nejedná se o článek",
     "selectedTerms": "Vybrané pojmy",
@@ -250,14 +250,15 @@
       "alphabetical": "Abecedně"
     },
     "submit": "Vytvořit záznam",
-    "titles": "Název datové sady"
+    "titles": "Název datové sady",
+    "personName": "Jméno"
   },
   "message": {
     "loginInProgress": "Probíhá přihlašování",
     "submissionHasErrors": "Pro pokračování prosím opravte chyby ve formuláři",
     "bugReportSent": "Chybové hlášení bylo zasláno",
     "typeAFewLetters": "Napište více znaků",
-    "noActions" : "Žádné dostupné akce",
+    "noActions": "Žádné dostupné akce",
     "recordHasType": "Nalezený záznam je typu",
     "insertArticleDoi": "Zadejte prosím DOI patřící záznamu typu članek",
     "saveChangesSuccess": "Změny uloženy",
@@ -335,11 +336,11 @@
     },
     "sort": {
       "alphabetical": "abecedně",
-      "byName":  "dle názvu",
+      "byName": "dle názvu",
       "byRelevance": "dle relevance",
       "byDateAvailable": "dle data zveřejnění",
       "byRecordStatus": "dle stavu záznamu",
-      "descending":  "sestupně",
+      "descending": "sestupně",
       "ascending": "vzestupně"
     },
     "unknown": "neznámý",
@@ -357,7 +358,7 @@
       "Personal": "osoba"
     },
     "idScheme": {
-      "orcid" : "ORCID",
+      "orcid": "ORCID",
       "scopusID": "Scopus AuthorID",
       "researcherID": "ResearcherID (Web of Science)",
       "czenasAutID": "Národní autorita",
