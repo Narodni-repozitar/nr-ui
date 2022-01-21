@@ -1,9 +1,8 @@
 <template lang="pug">
 q-field.no-margin.no-label-float.row.full-width.multilingual-input(
   ref="fieldRef"
-  :class="[dense? 'dense': '']"
+  :class="[dense ? 'dense' : '']"
   :label="label"
-  :error="error"
   readonly
   borderless
   :error-message="errorMessage"
@@ -14,7 +13,7 @@ q-field.no-margin.no-label-float.row.full-width.multilingual-input(
         stack-label
         autofocus
         ref="setInputRef"
-        :input-class="[dense? 'dense-input': '']"
+        :input-class="[dense ? 'dense-input' : '']"
         v-for="(val, idx) in model" :key="idx"
         v-bind="$attrs"
         :rules="rules"
@@ -25,7 +24,7 @@ q-field.no-margin.no-label-float.row.full-width.multilingual-input(
             v-model="model[idx].lang"
             @update:model-value="onChange"
             :lang-picker="showLangDialog")
-          q-btn.q-mt-md.q-mr-xs(v-if="idx === model.length -1" size="sm" color="accent" dense outline icon="add"
+          q-btn.q-mt-md.q-mr-xs(v-if="idx === model.length - 1" size="sm" color="accent" dense outline icon="add"
             @click="addLangVariant")
             q-tooltip {{ $t('action.addLang') }}
           q-btn.q-mt-md.q-mr-xs(v-if="model.length > 1" size="sm" dense color="accent" outline icon="remove"
@@ -35,8 +34,8 @@ q-field.no-margin.no-label-float.row.full-width.multilingual-input(
         template(v-slot:append)
 </template>
 <script>
-import {computed, ref} from 'vue'
-import {useI18n} from 'vue-i18n'
+import { computed, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import LocaleSelect from 'components/i18n/LocaleSelect'
 import useModel from '/src/composables/useModel'
 import useValidation from '/src/composables/useValidation'
@@ -47,7 +46,7 @@ import deepcopy from "deepcopy";
 
 export default {
   name: 'MultilingualInput',
-  components: {LangBadge, LocaleSelect},
+  components: { LangBadge, LocaleSelect },
   emits: ['update:modelValue'],
   props: {
     label: {
@@ -63,27 +62,27 @@ export default {
       }
     }
   },
-  setup(props, ctx) {
+  setup (props, ctx) {
     const model = ref([])
-    const {setInputRef, inputRefs} = useInputRefs()
-    const {addLangVariant, rmLangVariant, showLangDialog} = useMultilingual(model, inputRefs, onChange)
+    const { setInputRef, inputRefs } = useInputRefs()
+    const { addLangVariant, rmLangVariant, showLangDialog } = useMultilingual(model, inputRefs, onChange)
 
-    const {locale} = useI18n()
-    const {error, errorMessage, resetValidation, required} = useValidation()
+    const { locale } = useI18n()
+    const { error, errorMessage, resetValidation, required } = useValidation()
 
     const fieldRef = ref(null)
 
-    const {isEmpty} = useModel(ctx, model)
+    const { isEmpty } = useModel(ctx, model)
 
     if (!Object.keys(props.modelValue).length) {
-      model.value.push({lang: locale.value, val: ''})
+      model.value.push({ lang: locale.value, val: '' })
     } else {
       for (const [lang, value] of Object.entries(props.modelValue)) {
-        model.value.push({lang: lang, val: value})
+        model.value.push({ lang: lang, val: value })
       }
     }
 
-    function validate() {
+    function validate () {
       resetValidation()
       props.rules?.forEach(rule => {
         const res = rule(modelExternal.value)
@@ -117,7 +116,7 @@ export default {
       return values
     })
 
-    function onChange() {
+    function onChange () {
       resetValidation()
       ctx.emit('update:modelValue', modelExternal.value)
     }
@@ -128,7 +127,7 @@ export default {
     //   })
     // }
 
-    function onFocus() {
+    function onFocus () {
       if (isEmpty.value) {
         addLangVariant()
       }

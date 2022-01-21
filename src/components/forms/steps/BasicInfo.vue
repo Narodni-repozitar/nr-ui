@@ -41,7 +41,7 @@
   stepper-nav.q-mt-xl(has-prev=false @next="$emit('next')")
 </template>
 <script>
-import {defineComponent, ref} from 'vue'
+import { defineComponent, ref } from 'vue'
 import useValidation from 'src/composables/useValidation'
 import StepperNav from 'components/controls/StepperNav'
 import LanguagesSelect from 'components/controls/selects/LanguagesSelect'
@@ -80,7 +80,7 @@ export default defineComponent({
   props: {
     modelValue: Object
   },
-  setup(props, ctx) {
+  setup (props, ctx) {
     const primaryCommunity = ref(null)
     const mainTitle = ref(null)
     const abstract = ref(null)
@@ -88,26 +88,26 @@ export default defineComponent({
     const keywords = ref(null)
     const model = ref(deepcopy(props.modelValue))
     const publishers = ref(null)
-    const {required} = useValidation()
-    const {onChange} = useModel(ctx, model)
+    const { required } = useValidation()
+    const { onChange } = useModel(ctx, model)
 
-    function validate() {
+    function validate () {
       const tr = mainTitle.value.validate()
       const abr = abstract.value.validate()
       const pur = publishers.value.validate()
       const lnr = languages.value.validate()
 
       if (tr !== true ||
-          abr !== true ||
-          lnr !== true ||
-          pur !== true) {
+        abr !== true ||
+        lnr !== true ||
+        pur !== true) {
         ctx.emit('validate', false)
       } else {
         ctx.emit('validate', true)
       }
     }
 
-    return {model, required, primaryCommunity, mainTitle, abstract, languages, keywords, validate, onChange, publishers}
+    return { model, required, primaryCommunity, mainTitle, abstract, languages, keywords, validate, onChange, publishers }
   }
 })
 </script>
