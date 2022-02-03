@@ -34,6 +34,10 @@ q-footer.nr-footer.bg-grey-7.text-white(bordered).text-body1
         .q-pa-xs.text-weight-bold {{ $t('label.contact') }}
         .text-weight-light.text-body2
           a.q-pa-xs.text-white(href="mailto:support@narodni-repozitar.cz") support@narodni-repozitar.cz
+        .col.q-pa-sm.text-center
+          .q-pa-xs.text-weight-bold {{ $t('label.help') }}
+          .text-weight-light.text-body2
+            a.q-pa-xs.text-white(href="https://du.cesnet.cz/cs/navody/narodni_repozitar/start" target="_blank") www.du.cesnet.cz
     .col-lg-2.col-md-1.col-xs-0
   .row.justify-between.bg-grey-8.items-center
     .col-lg-2.col-md-1.col-xs-0
