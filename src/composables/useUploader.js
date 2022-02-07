@@ -102,8 +102,18 @@ export default function useUploader(url) {
     }
 
     function getChunkSize (file) {
-        // Produces a chunk size between 5-15 MB
-        return Math.min(Math.max(1024*1024*5, Math.ceil(file.size / 1000000)), 1024*1024*15)
+        // Produces a chunk size between 5-250 MB for max. 10240 chunks (max. ~2.44 TiB)
+        const maxChunks = 10240
+        const MiB = 1024*1024
+        const minPartSize = MiB*5
+        const midPartSize = MiB*25
+        const maxPartSize = MiB*250
+        return file.size <= maxChunks*minPartSize ? minPartSize : (
+            file.size <= maxChunks*midPartSize ? midPartSize : (
+                file.size <= maxChunks*maxPartSize ? maxPartSize :
+                    throw new Error('Unsupported file size (maxChunks and maxPartSize exceeded)')
+            )
+        )
     }
 
     const uppy = ref(new Uppy({
