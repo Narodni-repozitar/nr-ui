@@ -16,7 +16,7 @@
     "@oarepo/quasar-es-facets": "^1.0.0-a21",
     "@oarepo/vue-popup-login": "^3.0.1",
     "@oarepo/vue-query-synchronizer": "^3.0.0-a11",
-    "@quasar/extras": "^1.0.0",
+    "@quasar/extras": "^1.13.4",
     "@uppy/aws-s3-multipart": "^2.0.3",
     "@uppy/core": "^2.0.3",
     "@uppy/locales": "^1.19.0",
@@ -26,7 +26,7 @@
     "broadcastchannel-polyfill": "^1.0.1",
     "core-js": "^3.6.5",
     "deepcopy": "^2.1.0",
-    "quasar": "^2.0.1",
+    "quasar": "^2.6.2",
     "sanitize-html": "^2.4.0",
     "vue-class-component": "^8.0.0-rc.1",
     "vue-context-composition": "^0.2.3",
@@ -34,7 +34,7 @@
     "vue-loader": "^16.8.3"
   },
   "devDependencies": {
-    "@quasar/app": "^3.0.4",
+    "@quasar/app-webpack": "^3.4.7",
     "babel-eslint": "^10.0.1",
     "eslint": "^7.14.0",
     "eslint-config-prettier": "^8.1.0",
