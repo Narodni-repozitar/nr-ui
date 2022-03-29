@@ -1166,10 +1166,10 @@
   resolved "https://registry.yarnpkg.com/@oarepo/quasar-es-facets/-/quasar-es-facets-1.0.0-a22.tgz#3c92d38f736147a1e24506677a687ce7acdabfad"
   integrity sha512-ewB37UL6Fpx/NaASvTFxv8vyqCDG69/glM36aTp2QuY6BMYE+sGwzviHmj4k+w37H/gCXtC0h5XXo5DxBhELEg==
 
-"@oarepo/vue-popup-login@^3.0.0-a7":
-  version "3.0.0-a7"
-  resolved "https://registry.yarnpkg.com/@oarepo/vue-popup-login/-/vue-popup-login-3.0.0-a7.tgz#3ab64490462b113dd96d0aeba56d3955112bb4a6"
-  integrity sha512-FwY9hJrViodz6/BFQqahNtTWzm2Le0xoEAT62dYa57cGFsZKc6XX5a7NQTqnXsadBXUKVyyanfhrgSIyZD1Pow==
+"@oarepo/vue-popup-login@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@oarepo/vue-popup-login/-/vue-popup-login-3.0.1.tgz#b33eda3cc99c574739b820f3812f062d0ea6ed94"
+  integrity sha512-TaqAOAMpkTakTJrMdyUnbDRVxuLpgxkHxdfX/oVtTJL/j2Le4mBSJhxTPyPiYfrEuhSKQR69p0UpZNuVJTrSXQ==
 
 "@oarepo/vue-query-synchronizer@^3.0.0-a11":
   version "3.0.0-a11"
