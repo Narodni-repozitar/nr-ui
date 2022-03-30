@@ -1211,11 +1211,6 @@
   resolved "https://registry.yarnpkg.com/@oarepo/vue-popup-login/-/vue-popup-login-3.0.1.tgz#b33eda3cc99c574739b820f3812f062d0ea6ed94"
   integrity sha512-TaqAOAMpkTakTJrMdyUnbDRVxuLpgxkHxdfX/oVtTJL/j2Le4mBSJhxTPyPiYfrEuhSKQR69p0UpZNuVJTrSXQ==
 
-"@oarepo/vue-query-synchronizer@^3.0.0-a11":
-  version "3.0.0-a11"
-  resolved "https://registry.yarnpkg.com/@oarepo/vue-query-synchronizer/-/vue-query-synchronizer-3.0.0-a11.tgz#5d112a0f83b10a79ab77007ebbebafed1c56ec56"
-  integrity sha512-aIcNActR0oY8fdwc0yR3bTkNXjszuvVEoxu8mHngipN7l0xkxV51C4ZdbAOz10Gyl9dgrEio2G2nlCo6veBU1w==
-
 "@oarepo/vue-query-synchronizer@^3.0.0-a4":
   version "3.0.0-a9"
   resolved "https://registry.yarnpkg.com/@oarepo/vue-query-synchronizer/-/vue-query-synchronizer-3.0.0-a9.tgz#efe14ccf3d7c5c94a1fff39f10167313bd3b9ad0"
@@ -1224,6 +1219,11 @@
     core-js "^3.6.5"
     vue "^3.0.0"
     vue-router "^4.0.0-0"
+
+"@oarepo/vue-query-synchronizer@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@oarepo/vue-query-synchronizer/-/vue-query-synchronizer-3.0.1.tgz#5b051ceab8a1de078c96ff3d522bcca96cc46858"
+  integrity sha512-uOpAVuWumgaDwHvk6fo5mFYqr+jrlgLdkpfqrTlV8ItEBFeWoKAjeN6tebg5VuVm14Qj5EHyb22GZmseba0+OQ==
 
 "@polka/url@^1.0.0-next.20":
   version "1.0.0-next.21"
