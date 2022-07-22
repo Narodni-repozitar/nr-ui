@@ -48,7 +48,7 @@ q-page.q-mt-lg.q-mx-lg-xl.full-height.record-page
       label-block(:label="$t('value.titleType.subtitle')" v-if="subtitles.length")
         .block.column(v-for="(sub, idx) in subtitles" :key="idx")
           mt-languages(:text="sub")
-      label-block(:label="$t('label.persons')")
+      label-block(:label="$t('label.creators')")
         record-people.text-primary.text-weight-medium(
           :m="m"
           @filter-contributor="filterByContributor"

@@ -146,7 +146,7 @@
     "browseRecords": "browse all records",
     "fullText": "Fulltext search",
     "state": "Record status",
-    "persons": "Persons",
+    "creators": "Creators",
     "titleTranslation": "Title translation",
     "recordIdentifiers": "Object identifier",
     "isPartOf": "Is part of",
